@@ -7,7 +7,6 @@
 <title>Google — Chat</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:400,500,600,700"/>
 
-<!-- Firebase SDK — نفس الإصدار المستخدم في مشروعك -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
@@ -15,9 +14,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
 <style type="text/css">
-/* ═══════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════ */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px}
 body{background:#252836}
@@ -26,143 +22,83 @@ body{background:#252836}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#3a3d52;border-radius:2px}
 
-/* ═══════════════════════════════════════
-   APP SHELL — مطابق للصورة تماماً
-═══════════════════════════════════════ */
-.app{
-  display:flex;
-  height:100vh;
-  width:100vw;
-  background:#252836;
-}
+.app{display:flex;height:100vh;width:100vw;background:#252836;}
 
-/* ── CHAT PANEL (يسار) ── */
 .chat-panel{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  background:#252836;
-  min-width:0;
-  position:relative;
-  overflow:hidden;
+  flex:1;display:flex;flex-direction:column;
+  background:#252836;min-width:0;position:relative;overflow:hidden;
 }
 
-/* ── SIDEBAR (يمين) — مطابق للصورة ── */
 .sidebar{
-  width:200px;
-  flex-shrink:0;
-  background:#1d1f2e;
-  display:flex;
-  flex-direction:column;
-  border-left:1px solid #252836;
+  width:200px;flex-shrink:0;background:#1d1f2e;
+  display:flex;flex-direction:column;border-left:1px solid #252836;
 }
 
-/* ═══════════════════════════════════════
-   TOP BAR
-═══════════════════════════════════════ */
 .chat-top{
-  background:#0d0d0e;
-  padding:10px 14px;
-  flex-shrink:0;
-  display:flex;
-  align-items:center;
-  min-height:40px;
+  background:#0d0d0e;padding:10px 14px;flex-shrink:0;
+  display:flex;align-items:center;min-height:40px;
 }
-.chat-title{
-  color:#fff;
-  font-size:14px;
-  font-weight:700;
-}
+.chat-title{color:#fff;font-size:14px;font-weight:700;}
 
-/* ═══════════════════════════════════════
-   MESSAGES AREA
-═══════════════════════════════════════ */
 .chat-messages-wrap{
-  flex:1;
-  overflow-y:auto;
-  overflow-x:hidden;
-  padding:4px 0 4px;
-  display:flex;
-  flex-direction:column;
-  background:#252836;
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  padding:4px 0 4px;display:flex;flex-direction:column;background:#252836;
 }
-.chat-messages{
-  display:flex;
-  flex-direction:column;
-  flex:1;
-}
+.chat-messages{display:flex;flex-direction:column;flex:1;}
 
-/* load earlier */
-.load-earlier{
-  text-align:center;
-  padding:6px;
-  display:none;
-}
-.load-earlier a{
-  color:#5e6278;
-  font-size:11px;
-  text-decoration:none;
-  cursor:pointer;
-}
-.load-earlier a:hover{color:#fff}
-
-/* ── single message row ── */
 .msg{
-  display:flex;
-  align-items:flex-start;
-  gap:9px;
-  padding:3px 12px;
-  position:relative;
-  cursor:default;
+  display:flex;align-items:flex-start;gap:9px;
+  padding:3px 12px;position:relative;cursor:default;
 }
 .msg:hover{background:rgba(255,255,255,.025)}
 .msg:hover .msg-actions{opacity:1;pointer-events:auto}
 
 .msg-avatar{
-  width:32px;height:32px;
-  border-radius:50%;
-  background:#2f3247 center/cover no-repeat;
-  flex-shrink:0;
-  margin-top:1px;
+  width:32px;height:32px;border-radius:50%;
+  background:#2f3247 center/cover no-repeat;flex-shrink:0;margin-top:1px;
 }
 
 .msg-body{flex:1;min-width:0}
 
 .msg-meta{
-  display:flex;
-  align-items:baseline;
-  gap:5px;
-  margin-bottom:1px;
-  flex-wrap:wrap;
+  display:flex;align-items:baseline;gap:5px;
+  margin-bottom:1px;flex-wrap:wrap;
 }
 .msg-time{font-size:10px;color:#4e5268}
 .msg-name{font-size:12px;font-weight:700;color:#8a8fac}
 .msg-name-type{font-weight:400;color:#484c68;font-size:11px}
 
 .msg-text{
-  font-size:13px;
-  color:#e8e9f0;
-  line-height:1.5;
-  word-break:break-word;
-  white-space:pre-wrap;
-  display:inline;
+  font-size:13px;color:#e8e9f0;line-height:1.5;
+  word-break:break-word;white-space:pre-wrap;display:inline;
 }
 .msg-text a{color:#6e8efb;text-decoration:none}
 .msg-text a:hover{text-decoration:underline}
 
-/* media */
+/* ── FIX: صور المحادثة ── */
 .msg-image{
-  max-width:220px;
-  max-height:180px;
-  border-radius:6px;
-  margin-top:4px;
-  display:block;
+  max-width:260px;
+  max-height:200px;
+  border-radius:8px;
+  margin-top:6px;
+  display:block;           /* ← مهم جداً: block وليس inline */
   cursor:pointer;
   object-fit:cover;
   transition:opacity .2s;
+  border:1px solid rgba(255,255,255,0.08);
+  background:#1a1c2a;      /* placeholder بينما تحمّل الصورة */
 }
 .msg-image:hover{opacity:.88}
-.msg-video{max-width:260px;border-radius:6px;margin-top:4px;display:block}
+.msg-image.loading{opacity:0.4}
+
+.msg-media-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-top:4px;
+}
+
+.msg-video{max-width:260px;border-radius:8px;margin-top:4px;display:block}
 .msg-file-link{
   display:inline-flex;align-items:center;gap:6px;
   background:#2a2d3e;border-radius:6px;padding:6px 10px;
@@ -171,10 +107,8 @@ body{background:#252836}
 }
 .msg-file-link:hover{background:#333650}
 
-/* edited badge */
 .msg-edited{font-size:10px;color:#484c68;margin-left:4px;font-style:italic}
 
-/* action buttons */
 .msg-actions{
   position:absolute;right:8px;top:50%;
   transform:translateY(-50%);
@@ -191,47 +125,27 @@ body{background:#252836}
 }
 .msg-action-btn:hover{color:#fff;background:#2f3247}
 
-/* edit inline */
 .msg-edit-wrap{margin-top:3px}
 .msg-edit-input{
-  background:#2a2d3e;color:#e8e9f0;
-  border:1px solid #4a4f68;border-radius:4px;
-  padding:4px 8px;font-size:13px;font-family:inherit;
-  width:100%;resize:none;outline:none;
+  background:#2a2d3e;color:#e8e9f0;border:1px solid #4a4f68;border-radius:4px;
+  padding:4px 8px;font-size:13px;font-family:inherit;width:100%;resize:none;outline:none;
 }
 .msg-edit-input:focus{border-color:#6e8efb}
 .msg-edit-btns{display:flex;gap:5px;margin-top:3px}
 .msg-edit-save,.msg-edit-cancel{
-  font-size:11px;padding:3px 9px;border-radius:4px;
-  border:none;cursor:pointer;font-family:inherit;
+  font-size:11px;padding:3px 9px;border-radius:4px;border:none;cursor:pointer;font-family:inherit;
 }
 .msg-edit-save{background:#6e8efb;color:#fff}
 .msg-edit-save:hover{background:#5a7af0}
 .msg-edit-cancel{background:#2f3247;color:#a0a4bf}
 .msg-edit-cancel:hover{background:#3a3d52}
 
-/* ═══════════════════════════════════════
-   BOTTOM — input area
-═══════════════════════════════════════ */
-.chat-bottom{
-  flex-shrink:0;
-  background:#0d0d0e;
-}
+.chat-bottom{flex-shrink:0;background:#0d0d0e;}
 .chat-input-divider{background:#0d0d0e;height:1px}
 
-/* upload preview strip */
-.upload-preview-bar{
-  display:none;
-  flex-wrap:wrap;
-  gap:6px;
-  padding:5px 10px 0;
-}
+.upload-preview-bar{display:none;flex-wrap:wrap;gap:6px;padding:5px 10px 0;}
 .preview-item{position:relative;display:inline-flex}
-.preview-thumb{
-  width:52px;height:52px;
-  border-radius:5px;object-fit:cover;
-  background:#2a2d3e;
-}
+.preview-thumb{width:52px;height:52px;border-radius:5px;object-fit:cover;background:#2a2d3e;}
 .preview-file-chip{
   background:#2a2d3e;border-radius:5px;padding:4px 8px;
   font-size:11px;color:#a0a4bf;max-width:140px;
@@ -241,235 +155,153 @@ body{background:#252836}
 .preview-remove{
   position:absolute;top:-5px;right:-5px;
   width:16px;height:16px;border-radius:50%;
-  background:#e53e3e;color:#fff;border:none;
-  font-size:10px;cursor:pointer;
+  background:#e53e3e;color:#fff;border:none;font-size:10px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;line-height:1;
 }
 
-/* attach toolbar */
-.attach-bar{
-  display:flex;align-items:center;
-  padding:5px 10px 0;gap:2px;
-}
+/* ── شريط رفع الملف مع progress ── */
+.attach-bar{display:flex;align-items:center;padding:5px 10px 0;gap:2px;}
 .attach-btn{
-  background:none;border:none;color:#5e6278;
-  cursor:pointer;padding:3px 5px;border-radius:4px;
-  font-size:15px;line-height:1;transition:color .15s,background .15s;
+  background:none;border:none;color:#5e6278;cursor:pointer;
+  padding:3px 5px;border-radius:4px;font-size:15px;line-height:1;
+  transition:color .15s,background .15s;
 }
 .attach-btn:hover{color:#a0a4bf;background:#2a2d3e}
 #fileInput{display:none}
 
-/* typing indicator */
-.typing-bar{
-  padding:1px 12px 2px;
-  font-size:11px;color:#5e6278;min-height:16px;
+/* ── Upload progress bar ── */
+.upload-progress-wrap{
+  display:none;
+  padding:4px 10px;
+  background:#0d0d0e;
+}
+.upload-progress-label{font-size:11px;color:#a0a4bf;margin-bottom:3px;}
+.upload-progress-bar{
+  width:100%;height:4px;background:#2a2d3e;border-radius:2px;overflow:hidden;
+}
+.upload-progress-fill{
+  height:100%;background:#6e8efb;border-radius:2px;
+  transition:width .2s;width:0%;
 }
 
-/* textarea + send */
-.input-wrap{
-  padding:6px 10px 8px;
-  display:flex;align-items:flex-end;gap:6px;
-}
+.typing-bar{padding:1px 12px 2px;font-size:11px;color:#5e6278;min-height:16px;}
+
+.input-wrap{padding:6px 10px 8px;display:flex;align-items:flex-end;gap:6px;}
 .chat-textarea{
-  flex:1;
-  background:#252836;
-  color:#e8e9f0;
-  border:none;outline:none;
-  border-radius:5px;
-  padding:8px 10px;
-  font-size:13px;font-family:inherit;
-  resize:none;
-  min-height:36px;max-height:100px;
-  line-height:1.45;
+  flex:1;background:#252836;color:#e8e9f0;border:none;outline:none;
+  border-radius:5px;padding:8px 10px;font-size:13px;font-family:inherit;
+  resize:none;min-height:36px;max-height:100px;line-height:1.45;
 }
 .chat-textarea::placeholder{color:#3e4260}
 
 .send-btn{
-  background:#6e8efb;color:#fff;border:none;
-  border-radius:5px;padding:7px 14px;
-  font-size:13px;font-family:inherit;
-  cursor:pointer;flex-shrink:0;
-  transition:background .15s;
+  background:#6e8efb;color:#fff;border:none;border-radius:5px;
+  padding:7px 14px;font-size:13px;font-family:inherit;
+  cursor:pointer;flex-shrink:0;transition:background .15s;
 }
 .send-btn:hover{background:#5a7af0}
 .send-btn:disabled{background:#2f3247;color:#5e6278;cursor:default}
 
-/* ═══════════════════════════════════════
-   SIGNIN OVERLAY — فوق المحادثة
-   مطابق للصورة: Sign in as a Guest
-═══════════════════════════════════════ */
 .signin-overlay{
-  position:absolute;inset:0;
-  background:rgba(13,13,14,.0);
-  z-index:50;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-end;
-  padding-bottom:24px;
+  position:absolute;inset:0;background:rgba(13,13,14,.0);
+  z-index:50;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;padding-bottom:24px;
 }
 .signin-box{
-  background:#1a1c2a;
-  border-radius:6px;
-  padding:14px 20px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  min-width:260px;
+  background:#1a1c2a;border-radius:6px;padding:14px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;min-width:260px;
 }
-.signin-title{
-  color:#9fa3be;
-  font-size:13px;
-  font-weight:600;
-  letter-spacing:.2px;
-}
+.signin-title{color:#9fa3be;font-size:13px;font-weight:600;letter-spacing:.2px;}
 .signin-row{display:flex;gap:8px;width:100%}
 .signin-input{
-  flex:1;
-  background:#252836;color:#e8e9f0;
-  border:1px solid #3a3d52;border-radius:4px;
+  flex:1;background:#252836;color:#e8e9f0;border:1px solid #3a3d52;border-radius:4px;
   padding:7px 10px;font-size:13px;font-family:inherit;outline:none;
 }
 .signin-input:focus{border-color:#6e8efb}
 .signin-input::placeholder{color:#3e4260}
 .signin-submit{
-  background:#6e8efb;color:#fff;border:none;
-  border-radius:4px;padding:7px 16px;
-  font-size:13px;font-family:inherit;
-  cursor:pointer;font-weight:600;white-space:nowrap;
-  transition:background .15s;
+  background:#6e8efb;color:#fff;border:none;border-radius:4px;padding:7px 16px;
+  font-size:13px;font-family:inherit;cursor:pointer;font-weight:600;white-space:nowrap;transition:background .15s;
 }
 .signin-submit:hover{background:#5a7af0}
 .signin-submit:disabled{background:#2f3247;color:#5e6278;cursor:default}
 
-/* ═══════════════════════════════════════
-   SIDEBAR — presence مطابق للصورة
-═══════════════════════════════════════ */
-.sidebar-list{
-  flex:1;overflow-y:auto;padding:8px 0;
-}
-.presence-item{
-  display:flex;align-items:center;
-  gap:9px;padding:6px 12px;
-}
+.sidebar-list{flex:1;overflow-y:auto;padding:8px 0;}
+.presence-item{display:flex;align-items:center;gap:9px;padding:6px 12px;}
 .presence-avatar{
   width:28px;height:28px;border-radius:50%;
-  background:#2f3247 center/cover no-repeat;
-  flex-shrink:0;position:relative;
+  background:#2f3247 center/cover no-repeat;flex-shrink:0;position:relative;
 }
 .presence-dot{
-  position:absolute;bottom:0;right:0;
-  width:8px;height:8px;border-radius:50%;
+  position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;
   background:#22c55e;border:1.5px solid #1d1f2e;
 }
 .presence-name{font-size:12px;color:#a0a4bf;font-weight:500}
 .presence-name.anon{color:#5e6278;font-style:italic}
 
-.sidebar-footer{
-  padding:6px 12px 8px;
-  border-top:1px solid #252836;
-  flex-shrink:0;
-}
+.sidebar-footer{padding:6px 12px 8px;border-top:1px solid #252836;flex-shrink:0;}
 .online-count-txt{font-size:11px;color:#22c55e;font-weight:600}
 
-/* ═══════════════════════════════════════
-   CONTACTS DIVIDER & BANNER
-   (مطابق لهيكل Chatroll الأصلي)
-═══════════════════════════════════════ */
-.chat-contacts-divider{
-  background:#0d0d0e;height:1px;flex-shrink:0;
-}
-.chat-contacts-banner{
-  background:#252836;
-  padding:5px 12px;
-  display:flex;align-items:center;
-  justify-content:space-between;
-  flex-shrink:0;
-}
-.chat-contacts-banner-count{font-size:11px;color:#5e6278}
-
-/* ═══════════════════════════════════════
-   LIGHTBOX
-═══════════════════════════════════════ */
 .lightbox{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.85);
-  z-index:200;
-  display:none;
-  align-items:center;justify-content:center;
+  position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;
+  display:none;align-items:center;justify-content:center;
 }
 .lightbox.open{display:flex}
 .lightbox img{
-  max-width:90vw;max-height:90vh;
-  border-radius:6px;
+  max-width:90vw;max-height:90vh;border-radius:6px;
   box-shadow:0 16px 64px rgba(0,0,0,.7);
 }
 .lightbox-close{
-  position:absolute;top:14px;right:18px;
-  background:none;border:none;color:#fff;
-  font-size:24px;cursor:pointer;opacity:.8;
+  position:absolute;top:14px;right:18px;background:none;border:none;
+  color:#fff;font-size:24px;cursor:pointer;opacity:.8;
 }
 .lightbox-close:hover{opacity:1}
 
-/* ═══════════════════════════════════════
-   TOAST
-═══════════════════════════════════════ */
 .toast{
-  position:fixed;bottom:20px;left:50%;
-  transform:translateX(-50%) translateY(60px);
-  background:#2f3247;color:#e8e9f0;
-  padding:8px 18px;border-radius:5px;
-  font-size:12px;z-index:300;
-  transition:transform .25s,opacity .25s;
-  opacity:0;pointer-events:none;
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);
+  background:#2f3247;color:#e8e9f0;padding:8px 18px;border-radius:5px;
+  font-size:12px;z-index:300;transition:transform .25s,opacity .25s;opacity:0;pointer-events:none;
 }
-.toast.show{
-  transform:translateX(-50%) translateY(0);
-  opacity:1;
-}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.toast.error{background:#7f1d1d;color:#fca5a5;}
+.toast.success{background:#14532d;color:#86efac;}
 </style>
 </head>
 <body>
 
-<!-- ── APP ── -->
 <div class="app">
 
-  <!-- ── CHAT PANEL ── -->
   <div class="chat-panel">
-
-    <!-- Top bar -->
     <div class="chat-top">
       <div class="chat-title" id="chatTitle">Google</div>
     </div>
 
-    <!-- Messages -->
     <div class="chat-messages-wrap" id="messagesWrap">
       <div class="chat-messages" id="chatMessages">
-        <div class="load-earlier" id="loadEarlierWrap">
-          <a href="javascript:void(0)" id="loadEarlierBtn">Load Earlier Messages</a>
-        </div>
-        <!-- رسائل تُضاف هنا -->
         <div class="chat-welcome-message" style="color:#0d0d0e;font-size:0"></div>
       </div>
     </div>
 
-    <!-- Contacts divider & banner (Chatroll structure) -->
-    <div class="chat-contacts-divider"></div>
-
-    <!-- Typing indicator -->
     <div class="typing-bar" id="typingBar"></div>
 
-    <!-- Bottom input (مخفي حتى تسجيل الدخول) -->
     <div class="chat-bottom" id="chatBottom" style="display:none">
       <div class="chat-input-divider"></div>
       <div class="attach-bar">
-        <button class="attach-btn" title="إرفاق ملف/صورة/فيديو"
+        <button class="attach-btn" title="إرفاق صورة/فيديو/ملف"
                 onclick="document.getElementById('fileInput').click()">📎</button>
         <input type="file" id="fileInput" multiple
                accept="image/*,video/*,.pdf,.doc,.docx,.txt,.zip,.rar"/>
       </div>
       <div class="upload-preview-bar" id="uploadPreviewBar"></div>
+
+      <!-- ✅ إضافة: شريط تقدم الرفع -->
+      <div class="upload-progress-wrap" id="uploadProgressWrap">
+        <div class="upload-progress-label" id="uploadProgressLabel">جاري رفع الصور...</div>
+        <div class="upload-progress-bar">
+          <div class="upload-progress-fill" id="uploadProgressFill"></div>
+        </div>
+      </div>
+
       <div class="input-wrap">
         <textarea class="chat-textarea" id="chatInput"
                   placeholder="Type a message and press enter"
@@ -478,7 +310,6 @@ body{background:#252836}
       </div>
     </div>
 
-    <!-- Signin overlay -->
     <div class="signin-overlay" id="signinOverlay">
       <div class="signin-box">
         <div class="signin-title">Sign in as a Guest</div>
@@ -489,10 +320,8 @@ body{background:#252836}
         </div>
       </div>
     </div>
+  </div>
 
-  </div><!-- /chat-panel -->
-
-  <!-- ── SIDEBAR ── -->
   <div class="sidebar">
     <div class="sidebar-list" id="presenceList"></div>
     <div class="sidebar-footer">
@@ -500,21 +329,19 @@ body{background:#252836}
     </div>
   </div>
 
-</div><!-- /app -->
+</div>
 
-<!-- Lightbox -->
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose">✕</button>
   <img id="lightboxImg" src="" alt=""/>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 
 <script type="text/javascript">
 /* ═══════════════════════════════════════════════════════
-   🔥 FIREBASE CONFIG — مستخرجة من مشروعك مباشرة
+   FIREBASE CONFIG
 ═══════════════════════════════════════════════════════ */
 var firebaseConfig = {
   apiKey           : "AIzaSyD0unPjbthUtdiUAwNzp2Z8NeMNAW3a6hM",
@@ -533,73 +360,63 @@ var storage = firebase.storage();
 var rtdb    = firebase.database();
 var auth    = firebase.auth();
 
-/* ═══════════════════════════════════════════════════════
-   ROOM — يمكنك تغييره لكل غرفة محادثة
-═══════════════════════════════════════════════════════ */
 var ROOM_ID = 'google-chat';
 var MSGS_PER_PAGE = 50;
 
-/* ═══════════════════════════════════════════════════════
-   STATE
-═══════════════════════════════════════════════════════ */
 var currentUser   = null;
 var isSignedIn    = false;
 var pendingFiles  = [];
 var editingMsgId  = null;
 var typingTimer   = null;
 var unsubMessages = null;
+var isSending     = false; // ✅ منع الإرسال المزدوج
 
 var DEFAULT_AVATAR = 'https://d167qii8h0pw75.cloudfront.net/images/D/E/F/DEFAULTUSER-resize_38x38.png';
 
 /* ═══════════════════════════════════════════════════════
-   DEVICE FINGERPRINT — نفس الخوارزمية من مشروعك
+   DEVICE FINGERPRINT
 ═══════════════════════════════════════════════════════ */
 function getDeviceId() {
   var saved = localStorage.getItem('__chatDeviceId');
   if (saved) return Promise.resolve(saved);
 
-  return (function() {
-    try {
-      var canvas = document.createElement('canvas');
-      var ctx = canvas.getContext('2d');
-      ctx.textBaseline = 'top';
-      ctx.font = '14px Plus Jakarta Sans';
-      ctx.fillStyle = '#f60';
-      ctx.fillRect(125,1,62,20);
-      ctx.fillStyle = '#069';
-      ctx.fillText('fp🔐', 2, 2);
-      var raw = canvas.toDataURL() +
-                navigator.userAgent +
-                navigator.language +
-                screen.width + screen.height +
-                (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
-      var encoder = new TextEncoder();
-      return crypto.subtle.digest('SHA-256', encoder.encode(raw))
-        .then(function(buf) {
-          var arr = Array.from(new Uint8Array(buf));
-          var id  = 'dev_' + arr.map(function(b){return b.toString(36)}).join('').substr(0,18);
-          localStorage.setItem('__chatDeviceId', id);
-          return id;
-        });
-    } catch(e) {
-      var id = 'dev_' + Date.now().toString(36) + Math.random().toString(36).substr(2,6);
-      localStorage.setItem('__chatDeviceId', id);
-      return Promise.resolve(id);
-    }
-  })();
+  try {
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Plus Jakarta Sans';
+    ctx.fillStyle = '#f60';
+    ctx.fillRect(125,1,62,20);
+    ctx.fillStyle = '#069';
+    ctx.fillText('fp🔐', 2, 2);
+    var raw = canvas.toDataURL() +
+              navigator.userAgent + navigator.language +
+              screen.width + screen.height +
+              (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+    var encoder = new TextEncoder();
+    return crypto.subtle.digest('SHA-256', encoder.encode(raw))
+      .then(function(buf) {
+        var arr = Array.from(new Uint8Array(buf));
+        var id  = 'dev_' + arr.map(function(b){return b.toString(36)}).join('').substr(0,18);
+        localStorage.setItem('__chatDeviceId', id);
+        return id;
+      });
+  } catch(e) {
+    var id = 'dev_' + Date.now().toString(36) + Math.random().toString(36).substr(2,6);
+    localStorage.setItem('__chatDeviceId', id);
+    return Promise.resolve(id);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════
-   INIT — تحقق هل الجهاز مسجّل مسبقاً
+   INIT
 ═══════════════════════════════════════════════════════ */
 (function init() {
   var savedName = localStorage.getItem('__chatUserName');
   if (!savedName) {
-    // عرض overlay فقط — المستخدم يرى الرسائل شبه مخفية
     registerAnonymousPresence();
     return;
   }
-  // اسم محفوظ → دخول تلقائي
   getDeviceId().then(function(devId) {
     autoSignIn(savedName, devId);
   });
@@ -627,36 +444,20 @@ function doSignIn() {
   var name = document.getElementById('nameInput').value.trim();
   if (!name) { document.getElementById('nameInput').focus(); return; }
 
-  var btn  = document.getElementById('signinBtn');
+  var btn = document.getElementById('signinBtn');
   btn.disabled = true;
   btn.textContent = '...';
 
   getDeviceId().then(function(devId) {
-    // تحقق هل هذا الجهاز له حساب في Firestore
     return db.collection('users').doc(devId).get()
       .then(function(snap) {
-        var p;
-        if (snap.exists) {
-          // جهاز معروف — استرجاع الاسم السابق أو تحديثه
-          var storedName = snap.data().name;
-          p = db.collection('users').doc(devId).update({
-            name: name,
-            lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        } else {
-          // جهاز جديد
-          p = db.collection('users').doc(devId).set({
-            name    : name,
-            deviceId: devId,
-            created : firebase.firestore.FieldValue.serverTimestamp(),
-            lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
+        var p = snap.exists
+          ? db.collection('users').doc(devId).update({ name: name, lastSeen: firebase.firestore.FieldValue.serverTimestamp() })
+          : db.collection('users').doc(devId).set({ name: name, deviceId: devId, created: firebase.firestore.FieldValue.serverTimestamp(), lastSeen: firebase.firestore.FieldValue.serverTimestamp() });
         return p.then(function(){ return devId; });
       });
   })
   .then(function(devId) {
-    // Firebase Auth anonymous
     var authP = auth.currentUser
       ? Promise.resolve(auth.currentUser)
       : auth.signInAnonymously().then(function(r){ return r.user; });
@@ -668,15 +469,14 @@ function doSignIn() {
   })
   .catch(function(e) {
     console.error('Sign in error', e);
-    showToast('حدث خطأ، حاول مرة أخرى');
+    showToast('حدث خطأ، حاول مرة أخرى', 'error');
     btn.disabled = false;
     btn.textContent = 'Sign in';
   });
 }
 
 /* ═══════════════════════════════════════════════════════
-   PRESENCE — Realtime Database
-   مطابق لهيكل مشروعك (users/haydar/status)
+   PRESENCE
 ═══════════════════════════════════════════════════════ */
 function registerAnonymousPresence() {
   getDeviceId().then(function(devId) {
@@ -703,11 +503,10 @@ function listenPresence() {
 function renderPresence(all) {
   var entries = Object.values(all);
   document.getElementById('onlineCountEl').textContent = entries.length + ' online';
-
   var list = document.getElementById('presenceList');
   list.innerHTML = '';
   entries.forEach(function(p) {
-    var el   = document.createElement('div');
+    var el = document.createElement('div');
     el.className = 'presence-item';
     var label = p.name || (p.isViewer ? 'viewer' : 'anonymous');
     var cls   = p.name ? '' : 'anon';
@@ -722,9 +521,6 @@ function renderPresence(all) {
 
 /* ═══════════════════════════════════════════════════════
    MESSAGES — Firestore
-   نفس مسار chats/{userId}/messages من مشروعك
-   لكن هنا نستخدم مسار الغرفة العامة:
-   rooms/{ROOM_ID}/messages
 ═══════════════════════════════════════════════════════ */
 function subscribeMessages() {
   if (unsubMessages) unsubMessages();
@@ -739,20 +535,18 @@ function subscribeMessages() {
         else if (change.type === 'modified') updateMsgEl(change.doc.id, change.doc.data());
         else if (change.type === 'removed')  removeMsgEl(change.doc.id);
       });
-    }, function(err){ console.error('Messages error', err); });
+    }, function(err){ console.error('Messages listener error:', err); });
 }
 
 /* ═══════════════════════════════════════════════════════
-   RENDER MESSAGE
+   ✅ RENDER MESSAGE — الإصلاح الرئيسي هنا
 ═══════════════════════════════════════════════════════ */
 function renderMessage(id, data, scrollDown) {
   if (document.getElementById('msg-' + id)) return;
-
   var el = buildMsgEl(id, data);
   var welcome = document.querySelector('.chat-welcome-message');
   if (welcome) document.getElementById('chatMessages').insertBefore(el, welcome);
   else          document.getElementById('chatMessages').appendChild(el);
-
   if (scrollDown) scrollToBottom();
 }
 
@@ -766,25 +560,42 @@ function buildMsgEl(id, data) {
   el.id = 'msg-' + id;
   el.dataset.id = id;
 
-  /* media */
+  /* ✅ الإصلاح: بناء وسائط بشكل صحيح */
   var mediaHtml = '';
-  if (data.attachments && data.attachments.length) {
-    data.attachments.forEach(function(att) {
-      if (att.type === 'image') {
-        mediaHtml += '<img class="msg-image" src="' + escHtml(att.url) + '" alt="" ' +
-                     'onclick="openLightbox(\'' + escHtml(att.url) + '\')" />';
-      } else if (att.type === 'video') {
+  var attachments = data.attachments;
+
+  // ✅ التحقق الصحيح من وجود المرفقات
+  if (attachments && Array.isArray(attachments) && attachments.length > 0) {
+    mediaHtml = '<div class="msg-media-wrap">';
+    attachments.forEach(function(att, idx) {
+      if (!att || !att.url) {
+        console.warn('Attachment missing URL:', att);
+        return;
+      }
+
+      var attType = att.type || detectTypeFromUrl(att.url, att.name);
+
+      if (attType === 'image') {
+        // ✅ img مع onload/onerror للتشخيص
+        mediaHtml += '<img class="msg-image loading" ' +
+          'src="' + escHtml(att.url) + '" ' +
+          'alt="صورة" ' +
+          'onload="this.classList.remove(\'loading\')" ' +
+          'onerror="this.style.display=\'none\';console.error(\'Image failed:\',this.src)" ' +
+          'onclick="openLightbox(\'' + escHtml(att.url) + '\')" />';
+      } else if (attType === 'video') {
         mediaHtml += '<video class="msg-video" src="' + escHtml(att.url) + '" controls></video>';
       } else {
+        var icon = getFileIcon(att.name || '');
         mediaHtml += '<a class="msg-file-link" href="' + escHtml(att.url) + '" target="_blank" download>' +
-                     '📄 ' + escHtml(att.name || 'file') + '</a>';
+                     icon + ' ' + escHtml(att.name || 'ملف') + '</a>';
       }
     });
+    mediaHtml += '</div>';
   }
 
   var editedBadge = data.edited ? '<span class="msg-edited">(edited)</span>' : '';
 
-  /* actions for own messages */
   var actionsHtml = '';
   if (isOwn) {
     actionsHtml =
@@ -813,6 +624,20 @@ function buildMsgEl(id, data) {
   return el;
 }
 
+/* ✅ كشف نوع الملف من URL أو الاسم كـ fallback */
+function detectTypeFromUrl(url, name) {
+  var str = (name || url || '').toLowerCase();
+  if (/\.(jpg|jpeg|png|gif|webp|svg|bmp|ico|tiff?)(\?|$)/i.test(str)) return 'image';
+  if (/\.(mp4|webm|ogg|mov|avi|mkv)(\?|$)/i.test(str)) return 'video';
+  return 'file';
+}
+
+function getFileIcon(name) {
+  var ext = (name.split('.').pop() || '').toLowerCase();
+  var icons = { pdf:'📄', doc:'📝', docx:'📝', txt:'📃', zip:'🗜️', rar:'🗜️' };
+  return icons[ext] || '📎';
+}
+
 function updateMsgEl(id, data) {
   var el = document.getElementById('msg-' + id);
   if (!el) return;
@@ -826,13 +651,12 @@ function removeMsgEl(id) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   SEND MESSAGE
+   ✅ SEND MESSAGE — مع progress وتشخيص واضح
 ═══════════════════════════════════════════════════════ */
 document.getElementById('chatInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
 document.getElementById('sendBtn').addEventListener('click', sendMessage);
-
 document.getElementById('chatInput').addEventListener('input', function() {
   autoResize(this);
   handleTyping();
@@ -840,13 +664,18 @@ document.getElementById('chatInput').addEventListener('input', function() {
 });
 
 function sendMessage() {
-  if (!isSignedIn) return;
+  if (!isSignedIn || isSending) return;
   var text  = document.getElementById('chatInput').value.trim();
-  var files = pendingFiles.filter(function(f){ return f; });
+  var files = pendingFiles.filter(function(f){ return f != null; });
   if (!text && !files.length) return;
 
+  isSending = true;
   var btn = document.getElementById('sendBtn');
   btn.disabled = true;
+  btn.textContent = '...';
+
+  var savedText  = text;
+  var savedFiles = files.slice();
 
   document.getElementById('chatInput').value = '';
   autoResize(document.getElementById('chatInput'));
@@ -854,35 +683,124 @@ function sendMessage() {
   stopTyping();
   updateSendBtn();
 
-  /* upload files first */
-  var uploadPromises = files.map(function(file) {
-    var path = 'rooms/' + ROOM_ID + '/' + Date.now() + '_' + file.name;
-    return storage.ref(path).put(file)
-      .then(function(snap) { return snap.ref.getDownloadURL(); })
-      .then(function(url) {
-        return {
-          url : url,
-          type: file.type.startsWith('image/') ? 'image'
-              : file.type.startsWith('video/') ? 'video' : 'file',
-          name: file.name,
-          size: file.size
-        };
-      });
-  });
+  /* ✅ رفع الملفات مع progress */
+  var uploadPromises;
 
-  Promise.all(uploadPromises).then(function(attachments) {
-    return db.collection('rooms').doc(ROOM_ID).collection('messages').add({
-      text       : text,
-      attachments: attachments,
-      name       : currentUser.name,
-      type       : 'Guest',
-      deviceId   : currentUser.deviceId,
-      timestamp  : firebase.firestore.FieldValue.serverTimestamp(),
-      edited     : false
+  if (savedFiles.length > 0) {
+    showUploadProgress(0, savedFiles.length);
+
+    var completed = 0;
+    uploadPromises = savedFiles.map(function(file, i) {
+      // ✅ تأكد أن المسار لا يحتوي أحرف خاصة
+      var safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      var path = 'rooms/' + ROOM_ID + '/' + Date.now() + '_' + i + '_' + safeName;
+
+      console.log('Uploading:', path, 'Type:', file.type, 'Size:', file.size);
+
+      var ref  = storage.ref(path);
+      var task = ref.put(file);
+
+      return new Promise(function(resolve, reject) {
+        task.on('state_changed',
+          function(snap) {
+            var pct = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
+            updateUploadProgressBar(completed, savedFiles.length, pct);
+          },
+          function(err) {
+            console.error('Upload failed for file', file.name, err.code, err.message);
+            reject(err);
+          },
+          function() {
+            task.snapshot.ref.getDownloadURL().then(function(url) {
+              console.log('Upload success:', file.name, '→', url);
+              completed++;
+              updateUploadProgressBar(completed, savedFiles.length, 100);
+
+              // ✅ تحديد النوع بدقة
+              var fileType;
+              if (file.type && file.type.startsWith('image/')) {
+                fileType = 'image';
+              } else if (file.type && file.type.startsWith('video/')) {
+                fileType = 'video';
+              } else {
+                fileType = 'file';
+              }
+
+              resolve({
+                url : url,
+                type: fileType,
+                name: file.name,
+                size: file.size,
+                mime: file.type || ''
+              });
+            }).catch(reject);
+          }
+        );
+      });
     });
-  })
-  .catch(function(e){ console.error('Send error', e); showToast('فشل الإرسال'); })
-  .finally(function(){ btn.disabled = false; updateSendBtn(); });
+  } else {
+    uploadPromises = Promise.resolve([]);
+  }
+
+  Promise.all(Array.isArray(uploadPromises) ? uploadPromises : [uploadPromises])
+    .then(function(attachments) {
+      hideUploadProgress();
+      console.log('Saving message with attachments:', attachments);
+
+      return db.collection('rooms').doc(ROOM_ID).collection('messages').add({
+        text       : savedText,
+        attachments: attachments,
+        name       : currentUser.name,
+        type       : 'Guest',
+        deviceId   : currentUser.deviceId,
+        timestamp  : firebase.firestore.FieldValue.serverTimestamp(),
+        edited     : false
+      });
+    })
+    .then(function(docRef) {
+      console.log('Message saved:', docRef.id);
+    })
+    .catch(function(e) {
+      console.error('Send error:', e.code, e.message);
+      hideUploadProgress();
+
+      // ✅ رسائل خطأ واضحة حسب نوع الخطأ
+      if (e.code === 'storage/unauthorized') {
+        showToast('⚠️ خطأ في صلاحيات Firebase Storage — راجع Security Rules', 'error');
+      } else if (e.code === 'storage/quota-exceeded') {
+        showToast('⚠️ تجاوزت حصة التخزين المجانية في Firebase', 'error');
+      } else if (e.code === 'storage/canceled') {
+        showToast('تم إلغاء الرفع', 'error');
+      } else {
+        showToast('فشل الإرسال: ' + (e.message || e.code || 'خطأ غير معروف'), 'error');
+      }
+    })
+    .finally(function() {
+      isSending = false;
+      btn.disabled = false;
+      btn.textContent = 'Send';
+      updateSendBtn();
+    });
+}
+
+/* ── Upload progress helpers ── */
+function showUploadProgress(done, total) {
+  var wrap = document.getElementById('uploadProgressWrap');
+  wrap.style.display = 'block';
+  document.getElementById('uploadProgressLabel').textContent =
+    'جاري رفع ' + total + ' ملف...';;
+  document.getElementById('uploadProgressFill').style.width = '0%';
+}
+
+function updateUploadProgressBar(done, total, filePct) {
+  var overall = Math.round(((done / total) * 100 + (filePct / total)));
+  document.getElementById('uploadProgressFill').style.width = Math.min(overall, 100) + '%';
+  document.getElementById('uploadProgressLabel').textContent =
+    'جاري الرفع... ' + Math.min(overall, 100) + '%';
+}
+
+function hideUploadProgress() {
+  document.getElementById('uploadProgressWrap').style.display = 'none';
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -891,13 +809,10 @@ function sendMessage() {
 function startEdit(id) {
   if (editingMsgId) cancelEdit(editingMsgId);
   editingMsgId = id;
-
   var txtEl = document.getElementById('txt-' + id);
   if (!txtEl) return;
-
   var raw = txtEl.dataset.raw || txtEl.textContent.replace(' (edited)', '');
   txtEl.dataset.raw = raw;
-
   var wrap = document.createElement('div');
   wrap.className = 'msg-edit-wrap';
   wrap.id = 'edit-wrap-' + id;
@@ -907,10 +822,8 @@ function startEdit(id) {
       '<button class="msg-edit-save"   onclick="saveEdit(\'' + id + '\')">Save</button>' +
       '<button class="msg-edit-cancel" onclick="cancelEdit(\'' + id + '\')">Cancel</button>' +
     '</div>';
-
   txtEl.style.display = 'none';
   txtEl.parentNode.insertBefore(wrap, txtEl.nextSibling);
-
   var inp = document.getElementById('edit-inp-' + id);
   inp.focus();
   inp.selectionStart = inp.selectionEnd = inp.value.length;
@@ -921,13 +834,12 @@ function saveEdit(id) {
   if (!inp) return;
   var newText = inp.value.trim();
   if (!newText) return;
-
   db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).update({
     text: newText, edited: true,
     editedAt: firebase.firestore.FieldValue.serverTimestamp()
   })
   .then(function(){ editingMsgId = null; })
-  .catch(function(e){ console.error('Edit error', e); showToast('فشل التعديل'); });
+  .catch(function(e){ console.error('Edit error', e); showToast('فشل التعديل', 'error'); });
 }
 
 function cancelEdit(id) {
@@ -948,7 +860,7 @@ function deleteMsg(id) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   FILE UPLOAD — نفس الفكرة من مشروعك
+   FILE UPLOAD — Preview
 ═══════════════════════════════════════════════════════ */
 document.getElementById('fileInput').addEventListener('change', function() {
   Array.from(this.files).forEach(addFilePreview);
@@ -958,10 +870,8 @@ document.getElementById('fileInput').addEventListener('change', function() {
 function addFilePreview(file) {
   pendingFiles.push(file);
   var idx = pendingFiles.length - 1;
-
-  var bar  = document.getElementById('uploadPreviewBar');
+  var bar = document.getElementById('uploadPreviewBar');
   bar.style.display = 'flex';
-
   var item = document.createElement('div');
   item.className = 'preview-item';
 
@@ -975,10 +885,9 @@ function addFilePreview(file) {
     reader.readAsDataURL(file);
   } else {
     item.innerHTML =
-      '<div class="preview-file-chip">📄 ' + escHtml(file.name) + '</div>' +
+      '<div class="preview-file-chip">' + getFileIcon(file.name) + ' ' + escHtml(file.name) + '</div>' +
       '<button class="preview-remove" onclick="removePreview(' + idx + ',this.parentNode)">✕</button>';
   }
-
   bar.appendChild(item);
   updateSendBtn();
 }
@@ -1000,8 +909,7 @@ function clearUploadPreview() {
 }
 
 /* ═══════════════════════════════════════════════════════
-   TYPING — Realtime Database
-   مطابق للبنية من مشروعك
+   TYPING
 ═══════════════════════════════════════════════════════ */
 function handleTyping() {
   if (!isSignedIn || !currentUser) return;
@@ -1051,7 +959,7 @@ document.getElementById('lightbox').addEventListener('click', function(e){
 ═══════════════════════════════════════════════════════ */
 function scrollToBottom() {
   var w = document.getElementById('messagesWrap');
-  w.scrollTop = w.scrollHeight;
+  setTimeout(function(){ w.scrollTop = w.scrollHeight; }, 50);
 }
 
 function autoResize(el) {
@@ -1060,8 +968,9 @@ function autoResize(el) {
 }
 
 function updateSendBtn() {
+  if (isSending) return;
   var hasText  = document.getElementById('chatInput').value.trim().length > 0;
-  var hasFiles = pendingFiles.some(function(f){ return f; });
+  var hasFiles = pendingFiles.some(function(f){ return f != null; });
   document.getElementById('sendBtn').disabled = !(hasText || hasFiles);
 }
 
@@ -1083,24 +992,35 @@ function linkify(text) {
     '<a target="_blank" rel="nofollow" href="$1">$1</a>');
 }
 
-function showToast(msg) {
+function showToast(msg, type) {
   var t = document.getElementById('toast');
   t.textContent = msg;
+  t.className = 'toast ' + (type || '');
   t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2800);
+  setTimeout(function(){ t.classList.remove('show'); }, 3500);
 }
 
 /* ═══════════════════════════════════════════════════════
-   FIRESTORE SECURITY RULES — الصق هذا في Firebase Console
+   FIREBASE STORAGE RULES — الصق هذا في Firebase Console
    ════════════════════════════════════════════════════════
+
+   rules_version = '2';
+   service firebase.storage {
+     match /b/{bucket}/o {
+       match /rooms/{roomId}/{allPaths=**} {
+         allow read: if true;
+         allow write: if true;
+       }
+     }
+   }
+
+   FIRESTORE RULES:
    rules_version = '2';
    service cloud.firestore {
      match /databases/{database}/documents {
-
        match /users/{deviceId} {
          allow read, write: if true;
        }
-
        match /rooms/{roomId}/messages/{msgId} {
          allow read: if true;
          allow create: if request.resource.data.name is string;
