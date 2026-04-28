@@ -7,8 +7,6 @@
 <title>Google — Chat</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:400,500,600,700"/>
 
-<script src="https://apis.google.com/js/api.js" async defer></script>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
@@ -59,17 +57,11 @@ body{background:#252836}
   width:32px;height:32px;border-radius:50%;
   background:#2f3247 center/cover no-repeat;flex-shrink:0;margin-top:1px;
 }
-
 .msg-body{flex:1;min-width:0}
-
-.msg-meta{
-  display:flex;align-items:baseline;gap:5px;
-  margin-bottom:1px;flex-wrap:wrap;
-}
+.msg-meta{display:flex;align-items:baseline;gap:5px;margin-bottom:1px;flex-wrap:wrap;}
 .msg-time{font-size:10px;color:#4e5268}
 .msg-name{font-size:12px;font-weight:700;color:#8a8fac}
 .msg-name-type{font-weight:400;color:#484c68;font-size:11px}
-
 .msg-text{
   font-size:13px;color:#e8e9f0;line-height:1.5;
   word-break:break-word;white-space:pre-wrap;display:inline;
@@ -77,53 +69,45 @@ body{background:#252836}
 .msg-text a{color:#6e8efb;text-decoration:none}
 .msg-text a:hover{text-decoration:underline}
 
-/* ── FIX: صور المحادثة ── */
+/* ── وسائط ── */
+.msg-media-wrap{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
+
 .msg-image{
-  max-width:260px;
-  max-height:200px;
-  border-radius:8px;
-  margin-top:6px;
-  display:block;           /* ← مهم جداً: block وليس inline */
-  cursor:pointer;
-  object-fit:cover;
-  transition:opacity .2s;
-  border:1px solid rgba(255,255,255,0.08);
-  background:#1a1c2a;      /* placeholder بينما تحمّل الصورة */
+  max-width:280px;max-height:220px;
+  border-radius:8px;display:block;cursor:pointer;
+  object-fit:cover;transition:opacity .2s;
+  border:1px solid rgba(255,255,255,0.08);background:#1a1c2a;
 }
-.msg-image:hover{opacity:.88}
-.msg-image.loading{opacity:0.4}
+.msg-image:hover{opacity:.85}
+.msg-image.loading{opacity:0.3;filter:blur(3px);}
 
-.msg-media-wrap{
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  margin-top:4px;
+.msg-video{
+  max-width:320px;border-radius:8px;display:block;
+  background:#000;outline:none;border:1px solid rgba(255,255,255,0.08);
 }
 
-.msg-video{max-width:260px;border-radius:8px;margin-top:4px;display:block}
 .msg-file-link{
-  display:inline-flex;align-items:center;gap:6px;
-  background:#2a2d3e;border-radius:6px;padding:6px 10px;
-  margin-top:4px;color:#a0a4bf;font-size:12px;text-decoration:none;
-  max-width:220px;
+  display:inline-flex;align-items:center;gap:8px;
+  background:#2a2d3e;border-radius:8px;padding:8px 12px;
+  color:#a0a4bf;font-size:12px;text-decoration:none;
+  max-width:260px;border:1px solid rgba(255,255,255,0.06);transition:background .15s;
 }
-.msg-file-link:hover{background:#333650}
+.msg-file-link:hover{background:#333650;color:#e8e9f0;}
+.msg-file-icon{font-size:18px;flex-shrink:0;}
+.msg-file-info{display:flex;flex-direction:column;gap:1px;min-width:0;}
+.msg-file-name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;}
+.msg-file-size{font-size:10px;color:#5e6278;}
 
 .msg-edited{font-size:10px;color:#484c68;margin-left:4px;font-style:italic}
 
 .msg-actions{
-  position:absolute;right:8px;top:50%;
-  transform:translateY(-50%);
-  display:flex;gap:2px;
-  opacity:0;pointer-events:none;
-  transition:opacity .15s;
-  background:#1a1c2a;border-radius:5px;padding:2px 4px;
-  z-index:5;
+  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  display:flex;gap:2px;opacity:0;pointer-events:none;transition:opacity .15s;
+  background:#1a1c2a;border-radius:5px;padding:2px 4px;z-index:5;
 }
 .msg-action-btn{
-  background:none;border:none;color:#6e7290;
-  cursor:pointer;padding:3px 5px;border-radius:4px;
-  font-size:11px;line-height:1;
+  background:none;border:none;color:#6e7290;cursor:pointer;
+  padding:3px 5px;border-radius:4px;font-size:11px;line-height:1;
 }
 .msg-action-btn:hover{color:#fff;background:#2f3247}
 
@@ -142,52 +126,42 @@ body{background:#252836}
 .msg-edit-cancel{background:#2f3247;color:#a0a4bf}
 .msg-edit-cancel:hover{background:#3a3d52}
 
+/* ── أسفل ── */
 .chat-bottom{flex-shrink:0;background:#0d0d0e;}
-.chat-input-divider{background:#0d0d0e;height:1px}
-
-.upload-preview-bar{display:none;flex-wrap:wrap;gap:6px;padding:5px 10px 0;}
+.chat-input-divider{background:#1a1c2a;height:1px}
+.upload-preview-bar{display:none;flex-wrap:wrap;gap:6px;padding:6px 10px 0;}
 .preview-item{position:relative;display:inline-flex}
-.preview-thumb{width:52px;height:52px;border-radius:5px;object-fit:cover;background:#2a2d3e;}
+.preview-thumb{width:52px;height:52px;border-radius:6px;object-fit:cover;background:#2a2d3e;}
 .preview-file-chip{
-  background:#2a2d3e;border-radius:5px;padding:4px 8px;
+  background:#2a2d3e;border-radius:6px;padding:5px 9px;
   font-size:11px;color:#a0a4bf;max-width:140px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   display:flex;align-items:center;gap:4px;
 }
 .preview-remove{
-  position:absolute;top:-5px;right:-5px;
-  width:16px;height:16px;border-radius:50%;
+  position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;
   background:#e53e3e;color:#fff;border:none;font-size:10px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;line-height:1;
 }
-
-/* ── شريط رفع الملف مع progress ── */
 .attach-bar{display:flex;align-items:center;padding:5px 10px 0;gap:2px;}
 .attach-btn{
   background:none;border:none;color:#5e6278;cursor:pointer;
-  padding:3px 5px;border-radius:4px;font-size:15px;line-height:1;
-  transition:color .15s,background .15s;
+  padding:3px 5px;border-radius:4px;font-size:15px;line-height:1;transition:color .15s,background .15s;
 }
 .attach-btn:hover{color:#a0a4bf;background:#2a2d3e}
 #fileInput{display:none}
 
-/* ── Upload progress bar ── */
-.upload-progress-wrap{
-  display:none;
-  padding:4px 10px;
-  background:#0d0d0e;
-}
-.upload-progress-label{font-size:11px;color:#a0a4bf;margin-bottom:3px;}
-.upload-progress-bar{
-  width:100%;height:4px;background:#2a2d3e;border-radius:2px;overflow:hidden;
-}
+.upload-progress-wrap{display:none;padding:5px 10px;background:#0d0d0e;}
+.upload-progress-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.upload-progress-label{font-size:11px;color:#a0a4bf;}
+.upload-progress-pct{font-size:11px;color:#6e8efb;font-weight:600;}
+.upload-progress-bar{width:100%;height:3px;background:#2a2d3e;border-radius:2px;overflow:hidden;}
 .upload-progress-fill{
-  height:100%;background:#6e8efb;border-radius:2px;
-  transition:width .2s;width:0%;
+  height:100%;background:linear-gradient(90deg,#6e8efb,#a78bfa);
+  border-radius:2px;transition:width .3s ease;width:0%;
 }
 
 .typing-bar{padding:1px 12px 2px;font-size:11px;color:#5e6278;min-height:16px;}
-
 .input-wrap{padding:6px 10px 8px;display:flex;align-items:flex-end;gap:6px;}
 .chat-textarea{
   flex:1;background:#252836;color:#e8e9f0;border:none;outline:none;
@@ -195,7 +169,6 @@ body{background:#252836}
   resize:none;min-height:36px;max-height:100px;line-height:1.45;
 }
 .chat-textarea::placeholder{color:#3e4260}
-
 .send-btn{
   background:#6e8efb;color:#fff;border:none;border-radius:5px;
   padding:7px 14px;font-size:13px;font-family:inherit;
@@ -204,14 +177,15 @@ body{background:#252836}
 .send-btn:hover{background:#5a7af0}
 .send-btn:disabled{background:#2f3247;color:#5e6278;cursor:default}
 
+/* Sign in */
 .signin-overlay{
-  position:absolute;inset:0;background:rgba(13,13,14,.0);
-  z-index:50;display:flex;flex-direction:column;
-  align-items:center;justify-content:flex-end;padding-bottom:24px;
+  position:absolute;inset:0;background:rgba(13,13,14,.5);z-index:50;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:24px;
 }
 .signin-box{
-  background:#1a1c2a;border-radius:6px;padding:14px 20px;
-  display:flex;flex-direction:column;align-items:center;gap:10px;min-width:260px;
+  background:#1a1c2a;border-radius:8px;padding:16px 20px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;min-width:280px;
+  border:1px solid #2a2d3e;
 }
 .signin-title{color:#9fa3be;font-size:13px;font-weight:600;letter-spacing:.2px;}
 .signin-row{display:flex;gap:8px;width:100%}
@@ -221,63 +195,24 @@ body{background:#252836}
 }
 .signin-input:focus{border-color:#6e8efb}
 .signin-input::placeholder{color:#3e4260}
-.signin-submit{
-  background:#6e8efb;color:#fff;border:none;border-radius:4px;padding:7px 16px;
-  font-size:13px;font-family:inherit;cursor:pointer;font-weight:600;white-space:nowrap;transition:background .15s;
-}
-.signin-submit:hover{background:#5a7af0}
-.signin-submit:disabled{background:#2f3247;color:#5e6278;cursor:default}
-
-/* consent notice inside signin box */
 .consent-notice{
-  background:#1f2233;border:1px solid #3a3d52;border-radius:5px;
-  padding:9px 11px;font-size:11px;color:#6e7290;line-height:1.6;
-  width:100%;
+  background:#1f2233;border:1px solid #2a2d3e;border-radius:6px;
+  padding:10px 12px;font-size:11px;color:#6e7290;line-height:1.65;width:100%;
 }
 .consent-notice b{color:#a0a4bf;font-weight:600;}
 .consent-btns{display:flex;gap:7px;width:100%;}
 .consent-accept{
   flex:1;background:#6e8efb;color:#fff;border:none;border-radius:4px;
-  padding:7px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:600;
-  transition:background .15s;
+  padding:8px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:600;transition:background .15s;
 }
 .consent-accept:hover{background:#5a7af0}
 .consent-decline{
   flex:1;background:#2a2d3e;color:#6e7290;border:1px solid #3a3d52;border-radius:4px;
-  padding:7px;font-size:12px;font-family:inherit;cursor:pointer;
-  transition:background .15s;
+  padding:8px;font-size:12px;font-family:inherit;cursor:pointer;transition:background .15s;
 }
 .consent-decline:hover{background:#333650;color:#a0a4bf}
 
-/* Google Drive auth modal */
-.gdrive-modal-wrap{
-  position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;
-  display:none;align-items:center;justify-content:center;
-}
-.gdrive-modal-wrap.open{display:flex;}
-.gdrive-modal{
-  background:#1a1c2a;border-radius:8px;padding:22px 24px;
-  max-width:340px;width:90%;display:flex;flex-direction:column;gap:12px;
-}
-.gdrive-modal-title{color:#e8e9f0;font-size:14px;font-weight:700;}
-.gdrive-modal-body{color:#6e7290;font-size:12px;line-height:1.65;}
-.gdrive-modal-body b{color:#a0a4bf;}
-.gdrive-modal-btns{display:flex;gap:8px;}
-.gdrive-auth-btn{
-  flex:1;background:#4285f4;color:#fff;border:none;border-radius:4px;
-  padding:9px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:600;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  transition:background .15s;
-}
-.gdrive-auth-btn:hover{background:#3367d6}
-.gdrive-cancel-btn{
-  background:#2a2d3e;color:#6e7290;border:1px solid #3a3d52;border-radius:4px;
-  padding:9px 14px;font-size:13px;font-family:inherit;cursor:pointer;
-  transition:background .15s;
-}
-.gdrive-cancel-btn:hover{background:#333650;color:#a0a4bf}
-.gdrive-status{font-size:11px;color:#5e6278;text-align:center;}
-
+/* Sidebar */
 .sidebar-list{flex:1;overflow-y:auto;padding:8px 0;}
 .presence-item{display:flex;align-items:center;gap:9px;padding:6px 12px;}
 .presence-avatar{
@@ -290,25 +225,24 @@ body{background:#252836}
 }
 .presence-name{font-size:12px;color:#a0a4bf;font-weight:500}
 .presence-name.anon{color:#5e6278;font-style:italic}
-
 .sidebar-footer{padding:6px 12px 8px;border-top:1px solid #252836;flex-shrink:0;}
 .online-count-txt{font-size:11px;color:#22c55e;font-weight:600}
 
+/* Lightbox */
 .lightbox{
-  position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;
+  position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;
   display:none;align-items:center;justify-content:center;
 }
 .lightbox.open{display:flex}
-.lightbox img{
-  max-width:90vw;max-height:90vh;border-radius:6px;
-  box-shadow:0 16px 64px rgba(0,0,0,.7);
-}
+.lightbox img{max-width:92vw;max-height:92vh;border-radius:6px;box-shadow:0 20px 80px rgba(0,0,0,.8);}
 .lightbox-close{
-  position:absolute;top:14px;right:18px;background:none;border:none;
-  color:#fff;font-size:24px;cursor:pointer;opacity:.8;
+  position:absolute;top:14px;right:18px;background:rgba(255,255,255,.1);
+  border:none;color:#fff;font-size:20px;cursor:pointer;
+  border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;
 }
-.lightbox-close:hover{opacity:1}
+.lightbox-close:hover{background:rgba(255,255,255,.2)}
 
+/* Toast */
 .toast{
   position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);
   background:#2f3247;color:#e8e9f0;padding:8px 18px;border-radius:5px;
@@ -322,42 +256,36 @@ body{background:#252836}
 <body>
 
 <div class="app">
-
   <div class="chat-panel">
     <div class="chat-top">
       <div class="chat-title" id="chatTitle">Google</div>
     </div>
-
     <div class="chat-messages-wrap" id="messagesWrap">
       <div class="chat-messages" id="chatMessages">
         <div class="chat-welcome-message" style="color:#0d0d0e;font-size:0"></div>
       </div>
     </div>
-
     <div class="typing-bar" id="typingBar"></div>
-
     <div class="chat-bottom" id="chatBottom" style="display:none">
       <div class="chat-input-divider"></div>
       <div class="attach-bar">
-        <button class="attach-btn" title="إرفاق صورة/فيديو/ملف"
-                onclick="onAttachClick()">📎</button>
+        <button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()">📎</button>
         <input type="file" id="fileInput" multiple
-               accept="image/*,video/*,.pdf,.doc,.docx,.txt,.zip,.rar"/>
+               accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar"/>
       </div>
       <div class="upload-preview-bar" id="uploadPreviewBar"></div>
-
-      <!-- ✅ إضافة: شريط تقدم الرفع -->
       <div class="upload-progress-wrap" id="uploadProgressWrap">
-        <div class="upload-progress-label" id="uploadProgressLabel">جاري رفع الصور...</div>
+        <div class="upload-progress-top">
+          <div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div>
+          <div class="upload-progress-pct"   id="uploadProgressPct">0%</div>
+        </div>
         <div class="upload-progress-bar">
           <div class="upload-progress-fill" id="uploadProgressFill"></div>
         </div>
       </div>
-
       <div class="input-wrap">
         <textarea class="chat-textarea" id="chatInput"
-                  placeholder="Type a message and press enter"
-                  rows="1"></textarea>
+                  placeholder="Type a message and press enter" rows="1"></textarea>
         <button class="send-btn" id="sendBtn" disabled>Send</button>
       </div>
     </div>
@@ -380,28 +308,6 @@ body{background:#252836}
         </div>
       </div>
     </div>
-
-    <!-- Google Drive Auth Modal -->
-    <div class="gdrive-modal-wrap" id="gdriveModal">
-      <div class="gdrive-modal">
-        <div class="gdrive-modal-title">🔗 ربط Google Drive</div>
-        <div class="gdrive-modal-body">
-          لعرض الصور والملفات في المحادثة، يحتاج التطبيق إلى الوصول لـ
-          <b>Google Drive</b> لرفع الملفات عليه.<br/><br/>
-          سيطلب منك تسجيل الدخول بحساب Google مرة واحدة فقط.
-          لن يتم الوصول إلى أي ملفات موجودة على Drive — فقط رفع الملفات الجديدة
-          التي ترسلها في المحادثة.
-        </div>
-        <div class="gdrive-modal-btns">
-          <button class="gdrive-auth-btn" id="gdriveAuthBtn">
-            <svg width="16" height="16" viewBox="0 0 48 48"><path fill="#fff" d="M24 9.5l7.2 12.5H16.8z"/><path fill="#fff" d="M16.8 22l-8 13.5h30.4L31.2 22z"/><path fill="#fff" d="M8.8 35.5L16.8 22h14.4l-8 13.5z"/></svg>
-            تسجيل الدخول بـ Google
-          </button>
-          <button class="gdrive-cancel-btn" id="gdriveSkipBtn">تخطي</button>
-        </div>
-        <div class="gdrive-status" id="gdriveStatus"></div>
-      </div>
-    </div>
   </div>
 
   <div class="sidebar">
@@ -410,20 +316,22 @@ body{background:#252836}
       <div class="online-count-txt" id="onlineCountEl">0 online</div>
     </div>
   </div>
-
 </div>
 
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" id="lightboxClose">✕</button>
   <img id="lightboxImg" src="" alt=""/>
 </div>
-
 <div class="toast" id="toast"></div>
-
 
 <script type="text/javascript">
 /* ═══════════════════════════════════════════════════════
-   FIREBASE CONFIG
+   ⚙️ الإعدادات — غيّر هذا السطر فقط بعد نشر السكريبت
+═══════════════════════════════════════════════════════ */
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxIbDovI6te_URCG8ArnJMLsfiJDc-K9HWdeLYJ8PA22sv8V24W_pr8_Ug1wqTDweA/exec';
+
+/* ═══════════════════════════════════════════════════════
+   FIREBASE
 ═══════════════════════════════════════════════════════ */
 var firebaseConfig = {
   apiKey           : "AIzaSyD0unPjbthUtdiUAwNzp2Z8NeMNAW3a6hM",
@@ -434,71 +342,41 @@ var firebaseConfig = {
   messagingSenderId: "569224854609",
   appId            : "1:569224854609:web:714fa7d027467c7a5dcc70"
 };
-
 firebase.initializeApp(firebaseConfig);
+var db   = firebase.firestore();
+var rtdb = firebase.database();
+var auth = firebase.auth();
 
-var db      = firebase.firestore();
-var storage = firebase.storage();
-var rtdb    = firebase.database();
-var auth    = firebase.auth();
-
-/* ═══════════════════════════════════════════════════════
-   GOOGLE DRIVE CONFIG
-   - GOOGLE_API_KEY    : من Google Cloud Console
-   - GOOGLE_CLIENT_ID  : من Google Cloud Console
-   - GDRIVE_FOLDER_ID  : معرّف مجلد Drive الذي ستُرفع فيه الملفات
-     (أنشئ مجلداً واجعله "مشترك مع أي شخص لديه الرابط")
-═══════════════════════════════════════════════════════ */
-var GOOGLE_API_KEY   = 'AIzaSyBZ2YTyW30njQrtvlH6CNryFNWuCzulFSk';
-var GOOGLE_CLIENT_ID = '515820744050-vnajb4qbfpqbo0k5qtr25oblsssbu02c.apps.googleusercontent.com';
-var GDRIVE_FOLDER_ID = '1lYxN-tNAj2IWCvNP-Xp6cgZAt4oHXz8D';
-
-var gdriveToken      = null;  // access token بعد تسجيل الدخول
-var gdriveReady      = false; // هل تم تحميل gapi
-var userConsentGiven = false; // هل وافق المستخدم على سياسة الملفات
-var gdriveSkipped    = false; // اختار المستخدم "تخطي"
-
-var ROOM_ID = 'google-chat';
+var ROOM_ID       = 'google-chat';
 var MSGS_PER_PAGE = 50;
-
 var currentUser   = null;
 var isSignedIn    = false;
 var pendingFiles  = [];
 var editingMsgId  = null;
 var typingTimer   = null;
 var unsubMessages = null;
-var isSending     = false; // ✅ منع الإرسال المزدوج
-
+var isSending     = false;
+var userConsented = false;
 var DEFAULT_AVATAR = 'https://d167qii8h0pw75.cloudfront.net/images/D/E/F/DEFAULTUSER-resize_38x38.png';
 
 /* ═══════════════════════════════════════════════════════
-   DEVICE FINGERPRINT
+   DEVICE ID
 ═══════════════════════════════════════════════════════ */
 function getDeviceId() {
   var saved = localStorage.getItem('__chatDeviceId');
   if (saved) return Promise.resolve(saved);
-
   try {
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
-    ctx.textBaseline = 'top';
-    ctx.font = '14px Plus Jakarta Sans';
-    ctx.fillStyle = '#f60';
-    ctx.fillRect(125,1,62,20);
-    ctx.fillStyle = '#069';
-    ctx.fillText('fp🔐', 2, 2);
-    var raw = canvas.toDataURL() +
-              navigator.userAgent + navigator.language +
-              screen.width + screen.height +
-              (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
-    var encoder = new TextEncoder();
-    return crypto.subtle.digest('SHA-256', encoder.encode(raw))
-      .then(function(buf) {
-        var arr = Array.from(new Uint8Array(buf));
-        var id  = 'dev_' + arr.map(function(b){return b.toString(36)}).join('').substr(0,18);
-        localStorage.setItem('__chatDeviceId', id);
-        return id;
-      });
+    ctx.textBaseline = 'top'; ctx.font = '14px Plus Jakarta Sans';
+    ctx.fillStyle = '#f60'; ctx.fillRect(125,1,62,20);
+    ctx.fillStyle = '#069'; ctx.fillText('fp', 2, 2);
+    var raw = canvas.toDataURL() + navigator.userAgent + screen.width + screen.height;
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw)).then(function(buf){
+      var id = 'dev_' + Array.from(new Uint8Array(buf)).map(function(b){return b.toString(36)}).join('').substr(0,18);
+      localStorage.setItem('__chatDeviceId', id);
+      return id;
+    });
   } catch(e) {
     var id = 'dev_' + Date.now().toString(36) + Math.random().toString(36).substr(2,6);
     localStorage.setItem('__chatDeviceId', id);
@@ -510,14 +388,11 @@ function getDeviceId() {
    INIT
 ═══════════════════════════════════════════════════════ */
 (function init() {
-  var savedName = localStorage.getItem('__chatUserName');
-  if (!savedName) {
-    registerAnonymousPresence();
-    return;
-  }
-  getDeviceId().then(function(devId) {
-    autoSignIn(savedName, devId);
-  });
+  var savedName    = localStorage.getItem('__chatUserName');
+  var savedConsent = localStorage.getItem('__chatConsent');
+  if (!savedName) { registerAnonymousPresence(); return; }
+  userConsented = (savedConsent === 'yes');
+  getDeviceId().then(function(devId) { autoSignIn(savedName, devId); });
 })();
 
 function autoSignIn(name, devId) {
@@ -528,400 +403,203 @@ function autoSignIn(name, devId) {
   registerNamedPresence(name, devId);
   subscribeMessages();
   document.getElementById('chatInput').focus();
-
-  // إذا وافق على الشروط → ابدأ تحميل Google API
-  var savedConsent = localStorage.getItem('__chatDriveConsent');
-  if (savedConsent === 'yes') {
-    userConsentGiven = true;
-    initGoogleDrive();
-  } else if (savedConsent === 'no') {
-    gdriveSkipped = true;
-  }
-  // إذا أول مرة → لا شيء، doSignIn ستعالج الوضع
-}
-
-/* ═══════════════════════════════════════════════════════
-   GOOGLE DRIVE — INIT & AUTH
-═══════════════════════════════════════════════════════ */
-function initGoogleDrive() {
-  if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
-    console.warn('[Drive] Client ID غير مضبوط');
-    return;
-  }
-  if (typeof google === 'undefined' || !google.accounts) {
-    // انتظر تحميل GSI
-    setTimeout(initGoogleDrive, 500);
-    return;
-  }
-  var tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: GOOGLE_CLIENT_ID,
-    scope    : 'https://www.googleapis.com/auth/drive.file',
-    callback : function(resp) {
-      if (resp.error) {
-        console.error('[Drive] Auth error:', resp.error);
-        document.getElementById('gdriveStatus').textContent = 'فشل تسجيل الدخول: ' + resp.error;
-        return;
-      }
-      gdriveToken = resp.access_token;
-      gdriveReady = true;
-      localStorage.setItem('__chatDriveConsent', 'yes');
-      document.getElementById('gdriveModal').classList.remove('open');
-      showToast('✓ تم ربط Google Drive بنجاح', 'success');
-      console.log('[Drive] Auth OK');
-    }
-  });
-  window.__gdriveTokenClient = tokenClient;
-}
-
-function requestDriveAuth() {
-  if (!window.__gdriveTokenClient) {
-    showToast('جاري تحميل Google API...', '');
-    initGoogleDrive();
-    setTimeout(requestDriveAuth, 800);
-    return;
-  }
-  window.__gdriveTokenClient.requestAccessToken({ prompt: 'consent' });
-}
-
-/* ── Google Drive Modal buttons ── */
-document.getElementById('gdriveAuthBtn').addEventListener('click', function() {
-  document.getElementById('gdriveStatus').textContent = 'جاري تسجيل الدخول...';
-  requestDriveAuth();
-});
-
-document.getElementById('gdriveSkipBtn').addEventListener('click', function() {
-  localStorage.setItem('__chatDriveConsent', 'no');
-  gdriveSkipped = true;
-  userConsentGiven = false;
-  document.getElementById('gdriveModal').classList.remove('open');
-  showToast('لن تستطيع إرسال الملفات والصور', '');
-});
-
-/* ═══════════════════════════════════════════════════════
-   GOOGLE DRIVE — UPLOAD FILE
-═══════════════════════════════════════════════════════ */
-function uploadToDrive(file, idx, total) {
-  return new Promise(function(resolve, reject) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var base64Data = e.target.result.split(',')[1];
-      var byteArr    = Uint8Array.from(atob(base64Data), function(c){ return c.charCodeAt(0); });
-      var blob       = new Blob([byteArr], { type: file.type });
-
-      var metadata = JSON.stringify({
-        name    : file.name,
-        parents : GDRIVE_FOLDER_ID ? [GDRIVE_FOLDER_ID] : []
-      });
-
-      var form = new FormData();
-      form.append('metadata', new Blob([metadata], { type: 'application/json' }));
-      form.append('file', blob);
-
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,webContentLink,webViewLink,mimeType', true);
-      xhr.setRequestHeader('Authorization', 'Bearer ' + gdriveToken);
-
-      xhr.upload.onprogress = function(ev) {
-        if (!ev.lengthComputable) return;
-        var pct = Math.round(((idx / total) + (ev.loaded / ev.total / total)) * 100);
-        setProgressPct(pct, idx + 1, total);
-      };
-
-      xhr.onload = function() {
-        if (xhr.status === 200 || xhr.status === 201) {
-          var res = JSON.parse(xhr.responseText);
-          // اجعل الملف عاماً
-          makeFilePublic(res.id, gdriveToken).then(function(publicUrl) {
-            var fileType = file.type.startsWith('image/') ? 'image'
-                         : file.type.startsWith('video/') ? 'video' : 'file';
-            resolve({ url: publicUrl, type: fileType, name: file.name, size: file.size, mime: file.type });
-          }).catch(reject);
-        } else if (xhr.status === 401) {
-          // Token انتهت صلاحيته — أعد المصادقة
-          gdriveToken = null;
-          gdriveReady = false;
-          reject(new Error('drive/token-expired'));
-        } else {
-          reject(new Error('Drive HTTP ' + xhr.status + ': ' + xhr.responseText));
-        }
-      };
-      xhr.onerror = function() { reject(new Error('Drive: خطأ في الشبكة')); };
-      xhr.send(form);
-    };
-    reader.onerror = function() { reject(new Error('FileReader error')); };
-    reader.readAsDataURL(file);
-  });
-}
-
-function makeFilePublic(fileId, token) {
-  return fetch('https://www.googleapis.com/drive/v3/files/' + fileId + '/permissions', {
-    method : 'POST',
-    headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-    body   : JSON.stringify({ role: 'reader', type: 'anyone' })
-  }).then(function() {
-    // رابط مباشر للصورة (يعمل في <img src="">)
-    return 'https://drive.google.com/uc?export=view&id=' + fileId;
-  });
 }
 
 /* ═══════════════════════════════════════════════════════
    SIGN IN
 ═══════════════════════════════════════════════════════ */
-/* ═══════════════════════════════════════════════════════
-   CONSENT & DECLINE
-═══════════════════════════════════════════════════════ */
-document.getElementById('signinBtn').addEventListener('click', doSignIn);
-
-document.getElementById('declineBtn').addEventListener('click', function() {
-  // لا يوافق: يدخل المحادثة لكن لا يستطيع إرسال ملفات
-  var name = document.getElementById('nameInput').value.trim();
-  if (!name) { document.getElementById('nameInput').focus(); return; }
-  userConsentGiven = false;
-  gdriveSkipped    = true;
+document.getElementById('signinBtn').addEventListener('click', function(){
+  userConsented = true;
+  localStorage.setItem('__chatConsent','yes');
+  doSignIn();
+});
+document.getElementById('declineBtn').addEventListener('click', function(){
+  userConsented = false;
+  localStorage.setItem('__chatConsent','no');
   doSignIn();
 });
 document.getElementById('nameInput').addEventListener('keydown', function(e){
-  if (e.key === 'Enter') doSignIn();
+  if (e.key === 'Enter') {
+    userConsented = true;
+    localStorage.setItem('__chatConsent','yes');
+    doSignIn();
+  }
 });
 
 function doSignIn() {
   var name = document.getElementById('nameInput').value.trim();
-  if (!name) { document.getElementById('nameInput').focus(); return; }
-
-  // هل وافق الآن؟
-  if (!gdriveSkipped) {
-    userConsentGiven = true;
-    localStorage.setItem('__chatDriveConsent', 'yes');
+  if (!name) {
+    document.getElementById('nameInput').focus();
+    return;
   }
 
   var btn = document.getElementById('signinBtn');
   btn.disabled = true;
   btn.textContent = '...';
 
-  getDeviceId().then(function(devId) {
-    return db.collection('users').doc(devId).get()
-      .then(function(snap) {
-        var p = snap.exists
-          ? db.collection('users').doc(devId).update({ name: name, lastSeen: firebase.firestore.FieldValue.serverTimestamp() })
-          : db.collection('users').doc(devId).set({ name: name, deviceId: devId, created: firebase.firestore.FieldValue.serverTimestamp(), lastSeen: firebase.firestore.FieldValue.serverTimestamp() });
-        return p.then(function(){ return devId; });
+  getDeviceId()
+    .then(function(devId) {
+      // مهم: سجّل الدخول أولاً، ثم اكتب في Firestore.
+      // إذا كتبت قبل تسجيل الدخول فستفشل العملية عندما تكون قواعد Firestore تتطلب request.auth.
+      var authP = auth.currentUser
+        ? Promise.resolve(auth.currentUser)
+        : auth.signInAnonymously().then(function(r) { return r.user; });
+
+      return authP.then(function() { return devId; });
+    })
+    .then(function(devId) {
+      var userRef = db.collection('users').doc(devId);
+
+      return userRef.get().then(function(snap) {
+        var payload = {
+          name: name,
+          deviceId: devId,
+          lastSeen: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        if (snap.exists) {
+          return userRef.update(payload);
+        }
+
+        payload.created = firebase.firestore.FieldValue.serverTimestamp();
+        return userRef.set(payload);
+      }).then(function() {
+        return devId;
       });
-  })
-  .then(function(devId) {
-    var authP = auth.currentUser
-      ? Promise.resolve(auth.currentUser)
-      : auth.signInAnonymously().then(function(r){ return r.user; });
-    return authP.then(function(){ return devId; });
-  })
-  .then(function(devId) {
-    localStorage.setItem('__chatUserName', name);
-    autoSignIn(name, devId);
+    })
+    .then(function(devId) {
+      localStorage.setItem('__chatUserName', name);
+      autoSignIn(name, devId);
+    })
+    .catch(function(e) {
+      console.error('Sign in error:', e);
 
-    // إذا وافق → عرض modal تسجيل دخول Google بعد ثانية واحدة
-    if (userConsentGiven && !gdriveReady) {
-      var savedConsent = localStorage.getItem('__chatDriveConsent');
-      if (savedConsent !== 'yes' || !gdriveToken) {
-        setTimeout(function() {
-          document.getElementById('gdriveModal').classList.add('open');
-          initGoogleDrive();
-        }, 800);
-      }
-    }
-  })
-  .catch(function(e) {
-    console.error('Sign in error', e);
-    showToast('حدث خطأ، حاول مرة أخرى', 'error');
-    btn.disabled = false;
-    btn.textContent = 'Sign in';
-  });
-}
+      var msg = 'حدث خطأ، حاول مرة أخرى';
 
-/* ═══════════════════════════════════════════════════════
-   PRESENCE
-═══════════════════════════════════════════════════════ */
-function registerAnonymousPresence() {
-  getDeviceId().then(function(devId) {
-    var ref = rtdb.ref('presence/' + ROOM_ID + '/' + devId);
-    ref.set({ name: null, isViewer: true, online: true, ts: Date.now() });
-    ref.onDisconnect().remove();
-    listenPresence();
-  });
-}
-
-function registerNamedPresence(name, devId) {
-  var ref = rtdb.ref('presence/' + ROOM_ID + '/' + devId);
-  ref.set({ name: name, isViewer: false, online: true, ts: Date.now() });
-  ref.onDisconnect().remove();
-  listenPresence();
-}
-
-function listenPresence() {
-  rtdb.ref('presence/' + ROOM_ID).on('value', function(snap) {
-    renderPresence(snap.val() || {});
-  });
-}
-
-function renderPresence(all) {
-  var entries = Object.values(all);
-  document.getElementById('onlineCountEl').textContent = entries.length + ' online';
-  var list = document.getElementById('presenceList');
-  list.innerHTML = '';
-  entries.forEach(function(p) {
-    var el = document.createElement('div');
-    el.className = 'presence-item';
-    var label = p.name || (p.isViewer ? 'viewer' : 'anonymous');
-    var cls   = p.name ? '' : 'anon';
-    el.innerHTML =
-      '<div class="presence-avatar" style="background-image:url(\'' + DEFAULT_AVATAR + '\')">' +
-        '<div class="presence-dot"></div>' +
-      '</div>' +
-      '<div class="presence-name ' + cls + '">' + escHtml(label) + '</div>';
-    list.appendChild(el);
-  });
-}
-
-/* ═══════════════════════════════════════════════════════
-   MESSAGES — Firestore
-═══════════════════════════════════════════════════════ */
-function subscribeMessages() {
-  if (unsubMessages) unsubMessages();
-
-  unsubMessages = db.collection('rooms').doc(ROOM_ID)
-    .collection('messages')
-    .orderBy('timestamp', 'asc')
-    .limitToLast(MSGS_PER_PAGE)
-    .onSnapshot(function(snap) {
-      snap.docChanges().forEach(function(change) {
-        if      (change.type === 'added')    renderMessage(change.doc.id, change.doc.data(), true);
-        else if (change.type === 'modified') updateMsgEl(change.doc.id, change.doc.data());
-        else if (change.type === 'removed')  removeMsgEl(change.doc.id);
-      });
-    }, function(err){ console.error('Messages listener error:', err); });
-}
-
-/* ═══════════════════════════════════════════════════════
-   ✅ RENDER MESSAGE — الإصلاح الرئيسي هنا
-═══════════════════════════════════════════════════════ */
-function renderMessage(id, data, scrollDown) {
-  if (document.getElementById('msg-' + id)) return;
-  var el = buildMsgEl(id, data);
-  var welcome = document.querySelector('.chat-welcome-message');
-  if (welcome) document.getElementById('chatMessages').insertBefore(el, welcome);
-  else          document.getElementById('chatMessages').appendChild(el);
-  if (scrollDown) scrollToBottom();
-}
-
-function buildMsgEl(id, data) {
-  var isOwn = currentUser && data.deviceId === currentUser.deviceId;
-  var ts    = data.timestamp ? (data.timestamp.toDate ? data.timestamp.toDate() : new Date(data.timestamp)) : new Date();
-  var timeStr = formatTime(ts);
-
-  var el = document.createElement('div');
-  el.className = 'msg';
-  el.id = 'msg-' + id;
-  el.dataset.id = id;
-
-  /* ✅ الإصلاح: بناء وسائط بشكل صحيح */
-  var mediaHtml = '';
-  var attachments = data.attachments;
-
-  // ✅ التحقق الصحيح من وجود المرفقات
-  if (attachments && Array.isArray(attachments) && attachments.length > 0) {
-    mediaHtml = '<div class="msg-media-wrap">';
-    attachments.forEach(function(att, idx) {
-      if (!att || !att.url) {
-        console.warn('Attachment missing URL:', att);
-        return;
+      if (e && e.code === 'auth/admin-restricted-operation') {
+        msg = 'فعّل Anonymous sign-in من Firebase Authentication';
+      } else if (e && (e.code === 'permission-denied' || e.message === 'Missing or insufficient permissions.')) {
+        msg = 'مشكلة في قواعد Firestore: لا توجد صلاحية للكتابة';
+      } else if (e && e.code === 'auth/network-request-failed') {
+        msg = 'مشكلة اتصال بالإنترنت أو حظر لطلبات Firebase';
+      } else if (e && e.code) {
+        msg = 'خطأ: ' + e.code;
+      } else if (e && e.message) {
+        msg = 'خطأ: ' + e.message;
       }
 
-      var attType = att.type || detectTypeFromUrl(att.url, att.name);
-
-      if (attType === 'image') {
-        // ✅ img مع onload/onerror للتشخيص
-        mediaHtml += '<img class="msg-image loading" ' +
-          'src="' + escHtml(att.url) + '" ' +
-          'alt="صورة" ' +
-          'onload="this.classList.remove(\'loading\')" ' +
-          'onerror="this.style.display=\'none\';console.error(\'Image failed:\',this.src)" ' +
-          'onclick="openLightbox(\'' + escHtml(att.url) + '\')" />';
-      } else if (attType === 'video') {
-        mediaHtml += '<video class="msg-video" src="' + escHtml(att.url) + '" controls></video>';
-      } else {
-        var icon = getFileIcon(att.name || '');
-        mediaHtml += '<a class="msg-file-link" href="' + escHtml(att.url) + '" target="_blank" download>' +
-                     icon + ' ' + escHtml(att.name || 'ملف') + '</a>';
-      }
+      showToast(msg, 'error');
+      btn.disabled = false;
+      btn.textContent = 'أوافق وأدخل';
     });
-    mediaHtml += '</div>';
-  }
-
-  var editedBadge = data.edited ? '<span class="msg-edited">(edited)</span>' : '';
-
-  var actionsHtml = '';
-  if (isOwn) {
-    actionsHtml =
-      '<div class="msg-actions">' +
-        '<button class="msg-action-btn" title="Edit" onclick="startEdit(\'' + id + '\')">✏️</button>' +
-        '<button class="msg-action-btn" title="Delete" onclick="deleteMsg(\'' + id + '\')">🗑️</button>' +
-      '</div>';
-  }
-
-  el.innerHTML =
-    '<div class="msg-avatar" style="background-image:url(\'' + DEFAULT_AVATAR + '\')"></div>' +
-    '<div class="msg-body">' +
-      '<div class="msg-meta">' +
-        '<span class="msg-time">' + escHtml(timeStr) + '</span>' +
-        '<span class="msg-name">' + escHtml(data.name || 'Unknown') +
-          '<span class="msg-name-type"> (' + escHtml(data.type || 'Guest') + ')</span>' +
-        '</span>' +
-      '</div>' +
-      '<span class="msg-text" id="txt-' + id + '">' +
-        linkify(escHtml(data.text || '')) + editedBadge +
-      '</span>' +
-      mediaHtml +
-    '</div>' +
-    actionsHtml;
-
-  return el;
 }
 
-/* ✅ كشف نوع الملف من URL أو الاسم كـ fallback */
-function detectTypeFromUrl(url, name) {
-  var str = (name || url || '').toLowerCase();
-  if (/\.(jpg|jpeg|png|gif|webp|svg|bmp|ico|tiff?)(\?|$)/i.test(str)) return 'image';
-  if (/\.(mp4|webm|ogg|mov|avi|mkv)(\?|$)/i.test(str)) return 'video';
+/* ═══════════════════════════════════════════════════════
+   UPLOAD — Google Apps Script Proxy
+   المستخدم لا يتدخل بأي شيء — كل شيء في الخلفية
+═══════════════════════════════════════════════════════ */
+function uploadViaAppsScript(file, idx, total) {
+  return new Promise(function(resolve, reject){
+
+    if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'ضع_رابط_السكريبت_هنا') {
+      reject(new Error('script/not-configured'));
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var base64 = e.target.result.split(',')[1];
+
+      setProgressPct(Math.round((idx / total) * 70), idx + 1, total);
+
+      fetch(APPS_SCRIPT_URL, {
+        method : 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body   : JSON.stringify({
+          name : file.name,
+          mime : file.type || 'application/octet-stream',
+          data : base64,
+          size : file.size
+        })
+      })
+      .then(function(res){
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function(json){
+        if (!json.success) throw new Error(json.error || 'Apps Script error');
+
+        var fileId   = json.fileId;
+        var fileType = detectFileType(file.type, file.name);
+
+        // ── رابط proxy: لعرض الملف مباشرة في المتصفح ──
+        var proxyUrl = APPS_SCRIPT_URL + '?action=serve&id=' + encodeURIComponent(fileId);
+
+        // ── رابط Drive: للتحميل المباشر ──
+        var driveUrl = 'https://drive.google.com/file/d/' + fileId + '/view';
+
+        setProgressPct(Math.round(((idx + 1) / total) * 100), idx + 1, total);
+
+        resolve({
+          url      : proxyUrl,
+          driveUrl : driveUrl,
+          fileId   : fileId,
+          type     : fileType,
+          name     : file.name,
+          size     : file.size,
+          mime     : file.type
+        });
+      })
+      .catch(reject);
+    };
+    reader.onerror = function(){ reject(new Error('FileReader error')); };
+    reader.readAsDataURL(file);
+  });
+}
+
+function detectFileType(mime, name) {
+  var m = (mime || '').toLowerCase();
+  var n = (name || '').toLowerCase();
+  if (m.startsWith('image/') || /\.(jpg|jpeg|png|gif|webp|svg|bmp)$/i.test(n)) return 'image';
+  if (m.startsWith('video/') || /\.(mp4|webm|ogg|mov|avi|mkv|m4v)$/i.test(n))  return 'video';
+  if (m.startsWith('audio/') || /\.(mp3|wav|aac|flac|m4a|ogg)$/i.test(n))      return 'audio';
   return 'file';
 }
 
-function getFileIcon(name) {
-  var ext = (name.split('.').pop() || '').toLowerCase();
-  var icons = { pdf:'📄', doc:'📝', docx:'📝', txt:'📃', zip:'🗜️', rar:'🗜️' };
-  return icons[ext] || '📎';
+function formatFileSize(bytes) {
+  if (!bytes) return '';
+  if (bytes < 1024)      return bytes + ' B';
+  if (bytes < 1048576)   return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1048576).toFixed(1) + ' MB';
 }
 
-function updateMsgEl(id, data) {
-  var el = document.getElementById('msg-' + id);
-  if (!el) return;
-  var newEl = buildMsgEl(id, data);
-  el.parentNode.replaceChild(newEl, el);
+function getFileIcon(name, mime) {
+  var ext = ((name||'').split('.').pop()||'').toLowerCase();
+  var m   = (mime||'').toLowerCase();
+  if (m.startsWith('audio/') || /^(mp3|wav|aac|flac|m4a)$/.test(ext)) return '🎵';
+  return {pdf:'📄',doc:'📝',docx:'📝',txt:'📃',zip:'🗜️',rar:'🗜️',
+          xls:'📊',xlsx:'📊',csv:'📊',ppt:'📑',pptx:'📑'}[ext] || '📎';
 }
 
-function removeMsgEl(id) {
-  var el = document.getElementById('msg-' + id);
-  if (el) el.remove();
+function uploadFilesSequentially(files) {
+  var results = [];
+  function next(i) {
+    if (i >= files.length) return Promise.resolve(results);
+    return uploadViaAppsScript(files[i], i, files.length)
+      .then(function(att){ results.push(att); return next(i+1); });
+  }
+  return next(0);
 }
 
 /* ═══════════════════════════════════════════════════════
-   ✅ SEND MESSAGE — مع progress وتشخيص واضح
+   SEND
 ═══════════════════════════════════════════════════════ */
-document.getElementById('chatInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+document.getElementById('chatInput').addEventListener('keydown', function(e){
+  if (e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); }
 });
 document.getElementById('sendBtn').addEventListener('click', sendMessage);
-document.getElementById('chatInput').addEventListener('input', function() {
-  autoResize(this);
-  handleTyping();
-  updateSendBtn();
+document.getElementById('chatInput').addEventListener('input', function(){
+  autoResize(this); handleTyping(); updateSendBtn();
 });
 
 function sendMessage() {
@@ -930,208 +608,48 @@ function sendMessage() {
   var files = pendingFiles.filter(function(f){ return f != null; });
   if (!text && !files.length) return;
 
+  if (files.length > 0 && !userConsented) {
+    showToast('لم توافق على مشاركة الملفات عند الدخول','error');
+    return;
+  }
+
   isSending = true;
   var btn = document.getElementById('sendBtn');
-  btn.disabled = true;
-  btn.textContent = '...';
+  btn.disabled = true; btn.textContent = '...';
 
   var savedText  = text;
   var savedFiles = files.slice();
 
   document.getElementById('chatInput').value = '';
   autoResize(document.getElementById('chatInput'));
-  clearUploadPreview();
-  stopTyping();
-  updateSendBtn();
+  clearUploadPreview(); stopTyping(); updateSendBtn();
 
-  // ── بدون ملفات: أرسل مباشرة ──
-  if (savedFiles.length === 0) {
-    saveMessageToFirestore(savedText, [])
-      .finally(function() {
-        isSending = false;
-        btn.disabled = false;
-        btn.textContent = 'Send';
-        updateSendBtn();
-      });
+  if (!savedFiles.length) {
+    saveMsg(savedText, []).finally(finishSend);
     return;
   }
 
-  // ── مع ملفات: ارفع أولاً ──
   showUploadProgress(savedFiles.length);
-
   uploadFilesSequentially(savedFiles)
-    .then(function(attachments) {
+    .then(function(atts){ hideUploadProgress(); return saveMsg(savedText, atts); })
+    .catch(function(e){
       hideUploadProgress();
-      return saveMessageToFirestore(savedText, attachments);
+      var msg = e.message || '';
+      if (msg === 'script/not-configured')
+        showToast('⚠️ ضع رابط Apps Script في الكود أولاً','error');
+      else
+        showToast('فشل الرفع: ' + msg,'error');
     })
-    .catch(function(e) {
-      hideUploadProgress();
-      console.error('Send error:', e);
-      var msg = e.message || e.code || 'خطأ غير معروف';
-      if (IMGUR_CLIENT_ID === 'YOUR_IMGUR_CLIENT_ID') {
-        showToast('⚠️ ضع Imgur Client ID في الكود أولاً', 'error');
-      } else if (msg.indexOf('rate-limit') !== -1) {
-        showToast('⚠️ تجاوزت حد Imgur اليومي — حاول لاحقاً', 'error');
-      } else if (e.code === 'storage/unauthorized') {
-        showToast('⚠️ خطأ في صلاحيات Firebase Storage', 'error');
-      } else {
-        showToast('فشل الرفع: ' + msg, 'error');
-      }
-    })
-    .finally(function() {
-      isSending = false;
-      btn.disabled = false;
-      btn.textContent = 'Send';
-      updateSendBtn();
-    });
-}
+    .finally(finishSend);
 
-/* ═══════════════════════════════════════════════════════
-   IMGUR UPLOAD
-   - الصور/GIF  → Imgur API (تظهر مباشرة في المحادثة)
-   - فيديو/ملفات → Firebase Storage كـ fallback
-═══════════════════════════════════════════════════════ */
-var IMGUR_CLIENT_ID = 'YOUR_IMGUR_CLIENT_ID'; // ← ضع Client ID هنا
-
-function uploadFilesSequentially(files) {
-  var results = [];
-
-  function uploadOne(i) {
-    if (i >= files.length) return Promise.resolve(results);
-
-    var file = files[i];
-    setProgressPct(Math.round((i / files.length) * 100), i + 1, files.length);
-
-    var uploadPromise;
-    if (gdriveReady && gdriveToken) {
-      // الأولوية: Google Drive (موافقة مُعطاة + token موجود)
-      uploadPromise = uploadToDrive(file, i, files.length);
-    } else if (file.type.startsWith('image/')) {
-      // Fallback للصور: Imgur
-      uploadPromise = uploadToImgur(file, i, files.length);
-    } else {
-      // Fallback للفيديو والملفات: Firebase Storage
-      uploadPromise = uploadToFirebase(file, i, files.length);
-    }
-
-    return uploadPromise
-      .then(function(att) {
-        results.push(att);
-        setProgressPct(Math.round(((i + 1) / files.length) * 100), i + 1, files.length);
-        return uploadOne(i + 1);
-      })
-      .catch(function(e) {
-        // إذا انتهت صلاحية token → اطلب إعادة المصادقة
-        if (e.message === 'drive/token-expired') {
-          gdriveToken = null; gdriveReady = false;
-          showToast('انتهت جلسة Google — سيطلب منك الدخول مجدداً', 'error');
-          document.getElementById('gdriveModal').classList.add('open');
-        }
-        throw e;
-      });
+  function finishSend() {
+    isSending = false;
+    btn.disabled = false; btn.textContent = 'Send';
+    updateSendBtn();
   }
-
-  return uploadOne(0);
 }
 
-/* رفع صورة على Imgur */
-function uploadToImgur(file, idx, total) {
-  console.log('[Imgur] Uploading:', file.name);
-
-  return new Promise(function(resolve, reject) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var base64 = e.target.result.split(',')[1];
-
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://api.imgur.com/3/image', true);
-      xhr.setRequestHeader('Authorization', 'Client-ID ' + IMGUR_CLIENT_ID);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-
-      /* تتبع progress الرفع */
-      xhr.upload.onprogress = function(ev) {
-        if (!ev.lengthComputable) return;
-        var filePct  = Math.round((ev.loaded / ev.total) * 100);
-        var overall  = Math.round(((idx / total) * 100) + (filePct / total));
-        setProgressPct(overall, idx + 1, total);
-      };
-
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          try {
-            var res = JSON.parse(xhr.responseText);
-            if (res.success && res.data && res.data.link) {
-              console.log('[Imgur] Done:', res.data.link);
-              resolve({
-                url  : res.data.link,
-                type : 'image',
-                name : file.name,
-                size : file.size,
-                mime : file.type,
-                imgurId: res.data.id
-              });
-            } else {
-              reject(new Error('Imgur: ' + (res.data && res.data.error ? res.data.error : 'فشل غير معروف')));
-            }
-          } catch(e) {
-            reject(new Error('Imgur: خطأ في تحليل الرد'));
-          }
-        } else if (xhr.status === 429) {
-          reject(new Error('imgur/rate-limit'));
-        } else {
-          reject(new Error('Imgur HTTP ' + xhr.status));
-        }
-      };
-
-      xhr.onerror = function() {
-        reject(new Error('Imgur: خطأ في الشبكة'));
-      };
-
-      xhr.send(JSON.stringify({
-        image: base64,
-        type : 'base64',
-        title: file.name
-      }));
-    };
-    reader.onerror = function() { reject(new Error('FileReader error')); };
-    reader.readAsDataURL(file);
-  });
-}
-
-/* Firebase fallback للفيديو والملفات */
-function uploadToFirebase(file, idx, total) {
-  console.log('[Firebase] Uploading:', file.name);
-  var safeName = file.name.replace(/[^a-zA-Z0-9._\-]/g, '_');
-  var path     = 'rooms/' + ROOM_ID + '/' + Date.now() + '_' + idx + '_' + safeName;
-  var ref      = storage.ref(path);
-
-  return new Promise(function(resolve, reject) {
-    var task = ref.put(file);
-    task.on('state_changed',
-      function(snap) {
-        var filePct = Math.round((snap.bytesTransferred / (snap.totalBytes || file.size)) * 100);
-        var overall = Math.round(((idx / total) * 100) + (filePct / total));
-        setProgressPct(overall, idx + 1, total);
-      },
-      reject,
-      function() {
-        task.snapshot.ref.getDownloadURL().then(function(url) {
-          resolve({
-            url  : url,
-            type : file.type.startsWith('video/') ? 'video' : 'file',
-            name : file.name,
-            size : file.size,
-            mime : file.type
-          });
-        }).catch(reject);
-      }
-    );
-  });
-}
-
-/* حفظ الرسالة في Firestore */
-function saveMessageToFirestore(text, attachments) {
-  console.log('[Firestore] Saving message | attachments:', attachments.length);
+function saveMsg(text, attachments) {
   return db.collection('rooms').doc(ROOM_ID).collection('messages').add({
     text       : text,
     attachments: attachments,
@@ -1140,109 +658,187 @@ function saveMessageToFirestore(text, attachments) {
     deviceId   : currentUser.deviceId,
     timestamp  : firebase.firestore.FieldValue.serverTimestamp(),
     edited     : false
-  }).then(function(ref) {
-    console.log('[Firestore] Saved:', ref.id);
-  }).catch(function(e) {
-    console.error('[Firestore] Save failed:', e);
-    showToast('فشل حفظ الرسالة: ' + (e.message || e.code), 'error');
-  });
-}
-
-/* ── Upload progress helpers ── */
-function showUploadProgress(total) {
-  var wrap = document.getElementById('uploadProgressWrap');
-  wrap.style.display = 'block';
-  document.getElementById('uploadProgressLabel').textContent = 'جاري رفع ' + total + ' ملف... 0%';
-  document.getElementById('uploadProgressFill').style.width = '0%';
-}
-
-function setProgressPct(pct, fileNum, total) {
-  var safe = Math.min(Math.max(pct, 0), 100);
-  document.getElementById('uploadProgressFill').style.width = safe + '%';
-  document.getElementById('uploadProgressLabel').textContent =
-    'ملف ' + fileNum + ' من ' + total + ' — ' + safe + '%';
-}
-
-function hideUploadProgress() {
-  document.getElementById('uploadProgressWrap').style.display = 'none';
-  document.getElementById('uploadProgressFill').style.width = '0%';
+  }).catch(function(e){ showToast('فشل حفظ الرسالة','error'); });
 }
 
 /* ═══════════════════════════════════════════════════════
-   EDIT MESSAGE
+   MESSAGES
+═══════════════════════════════════════════════════════ */
+function subscribeMessages() {
+  if (unsubMessages) unsubMessages();
+  unsubMessages = db.collection('rooms').doc(ROOM_ID)
+    .collection('messages')
+    .orderBy('timestamp','asc')
+    .limitToLast(MSGS_PER_PAGE)
+    .onSnapshot(function(snap){
+      snap.docChanges().forEach(function(ch){
+        if      (ch.type==='added')    renderMessage(ch.doc.id, ch.doc.data(), true);
+        else if (ch.type==='modified') updateMsgEl(ch.doc.id, ch.doc.data());
+        else if (ch.type==='removed')  removeMsgEl(ch.doc.id);
+      });
+    });
+}
+
+function renderMessage(id, data, scrollDown) {
+  if (document.getElementById('msg-'+id)) return;
+  var el = buildMsgEl(id, data);
+  var w  = document.querySelector('.chat-welcome-message');
+  if (w) document.getElementById('chatMessages').insertBefore(el, w);
+  else   document.getElementById('chatMessages').appendChild(el);
+  if (scrollDown) scrollToBottom();
+}
+
+function buildMsgEl(id, data) {
+  var isOwn   = currentUser && data.deviceId === currentUser.deviceId;
+  var ts      = data.timestamp ? (data.timestamp.toDate ? data.timestamp.toDate() : new Date(data.timestamp)) : new Date();
+  var el      = document.createElement('div');
+  el.className = 'msg'; el.id = 'msg-'+id; el.dataset.id = id;
+
+  /* ── وسائط ── */
+  var mediaHtml = '';
+  var atts = data.attachments;
+  if (atts && Array.isArray(atts) && atts.length) {
+    mediaHtml = '<div class="msg-media-wrap">';
+    atts.forEach(function(att){
+      if (!att || !att.url) return;
+      var t = att.type || detectFileType(att.mime, att.name);
+
+      if (t === 'image') {
+        // صورة — تظهر مباشرة عبر proxy
+        mediaHtml +=
+          '<img class="msg-image loading"'+
+          ' src="'+escHtml(att.url)+'"'+
+          ' alt="'+escHtml(att.name||'صورة')+'"'+
+          ' onload="this.classList.remove(\'loading\')"'+
+          ' onerror="this.classList.remove(\'loading\');this.style.opacity=\'0.25\'"'+
+          ' onclick="openLightbox(\''+escHtml(att.url)+'\')"'+
+          '/>';
+
+      } else if (t === 'video') {
+        // فيديو — يشتغل مباشرة عبر proxy
+        mediaHtml +=
+          '<video class="msg-video" controls preload="metadata">'+
+          '<source src="'+escHtml(att.url)+'" type="'+escHtml(att.mime||'video/mp4')+'">'+
+          'متصفحك لا يدعم الفيديو. <a href="'+escHtml(att.driveUrl||att.url)+'" target="_blank">افتح في Drive</a>'+
+          '</video>';
+
+      } else if (t === 'audio') {
+        // صوت
+        mediaHtml +=
+          '<audio controls preload="metadata" style="max-width:280px;margin-top:2px;">'+
+          '<source src="'+escHtml(att.url)+'" type="'+escHtml(att.mime||'audio/mpeg')+'">'+
+          '</audio>';
+
+      } else {
+        // ملف
+        var icon = getFileIcon(att.name, att.mime);
+        var size = att.size ? formatFileSize(att.size) : '';
+        mediaHtml +=
+          '<a class="msg-file-link" href="'+escHtml(att.driveUrl||att.url)+'" target="_blank">'+
+          '<span class="msg-file-icon">'+icon+'</span>'+
+          '<span class="msg-file-info">'+
+            '<span class="msg-file-name">'+escHtml(att.name||'ملف')+'</span>'+
+            (size ? '<span class="msg-file-size">'+size+'</span>' : '')+
+          '</span>'+
+          '</a>';
+      }
+    });
+    mediaHtml += '</div>';
+  }
+
+  var editedBadge = data.edited ? '<span class="msg-edited">(edited)</span>' : '';
+  var actionsHtml = isOwn
+    ? '<div class="msg-actions">'+
+        '<button class="msg-action-btn" onclick="startEdit(\''+id+'\')">✏️</button>'+
+        '<button class="msg-action-btn" onclick="deleteMsg(\''+id+'\')">🗑️</button>'+
+      '</div>'
+    : '';
+
+  el.innerHTML =
+    '<div class="msg-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div>'+
+    '<div class="msg-body">'+
+      '<div class="msg-meta">'+
+        '<span class="msg-time">'+escHtml(formatTime(ts))+'</span>'+
+        '<span class="msg-name">'+escHtml(data.name||'Unknown')+
+          '<span class="msg-name-type"> ('+escHtml(data.type||'Guest')+')</span>'+
+        '</span>'+
+      '</div>'+
+      '<span class="msg-text" id="txt-'+id+'">'+linkify(escHtml(data.text||''))+editedBadge+'</span>'+
+      mediaHtml+
+    '</div>'+
+    actionsHtml;
+  return el;
+}
+
+function updateMsgEl(id, data) {
+  var el = document.getElementById('msg-'+id);
+  if (!el) return;
+  el.parentNode.replaceChild(buildMsgEl(id, data), el);
+}
+function removeMsgEl(id) {
+  var el = document.getElementById('msg-'+id);
+  if (el) el.remove();
+}
+
+/* ═══════════════════════════════════════════════════════
+   EDIT / DELETE
 ═══════════════════════════════════════════════════════ */
 function startEdit(id) {
   if (editingMsgId) cancelEdit(editingMsgId);
   editingMsgId = id;
-  var txtEl = document.getElementById('txt-' + id);
+  var txtEl = document.getElementById('txt-'+id);
   if (!txtEl) return;
-  var raw = txtEl.dataset.raw || txtEl.textContent.replace(' (edited)', '');
+  var raw = txtEl.dataset.raw || txtEl.textContent.replace(' (edited)','');
   txtEl.dataset.raw = raw;
   var wrap = document.createElement('div');
-  wrap.className = 'msg-edit-wrap';
-  wrap.id = 'edit-wrap-' + id;
+  wrap.className = 'msg-edit-wrap'; wrap.id = 'edit-wrap-'+id;
   wrap.innerHTML =
-    '<textarea class="msg-edit-input" id="edit-inp-' + id + '" rows="2">' + escHtml(raw) + '</textarea>' +
-    '<div class="msg-edit-btns">' +
-      '<button class="msg-edit-save"   onclick="saveEdit(\'' + id + '\')">Save</button>' +
-      '<button class="msg-edit-cancel" onclick="cancelEdit(\'' + id + '\')">Cancel</button>' +
+    '<textarea class="msg-edit-input" id="edit-inp-'+id+'" rows="2">'+escHtml(raw)+'</textarea>'+
+    '<div class="msg-edit-btns">'+
+      '<button class="msg-edit-save"   onclick="saveEdit(\''+id+'\')">Save</button>'+
+      '<button class="msg-edit-cancel" onclick="cancelEdit(\''+id+'\')">Cancel</button>'+
     '</div>';
   txtEl.style.display = 'none';
   txtEl.parentNode.insertBefore(wrap, txtEl.nextSibling);
-  var inp = document.getElementById('edit-inp-' + id);
-  inp.focus();
-  inp.selectionStart = inp.selectionEnd = inp.value.length;
+  var inp = document.getElementById('edit-inp-'+id);
+  inp.focus(); inp.selectionStart = inp.selectionEnd = inp.value.length;
 }
 
 function saveEdit(id) {
-  var inp = document.getElementById('edit-inp-' + id);
+  var inp = document.getElementById('edit-inp-'+id);
   if (!inp) return;
-  var newText = inp.value.trim();
-  if (!newText) return;
+  var t = inp.value.trim();
+  if (!t) return;
   db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).update({
-    text: newText, edited: true,
-    editedAt: firebase.firestore.FieldValue.serverTimestamp()
-  })
-  .then(function(){ editingMsgId = null; })
-  .catch(function(e){ console.error('Edit error', e); showToast('فشل التعديل', 'error'); });
+    text:t, edited:true, editedAt:firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(){ editingMsgId = null; })
+    .catch(function(){ showToast('فشل التعديل','error'); });
 }
 
 function cancelEdit(id) {
-  var wrap  = document.getElementById('edit-wrap-' + id);
-  var txtEl = document.getElementById('txt-' + id);
+  var wrap  = document.getElementById('edit-wrap-'+id);
+  var txtEl = document.getElementById('txt-'+id);
   if (wrap)  wrap.remove();
   if (txtEl) txtEl.style.display = '';
   editingMsgId = null;
 }
 
-/* ═══════════════════════════════════════════════════════
-   DELETE MESSAGE
-═══════════════════════════════════════════════════════ */
 function deleteMsg(id) {
   if (!confirm('Delete this message?')) return;
-  db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).delete()
-    .catch(function(e){ console.error('Delete error', e); });
+  db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).delete();
 }
 
 /* ═══════════════════════════════════════════════════════
-   FILE UPLOAD — Preview
+   FILE PREVIEW
 ═══════════════════════════════════════════════════════ */
-/* فتح مربع اختيار الملفات — مع التحقق من الإذن أولاً */
 function onAttachClick() {
-  if (gdriveSkipped && !gdriveReady) {
-    // لم يوافق — اعرض رسالة توضيحية
-    showToast('رفضت مشاركة الملفات عند الدخول. أعد تحميل الصفحة لتغيير اختيارك.', 'error');
-    return;
-  }
-  if (userConsentGiven && !gdriveReady && !gdriveSkipped) {
-    // وافق لكن لم يسجّل دخول Google بعد
-    document.getElementById('gdriveModal').classList.add('open');
+  if (!userConsented) {
+    showToast('لم توافق على مشاركة الملفات. أعد تحميل الصفحة لتغيير اختيارك.','error');
     return;
   }
   document.getElementById('fileInput').click();
 }
-
-document.getElementById('fileInput').addEventListener('change', function() {
+document.getElementById('fileInput').addEventListener('change', function(){
   Array.from(this.files).forEach(addFilePreview);
   this.value = '';
 });
@@ -1254,66 +850,113 @@ function addFilePreview(file) {
   bar.style.display = 'flex';
   var item = document.createElement('div');
   item.className = 'preview-item';
-
   if (file.type.startsWith('image/')) {
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function(e){
       item.innerHTML =
-        '<img class="preview-thumb" src="' + e.target.result + '"/>' +
-        '<button class="preview-remove" onclick="removePreview(' + idx + ',this.parentNode)">✕</button>';
+        '<img class="preview-thumb" src="'+e.target.result+'"/>'+
+        '<button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';
     };
     reader.readAsDataURL(file);
   } else {
     item.innerHTML =
-      '<div class="preview-file-chip">' + getFileIcon(file.name) + ' ' + escHtml(file.name) + '</div>' +
-      '<button class="preview-remove" onclick="removePreview(' + idx + ',this.parentNode)">✕</button>';
+      '<div class="preview-file-chip">'+getFileIcon(file.name,file.type)+' '+escHtml(file.name)+'</div>'+
+      '<button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';
   }
   bar.appendChild(item);
   updateSendBtn();
 }
 
 function removePreview(idx, el) {
-  pendingFiles[idx] = null;
-  el.remove();
-  if (!document.getElementById('uploadPreviewBar').children.length) {
+  pendingFiles[idx] = null; el.remove();
+  if (!document.getElementById('uploadPreviewBar').children.length)
     document.getElementById('uploadPreviewBar').style.display = 'none';
-  }
   updateSendBtn();
 }
 
 function clearUploadPreview() {
   pendingFiles = [];
   var bar = document.getElementById('uploadPreviewBar');
-  bar.innerHTML = '';
-  bar.style.display = 'none';
+  bar.innerHTML = ''; bar.style.display = 'none';
+}
+
+/* ═══════════════════════════════════════════════════════
+   PROGRESS
+═══════════════════════════════════════════════════════ */
+function showUploadProgress(total) {
+  document.getElementById('uploadProgressWrap').style.display = 'block';
+  document.getElementById('uploadProgressLabel').textContent  = 'جاري رفع '+total+' ملف...';
+  document.getElementById('uploadProgressPct').textContent    = '0%';
+  document.getElementById('uploadProgressFill').style.width  = '0%';
+}
+function setProgressPct(pct, n, total) {
+  var s = Math.min(Math.max(Math.round(pct),0),100);
+  document.getElementById('uploadProgressFill').style.width = s+'%';
+  document.getElementById('uploadProgressPct').textContent  = s+'%';
+  document.getElementById('uploadProgressLabel').textContent= 'ملف '+n+' من '+total;
+}
+function hideUploadProgress() {
+  document.getElementById('uploadProgressWrap').style.display = 'none';
+  document.getElementById('uploadProgressFill').style.width   = '0%';
+}
+
+/* ═══════════════════════════════════════════════════════
+   PRESENCE
+═══════════════════════════════════════════════════════ */
+function registerAnonymousPresence() {
+  getDeviceId().then(function(devId){
+    var ref = rtdb.ref('presence/'+ROOM_ID+'/'+devId);
+    ref.set({name:null,isViewer:true,online:true,ts:Date.now()});
+    ref.onDisconnect().remove(); listenPresence();
+  });
+}
+function registerNamedPresence(name, devId) {
+  var ref = rtdb.ref('presence/'+ROOM_ID+'/'+devId);
+  ref.set({name:name,isViewer:false,online:true,ts:Date.now()});
+  ref.onDisconnect().remove(); listenPresence();
+}
+function listenPresence() {
+  rtdb.ref('presence/'+ROOM_ID).on('value', function(snap){ renderPresence(snap.val()||{}); });
+}
+function renderPresence(all) {
+  var entries = Object.values(all);
+  document.getElementById('onlineCountEl').textContent = entries.length+' online';
+  var list = document.getElementById('presenceList');
+  list.innerHTML = '';
+  entries.forEach(function(p){
+    var el = document.createElement('div'); el.className = 'presence-item';
+    var label = p.name||(p.isViewer?'viewer':'anonymous');
+    el.innerHTML =
+      '<div class="presence-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')">'+
+        '<div class="presence-dot"></div>'+
+      '</div>'+
+      '<div class="presence-name '+(p.name?'':'anon')+'">'+escHtml(label)+'</div>';
+    list.appendChild(el);
+  });
 }
 
 /* ═══════════════════════════════════════════════════════
    TYPING
 ═══════════════════════════════════════════════════════ */
 function handleTyping() {
-  if (!isSignedIn || !currentUser) return;
-  var ref = rtdb.ref('typing/' + ROOM_ID + '/' + currentUser.deviceId);
-  ref.set({ name: currentUser.name, ts: Date.now() });
+  if (!isSignedIn||!currentUser) return;
+  var ref = rtdb.ref('typing/'+ROOM_ID+'/'+currentUser.deviceId);
+  ref.set({name:currentUser.name,ts:Date.now()});
   ref.onDisconnect().remove();
   clearTimeout(typingTimer);
   typingTimer = setTimeout(function(){ ref.remove(); }, 3000);
 }
-
 function stopTyping() {
-  if (!isSignedIn || !currentUser) return;
-  rtdb.ref('typing/' + ROOM_ID + '/' + currentUser.deviceId).remove();
+  if (!isSignedIn||!currentUser) return;
+  rtdb.ref('typing/'+ROOM_ID+'/'+currentUser.deviceId).remove();
   clearTimeout(typingTimer);
 }
-
-rtdb.ref('typing/' + ROOM_ID).on('value', function(snap) {
-  var all    = snap.val() || {};
+rtdb.ref('typing/'+ROOM_ID).on('value', function(snap){
+  var all    = snap.val()||{};
   var devId  = currentUser ? currentUser.deviceId : null;
-  var others = Object.entries(all)
-    .filter(function(e){ return e[0] !== devId; })
-    .map(function(e){ return e[1].name; });
+  var others = Object.entries(all).filter(function(e){ return e[0]!==devId; }).map(function(e){ return e[1].name; });
   document.getElementById('typingBar').textContent =
-    others.length ? others.join(', ') + (others.length === 1 ? ' is typing…' : ' are typing…') : '';
+    others.length ? others.join(', ')+(others.length===1?' is typing…':' are typing…') : '';
 });
 
 /* ═══════════════════════════════════════════════════════
@@ -1328,10 +971,7 @@ document.getElementById('lightboxClose').addEventListener('click', function(){
   document.getElementById('lightboxImg').src = '';
 });
 document.getElementById('lightbox').addEventListener('click', function(e){
-  if (e.target === this) {
-    this.classList.remove('open');
-    document.getElementById('lightboxImg').src = '';
-  }
+  if (e.target===this){ this.classList.remove('open'); document.getElementById('lightboxImg').src=''; }
 });
 
 /* ═══════════════════════════════════════════════════════
@@ -1339,85 +979,32 @@ document.getElementById('lightbox').addEventListener('click', function(e){
 ═══════════════════════════════════════════════════════ */
 function scrollToBottom() {
   var w = document.getElementById('messagesWrap');
-  setTimeout(function(){ w.scrollTop = w.scrollHeight; }, 50);
+  setTimeout(function(){ w.scrollTop = w.scrollHeight; }, 60);
 }
-
 function autoResize(el) {
   el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+  el.style.height = Math.min(el.scrollHeight, 100)+'px';
 }
-
 function updateSendBtn() {
   if (isSending) return;
   var hasText  = document.getElementById('chatInput').value.trim().length > 0;
-  var hasFiles = pendingFiles.some(function(f){ return f != null; });
-  document.getElementById('sendBtn').disabled = !(hasText || hasFiles);
+  var hasFiles = pendingFiles.some(function(f){ return f!=null; });
+  document.getElementById('sendBtn').disabled = !(hasText||hasFiles);
 }
-
 function formatTime(d) {
-  return d.toLocaleString('en-US', {
-    month:'short', day:'numeric',
-    hour:'numeric', minute:'2-digit', hour12:true
-  });
+  return d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true});
 }
-
 function escHtml(str) {
-  return String(str || '')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
 function linkify(text) {
-  return text.replace(/(https?:\/\/[^\s<>"]+)/g,
-    '<a target="_blank" rel="nofollow" href="$1">$1</a>');
+  return text.replace(/(https?:\/\/[^\s<>"]+)/g,'<a target="_blank" rel="nofollow" href="$1">$1</a>');
 }
-
 function showToast(msg, type) {
   var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + (type || '');
-  t.classList.add('show');
+  t.textContent = msg; t.className = 'toast '+(type||''); t.classList.add('show');
   setTimeout(function(){ t.classList.remove('show'); }, 3500);
 }
-
-/* ═══════════════════════════════════════════════════════
-   FIREBASE STORAGE RULES — الصق هذا في Firebase Console
-   ════════════════════════════════════════════════════════
-
-   rules_version = '2';
-   service firebase.storage {
-     match /b/{bucket}/o {
-       match /rooms/{roomId}/{allPaths=**} {
-         allow read: if true;
-         allow write: if true;
-       }
-     }
-   }
-
-   FIRESTORE RULES:
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{database}/documents {
-       match /users/{deviceId} {
-         allow read, write: if true;
-       }
-       match /rooms/{roomId}/messages/{msgId} {
-         allow read: if true;
-         allow create: if request.resource.data.name is string;
-         allow update: if resource.data.deviceId == request.resource.data.deviceId;
-         allow delete: if resource.data.deviceId != null;
-       }
-     }
-   }
-
-   REALTIME DATABASE RULES:
-   {
-     "rules": {
-       "presence":  { ".read": true, ".write": true },
-       "typing":    { ".read": true, ".write": true }
-     }
-   }
-═══════════════════════════════════════════════════════ */
 </script>
 </body>
 </html>
