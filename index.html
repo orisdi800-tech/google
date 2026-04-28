@@ -81,10 +81,57 @@ body{background:#252836}
 .msg-image:hover{opacity:.85}
 .msg-image.loading{opacity:0.3;filter:blur(3px);}
 
-.msg-video{
-  max-width:320px;border-radius:8px;display:block;
-  background:#000;outline:none;border:1px solid rgba(255,255,255,0.08);
+.video-player{
+  width:min(420px,100%);
+  max-width:420px;
+  background:#0b0c12;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 8px 26px rgba(0,0,0,.22);
 }
+.video-player video{
+  width:100%;
+  max-height:260px;
+  display:block;
+  background:#000;
+  outline:none;
+}
+.video-big-play{
+  position:absolute;
+  left:50%;top:50%;transform:translate(-50%,-50%);
+  width:54px;height:54px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(13,13,14,.64);
+  color:#fff;font-size:22px;line-height:1;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);transition:opacity .15s,transform .15s,background .15s;
+}
+.video-big-play:hover{background:rgba(25,27,40,.82);transform:translate(-50%,-50%) scale(1.04)}
+.video-player.playing .video-big-play{opacity:0;pointer-events:none}
+.video-controls{
+  display:grid;
+  grid-template-columns:auto 1fr auto auto auto;
+  gap:8px;align-items:center;
+  padding:8px 10px;
+  background:linear-gradient(180deg,rgba(18,20,30,.98),rgba(12,13,20,.98));
+}
+.video-control-btn{
+  width:28px;height:28px;border-radius:7px;
+  border:1px solid rgba(255,255,255,.08);
+  background:#222536;color:#d8dbea;
+  font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.video-control-btn:hover{background:#2f3247;color:#fff}
+.video-seek{width:100%;accent-color:#6e8efb;cursor:pointer}
+.video-time{font-size:11px;color:#9aa0bd;font-variant-numeric:tabular-nums;white-space:nowrap}
+.video-error{
+  display:none;padding:8px 10px;background:#2a1518;color:#fca5a5;
+  font-size:11px;line-height:1.5;border-top:1px solid rgba(255,255,255,.06);
+}
+.video-player.video-failed .video-error{display:block}
+.video-player.video-failed .video-big-play,.video-player.video-failed .video-controls{display:none}
 
 .msg-file-link{
   display:inline-flex;align-items:center;gap:8px;
@@ -509,7 +556,7 @@ function uploadViaAppsScript(file, idx, total) {
     var reader = new FileReader();
     reader.onload = function(e){
       var base64 = e.target.result.split(',')[1];
-      var previewPromise = createImagePreviewDataUrl(file);
+      var previewPromise = createMediaPreviewDataUrl(file);
 
       setProgressPct(Math.round((idx / total) * 70), idx + 1, total);
 
@@ -565,10 +612,18 @@ function uploadViaAppsScript(file, idx, total) {
   });
 }
 
+function createMediaPreviewDataUrl(file) {
+  if (!file || !file.type) return Promise.resolve(null);
+  var t = file.type.toLowerCase();
+  if (t.startsWith('image/')) return createImagePreviewDataUrl(file);
+  if (t.startsWith('video/')) return createVideoPosterDataUrl(file);
+  return Promise.resolve(null);
+}
+
 function createImagePreviewDataUrl(file) {
   return new Promise(function(resolve) {
     try {
-      if (!file || !file.type || !file.type.toLowerCase().startsWith("image/")) { resolve(null); return; }
+      if (!file || !file.type || !file.type.toLowerCase().startsWith('image/')) { resolve(null); return; }
       var img = new Image();
       var objectUrl = URL.createObjectURL(file);
       img.onload = function() {
@@ -578,18 +633,64 @@ function createImagePreviewDataUrl(file) {
           var h = img.naturalHeight || img.height;
           if (!w || !h) { URL.revokeObjectURL(objectUrl); resolve(null); return; }
           var scale = Math.min(1, maxSide / Math.max(w, h));
-          var canvas = document.createElement("canvas");
+          var canvas = document.createElement('canvas');
           canvas.width = Math.max(1, Math.round(w * scale));
           canvas.height = Math.max(1, Math.round(h * scale));
-          var ctx = canvas.getContext("2d");
+          var ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          var dataUrl = canvas.toDataURL("image/jpeg", 0.55);
+          var dataUrl = canvas.toDataURL('image/jpeg', 0.55);
           URL.revokeObjectURL(objectUrl);
           resolve(dataUrl);
         } catch(e) { try { URL.revokeObjectURL(objectUrl); } catch(_) {} resolve(null); }
       };
       img.onerror = function() { try { URL.revokeObjectURL(objectUrl); } catch(_) {} resolve(null); };
       img.src = objectUrl;
+    } catch(e) { resolve(null); }
+  });
+}
+
+function createVideoPosterDataUrl(file) {
+  return new Promise(function(resolve) {
+    try {
+      if (!file || !file.type || !file.type.toLowerCase().startsWith('video/')) { resolve(null); return; }
+      var video = document.createElement('video');
+      var objectUrl = URL.createObjectURL(file);
+      var done = false;
+      function finish(value) {
+        if (done) return;
+        done = true;
+        try { URL.revokeObjectURL(objectUrl); } catch(_) {}
+        resolve(value || null);
+      }
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      video.onloadeddata = function() {
+        try {
+          var seekTo = Math.min(0.8, Math.max(0, (video.duration || 1) / 10));
+          if (isFinite(seekTo)) video.currentTime = seekTo;
+        } catch(e) { drawPoster(); }
+      };
+      video.onseeked = drawPoster;
+      video.onerror = function(){ finish(null); };
+      setTimeout(function(){ if (!done) drawPoster(); }, 2000);
+      function drawPoster() {
+        try {
+          var w = video.videoWidth;
+          var h = video.videoHeight;
+          if (!w || !h) { finish(null); return; }
+          var maxSide = 520;
+          var scale = Math.min(1, maxSide / Math.max(w, h));
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.max(1, Math.round(w * scale));
+          canvas.height = Math.max(1, Math.round(h * scale));
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          finish(canvas.toDataURL('image/jpeg', 0.52));
+        } catch(e) { finish(null); }
+      }
+      video.src = objectUrl;
+      video.load();
     } catch(e) { resolve(null); }
   });
 }
@@ -647,7 +748,6 @@ function getImageUrlCandidates(att) {
 function handleImageError(img) {
   var raw = img.getAttribute('data-fallbacks') || '%5B%5D';
   var urls = [];
-  if (att.previewUrl) urls.push(att.previewUrl);
 
   try {
     urls = JSON.parse(decodeURIComponent(raw));
@@ -666,6 +766,114 @@ function handleImageError(img) {
   img.classList.remove('loading');
   img.style.opacity = '0.25';
   img.title = 'تعذر عرض معاينة الصورة.';
+}
+
+function getVideoUrlCandidates(att) {
+  var urls = [];
+  if (att.url) urls.push(att.url);
+  if (att.directUrl) urls.push(att.directUrl);
+  if (att.fileId) {
+    urls.push('https://drive.google.com/uc?export=download&id=' + encodeURIComponent(att.fileId));
+    urls.push('https://drive.google.com/uc?export=view&id=' + encodeURIComponent(att.fileId));
+  }
+  return uniqueUrls(urls);
+}
+
+function formatVideoTime(seconds) {
+  seconds = Math.max(0, Math.floor(seconds || 0));
+  var h = Math.floor(seconds / 3600);
+  var m = Math.floor((seconds % 3600) / 60);
+  var s = seconds % 60;
+  if (h > 0) return h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  return m + ':' + String(s).padStart(2,'0');
+}
+
+function getVideoPlayer(el) {
+  return el && el.closest ? el.closest('.video-player') : null;
+}
+
+function updateVideoPlayer(video) {
+  var player = getVideoPlayer(video);
+  if (!player) return;
+  var range = player.querySelector('.video-seek');
+  var timeEl = player.querySelector('.video-time');
+  var duration = video.duration;
+  if (range && isFinite(duration) && duration > 0 && !range.dataset.dragging) {
+    range.value = String((video.currentTime / duration) * 100);
+  }
+  if (timeEl) {
+    timeEl.textContent = formatVideoTime(video.currentTime) + ' / ' + (isFinite(duration) ? formatVideoTime(duration) : '0:00');
+  }
+}
+
+function setVideoPlayingState(video) {
+  var player = getVideoPlayer(video);
+  if (!player) return;
+  var btn = player.querySelector('.video-play-btn');
+  if (video.paused || video.ended) {
+    player.classList.remove('playing');
+    if (btn) btn.textContent = '▶';
+  } else {
+    player.classList.add('playing');
+    if (btn) btn.textContent = '⏸';
+  }
+}
+
+function toggleVideoPlayer(player) {
+  if (!player) return;
+  var video = player.querySelector('video');
+  if (!video) return;
+  if (video.paused || video.ended) {
+    video.play().catch(function(){ showToast('تعذر تشغيل الفيديو','error'); });
+  } else {
+    video.pause();
+  }
+}
+
+function seekVideoPlayer(range) {
+  var player = getVideoPlayer(range);
+  if (!player) return;
+  var video = player.querySelector('video');
+  if (!video || !isFinite(video.duration) || video.duration <= 0) return;
+  video.currentTime = (Number(range.value) / 100) * video.duration;
+  updateVideoPlayer(video);
+}
+
+function toggleVideoMute(btn) {
+  var player = getVideoPlayer(btn);
+  if (!player) return;
+  var video = player.querySelector('video');
+  if (!video) return;
+  video.muted = !video.muted;
+  btn.textContent = video.muted ? '🔇' : '🔊';
+}
+
+function fullscreenVideoPlayer(btn) {
+  var player = getVideoPlayer(btn);
+  if (!player) return;
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else if (player.requestFullscreen) {
+    player.requestFullscreen();
+  }
+}
+
+function handleVideoError(video) {
+  var player = getVideoPlayer(video);
+  if (!player) return;
+  var raw = player.getAttribute('data-fallbacks') || '%5B%5D';
+  var urls = [];
+  try { urls = JSON.parse(decodeURIComponent(raw)); } catch(e) { urls = []; }
+  var nextIdx = parseInt(player.getAttribute('data-fallback-idx') || '0', 10) + 1;
+  if (nextIdx < urls.length) {
+    player.setAttribute('data-fallback-idx', String(nextIdx));
+    video.src = urls[nextIdx];
+    video.load();
+    return;
+  }
+  player.classList.add('video-failed');
+  var err = player.querySelector('.video-error');
+  if (err) err.textContent = 'تعذر تشغيل الفيديو داخل المحادثة. تأكد من أن Apps Script يرجع الفيديو بصيغة صحيحة ويدعم عرضه.';
 }
 
 function uploadFilesSequentially(files) {
@@ -807,12 +1015,32 @@ function buildMsgEl(id, data) {
           ' onclick="openLightbox(this.src)"'+
           '/>';
       } else if (t === 'video') {
-        // فيديو — يشتغل مباشرة عبر proxy
+        var videoUrls = getVideoUrlCandidates(att);
+        var firstVideoUrl = videoUrls[0] || att.url || '';
+        var encodedVideoFallbacks = encodeURIComponent(JSON.stringify(videoUrls));
+        var posterAttr = att.previewUrl ? ' poster="'+escHtml(att.previewUrl)+'"' : '';
+
         mediaHtml +=
-          '<video class="msg-video" controls preload="metadata">'+
-          '<source src="'+escHtml(att.url)+'" type="'+escHtml(att.mime||'video/mp4')+'">'+
-          'متصفحك لا يدعم الفيديو. <a href="'+escHtml(att.driveUrl||att.url)+'" target="_blank">افتح في Drive</a>'+
-          '</video>';
+          '<div class="video-player" data-fallback-idx="0" data-fallbacks="'+escHtml(encodedVideoFallbacks)+'">'+
+            '<video preload="metadata" playsinline src="'+escHtml(firstVideoUrl)+'" type="'+escHtml(att.mime||'video/mp4')+'"'+posterAttr+
+              ' onloadedmetadata="updateVideoPlayer(this)"'+
+              ' ontimeupdate="updateVideoPlayer(this)"'+
+              ' onplay="setVideoPlayingState(this)"'+
+              ' onpause="setVideoPlayingState(this)"'+
+              ' onended="setVideoPlayingState(this)"'+
+              ' onerror="handleVideoError(this)"'+
+              ' onclick="toggleVideoPlayer(this.closest(\'.video-player\'))">'+
+            '</video>'+
+            '<button class="video-big-play" onclick="toggleVideoPlayer(this.closest(\'.video-player\'))">▶</button>'+
+            '<div class="video-controls">'+
+              '<button class="video-control-btn video-play-btn" onclick="toggleVideoPlayer(this.closest(\'.video-player\'))">▶</button>'+
+              '<input class="video-seek" type="range" min="0" max="100" value="0" step="0.1" oninput="seekVideoPlayer(this)">'+
+              '<span class="video-time">0:00 / 0:00</span>'+
+              '<button class="video-control-btn" onclick="toggleVideoMute(this)">🔊</button>'+
+              '<button class="video-control-btn" onclick="fullscreenVideoPlayer(this)">⛶</button>'+
+            '</div>'+
+            '<div class="video-error"></div>'+
+          '</div>';
 
       } else if (t === 'audio') {
         // صوت
