@@ -2,8 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ar">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="mobile-web-app-capable" content="yes"/>
 <title>Google — Chat</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:400,500,600,700"/>
 
@@ -14,51 +15,166 @@
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
 <style type="text/css">
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px}
-body{background:#252836}
-
-::-webkit-scrollbar{width:4px}
+/* ═══════════════════ BASE ═══════════════════ */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{
+  height:100%;height:100dvh;
+  overflow:hidden;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;
+  background:#252836;
+  overscroll-behavior:none;
+}
+::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#3a3d52;border-radius:2px}
 
-.app{display:flex;height:100vh;width:100vw;background:#252836;}
+/* ═══════════════════ APP SHELL ═══════════════════ */
+.app{
+  display:flex;
+  height:100dvh;
+  width:100vw;
+  background:#252836;
+  position:relative;
+  overflow:hidden;
+}
 
+/* ── CHAT PANEL ── */
 .chat-panel{
-  flex:1;display:flex;flex-direction:column;
-  background:#252836;min-width:0;position:relative;overflow:hidden;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  background:#252836;
+  min-width:0;
+  position:relative;
+  overflow:hidden;
+  /* safe area padding for notch devices */
+  padding-bottom:env(safe-area-inset-bottom,0px);
 }
 
+/* ═══════════════════ SIDEBAR ═══════════════════
+   Desktop: slim fixed column
+   Mobile:  slide-in drawer from right, no layout space taken
+═══════════════════════════════════════════════ */
 .sidebar{
-  width:200px;flex-shrink:0;background:#1d1f2e;
-  display:flex;flex-direction:column;border-left:1px solid #252836;
+  /* DESKTOP */
+  width:160px;
+  flex-shrink:0;
+  background:#1d1f2e;
+  display:flex;
+  flex-direction:column;
+  border-left:1px solid #252836;
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
 }
 
+/* MOBILE: take no layout space, slide over content */
+@media (max-width:600px){
+  .sidebar{
+    position:fixed;
+    top:0;right:0;
+    width:min(220px,70vw);
+    height:100dvh;
+    z-index:80;
+    border-left:1px solid #2a2d3e;
+    transform:translateX(100%);
+    box-shadow:-8px 0 32px rgba(0,0,0,.4);
+  }
+  .sidebar.open{transform:translateX(0)}
+
+  /* backdrop */
+  .sidebar-backdrop{
+    position:fixed;inset:0;z-index:79;
+    background:rgba(0,0,0,.55);
+    display:none;
+  }
+  .sidebar-backdrop.show{display:block}
+}
+@media (min-width:601px){
+  .sidebar-backdrop{display:none!important}
+}
+
+.sidebar-list{flex:1;overflow-y:auto;padding:8px 0}
+.presence-item{
+  display:flex;align-items:center;gap:8px;
+  padding:5px 10px;
+}
+.presence-avatar{
+  width:26px;height:26px;border-radius:50%;
+  background:#2f3247 center/cover no-repeat;
+  flex-shrink:0;position:relative;
+}
+.presence-dot{
+  position:absolute;bottom:0;right:0;
+  width:7px;height:7px;border-radius:50%;
+  background:#22c55e;border:1.5px solid #1d1f2e;
+}
+.presence-name{font-size:11px;color:#a0a4bf;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.presence-name.anon{color:#5e6278;font-style:italic}
+
+.sidebar-footer{
+  padding:6px 10px 8px;
+  border-top:1px solid #252836;
+  flex-shrink:0;
+  display:flex;align-items:center;gap:5px;
+}
+.online-count-txt{font-size:11px;color:#22c55e;font-weight:600}
+
+/* ═══════════════════ TOP BAR ═══════════════════ */
 .chat-top{
-  background:#0d0d0e;padding:10px 14px;flex-shrink:0;
-  display:flex;align-items:center;min-height:40px;
+  background:#0d0d0e;
+  padding:0 12px;
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:42px;
+  min-height:42px;
+  /* safe area top */
+  padding-top:env(safe-area-inset-top,0px);
+  height:calc(42px + env(safe-area-inset-top,0px));
 }
-.chat-title{color:#fff;font-size:14px;font-weight:700;}
+.chat-title{color:#fff;font-size:14px;font-weight:700}
 
+/* sidebar toggle button — visible on mobile */
+.sidebar-toggle{
+  background:none;border:none;cursor:pointer;
+  padding:5px;border-radius:5px;
+  display:none; /* hidden on desktop */
+  color:#8a8fac;
+  align-items:center;justify-content:center;
+}
+@media (max-width:600px){
+  .sidebar-toggle{display:flex}
+}
+
+/* ═══════════════════ MESSAGES ═══════════════════ */
 .chat-messages-wrap{
   flex:1;overflow-y:auto;overflow-x:hidden;
-  padding:4px 0 4px;display:flex;flex-direction:column;background:#252836;
+  padding:4px 0;
+  display:flex;flex-direction:column;
+  background:#252836;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
 }
-.chat-messages{display:flex;flex-direction:column;flex:1;}
+.chat-messages{display:flex;flex-direction:column;flex:1}
 
+/* message row */
 .msg{
-  display:flex;align-items:flex-start;gap:9px;
-  padding:3px 12px;position:relative;cursor:default;
+  display:flex;align-items:flex-start;gap:8px;
+  padding:3px 10px;position:relative;
 }
 .msg:hover{background:rgba(255,255,255,.025)}
+/* action buttons reveal on hover (desktop) and on long-press indicator (mobile) */
 .msg:hover .msg-actions{opacity:1;pointer-events:auto}
+.msg.long-pressed .msg-actions{opacity:1;pointer-events:auto}
 
 .msg-avatar{
-  width:32px;height:32px;border-radius:50%;
-  background:#2f3247 center/cover no-repeat;flex-shrink:0;margin-top:1px;
+  width:30px;height:30px;border-radius:50%;
+  background:#2f3247 center/cover no-repeat;
+  flex-shrink:0;margin-top:2px;
 }
 .msg-body{flex:1;min-width:0}
-.msg-meta{display:flex;align-items:baseline;gap:5px;margin-bottom:1px;flex-wrap:wrap;}
+.msg-meta{display:flex;align-items:baseline;gap:5px;margin-bottom:1px;flex-wrap:wrap}
 .msg-time{font-size:10px;color:#4e5268}
 .msg-name{font-size:12px;font-weight:700;color:#8a8fac}
 .msg-name-type{font-weight:400;color:#484c68;font-size:11px}
@@ -69,149 +185,121 @@ body{background:#252836}
 .msg-text a{color:#6e8efb;text-decoration:none}
 .msg-text a:hover{text-decoration:underline}
 
-/* ── وسائط ── */
-.msg-media-wrap{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
-
+/* media */
+.msg-media-wrap{display:flex;flex-direction:column;gap:6px;margin-top:6px}
 .msg-image{
-  max-width:280px;max-height:220px;
+  max-width:min(260px,70vw);max-height:200px;
   border-radius:8px;display:block;cursor:pointer;
   object-fit:cover;transition:opacity .2s;
-  border:1px solid rgba(255,255,255,0.08);background:#1a1c2a;
+  border:1px solid rgba(255,255,255,.08);background:#1a1c2a;
 }
 .msg-image:hover{opacity:.85}
-.msg-image.loading{opacity:0.3;filter:blur(3px);}
+.msg-image.loading{opacity:.3;filter:blur(3px)}
 
+/* video player */
 .video-player{
-  width:min(420px,100%);
-  max-width:420px;
-  background:#0b0c12;
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:12px;
-  overflow:hidden;
-  position:relative;
-  box-shadow:0 8px 26px rgba(0,0,0,.22);
+  width:min(380px,calc(100vw - 70px));max-width:380px;
+  background:#0b0c12;border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;overflow:hidden;position:relative;
+  box-shadow:0 6px 20px rgba(0,0,0,.22);
 }
-.video-player video{
-  width:100%;
-  max-height:260px;
-  display:block;
-  background:#000;
-  outline:none;
-}
+.video-player video{width:100%;max-height:220px;display:block;background:#000;outline:none}
 .video-big-play{
-  position:absolute;
-  left:50%;top:50%;transform:translate(-50%,-50%);
-  width:54px;height:54px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(13,13,14,.64);
-  color:#fff;font-size:22px;line-height:1;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
-  backdrop-filter:blur(8px);transition:opacity .15s,transform .15s,background .15s;
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:50px;height:50px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.2);background:rgba(13,13,14,.65);
+  color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);transition:opacity .15s,transform .15s;
 }
-.video-big-play:hover{background:rgba(25,27,40,.82);transform:translate(-50%,-50%) scale(1.04)}
+.video-big-play:hover{background:rgba(25,27,40,.85);transform:translate(-50%,-50%) scale(1.05)}
 .video-player.playing .video-big-play{opacity:0;pointer-events:none}
 .video-controls{
-  display:grid;
-  grid-template-columns:auto 1fr auto auto auto;
-  gap:8px;align-items:center;
-  padding:8px 10px;
+  display:grid;grid-template-columns:auto 1fr auto auto auto;
+  gap:7px;align-items:center;padding:7px 9px;
   background:linear-gradient(180deg,rgba(18,20,30,.98),rgba(12,13,20,.98));
 }
 .video-control-btn{
-  width:28px;height:28px;border-radius:7px;
-  border:1px solid rgba(255,255,255,.08);
-  background:#222536;color:#d8dbea;
-  font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,.08);
+  background:#222536;color:#d8dbea;font-size:12px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  touch-action:manipulation;
 }
 .video-control-btn:hover{background:#2f3247;color:#fff}
-.video-seek{width:100%;accent-color:#6e8efb;cursor:pointer}
-.video-time{font-size:11px;color:#9aa0bd;font-variant-numeric:tabular-nums;white-space:nowrap}
-.video-error{
-  display:none;padding:8px 10px;background:#2a1518;color:#fca5a5;
-  font-size:11px;line-height:1.5;border-top:1px solid rgba(255,255,255,.06);
-}
+.video-seek{width:100%;accent-color:#6e8efb;cursor:pointer;touch-action:manipulation}
+.video-time{font-size:11px;color:#9aa0bd;white-space:nowrap;font-variant-numeric:tabular-nums}
+.video-error{display:none;padding:7px 10px;background:#2a1518;color:#fca5a5;font-size:11px;border-top:1px solid rgba(255,255,255,.06)}
 .video-player.video-failed .video-error{display:block}
 .video-player.video-failed .video-big-play,.video-player.video-failed .video-controls{display:none}
 
-
 .drive-video-player{
-  width:min(520px, calc(100vw - 90px));
-  max-width:520px;
-  aspect-ratio:16/9;
-  border-radius:12px;
-  overflow:hidden;
-  background:#05060a;
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:0 10px 28px rgba(0,0,0,.28);
-  margin-top:6px;
-  position:relative;
+  width:min(460px,calc(100vw - 70px));aspect-ratio:16/9;
+  border-radius:10px;overflow:hidden;background:#05060a;
+  border:1px solid rgba(255,255,255,.10);box-shadow:0 8px 24px rgba(0,0,0,.28);
 }
-.drive-video-player iframe{
-  width:100%;
-  height:100%;
-  border:0;
-  display:block;
-  background:#05060a;
-}
-.drive-video-caption{
-  width:min(520px, calc(100vw - 90px));
-  max-width:520px;
-  color:#747a99;
-  font-size:11px;
-  margin-top:5px;
-  line-height:1.4;
-  word-break:break-word;
-}
+.drive-video-player iframe{width:100%;height:100%;border:0;display:block}
+.drive-video-caption{color:#747a99;font-size:11px;margin-top:4px;word-break:break-word}
 
 .msg-file-link{
   display:inline-flex;align-items:center;gap:8px;
   background:#2a2d3e;border-radius:8px;padding:8px 12px;
   color:#a0a4bf;font-size:12px;text-decoration:none;
-  max-width:260px;border:1px solid rgba(255,255,255,0.06);transition:background .15s;
+  max-width:min(250px,70vw);border:1px solid rgba(255,255,255,.06);transition:background .15s;
 }
-.msg-file-link:hover{background:#333650;color:#e8e9f0;}
-.msg-file-icon{font-size:18px;flex-shrink:0;}
-.msg-file-info{display:flex;flex-direction:column;gap:1px;min-width:0;}
-.msg-file-name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;}
-.msg-file-size{font-size:10px;color:#5e6278;}
+.msg-file-link:hover{background:#333650;color:#e8e9f0}
+.msg-file-icon{font-size:17px;flex-shrink:0}
+.msg-file-info{display:flex;flex-direction:column;gap:1px;min-width:0}
+.msg-file-name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px}
+.msg-file-size{font-size:10px;color:#5e6278}
 
 .msg-edited{font-size:10px;color:#484c68;margin-left:4px;font-style:italic}
 
+/* action buttons */
 .msg-actions{
-  position:absolute;right:8px;top:50%;transform:translateY(-50%);
+  position:absolute;right:7px;top:50%;transform:translateY(-50%);
   display:flex;gap:2px;opacity:0;pointer-events:none;transition:opacity .15s;
-  background:#1a1c2a;border-radius:5px;padding:2px 4px;z-index:5;
+  background:#1a1c2a;border-radius:6px;padding:3px 4px;z-index:5;
+  border:1px solid #2a2d3e;
 }
 .msg-action-btn{
   background:none;border:none;color:#6e7290;cursor:pointer;
-  padding:3px 5px;border-radius:4px;font-size:11px;line-height:1;
+  padding:4px 6px;border-radius:4px;display:flex;align-items:center;justify-content:center;
+  touch-action:manipulation;
 }
 .msg-action-btn:hover{color:#fff;background:#2f3247}
+.msg-action-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
+/* inline edit */
 .msg-edit-wrap{margin-top:3px}
 .msg-edit-input{
   background:#2a2d3e;color:#e8e9f0;border:1px solid #4a4f68;border-radius:4px;
-  padding:4px 8px;font-size:13px;font-family:inherit;width:100%;resize:none;outline:none;
+  padding:5px 8px;font-size:13px;font-family:inherit;width:100%;resize:none;outline:none;
 }
 .msg-edit-input:focus{border-color:#6e8efb}
 .msg-edit-btns{display:flex;gap:5px;margin-top:3px}
 .msg-edit-save,.msg-edit-cancel{
-  font-size:11px;padding:3px 9px;border-radius:4px;border:none;cursor:pointer;font-family:inherit;
+  font-size:11px;padding:4px 10px;border-radius:4px;border:none;cursor:pointer;font-family:inherit;
+  touch-action:manipulation;
 }
 .msg-edit-save{background:#6e8efb;color:#fff}
 .msg-edit-save:hover{background:#5a7af0}
 .msg-edit-cancel{background:#2f3247;color:#a0a4bf}
 .msg-edit-cancel:hover{background:#3a3d52}
 
-/* ── أسفل ── */
-.chat-bottom{flex-shrink:0;background:#0d0d0e;}
+/* ═══════════════════ BOTTOM ═══════════════════ */
+.chat-bottom{
+  flex-shrink:0;background:#0d0d0e;
+  /* safe area bottom already on .chat-panel */
+}
 .chat-input-divider{background:#1a1c2a;height:1px}
-.upload-preview-bar{display:none;flex-wrap:wrap;gap:6px;padding:6px 10px 0;}
+
+/* upload preview */
+.upload-preview-bar{display:none;flex-wrap:wrap;gap:6px;padding:6px 10px 0}
 .preview-item{position:relative;display:inline-flex}
-.preview-thumb{width:52px;height:52px;border-radius:6px;object-fit:cover;background:#2a2d3e;}
+.preview-thumb{width:50px;height:50px;border-radius:6px;object-fit:cover;background:#2a2d3e}
 .preview-file-chip{
   background:#2a2d3e;border-radius:6px;padding:5px 9px;
-  font-size:11px;color:#a0a4bf;max-width:140px;
+  font-size:11px;color:#a0a4bf;max-width:130px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   display:flex;align-items:center;gap:4px;
 }
@@ -219,136 +307,172 @@ body{background:#252836}
   position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;
   background:#e53e3e;color:#fff;border:none;font-size:10px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;line-height:1;
+  touch-action:manipulation;
 }
-.attach-bar{display:flex;align-items:center;padding:5px 10px 0;gap:2px;}
+
+/* upload progress */
+.upload-progress-wrap{display:none;padding:5px 10px;background:#0d0d0e}
+.upload-progress-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.upload-progress-label,.upload-progress-pct{font-size:11px;color:#a0a4bf}
+.upload-progress-pct{color:#6e8efb;font-weight:600}
+.upload-progress-bar{width:100%;height:3px;background:#2a2d3e;border-radius:2px;overflow:hidden}
+.upload-progress-fill{height:100%;background:linear-gradient(90deg,#6e8efb,#a78bfa);border-radius:2px;transition:width .3s;width:0%}
+
+/* attach bar */
+.attach-bar{display:flex;align-items:center;padding:4px 8px 0;gap:1px}
 .attach-btn{
   background:none;border:none;color:#5e6278;cursor:pointer;
-  padding:3px 5px;border-radius:4px;font-size:15px;line-height:1;transition:color .15s,background .15s;
+  padding:5px 6px;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  transition:color .15s,background .15s;touch-action:manipulation;
+  min-width:34px;min-height:34px; /* touch target */
 }
 .attach-btn:hover{color:#a0a4bf;background:#2a2d3e}
+.attach-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #fileInput{display:none}
 
-.upload-progress-wrap{display:none;padding:5px 10px;background:#0d0d0e;}
-.upload-progress-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
-.upload-progress-label{font-size:11px;color:#a0a4bf;}
-.upload-progress-pct{font-size:11px;color:#6e8efb;font-weight:600;}
-.upload-progress-bar{width:100%;height:3px;background:#2a2d3e;border-radius:2px;overflow:hidden;}
-.upload-progress-fill{
-  height:100%;background:linear-gradient(90deg,#6e8efb,#a78bfa);
-  border-radius:2px;transition:width .3s ease;width:0%;
-}
+/* typing bar */
+.typing-bar{padding:1px 12px 2px;font-size:11px;color:#5e6278;min-height:16px}
 
-.typing-bar{padding:1px 12px 2px;font-size:11px;color:#5e6278;min-height:16px;}
-.input-wrap{padding:6px 10px 8px;display:flex;align-items:flex-end;gap:6px;}
+/* input row */
+.input-wrap{padding:5px 8px 7px;display:flex;align-items:flex-end;gap:6px}
 .chat-textarea{
   flex:1;background:#252836;color:#e8e9f0;border:none;outline:none;
-  border-radius:5px;padding:8px 10px;font-size:13px;font-family:inherit;
+  border-radius:5px;padding:8px 10px;font-size:14px;font-family:inherit;
   resize:none;min-height:36px;max-height:100px;line-height:1.45;
+  -webkit-appearance:none;touch-action:manipulation;
 }
 .chat-textarea::placeholder{color:#3e4260}
+/* prevent iOS zoom on focus */
+@supports (-webkit-touch-callout: none){
+  .chat-textarea{font-size:16px}
+  .signin-input{font-size:16px}
+}
+
 .send-btn{
   background:#6e8efb;color:#fff;border:none;border-radius:5px;
-  padding:7px 14px;font-size:13px;font-family:inherit;
+  padding:0;width:36px;height:36px;min-width:36px;
+  display:flex;align-items:center;justify-content:center;
   cursor:pointer;flex-shrink:0;transition:background .15s;
+  touch-action:manipulation;
 }
 .send-btn:hover{background:#5a7af0}
 .send-btn:disabled{background:#2f3247;color:#5e6278;cursor:default}
+.send-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* Sign in */
+/* ═══════════════════ SIGNIN OVERLAY ═══════════════════ */
 .signin-overlay{
-  position:absolute;inset:0;background:rgba(13,13,14,.5);z-index:50;
-  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:24px;
+  position:absolute;inset:0;
+  background:rgba(13,13,14,.55);
+  z-index:50;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;
+  padding:0 12px 28px;
 }
 .signin-box{
-  background:#1a1c2a;border-radius:8px;padding:16px 20px;
-  display:flex;flex-direction:column;align-items:center;gap:10px;min-width:280px;
-  border:1px solid #2a2d3e;
+  background:#1a1c2a;border-radius:10px;padding:16px 18px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  width:100%;max-width:360px;border:1px solid #2a2d3e;
 }
-.signin-title{color:#9fa3be;font-size:13px;font-weight:600;letter-spacing:.2px;}
+.signin-title{color:#9fa3be;font-size:13px;font-weight:600;letter-spacing:.2px}
 .signin-row{display:flex;gap:8px;width:100%}
 .signin-input{
   flex:1;background:#252836;color:#e8e9f0;border:1px solid #3a3d52;border-radius:4px;
-  padding:7px 10px;font-size:13px;font-family:inherit;outline:none;
+  padding:8px 10px;font-family:inherit;outline:none;
+  -webkit-appearance:none;
 }
 .signin-input:focus{border-color:#6e8efb}
 .signin-input::placeholder{color:#3e4260}
+
 .consent-notice{
   background:#1f2233;border:1px solid #2a2d3e;border-radius:6px;
   padding:10px 12px;font-size:11px;color:#6e7290;line-height:1.65;width:100%;
 }
-.consent-notice b{color:#a0a4bf;font-weight:600;}
-.consent-btns{display:flex;gap:7px;width:100%;}
+.consent-notice b{color:#a0a4bf;font-weight:600}
+.consent-btns{display:flex;gap:7px;width:100%}
 .consent-accept{
   flex:1;background:#6e8efb;color:#fff;border:none;border-radius:4px;
-  padding:8px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:600;transition:background .15s;
+  padding:9px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:600;
+  transition:background .15s;touch-action:manipulation;
 }
 .consent-accept:hover{background:#5a7af0}
 .consent-decline{
   flex:1;background:#2a2d3e;color:#6e7290;border:1px solid #3a3d52;border-radius:4px;
-  padding:8px;font-size:12px;font-family:inherit;cursor:pointer;transition:background .15s;
+  padding:9px;font-size:12px;font-family:inherit;cursor:pointer;
+  transition:background .15s;touch-action:manipulation;
 }
 .consent-decline:hover{background:#333650;color:#a0a4bf}
 
-/* Sidebar */
-.sidebar-list{flex:1;overflow-y:auto;padding:8px 0;}
-.presence-item{display:flex;align-items:center;gap:9px;padding:6px 12px;}
-.presence-avatar{
-  width:28px;height:28px;border-radius:50%;
-  background:#2f3247 center/cover no-repeat;flex-shrink:0;position:relative;
-}
-.presence-dot{
-  position:absolute;bottom:0;right:0;width:8px;height:8px;border-radius:50%;
-  background:#22c55e;border:1.5px solid #1d1f2e;
-}
-.presence-name{font-size:12px;color:#a0a4bf;font-weight:500}
-.presence-name.anon{color:#5e6278;font-style:italic}
-.sidebar-footer{padding:6px 12px 8px;border-top:1px solid #252836;flex-shrink:0;}
-.online-count-txt{font-size:11px;color:#22c55e;font-weight:600}
-
-/* Lightbox */
+/* ═══════════════════ LIGHTBOX ═══════════════════ */
 .lightbox{
-  position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;
+  position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;
   display:none;align-items:center;justify-content:center;
+  padding:12px;
 }
 .lightbox.open{display:flex}
-.lightbox img{max-width:92vw;max-height:92vh;border-radius:6px;box-shadow:0 20px 80px rgba(0,0,0,.8);}
+.lightbox img{max-width:100%;max-height:90dvh;border-radius:6px;box-shadow:0 16px 64px rgba(0,0,0,.8);object-fit:contain}
 .lightbox-close{
-  position:absolute;top:14px;right:18px;background:rgba(255,255,255,.1);
-  border:none;color:#fff;font-size:20px;cursor:pointer;
-  border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  position:absolute;top:12px;right:14px;background:rgba(255,255,255,.12);
+  border:none;color:#fff;cursor:pointer;border-radius:50%;
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  touch-action:manipulation;
 }
-.lightbox-close:hover{background:rgba(255,255,255,.2)}
+.lightbox-close:hover{background:rgba(255,255,255,.22)}
+.lightbox-close svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
-/* Toast */
+/* ═══════════════════ TOAST ═══════════════════ */
 .toast{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);
-  background:#2f3247;color:#e8e9f0;padding:8px 18px;border-radius:5px;
-  font-size:12px;z-index:300;transition:transform .25s,opacity .25s;opacity:0;pointer-events:none;
+  position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));
+  left:50%;transform:translateX(-50%) translateY(60px);
+  background:#2f3247;color:#e8e9f0;padding:8px 16px;border-radius:6px;
+  font-size:12px;z-index:300;transition:transform .25s,opacity .25s;
+  opacity:0;pointer-events:none;white-space:nowrap;max-width:90vw;
+  overflow:hidden;text-overflow:ellipsis;
 }
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
-.toast.error{background:#7f1d1d;color:#fca5a5;}
-.toast.success{background:#14532d;color:#86efac;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.error{background:#7f1d1d;color:#fca5a5}
+.toast.success{background:#14532d;color:#86efac}
 </style>
 </head>
 <body>
 
 <div class="app">
+
+  <!-- ════ CHAT PANEL ════ -->
   <div class="chat-panel">
+
+    <!-- Top bar -->
     <div class="chat-top">
       <div class="chat-title" id="chatTitle">Google</div>
+      <!-- Mobile sidebar toggle -->
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Show online users">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a8fac" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0 1 12 0v2"/>
+          <circle cx="19" cy="7" r="2.5" fill="#22c55e" stroke="none"/>
+        </svg>
+        <span id="mobileOnlineCount" style="font-size:10px;color:#22c55e;font-weight:700;margin-left:2px">0</span>
+      </button>
     </div>
+
+    <!-- Messages -->
     <div class="chat-messages-wrap" id="messagesWrap">
       <div class="chat-messages" id="chatMessages">
         <div class="chat-welcome-message" style="color:#0d0d0e;font-size:0"></div>
       </div>
     </div>
+
+    <!-- Typing -->
     <div class="typing-bar" id="typingBar"></div>
+
+    <!-- Input (hidden until signed in) -->
     <div class="chat-bottom" id="chatBottom" style="display:none">
       <div class="chat-input-divider"></div>
       <div class="attach-bar">
-        <button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()">📎</button>
-        <input type="file" id="fileInput" multiple
-               accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar"/>
+        <!-- Paperclip / attach -->
+        <button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()" aria-label="Attach file">
+          <svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+        </button>
+        <input type="file" id="fileInput" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar"/>
       </div>
       <div class="upload-preview-bar" id="uploadPreviewBar"></div>
       <div class="upload-progress-wrap" id="uploadProgressWrap">
@@ -362,17 +486,24 @@ body{background:#252836}
       </div>
       <div class="input-wrap">
         <textarea class="chat-textarea" id="chatInput"
-                  placeholder="Type a message and press enter" rows="1"></textarea>
-        <button class="send-btn" id="sendBtn" disabled>Send</button>
+                  placeholder="Type a message and press enter"
+                  rows="1"
+                  enterkeyhint="send"></textarea>
+        <button class="send-btn" id="sendBtn" disabled aria-label="Send">
+          <!-- Paper plane send icon -->
+          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
       </div>
     </div>
 
+    <!-- Signin overlay -->
     <div class="signin-overlay" id="signinOverlay">
       <div class="signin-box">
         <div class="signin-title">Sign in as a Guest</div>
         <div class="signin-row">
           <input class="signin-input" id="nameInput" type="text"
-                 placeholder="Your name" maxlength="30" autocomplete="off"/>
+                 placeholder="Your name" maxlength="30" autocomplete="off"
+                 inputmode="text" enterkeyhint="done"/>
         </div>
         <div class="consent-notice">
           📎 <b>ملاحظة حول الملفات:</b> إذا أرسلت صوراً أو ملفات أو فيديوهات في هذه المحادثة،
@@ -385,31 +516,45 @@ body{background:#252836}
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="sidebar">
+  </div><!-- /chat-panel -->
+
+  <!-- ════ SIDEBAR ════ -->
+  <div class="sidebar" id="sidebar">
     <div class="sidebar-list" id="presenceList"></div>
     <div class="sidebar-footer">
+      <!-- Users icon -->
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
       <div class="online-count-txt" id="onlineCountEl">0 online</div>
     </div>
   </div>
-</div>
 
+  <!-- Mobile sidebar backdrop -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+</div><!-- /app -->
+
+<!-- Lightbox -->
 <div class="lightbox" id="lightbox">
-  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
   <img id="lightboxImg" src="" alt=""/>
 </div>
+
 <div class="toast" id="toast"></div>
 
 <script type="text/javascript">
-/* ═══════════════════════════════════════════════════════
-   ⚙️ الإعدادات — غيّر هذا السطر فقط بعد نشر السكريبت
-═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   ⚙️ Apps Script URL — ضع رابطك هنا
+═══════════════════════════════════════════════ */
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9WjzuUmD--58Y6ncxGOhYduXhoJBecIbYA1jzWakRtm7en_-sgNztlnL2XMA3kg/exec';
 
-/* ═══════════════════════════════════════════════════════
-   FIREBASE
-═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   🔥 FIREBASE — من مشروعك
+═══════════════════════════════════════════════ */
 var firebaseConfig = {
   apiKey           : "AIzaSyD0unPjbthUtdiUAwNzp2Z8NeMNAW3a6hM",
   authDomain       : "haider-portfolio-26965.firebaseapp.com",
@@ -436,21 +581,42 @@ var isSending     = false;
 var userConsented = false;
 var DEFAULT_AVATAR = 'https://d167qii8h0pw75.cloudfront.net/images/D/E/F/DEFAULTUSER-resize_38x38.png';
 
-/* ═══════════════════════════════════════════════════════
-   DEVICE ID
-═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   MOBILE SIDEBAR TOGGLE
+═══════════════════════════════════════════════ */
+var sidebar         = document.getElementById('sidebar');
+var sidebarBackdrop = document.getElementById('sidebarBackdrop');
+var sidebarToggle   = document.getElementById('sidebarToggle');
+
+sidebarToggle.addEventListener('click', openSidebar);
+sidebarBackdrop.addEventListener('click', closeSidebar);
+
+function openSidebar() {
+  sidebar.classList.add('open');
+  sidebarBackdrop.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  sidebarBackdrop.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+/* ═══════════════════════════════════════════════
+   DEVICE FINGERPRINT
+═══════════════════════════════════════════════ */
 function getDeviceId() {
   var saved = localStorage.getItem('__chatDeviceId');
   if (saved) return Promise.resolve(saved);
   try {
     var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext('2d');
+    var ctx    = canvas.getContext('2d');
     ctx.textBaseline = 'top'; ctx.font = '14px Plus Jakarta Sans';
     ctx.fillStyle = '#f60'; ctx.fillRect(125,1,62,20);
     ctx.fillStyle = '#069'; ctx.fillText('fp', 2, 2);
     var raw = canvas.toDataURL() + navigator.userAgent + screen.width + screen.height;
     return crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw)).then(function(buf){
-      var id = 'dev_' + Array.from(new Uint8Array(buf)).map(function(b){return b.toString(36)}).join('').substr(0,18);
+      var id = 'dev_' + Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(36); }).join('').substr(0,18);
       localStorage.setItem('__chatDeviceId', id);
       return id;
     });
@@ -461,9 +627,9 @@ function getDeviceId() {
   }
 }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════
    INIT
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════ */
 (function init() {
   var savedName    = localStorage.getItem('__chatUserName');
   var savedConsent = localStorage.getItem('__chatConsent');
@@ -479,160 +645,85 @@ function autoSignIn(name, devId) {
   document.getElementById('chatBottom').style.display    = 'block';
   registerNamedPresence(name, devId);
   subscribeMessages();
-  document.getElementById('chatInput').focus();
+  setTimeout(function(){ document.getElementById('chatInput').focus(); }, 300);
 }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════
    SIGN IN
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════ */
 document.getElementById('signinBtn').addEventListener('click', function(){
-  userConsented = true;
-  localStorage.setItem('__chatConsent','yes');
-  doSignIn();
+  userConsented = true; localStorage.setItem('__chatConsent','yes'); doSignIn();
 });
 document.getElementById('declineBtn').addEventListener('click', function(){
-  userConsented = false;
-  localStorage.setItem('__chatConsent','no');
-  doSignIn();
+  userConsented = false; localStorage.setItem('__chatConsent','no'); doSignIn();
 });
 document.getElementById('nameInput').addEventListener('keydown', function(e){
-  if (e.key === 'Enter') {
-    userConsented = true;
-    localStorage.setItem('__chatConsent','yes');
-    doSignIn();
-  }
+  if (e.key === 'Enter') { userConsented = true; localStorage.setItem('__chatConsent','yes'); doSignIn(); }
 });
 
 function doSignIn() {
   var name = document.getElementById('nameInput').value.trim();
-  if (!name) {
-    document.getElementById('nameInput').focus();
-    return;
-  }
+  if (!name) { document.getElementById('nameInput').focus(); return; }
 
   var btn = document.getElementById('signinBtn');
-  btn.disabled = true;
-  btn.textContent = '...';
+  btn.disabled = true; btn.textContent = '...';
 
   getDeviceId()
     .then(function(devId) {
-      // مهم: سجّل الدخول أولاً، ثم اكتب في Firestore.
-      // إذا كتبت قبل تسجيل الدخول فستفشل العملية عندما تكون قواعد Firestore تتطلب request.auth.
       var authP = auth.currentUser
         ? Promise.resolve(auth.currentUser)
-        : auth.signInAnonymously().then(function(r) { return r.user; });
-
-      return authP.then(function() { return devId; });
+        : auth.signInAnonymously().then(function(r){ return r.user; });
+      return authP.then(function(){ return devId; });
     })
     .then(function(devId) {
-      var userRef = db.collection('users').doc(devId);
-
-      return userRef.get().then(function(snap) {
-        var payload = {
-          name: name,
-          deviceId: devId,
-          lastSeen: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        if (snap.exists) {
-          return userRef.update(payload);
-        }
-
-        payload.created = firebase.firestore.FieldValue.serverTimestamp();
-        return userRef.set(payload);
-      }).then(function() {
-        return devId;
-      });
+      var ref = db.collection('users').doc(devId);
+      return ref.get().then(function(snap){
+        var payload = { name: name, deviceId: devId, lastSeen: firebase.firestore.FieldValue.serverTimestamp() };
+        return snap.exists ? ref.update(payload) : ref.set(Object.assign(payload,{ created: firebase.firestore.FieldValue.serverTimestamp() }));
+      }).then(function(){ return devId; });
     })
     .then(function(devId) {
       localStorage.setItem('__chatUserName', name);
       autoSignIn(name, devId);
     })
     .catch(function(e) {
-      console.error('Sign in error:', e);
-
       var msg = 'حدث خطأ، حاول مرة أخرى';
-
-      if (e && e.code === 'auth/admin-restricted-operation') {
-        msg = 'فعّل Anonymous sign-in من Firebase Authentication';
-      } else if (e && (e.code === 'permission-denied' || e.message === 'Missing or insufficient permissions.')) {
-        msg = 'مشكلة في قواعد Firestore: لا توجد صلاحية للكتابة';
-      } else if (e && e.code === 'auth/network-request-failed') {
-        msg = 'مشكلة اتصال بالإنترنت أو حظر لطلبات Firebase';
-      } else if (e && e.code) {
-        msg = 'خطأ: ' + e.code;
-      } else if (e && e.message) {
-        msg = 'خطأ: ' + e.message;
-      }
-
+      if (e && e.code === 'auth/admin-restricted-operation') msg = 'فعّل Anonymous sign-in من Firebase';
+      else if (e && e.code) msg = 'خطأ: ' + e.code;
       showToast(msg, 'error');
-      btn.disabled = false;
-      btn.textContent = 'أوافق وأدخل';
+      btn.disabled = false; btn.textContent = 'أوافق وأدخل';
     });
 }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════
    UPLOAD — Google Apps Script Proxy
-   المستخدم لا يتدخل بأي شيء — كل شيء في الخلفية
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════ */
 function uploadViaAppsScript(file, idx, total) {
   return new Promise(function(resolve, reject){
-
-    if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'ضع_رابط_السكريبت_هنا') {
-      reject(new Error('script/not-configured'));
-      return;
+    if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf('ضع') >= 0) {
+      reject(new Error('script/not-configured')); return;
     }
-
     var reader = new FileReader();
-    reader.onload = function(e){
+    reader.onload = function(e) {
       var base64 = e.target.result.split(',')[1];
       var previewPromise = createMediaPreviewDataUrl(file);
-
-      setProgressPct(Math.round((idx / total) * 70), idx + 1, total);
-
+      setProgressPct(Math.round((idx/total)*70), idx+1, total);
       fetch(APPS_SCRIPT_URL, {
-        method : 'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body   : JSON.stringify({
-          name : file.name,
-          mime : file.type || 'application/octet-stream',
-          data : base64,
-          size : file.size
-        })
+        method:'POST', headers:{'Content-Type':'text/plain'},
+        body: JSON.stringify({ name:file.name, mime:file.type||'application/octet-stream', data:base64, size:file.size })
       })
-      .then(function(res){
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
-      })
+      .then(function(res){ if(!res.ok) throw new Error('HTTP '+res.status); return res.json(); })
       .then(function(json){
-        if (!json.success) throw new Error(json.error || 'Apps Script error');
-
-        var fileId   = json.fileId || json.id || json.file_id || json.driveFileId || json.driveId || "";
+        if (!json.success) throw new Error(json.error||'Apps Script error');
+        var fileId = json.fileId||json.id||json.file_id||json.driveFileId||json.driveId||'';
         var fileType = detectFileType(file.type, file.name);
-
-        // Apps Script proxy URL. If doGet is configured correctly, this displays the image directly.
-        var proxyUrl = APPS_SCRIPT_URL + '?action=serve&id=' + encodeURIComponent(fileId);
-
-        // Backup Google Drive URLs for preview/opening.
-        var driveUrl     = 'https://drive.google.com/file/d/' + fileId + '/view';
-        var thumbnailUrl = 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(fileId) + '&sz=w1200';
-        var directUrl    = 'https://drive.google.com/uc?export=view&id=' + encodeURIComponent(fileId);
-
-        setProgressPct(Math.round(((idx + 1) / total) * 100), idx + 1, total);
-
+        var proxyUrl = APPS_SCRIPT_URL+'?action=serve&id='+encodeURIComponent(fileId);
+        var driveUrl = 'https://drive.google.com/file/d/'+fileId+'/view';
+        var thumbnailUrl = 'https://drive.google.com/thumbnail?id='+encodeURIComponent(fileId)+'&sz=w1200';
+        var directUrl = 'https://drive.google.com/uc?export=view&id='+encodeURIComponent(fileId);
+        setProgressPct(Math.round(((idx+1)/total)*100), idx+1, total);
         return previewPromise.then(function(previewUrl){
-          resolve({
-            url         : proxyUrl,
-            previewUrl  : previewUrl,
-            thumbnailUrl: thumbnailUrl,
-            directUrl   : directUrl,
-            driveUrl    : driveUrl,
-            fileId      : fileId,
-            type        : fileType,
-            name        : file.name,
-            size        : file.size,
-            mime        : file.type
-          });
+          resolve({ url:proxyUrl, previewUrl:previewUrl, thumbnailUrl:thumbnailUrl, directUrl:directUrl, driveUrl:driveUrl, fileId:fileId, type:fileType, name:file.name, size:file.size, mime:file.type });
         });
       })
       .catch(reject);
@@ -643,495 +734,248 @@ function uploadViaAppsScript(file, idx, total) {
 }
 
 function createMediaPreviewDataUrl(file) {
-  if (!file || !file.type) return Promise.resolve(null);
+  if (!file||!file.type) return Promise.resolve(null);
   var t = file.type.toLowerCase();
   if (t.startsWith('image/')) return createImagePreviewDataUrl(file);
   if (t.startsWith('video/')) return createVideoPosterDataUrl(file);
   return Promise.resolve(null);
 }
-
 function createImagePreviewDataUrl(file) {
-  return new Promise(function(resolve) {
+  return new Promise(function(resolve){
     try {
-      if (!file || !file.type || !file.type.toLowerCase().startsWith('image/')) { resolve(null); return; }
+      if (!file.type.toLowerCase().startsWith('image/')) { resolve(null); return; }
       var img = new Image();
-      var objectUrl = URL.createObjectURL(file);
-      img.onload = function() {
+      var url = URL.createObjectURL(file);
+      img.onload = function(){
         try {
-          var maxSide = 420;
-          var w = img.naturalWidth || img.width;
-          var h = img.naturalHeight || img.height;
-          if (!w || !h) { URL.revokeObjectURL(objectUrl); resolve(null); return; }
-          var scale = Math.min(1, maxSide / Math.max(w, h));
-          var canvas = document.createElement('canvas');
-          canvas.width = Math.max(1, Math.round(w * scale));
-          canvas.height = Math.max(1, Math.round(h * scale));
-          var ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          var dataUrl = canvas.toDataURL('image/jpeg', 0.55);
-          URL.revokeObjectURL(objectUrl);
-          resolve(dataUrl);
-        } catch(e) { try { URL.revokeObjectURL(objectUrl); } catch(_) {} resolve(null); }
+          var maxSide=420, w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+          if (!w||!h){ URL.revokeObjectURL(url); resolve(null); return; }
+          var scale=Math.min(1,maxSide/Math.max(w,h));
+          var canvas=document.createElement('canvas');
+          canvas.width=Math.max(1,Math.round(w*scale)); canvas.height=Math.max(1,Math.round(h*scale));
+          canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+          URL.revokeObjectURL(url);
+          resolve(canvas.toDataURL('image/jpeg',0.55));
+        } catch(e){ try{URL.revokeObjectURL(url);}catch(_){} resolve(null); }
       };
-      img.onerror = function() { try { URL.revokeObjectURL(objectUrl); } catch(_) {} resolve(null); };
-      img.src = objectUrl;
-    } catch(e) { resolve(null); }
+      img.onerror=function(){ try{URL.revokeObjectURL(url);}catch(_){} resolve(null); };
+      img.src=url;
+    } catch(e){ resolve(null); }
   });
 }
-
 function createVideoPosterDataUrl(file) {
-  return new Promise(function(resolve) {
+  return new Promise(function(resolve){
     try {
-      if (!file || !file.type || !file.type.toLowerCase().startsWith('video/')) { resolve(null); return; }
-      var video = document.createElement('video');
-      var objectUrl = URL.createObjectURL(file);
-      var done = false;
-      function finish(value) {
-        if (done) return;
-        done = true;
-        try { URL.revokeObjectURL(objectUrl); } catch(_) {}
-        resolve(value || null);
-      }
-      video.muted = true;
-      video.playsInline = true;
-      video.preload = 'metadata';
-      video.onloadeddata = function() {
+      var video=document.createElement('video'), url=URL.createObjectURL(file), done=false;
+      function finish(v){ if(done)return; done=true; try{URL.revokeObjectURL(url);}catch(_){} resolve(v||null); }
+      function drawPoster(){
         try {
-          var seekTo = Math.min(0.8, Math.max(0, (video.duration || 1) / 10));
-          if (isFinite(seekTo)) video.currentTime = seekTo;
-        } catch(e) { drawPoster(); }
-      };
-      video.onseeked = drawPoster;
-      video.onerror = function(){ finish(null); };
-      setTimeout(function(){ if (!done) drawPoster(); }, 2000);
-      function drawPoster() {
-        try {
-          var w = video.videoWidth;
-          var h = video.videoHeight;
-          if (!w || !h) { finish(null); return; }
-          var maxSide = 520;
-          var scale = Math.min(1, maxSide / Math.max(w, h));
-          var canvas = document.createElement('canvas');
-          canvas.width = Math.max(1, Math.round(w * scale));
-          canvas.height = Math.max(1, Math.round(h * scale));
-          var ctx = canvas.getContext('2d');
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          finish(canvas.toDataURL('image/jpeg', 0.52));
-        } catch(e) { finish(null); }
+          var w=video.videoWidth, h=video.videoHeight;
+          if(!w||!h){ finish(null); return; }
+          var scale=Math.min(1,520/Math.max(w,h));
+          var canvas=document.createElement('canvas');
+          canvas.width=Math.max(1,Math.round(w*scale)); canvas.height=Math.max(1,Math.round(h*scale));
+          canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);
+          finish(canvas.toDataURL('image/jpeg',0.52));
+        } catch(e){ finish(null); }
       }
-      video.src = objectUrl;
-      video.load();
-    } catch(e) { resolve(null); }
+      video.muted=true; video.playsInline=true; video.preload='metadata';
+      video.onloadeddata=function(){ var s=Math.min(0.8,Math.max(0,(video.duration||1)/10)); if(isFinite(s)) video.currentTime=s; else drawPoster(); };
+      video.onseeked=drawPoster; video.onerror=function(){ finish(null); };
+      setTimeout(function(){ if(!done) drawPoster(); }, 2000);
+      video.src=url; video.load();
+    } catch(e){ resolve(null); }
   });
 }
-
-function detectFileType(mime, name) {
-  var m = (mime || '').toLowerCase();
-  var n = (name || '').toLowerCase();
-  if (m.startsWith('image/') || /\.(jpg|jpeg|png|gif|webp|svg|bmp)$/i.test(n)) return 'image';
-  if (m.startsWith('video/') || /\.(mp4|webm|ogg|mov|avi|mkv|m4v)$/i.test(n))  return 'video';
-  if (m.startsWith('audio/') || /\.(mp3|wav|aac|flac|m4a|ogg)$/i.test(n))      return 'audio';
+function detectFileType(mime,name){
+  var m=(mime||'').toLowerCase(), n=(name||'').toLowerCase();
+  if(m.startsWith('image/')||/\.(jpg|jpeg|png|gif|webp|svg|bmp)$/i.test(n)) return 'image';
+  if(m.startsWith('video/')||/\.(mp4|webm|ogg|mov|avi|mkv|m4v)$/i.test(n))  return 'video';
+  if(m.startsWith('audio/')||/\.(mp3|wav|aac|flac|m4a|ogg)$/i.test(n))      return 'audio';
   return 'file';
 }
-
-function formatFileSize(bytes) {
-  if (!bytes) return '';
-  if (bytes < 1024)      return bytes + ' B';
-  if (bytes < 1048576)   return (bytes/1024).toFixed(1) + ' KB';
-  return (bytes/1048576).toFixed(1) + ' MB';
+function formatFileSize(b){ if(!b)return''; if(b<1024)return b+' B'; if(b<1048576)return(b/1024).toFixed(1)+' KB'; return(b/1048576).toFixed(1)+' MB'; }
+function getFileIcon(name,mime){
+  var ext=((name||'').split('.').pop()||'').toLowerCase();
+  var m=(mime||'').toLowerCase();
+  if(m.startsWith('audio/')||/^(mp3|wav|aac|flac|m4a)$/.test(ext)) return '🎵';
+  return({pdf:'📄',doc:'📝',docx:'📝',txt:'📃',zip:'🗜️',rar:'🗜️',xls:'📊',xlsx:'📊',csv:'📊',ppt:'📑',pptx:'📑'}[ext])||'📎';
 }
-
-function getFileIcon(name, mime) {
-  var ext = ((name||'').split('.').pop()||'').toLowerCase();
-  var m   = (mime||'').toLowerCase();
-  if (m.startsWith('audio/') || /^(mp3|wav|aac|flac|m4a)$/.test(ext)) return '🎵';
-  return {pdf:'📄',doc:'📝',docx:'📝',txt:'📃',zip:'🗜️',rar:'🗜️',
-          xls:'📊',xlsx:'📊',csv:'📊',ppt:'📑',pptx:'📑'}[ext] || '📎';
-}
-
-function uniqueUrls(list) {
-  var seen = {};
-  return list.filter(function(u){
-    if (!u || seen[u]) return false;
-    seen[u] = true;
-    return true;
-  });
-}
-
-function extractDriveFileIdFromUrl(url) {
-  url = String(url || '');
-  var m = url.match(/\/file\/d\/([^\/\?#]+)/);
-  if (m && m[1]) return m[1];
-  m = url.match(/[?&]id=([^&]+)/);
-  if (m && m[1]) return decodeURIComponent(m[1]);
-  return '';
-}
-
-function getAttachmentFileId(att) {
-  return att.fileId || att.id || att.file_id || att.driveFileId || att.driveId ||
-         extractDriveFileIdFromUrl(att.driveUrl) || extractDriveFileIdFromUrl(att.url) || '';
-}
-
-function getImageUrlCandidates(att) {
-  var urls = [];
-  if (att.previewUrl) urls.push(att.previewUrl);
-  if (att.url) urls.push(att.url);
-  if (att.thumbnailUrl) urls.push(att.thumbnailUrl);
-
-  if (att.fileId) {
-    urls.push('https://drive.google.com/thumbnail?id=' + encodeURIComponent(att.fileId) + '&sz=w1200');
-    urls.push('https://drive.google.com/uc?export=view&id=' + encodeURIComponent(att.fileId));
-    urls.push('https://lh3.googleusercontent.com/d/' + encodeURIComponent(att.fileId));
+function uniqueUrls(list){ var seen={}; return list.filter(function(u){ if(!u||seen[u])return false; seen[u]=true; return true; }); }
+function extractDriveId(url){ url=String(url||''); var m=url.match(/\/file\/d\/([^\/\?#]+)/); if(m&&m[1])return m[1]; m=url.match(/[?&]id=([^&]+)/); if(m&&m[1])return decodeURIComponent(m[1]); return''; }
+function getAttachmentFileId(att){ return att.fileId||att.id||att.file_id||att.driveFileId||att.driveId||extractDriveId(att.driveUrl)||extractDriveId(att.url)||''; }
+function getImageUrlCandidates(att){
+  var urls=[];
+  if(att.previewUrl) urls.push(att.previewUrl);
+  if(att.url) urls.push(att.url);
+  if(att.thumbnailUrl) urls.push(att.thumbnailUrl);
+  if(att.fileId){
+    urls.push('https://drive.google.com/thumbnail?id='+encodeURIComponent(att.fileId)+'&sz=w1200');
+    urls.push('https://drive.google.com/uc?export=view&id='+encodeURIComponent(att.fileId));
+    urls.push('https://lh3.googleusercontent.com/d/'+encodeURIComponent(att.fileId));
   }
-
-  if (att.directUrl) urls.push(att.directUrl);
-  if (att.driveUrl) urls.push(att.driveUrl);
+  if(att.directUrl) urls.push(att.directUrl);
+  if(att.driveUrl)  urls.push(att.driveUrl);
   return uniqueUrls(urls);
 }
-
-function handleImageError(img) {
-  var raw = img.getAttribute('data-fallbacks') || '%5B%5D';
-  var urls = [];
-
-  try {
-    urls = JSON.parse(decodeURIComponent(raw));
-  } catch(e) {
-    urls = [];
-  }
-
-  var nextIdx = parseInt(img.getAttribute('data-fallback-idx') || '0', 10) + 1;
-
-  if (nextIdx < urls.length) {
-    img.setAttribute('data-fallback-idx', String(nextIdx));
-    img.src = urls[nextIdx];
-    return;
-  }
-
-  img.classList.remove('loading');
-  img.style.opacity = '0.25';
-  img.title = 'تعذر عرض معاينة الصورة.';
+function handleImageError(img){
+  var urls=[]; try{ urls=JSON.parse(decodeURIComponent(img.getAttribute('data-fallbacks')||'%5B%5D')); }catch(e){}
+  var next=parseInt(img.getAttribute('data-fallback-idx')||'0',10)+1;
+  if(next<urls.length){ img.setAttribute('data-fallback-idx',String(next)); img.src=urls[next]; return; }
+  img.classList.remove('loading'); img.style.opacity='0.25'; img.title='تعذر عرض الصورة';
 }
-
-function getVideoUrlCandidates(att) {
-  var urls = [];
-  if (att.url) urls.push(att.url);
-  if (att.directUrl) urls.push(att.directUrl);
-  if (att.fileId) {
-    urls.push('https://drive.google.com/uc?export=download&id=' + encodeURIComponent(att.fileId));
-    urls.push('https://drive.google.com/uc?export=view&id=' + encodeURIComponent(att.fileId));
+function getVideoUrlCandidates(att){
+  var urls=[];
+  if(att.url) urls.push(att.url);
+  if(att.directUrl) urls.push(att.directUrl);
+  if(att.fileId){
+    urls.push('https://drive.google.com/uc?export=download&id='+encodeURIComponent(att.fileId));
+    urls.push('https://drive.google.com/uc?export=view&id='+encodeURIComponent(att.fileId));
   }
   return uniqueUrls(urls);
 }
+function formatVideoTime(s){ s=Math.max(0,Math.floor(s||0)); var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60; if(h>0)return h+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0'); return m+':'+String(sec).padStart(2,'0'); }
+function getVideoPlayer(el){ return el&&el.closest?el.closest('.video-player'):null; }
+function updateVideoPlayer(video){ var p=getVideoPlayer(video); if(!p)return; var r=p.querySelector('.video-seek'),t=p.querySelector('.video-time'),d=video.duration; if(r&&isFinite(d)&&d>0&&!r.dataset.dragging)r.value=String((video.currentTime/d)*100); if(t)t.textContent=formatVideoTime(video.currentTime)+' / '+(isFinite(d)?formatVideoTime(d):'0:00'); }
+function setVideoPlayingState(video){ var p=getVideoPlayer(video); if(!p)return; var btn=p.querySelector('.video-play-btn'); if(video.paused||video.ended){ p.classList.remove('playing'); if(btn)btn.textContent='▶'; }else{ p.classList.add('playing'); if(btn)btn.textContent='⏸'; } }
+function toggleVideoPlayer(player){ if(!player)return; var v=player.querySelector('video'); if(!v)return; v.paused||v.ended?v.play().catch(function(){showToast('تعذر تشغيل الفيديو','error');}):v.pause(); }
+function seekVideoPlayer(range){ var p=getVideoPlayer(range); if(!p)return; var v=p.querySelector('video'); if(!v||!isFinite(v.duration)||v.duration<=0)return; v.currentTime=(Number(range.value)/100)*v.duration; updateVideoPlayer(v); }
+function toggleVideoMute(btn){ var p=getVideoPlayer(btn); if(!p)return; var v=p.querySelector('video'); if(!v)return; v.muted=!v.muted; btn.textContent=v.muted?'🔇':'🔊'; }
+function fullscreenVideoPlayer(btn){ var p=getVideoPlayer(btn); if(!p)return; document.fullscreenElement?document.exitFullscreen():(p.requestFullscreen&&p.requestFullscreen()); }
+function handleVideoError(video){ var p=getVideoPlayer(video); if(!p)return; var urls=[]; try{urls=JSON.parse(decodeURIComponent(p.getAttribute('data-fallbacks')||'%5B%5D'));}catch(e){} var next=parseInt(p.getAttribute('data-fallback-idx')||'0',10)+1; if(next<urls.length){ p.setAttribute('data-fallback-idx',String(next)); video.src=urls[next]; video.load(); return; } p.classList.add('video-failed'); var err=p.querySelector('.video-error'); if(err)err.textContent='تعذر تشغيل الفيديو داخل المحادثة.'; }
+function uploadFilesSequentially(files){ var results=[]; function next(i){ if(i>=files.length)return Promise.resolve(results); return uploadViaAppsScript(files[i],i,files.length).then(function(a){ results.push(a); return next(i+1); }); } return next(0); }
 
-function formatVideoTime(seconds) {
-  seconds = Math.max(0, Math.floor(seconds || 0));
-  var h = Math.floor(seconds / 3600);
-  var m = Math.floor((seconds % 3600) / 60);
-  var s = seconds % 60;
-  if (h > 0) return h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-  return m + ':' + String(s).padStart(2,'0');
-}
-
-function getVideoPlayer(el) {
-  return el && el.closest ? el.closest('.video-player') : null;
-}
-
-function updateVideoPlayer(video) {
-  var player = getVideoPlayer(video);
-  if (!player) return;
-  var range = player.querySelector('.video-seek');
-  var timeEl = player.querySelector('.video-time');
-  var duration = video.duration;
-  if (range && isFinite(duration) && duration > 0 && !range.dataset.dragging) {
-    range.value = String((video.currentTime / duration) * 100);
-  }
-  if (timeEl) {
-    timeEl.textContent = formatVideoTime(video.currentTime) + ' / ' + (isFinite(duration) ? formatVideoTime(duration) : '0:00');
-  }
-}
-
-function setVideoPlayingState(video) {
-  var player = getVideoPlayer(video);
-  if (!player) return;
-  var btn = player.querySelector('.video-play-btn');
-  if (video.paused || video.ended) {
-    player.classList.remove('playing');
-    if (btn) btn.textContent = '▶';
-  } else {
-    player.classList.add('playing');
-    if (btn) btn.textContent = '⏸';
-  }
-}
-
-function toggleVideoPlayer(player) {
-  if (!player) return;
-  var video = player.querySelector('video');
-  if (!video) return;
-  if (video.paused || video.ended) {
-    video.play().catch(function(){ showToast('تعذر تشغيل الفيديو','error'); });
-  } else {
-    video.pause();
-  }
-}
-
-function seekVideoPlayer(range) {
-  var player = getVideoPlayer(range);
-  if (!player) return;
-  var video = player.querySelector('video');
-  if (!video || !isFinite(video.duration) || video.duration <= 0) return;
-  video.currentTime = (Number(range.value) / 100) * video.duration;
-  updateVideoPlayer(video);
-}
-
-function toggleVideoMute(btn) {
-  var player = getVideoPlayer(btn);
-  if (!player) return;
-  var video = player.querySelector('video');
-  if (!video) return;
-  video.muted = !video.muted;
-  btn.textContent = video.muted ? '🔇' : '🔊';
-}
-
-function fullscreenVideoPlayer(btn) {
-  var player = getVideoPlayer(btn);
-  if (!player) return;
-  if (document.fullscreenElement) {
-    document.exitFullscreen();
-  } else if (player.requestFullscreen) {
-    player.requestFullscreen();
-  }
-}
-
-function handleVideoError(video) {
-  var player = getVideoPlayer(video);
-  if (!player) return;
-  var raw = player.getAttribute('data-fallbacks') || '%5B%5D';
-  var urls = [];
-  try { urls = JSON.parse(decodeURIComponent(raw)); } catch(e) { urls = []; }
-  var nextIdx = parseInt(player.getAttribute('data-fallback-idx') || '0', 10) + 1;
-  if (nextIdx < urls.length) {
-    player.setAttribute('data-fallback-idx', String(nextIdx));
-    video.src = urls[nextIdx];
-    video.load();
-    return;
-  }
-  player.classList.add('video-failed');
-  var err = player.querySelector('.video-error');
-  if (err) err.textContent = 'تعذر تشغيل الفيديو داخل المحادثة. تأكد من أن Apps Script يرجع الفيديو بصيغة صحيحة ويدعم عرضه.';
-}
-
-function uploadFilesSequentially(files) {
-  var results = [];
-  function next(i) {
-    if (i >= files.length) return Promise.resolve(results);
-    return uploadViaAppsScript(files[i], i, files.length)
-      .then(function(att){ results.push(att); return next(i+1); });
-  }
-  return next(0);
-}
-
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════
    SEND
-═══════════════════════════════════════════════════════ */
+═══════════════════════════════════════════════ */
 document.getElementById('chatInput').addEventListener('keydown', function(e){
-  if (e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); }
+  /* mobile: Enter sends, Shift+Enter newline */
+  if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
 document.getElementById('sendBtn').addEventListener('click', sendMessage);
-document.getElementById('chatInput').addEventListener('input', function(){
-  autoResize(this); handleTyping(); updateSendBtn();
-});
+document.getElementById('chatInput').addEventListener('input', function(){ autoResize(this); handleTyping(); updateSendBtn(); });
 
-function sendMessage() {
-  if (!isSignedIn || isSending) return;
+function sendMessage(){
+  if (!isSignedIn||isSending) return;
   var text  = document.getElementById('chatInput').value.trim();
-  var files = pendingFiles.filter(function(f){ return f != null; });
-  if (!text && !files.length) return;
-
-  if (files.length > 0 && !userConsented) {
-    showToast('لم توافق على مشاركة الملفات عند الدخول','error');
-    return;
-  }
+  var files = pendingFiles.filter(function(f){ return f!=null; });
+  if (!text&&!files.length) return;
+  if (files.length>0&&!userConsented){ showToast('لم توافق على مشاركة الملفات','error'); return; }
 
   isSending = true;
   var btn = document.getElementById('sendBtn');
-  btn.disabled = true; btn.textContent = '...';
+  btn.disabled=true;
 
-  var savedText  = text;
-  var savedFiles = files.slice();
-
-  document.getElementById('chatInput').value = '';
+  var savedText=text, savedFiles=files.slice();
+  document.getElementById('chatInput').value='';
   autoResize(document.getElementById('chatInput'));
   clearUploadPreview(); stopTyping(); updateSendBtn();
 
-  if (!savedFiles.length) {
-    saveMsg(savedText, []).finally(finishSend);
-    return;
-  }
+  if (!savedFiles.length){ saveMsg(savedText,[]).finally(finishSend); return; }
 
   showUploadProgress(savedFiles.length);
   uploadFilesSequentially(savedFiles)
-    .then(function(atts){ hideUploadProgress(); return saveMsg(savedText, atts); })
-    .catch(function(e){
-      hideUploadProgress();
-      var msg = e.message || '';
-      if (msg === 'script/not-configured')
-        showToast('⚠️ ضع رابط Apps Script في الكود أولاً','error');
-      else
-        showToast('فشل الرفع: ' + msg,'error');
-    })
+    .then(function(atts){ hideUploadProgress(); return saveMsg(savedText,atts); })
+    .catch(function(e){ hideUploadProgress(); showToast(e.message==='script/not-configured'?'⚠️ ضع رابط Apps Script أولاً':'فشل الرفع: '+(e.message||''),'error'); })
     .finally(finishSend);
 
-  function finishSend() {
-    isSending = false;
-    btn.disabled = false; btn.textContent = 'Send';
-    updateSendBtn();
-  }
+  function finishSend(){ isSending=false; btn.disabled=false; updateSendBtn(); }
 }
 
-function saveMsg(text, attachments) {
+function saveMsg(text,attachments){
   return db.collection('rooms').doc(ROOM_ID).collection('messages').add({
-    text       : text,
-    attachments: attachments,
-    name       : currentUser.name,
-    type       : 'Guest',
-    deviceId   : currentUser.deviceId,
-    timestamp  : firebase.firestore.FieldValue.serverTimestamp(),
-    edited     : false
-  }).catch(function(e){ showToast('فشل حفظ الرسالة','error'); });
+    text:text, attachments:attachments,
+    name:currentUser.name, type:'Guest', deviceId:currentUser.deviceId,
+    timestamp:firebase.firestore.FieldValue.serverTimestamp(), edited:false
+  }).catch(function(){ showToast('فشل حفظ الرسالة','error'); });
 }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════
    MESSAGES
-═══════════════════════════════════════════════════════ */
-function subscribeMessages() {
-  if (unsubMessages) unsubMessages();
-  unsubMessages = db.collection('rooms').doc(ROOM_ID)
-    .collection('messages')
-    .orderBy('timestamp','asc')
-    .limitToLast(MSGS_PER_PAGE)
+═══════════════════════════════════════════════ */
+function subscribeMessages(){
+  if(unsubMessages) unsubMessages();
+  unsubMessages = db.collection('rooms').doc(ROOM_ID).collection('messages')
+    .orderBy('timestamp','asc').limitToLast(MSGS_PER_PAGE)
     .onSnapshot(function(snap){
       snap.docChanges().forEach(function(ch){
-        if      (ch.type==='added')    renderMessage(ch.doc.id, ch.doc.data(), true);
-        else if (ch.type==='modified') updateMsgEl(ch.doc.id, ch.doc.data());
-        else if (ch.type==='removed')  removeMsgEl(ch.doc.id);
+        if(ch.type==='added')    renderMessage(ch.doc.id,ch.doc.data(),true);
+        else if(ch.type==='modified') updateMsgEl(ch.doc.id,ch.doc.data());
+        else if(ch.type==='removed')  removeMsgEl(ch.doc.id);
       });
     });
 }
 
-function renderMessage(id, data, scrollDown) {
-  if (document.getElementById('msg-'+id)) return;
-  var el = buildMsgEl(id, data);
-  var w  = document.querySelector('.chat-welcome-message');
-  if (w) document.getElementById('chatMessages').insertBefore(el, w);
-  else   document.getElementById('chatMessages').appendChild(el);
-  if (scrollDown) scrollToBottom();
+function renderMessage(id,data,scrollDown){
+  if(document.getElementById('msg-'+id)) return;
+  var el=buildMsgEl(id,data);
+  var w=document.querySelector('.chat-welcome-message');
+  if(w) document.getElementById('chatMessages').insertBefore(el,w);
+  else  document.getElementById('chatMessages').appendChild(el);
+  if(scrollDown) scrollToBottom();
 }
 
-function buildMsgEl(id, data) {
-  var isOwn   = currentUser && data.deviceId === currentUser.deviceId;
-  var ts      = data.timestamp ? (data.timestamp.toDate ? data.timestamp.toDate() : new Date(data.timestamp)) : new Date();
-  var el      = document.createElement('div');
-  el.className = 'msg'; el.id = 'msg-'+id; el.dataset.id = id;
+function buildMsgEl(id,data){
+  var isOwn = currentUser && data.deviceId===currentUser.deviceId;
+  var ts    = data.timestamp?(data.timestamp.toDate?data.timestamp.toDate():new Date(data.timestamp)):new Date();
+  var el    = document.createElement('div');
+  el.className='msg'; el.id='msg-'+id; el.dataset.id=id;
 
-  /* ── وسائط ── */
-  var mediaHtml = '';
-  var atts = data.attachments;
-  if (atts && Array.isArray(atts) && atts.length) {
-    mediaHtml = '<div class="msg-media-wrap">';
+  /* long-press for mobile action reveal */
+  var longPressTimer;
+  el.addEventListener('touchstart', function(){ longPressTimer=setTimeout(function(){ el.classList.add('long-pressed'); },550); },{passive:true});
+  el.addEventListener('touchend',   function(){ clearTimeout(longPressTimer); },{passive:true});
+  el.addEventListener('touchmove',  function(){ clearTimeout(longPressTimer); },{passive:true});
+
+  var mediaHtml='';
+  var atts=data.attachments;
+  if(atts&&Array.isArray(atts)&&atts.length){
+    mediaHtml='<div class="msg-media-wrap">';
     atts.forEach(function(att){
-      if (!att || !att.url) return;
-      var t = att.type || detectFileType(att.mime, att.name);
-
-      if (t === 'image') {
-        // Image preview: try multiple URLs automatically.
-        var imgUrls = getImageUrlCandidates(att);
-        var firstImgUrl = imgUrls[0] || att.url || att.driveUrl || '';
-        var encodedFallbacks = encodeURIComponent(JSON.stringify(imgUrls));
-
-        mediaHtml +=
-          '<img class="msg-image loading"'+
-          ' src="'+escHtml(firstImgUrl)+'"'+
-          ' data-fallback-idx="0"'+
-          ' data-fallbacks="'+escHtml(encodedFallbacks)+'"'+
-          ' alt="'+escHtml(att.name||'صورة')+'"'+
-          ' onload="this.classList.remove(\'loading\');this.style.opacity=\'1\'"'+
-          ' onerror="handleImageError(this)"'+
-          ' onclick="openLightbox(this.src)"'+
-          '/>';
-      } else if (t === 'video') {
-        // Google Drive video files usually do not work reliably as a normal <video src="...">,
-        // because Drive/Apps Script may not provide a browser-streamable URL with range support.
-        // For Drive uploads, embed the official Drive preview player inside the chat instead.
-        var driveFileId = getAttachmentFileId(att);
-        if (driveFileId) {
-          var previewSrc = 'https://drive.google.com/file/d/' + encodeURIComponent(driveFileId) + '/preview';
-          mediaHtml +=
-            '<div class="drive-video-player">'+
-              '<iframe src="'+escHtml(previewSrc)+'" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>'+
-            '</div>'+
-            '<div class="drive-video-caption">'+escHtml(att.name || 'فيديو')+'</div>';
+      if(!att||!att.url) return;
+      var t=att.type||detectFileType(att.mime,att.name);
+      if(t==='image'){
+        var imgUrls=getImageUrlCandidates(att);
+        var first=imgUrls[0]||att.url||att.driveUrl||'';
+        var enc=encodeURIComponent(JSON.stringify(imgUrls));
+        mediaHtml+='<img class="msg-image loading" src="'+escHtml(first)+'" data-fallback-idx="0" data-fallbacks="'+escHtml(enc)+'" alt="'+escHtml(att.name||'صورة')+'" onload="this.classList.remove(\'loading\');this.style.opacity=\'1\'" onerror="handleImageError(this)" onclick="openLightbox(this.src)"/>';
+      } else if(t==='video'){
+        var fid=getAttachmentFileId(att);
+        if(fid){
+          mediaHtml+='<div class="drive-video-player"><iframe src="https://drive.google.com/file/d/'+encodeURIComponent(fid)+'/preview" allow="autoplay; fullscreen; encrypted-media" allowfullscreen loading="lazy"></iframe></div><div class="drive-video-caption">'+escHtml(att.name||'فيديو')+'</div>';
         } else {
-          var videoUrls = getVideoUrlCandidates(att);
-          var firstVideoUrl = videoUrls[0] || att.url || '';
-          var encodedVideoFallbacks = encodeURIComponent(JSON.stringify(videoUrls));
-          var posterAttr = att.previewUrl ? ' poster="'+escHtml(att.previewUrl)+'"' : '';
-
-          mediaHtml +=
-            '<div class="video-player" data-fallback-idx="0" data-fallbacks="'+escHtml(encodedVideoFallbacks)+'">'+
-              '<video preload="metadata" playsinline src="'+escHtml(firstVideoUrl)+'" type="'+escHtml(att.mime||'video/mp4')+'"'+posterAttr+
-                ' onloadedmetadata="updateVideoPlayer(this)"'+
-                ' ontimeupdate="updateVideoPlayer(this)"'+
-                ' onplay="setVideoPlayingState(this)"'+
-                ' onpause="setVideoPlayingState(this)"'+
-                ' onended="setVideoPlayingState(this)"'+
-                ' onerror="handleVideoError(this)"'+
-                ' onclick="toggleVideoPlayer(this.closest(&quot;.video-player&quot;))">'+
-              '</video>'+
-              '<button class="video-big-play" onclick="toggleVideoPlayer(this.closest(&quot;.video-player&quot;))">▶</button>'+
-              '<div class="video-controls">'+
-                '<button class="video-control-btn video-play-btn" onclick="toggleVideoPlayer(this.closest(&quot;.video-player&quot;))">▶</button>'+
-                '<input class="video-seek" type="range" min="0" max="100" value="0" step="0.1" oninput="seekVideoPlayer(this)">'+
-                '<span class="video-time">0:00 / 0:00</span>'+
-                '<button class="video-control-btn" onclick="toggleVideoMute(this)">🔊</button>'+
-                '<button class="video-control-btn" onclick="fullscreenVideoPlayer(this)">⛶</button>'+
-              '</div>'+
-              '<div class="video-error"></div>'+
-            '</div>';
+          var vurls=getVideoUrlCandidates(att);
+          var vfirst=vurls[0]||att.url||'';
+          var venc=encodeURIComponent(JSON.stringify(vurls));
+          var posterAttr=att.previewUrl?' poster="'+escHtml(att.previewUrl)+'"':'';
+          mediaHtml+='<div class="video-player" data-fallback-idx="0" data-fallbacks="'+escHtml(venc)+'"><video preload="metadata" playsinline src="'+escHtml(vfirst)+'" type="'+escHtml(att.mime||'video/mp4')+'"'+posterAttr+' onloadedmetadata="updateVideoPlayer(this)" ontimeupdate="updateVideoPlayer(this)" onplay="setVideoPlayingState(this)" onpause="setVideoPlayingState(this)" onended="setVideoPlayingState(this)" onerror="handleVideoError(this)" onclick="toggleVideoPlayer(this.closest(\'&quot;.video-player&quot;\'))"></video><button class="video-big-play" onclick="toggleVideoPlayer(this.closest(\'.video-player\'))">▶</button><div class="video-controls"><button class="video-control-btn video-play-btn" onclick="toggleVideoPlayer(this.closest(\'.video-player\'))">▶</button><input class="video-seek" type="range" min="0" max="100" value="0" step="0.1" oninput="seekVideoPlayer(this)"><span class="video-time">0:00 / 0:00</span><button class="video-control-btn" onclick="toggleVideoMute(this)">🔊</button><button class="video-control-btn" onclick="fullscreenVideoPlayer(this)">⛶</button></div><div class="video-error"></div></div>';
         }
-
-      } else if (t === 'audio') {
-        // صوت
-        mediaHtml +=
-          '<audio controls preload="metadata" style="max-width:280px;margin-top:2px;">'+
-          '<source src="'+escHtml(att.url)+'" type="'+escHtml(att.mime||'audio/mpeg')+'">'+
-          '</audio>';
-
+      } else if(t==='audio'){
+        mediaHtml+='<audio controls preload="metadata" style="max-width:min(260px,70vw);margin-top:2px;"><source src="'+escHtml(att.url)+'" type="'+escHtml(att.mime||'audio/mpeg')+'"></audio>';
       } else {
-        // ملف
-        var icon = getFileIcon(att.name, att.mime);
-        var size = att.size ? formatFileSize(att.size) : '';
-        mediaHtml +=
-          '<a class="msg-file-link" href="'+escHtml(att.driveUrl||att.url)+'" target="_blank">'+
-          '<span class="msg-file-icon">'+icon+'</span>'+
-          '<span class="msg-file-info">'+
-            '<span class="msg-file-name">'+escHtml(att.name||'ملف')+'</span>'+
-            (size ? '<span class="msg-file-size">'+size+'</span>' : '')+
-          '</span>'+
-          '</a>';
+        var icon=getFileIcon(att.name,att.mime);
+        var size=att.size?formatFileSize(att.size):'';
+        mediaHtml+='<a class="msg-file-link" href="'+escHtml(att.driveUrl||att.url)+'" target="_blank"><span class="msg-file-icon">'+icon+'</span><span class="msg-file-info"><span class="msg-file-name">'+escHtml(att.name||'ملف')+'</span>'+(size?'<span class="msg-file-size">'+size+'</span>':'')+  '</span></a>';
       }
     });
-    mediaHtml += '</div>';
+    mediaHtml+='</div>';
   }
 
-  var editedBadge = data.edited ? '<span class="msg-edited">(edited)</span>' : '';
-  var actionsHtml = isOwn
+  var editedBadge=data.edited?'<span class="msg-edited">(edited)</span>':'';
+
+  /* SVG icons for edit/delete */
+  var actionsHtml=isOwn
     ? '<div class="msg-actions">'+
-        '<button class="msg-action-btn" onclick="startEdit(\''+id+'\')">✏️</button>'+
-        '<button class="msg-action-btn" onclick="deleteMsg(\''+id+'\')">🗑️</button>'+
+        '<button class="msg-action-btn" onclick="startEdit(\''+id+'\')" title="Edit">'+
+          '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'+
+        '</button>'+
+        '<button class="msg-action-btn" onclick="deleteMsg(\''+id+'\')" title="Delete">'+
+          '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>'+
+        '</button>'+
       '</div>'
     : '';
 
-  el.innerHTML =
+  el.innerHTML=
     '<div class="msg-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div>'+
     '<div class="msg-body">'+
       '<div class="msg-meta">'+
@@ -1147,240 +991,165 @@ function buildMsgEl(id, data) {
   return el;
 }
 
-function updateMsgEl(id, data) {
-  var el = document.getElementById('msg-'+id);
-  if (!el) return;
-  el.parentNode.replaceChild(buildMsgEl(id, data), el);
-}
-function removeMsgEl(id) {
-  var el = document.getElementById('msg-'+id);
-  if (el) el.remove();
-}
+function updateMsgEl(id,data){ var el=document.getElementById('msg-'+id); if(!el)return; el.parentNode.replaceChild(buildMsgEl(id,data),el); }
+function removeMsgEl(id){ var el=document.getElementById('msg-'+id); if(el)el.remove(); }
 
-/* ═══════════════════════════════════════════════════════
-   EDIT / DELETE
-═══════════════════════════════════════════════════════ */
-function startEdit(id) {
-  if (editingMsgId) cancelEdit(editingMsgId);
-  editingMsgId = id;
-  var txtEl = document.getElementById('txt-'+id);
-  if (!txtEl) return;
-  var raw = txtEl.dataset.raw || txtEl.textContent.replace(' (edited)','');
-  txtEl.dataset.raw = raw;
-  var wrap = document.createElement('div');
-  wrap.className = 'msg-edit-wrap'; wrap.id = 'edit-wrap-'+id;
-  wrap.innerHTML =
-    '<textarea class="msg-edit-input" id="edit-inp-'+id+'" rows="2">'+escHtml(raw)+'</textarea>'+
-    '<div class="msg-edit-btns">'+
-      '<button class="msg-edit-save"   onclick="saveEdit(\''+id+'\')">Save</button>'+
-      '<button class="msg-edit-cancel" onclick="cancelEdit(\''+id+'\')">Cancel</button>'+
-    '</div>';
-  txtEl.style.display = 'none';
-  txtEl.parentNode.insertBefore(wrap, txtEl.nextSibling);
-  var inp = document.getElementById('edit-inp-'+id);
-  inp.focus(); inp.selectionStart = inp.selectionEnd = inp.value.length;
+/* edit / delete */
+function startEdit(id){
+  if(editingMsgId) cancelEdit(editingMsgId);
+  editingMsgId=id;
+  var txtEl=document.getElementById('txt-'+id); if(!txtEl)return;
+  var raw=txtEl.dataset.raw||txtEl.textContent.replace(' (edited)','');
+  txtEl.dataset.raw=raw;
+  var wrap=document.createElement('div'); wrap.className='msg-edit-wrap'; wrap.id='edit-wrap-'+id;
+  wrap.innerHTML='<textarea class="msg-edit-input" id="edit-inp-'+id+'" rows="2">'+escHtml(raw)+'</textarea><div class="msg-edit-btns"><button class="msg-edit-save" onclick="saveEdit(\''+id+'\')">Save</button><button class="msg-edit-cancel" onclick="cancelEdit(\''+id+'\')">Cancel</button></div>';
+  txtEl.style.display='none';
+  txtEl.parentNode.insertBefore(wrap,txtEl.nextSibling);
+  var inp=document.getElementById('edit-inp-'+id);
+  inp.focus(); inp.selectionStart=inp.selectionEnd=inp.value.length;
 }
-
-function saveEdit(id) {
-  var inp = document.getElementById('edit-inp-'+id);
-  if (!inp) return;
-  var t = inp.value.trim();
-  if (!t) return;
-  db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).update({
-    text:t, edited:true, editedAt:firebase.firestore.FieldValue.serverTimestamp()
-  }).then(function(){ editingMsgId = null; })
+function saveEdit(id){
+  var inp=document.getElementById('edit-inp-'+id); if(!inp)return;
+  var t=inp.value.trim(); if(!t)return;
+  db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id)
+    .update({text:t,edited:true,editedAt:firebase.firestore.FieldValue.serverTimestamp()})
+    .then(function(){ editingMsgId=null; })
     .catch(function(){ showToast('فشل التعديل','error'); });
 }
-
-function cancelEdit(id) {
-  var wrap  = document.getElementById('edit-wrap-'+id);
-  var txtEl = document.getElementById('txt-'+id);
-  if (wrap)  wrap.remove();
-  if (txtEl) txtEl.style.display = '';
-  editingMsgId = null;
+function cancelEdit(id){
+  var wrap=document.getElementById('edit-wrap-'+id), txtEl=document.getElementById('txt-'+id);
+  if(wrap)wrap.remove(); if(txtEl)txtEl.style.display=''; editingMsgId=null;
 }
-
-function deleteMsg(id) {
-  if (!confirm('Delete this message?')) return;
+function deleteMsg(id){
+  if(!confirm('Delete this message?')) return;
   db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).delete();
 }
 
-/* ═══════════════════════════════════════════════════════
-   FILE PREVIEW
-═══════════════════════════════════════════════════════ */
-function onAttachClick() {
-  if (!userConsented) {
-    showToast('لم توافق على مشاركة الملفات. أعد تحميل الصفحة لتغيير اختيارك.','error');
-    return;
-  }
+/* file preview */
+function onAttachClick(){
+  if(!userConsented){ showToast('لم توافق على مشاركة الملفات. أعد تحميل الصفحة لتغيير اختيارك.','error'); return; }
   document.getElementById('fileInput').click();
 }
-document.getElementById('fileInput').addEventListener('change', function(){
-  Array.from(this.files).forEach(addFilePreview);
-  this.value = '';
+document.getElementById('fileInput').addEventListener('change',function(){
+  Array.from(this.files).forEach(addFilePreview); this.value='';
 });
-
-function addFilePreview(file) {
+function addFilePreview(file){
   pendingFiles.push(file);
-  var idx = pendingFiles.length - 1;
-  var bar = document.getElementById('uploadPreviewBar');
-  bar.style.display = 'flex';
-  var item = document.createElement('div');
-  item.className = 'preview-item';
-  if (file.type.startsWith('image/')) {
-    var reader = new FileReader();
-    reader.onload = function(e){
-      item.innerHTML =
-        '<img class="preview-thumb" src="'+e.target.result+'"/>'+
-        '<button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';
-    };
+  var idx=pendingFiles.length-1;
+  var bar=document.getElementById('uploadPreviewBar');
+  bar.style.display='flex';
+  var item=document.createElement('div'); item.className='preview-item';
+  if(file.type.startsWith('image/')){
+    var reader=new FileReader();
+    reader.onload=function(e){ item.innerHTML='<img class="preview-thumb" src="'+e.target.result+'"/><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>'; };
     reader.readAsDataURL(file);
   } else {
-    item.innerHTML =
-      '<div class="preview-file-chip">'+getFileIcon(file.name,file.type)+' '+escHtml(file.name)+'</div>'+
-      '<button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';
+    item.innerHTML='<div class="preview-file-chip">'+getFileIcon(file.name,file.type)+' '+escHtml(file.name)+'</div><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';
   }
-  bar.appendChild(item);
+  bar.appendChild(item); updateSendBtn();
+}
+function removePreview(idx,el){
+  pendingFiles[idx]=null; el.remove();
+  if(!document.getElementById('uploadPreviewBar').children.length) document.getElementById('uploadPreviewBar').style.display='none';
   updateSendBtn();
 }
+function clearUploadPreview(){ pendingFiles=[]; var bar=document.getElementById('uploadPreviewBar'); bar.innerHTML=''; bar.style.display='none'; }
 
-function removePreview(idx, el) {
-  pendingFiles[idx] = null; el.remove();
-  if (!document.getElementById('uploadPreviewBar').children.length)
-    document.getElementById('uploadPreviewBar').style.display = 'none';
-  updateSendBtn();
-}
+/* progress */
+function showUploadProgress(total){ document.getElementById('uploadProgressWrap').style.display='block'; document.getElementById('uploadProgressLabel').textContent='جاري رفع '+total+' ملف...'; document.getElementById('uploadProgressPct').textContent='0%'; document.getElementById('uploadProgressFill').style.width='0%'; }
+function setProgressPct(pct,n,total){ var s=Math.min(Math.max(Math.round(pct),0),100); document.getElementById('uploadProgressFill').style.width=s+'%'; document.getElementById('uploadProgressPct').textContent=s+'%'; document.getElementById('uploadProgressLabel').textContent='ملف '+n+' من '+total; }
+function hideUploadProgress(){ document.getElementById('uploadProgressWrap').style.display='none'; document.getElementById('uploadProgressFill').style.width='0%'; }
 
-function clearUploadPreview() {
-  pendingFiles = [];
-  var bar = document.getElementById('uploadPreviewBar');
-  bar.innerHTML = ''; bar.style.display = 'none';
-}
-
-/* ═══════════════════════════════════════════════════════
-   PROGRESS
-═══════════════════════════════════════════════════════ */
-function showUploadProgress(total) {
-  document.getElementById('uploadProgressWrap').style.display = 'block';
-  document.getElementById('uploadProgressLabel').textContent  = 'جاري رفع '+total+' ملف...';
-  document.getElementById('uploadProgressPct').textContent    = '0%';
-  document.getElementById('uploadProgressFill').style.width  = '0%';
-}
-function setProgressPct(pct, n, total) {
-  var s = Math.min(Math.max(Math.round(pct),0),100);
-  document.getElementById('uploadProgressFill').style.width = s+'%';
-  document.getElementById('uploadProgressPct').textContent  = s+'%';
-  document.getElementById('uploadProgressLabel').textContent= 'ملف '+n+' من '+total;
-}
-function hideUploadProgress() {
-  document.getElementById('uploadProgressWrap').style.display = 'none';
-  document.getElementById('uploadProgressFill').style.width   = '0%';
-}
-
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════
    PRESENCE
-═══════════════════════════════════════════════════════ */
-function registerAnonymousPresence() {
+═══════════════════════════════════════════════ */
+function registerAnonymousPresence(){
   getDeviceId().then(function(devId){
-    var ref = rtdb.ref('presence/'+ROOM_ID+'/'+devId);
+    var ref=rtdb.ref('presence/'+ROOM_ID+'/'+devId);
     ref.set({name:null,isViewer:true,online:true,ts:Date.now()});
     ref.onDisconnect().remove(); listenPresence();
   });
 }
-function registerNamedPresence(name, devId) {
-  var ref = rtdb.ref('presence/'+ROOM_ID+'/'+devId);
+function registerNamedPresence(name,devId){
+  var ref=rtdb.ref('presence/'+ROOM_ID+'/'+devId);
   ref.set({name:name,isViewer:false,online:true,ts:Date.now()});
   ref.onDisconnect().remove(); listenPresence();
 }
-function listenPresence() {
-  rtdb.ref('presence/'+ROOM_ID).on('value', function(snap){ renderPresence(snap.val()||{}); });
+function listenPresence(){
+  rtdb.ref('presence/'+ROOM_ID).on('value',function(snap){ renderPresence(snap.val()||{}); });
 }
-function renderPresence(all) {
-  var entries = Object.values(all);
-  document.getElementById('onlineCountEl').textContent = entries.length+' online';
-  var list = document.getElementById('presenceList');
-  list.innerHTML = '';
+function renderPresence(all){
+  var entries=Object.values(all);
+  var count=entries.length;
+  document.getElementById('onlineCountEl').textContent=count+' online';
+  document.getElementById('mobileOnlineCount').textContent=count;
+  var list=document.getElementById('presenceList'); list.innerHTML='';
   entries.forEach(function(p){
-    var el = document.createElement('div'); el.className = 'presence-item';
-    var label = p.name||(p.isViewer?'viewer':'anonymous');
-    el.innerHTML =
-      '<div class="presence-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')">'+
-        '<div class="presence-dot"></div>'+
-      '</div>'+
-      '<div class="presence-name '+(p.name?'':'anon')+'">'+escHtml(label)+'</div>';
+    var el=document.createElement('div'); el.className='presence-item';
+    var label=p.name||(p.isViewer?'viewer':'anonymous');
+    el.innerHTML='<div class="presence-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"><div class="presence-dot"></div></div><div class="presence-name '+(p.name?'':'anon')+'">'+escHtml(label)+'</div>';
     list.appendChild(el);
   });
 }
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════
    TYPING
-═══════════════════════════════════════════════════════ */
-function handleTyping() {
-  if (!isSignedIn||!currentUser) return;
-  var ref = rtdb.ref('typing/'+ROOM_ID+'/'+currentUser.deviceId);
-  ref.set({name:currentUser.name,ts:Date.now()});
-  ref.onDisconnect().remove();
-  clearTimeout(typingTimer);
-  typingTimer = setTimeout(function(){ ref.remove(); }, 3000);
+═══════════════════════════════════════════════ */
+function handleTyping(){
+  if(!isSignedIn||!currentUser)return;
+  var ref=rtdb.ref('typing/'+ROOM_ID+'/'+currentUser.deviceId);
+  ref.set({name:currentUser.name,ts:Date.now()}); ref.onDisconnect().remove();
+  clearTimeout(typingTimer); typingTimer=setTimeout(function(){ ref.remove(); },3000);
 }
-function stopTyping() {
-  if (!isSignedIn||!currentUser) return;
+function stopTyping(){
+  if(!isSignedIn||!currentUser)return;
   rtdb.ref('typing/'+ROOM_ID+'/'+currentUser.deviceId).remove();
   clearTimeout(typingTimer);
 }
-rtdb.ref('typing/'+ROOM_ID).on('value', function(snap){
-  var all    = snap.val()||{};
-  var devId  = currentUser ? currentUser.deviceId : null;
-  var others = Object.entries(all).filter(function(e){ return e[0]!==devId; }).map(function(e){ return e[1].name; });
-  document.getElementById('typingBar').textContent =
-    others.length ? others.join(', ')+(others.length===1?' is typing…':' are typing…') : '';
+rtdb.ref('typing/'+ROOM_ID).on('value',function(snap){
+  var all=snap.val()||{}, devId=currentUser?currentUser.deviceId:null;
+  var others=Object.entries(all).filter(function(e){ return e[0]!==devId; }).map(function(e){ return e[1].name; });
+  document.getElementById('typingBar').textContent=others.length?others.join(', ')+(others.length===1?' is typing…':' are typing…'):'';
 });
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════
    LIGHTBOX
-═══════════════════════════════════════════════════════ */
-function openLightbox(url) {
-  document.getElementById('lightboxImg').src = url;
+═══════════════════════════════════════════════ */
+function openLightbox(url){
+  document.getElementById('lightboxImg').src=url;
   document.getElementById('lightbox').classList.add('open');
 }
-document.getElementById('lightboxClose').addEventListener('click', function(){
+document.getElementById('lightboxClose').addEventListener('click',function(){
   document.getElementById('lightbox').classList.remove('open');
-  document.getElementById('lightboxImg').src = '';
+  document.getElementById('lightboxImg').src='';
 });
-document.getElementById('lightbox').addEventListener('click', function(e){
-  if (e.target===this){ this.classList.remove('open'); document.getElementById('lightboxImg').src=''; }
+document.getElementById('lightbox').addEventListener('click',function(e){
+  if(e.target===this){ this.classList.remove('open'); document.getElementById('lightboxImg').src=''; }
 });
 
-/* ═══════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════
    HELPERS
-═══════════════════════════════════════════════════════ */
-function scrollToBottom() {
-  var w = document.getElementById('messagesWrap');
-  setTimeout(function(){ w.scrollTop = w.scrollHeight; }, 60);
+═══════════════════════════════════════════════ */
+function scrollToBottom(){ var w=document.getElementById('messagesWrap'); setTimeout(function(){ w.scrollTop=w.scrollHeight; },60); }
+function autoResize(el){ el.style.height='auto'; el.style.height=Math.min(el.scrollHeight,100)+'px'; }
+function updateSendBtn(){
+  if(isSending)return;
+  var hasText=document.getElementById('chatInput').value.trim().length>0;
+  var hasFiles=pendingFiles.some(function(f){ return f!=null; });
+  document.getElementById('sendBtn').disabled=!(hasText||hasFiles);
 }
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 100)+'px';
-}
-function updateSendBtn() {
-  if (isSending) return;
-  var hasText  = document.getElementById('chatInput').value.trim().length > 0;
-  var hasFiles = pendingFiles.some(function(f){ return f!=null; });
-  document.getElementById('sendBtn').disabled = !(hasText||hasFiles);
-}
-function formatTime(d) {
-  return d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true});
-}
-function escHtml(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function linkify(text) {
-  return text.replace(/(https?:\/\/[^\s<>"]+)/g,'<a target="_blank" rel="nofollow" href="$1">$1</a>');
-}
-function showToast(msg, type) {
-  var t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast '+(type||''); t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 3500);
+function formatTime(d){ return d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true}); }
+function escHtml(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function linkify(text){ return text.replace(/(https?:\/\/[^\s<>"]+)/g,'<a target="_blank" rel="nofollow" href="$1">$1</a>'); }
+function showToast(msg,type){ var t=document.getElementById('toast'); t.textContent=msg; t.className='toast '+(type||''); t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },3500); }
+
+/* keyboard on mobile — scroll chat up when keyboard opens */
+if ('visualViewport' in window) {
+  window.visualViewport.addEventListener('resize', function(){
+    var bottom = document.getElementById('chatBottom');
+    if (!bottom || bottom.style.display==='none') return;
+    scrollToBottom();
+  });
 }
 </script>
 </body>
