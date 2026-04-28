@@ -532,22 +532,26 @@ function uploadViaAppsScript(file, idx, total) {
         var fileId   = json.fileId;
         var fileType = detectFileType(file.type, file.name);
 
-        // ── رابط proxy: لعرض الملف مباشرة في المتصفح ──
+        // Apps Script proxy URL. If doGet is configured correctly, this displays the image directly.
         var proxyUrl = APPS_SCRIPT_URL + '?action=serve&id=' + encodeURIComponent(fileId);
 
-        // ── رابط Drive: للتحميل المباشر ──
-        var driveUrl = 'https://drive.google.com/file/d/' + fileId + '/view';
+        // Backup Google Drive URLs for preview/opening.
+        var driveUrl     = 'https://drive.google.com/file/d/' + fileId + '/view';
+        var thumbnailUrl = 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(fileId) + '&sz=w1200';
+        var directUrl    = 'https://drive.google.com/uc?export=view&id=' + encodeURIComponent(fileId);
 
         setProgressPct(Math.round(((idx + 1) / total) * 100), idx + 1, total);
 
         resolve({
-          url      : proxyUrl,
-          driveUrl : driveUrl,
-          fileId   : fileId,
-          type     : fileType,
-          name     : file.name,
-          size     : file.size,
-          mime     : file.type
+          url         : proxyUrl,
+          thumbnailUrl: thumbnailUrl,
+          directUrl   : directUrl,
+          driveUrl    : driveUrl,
+          fileId      : fileId,
+          type        : fileType,
+          name        : file.name,
+          size        : file.size,
+          mime        : file.type
         });
       })
       .catch(reject);
@@ -579,6 +583,54 @@ function getFileIcon(name, mime) {
   if (m.startsWith('audio/') || /^(mp3|wav|aac|flac|m4a)$/.test(ext)) return '🎵';
   return {pdf:'📄',doc:'📝',docx:'📝',txt:'📃',zip:'🗜️',rar:'🗜️',
           xls:'📊',xlsx:'📊',csv:'📊',ppt:'📑',pptx:'📑'}[ext] || '📎';
+}
+
+function uniqueUrls(list) {
+  var seen = {};
+  return list.filter(function(u){
+    if (!u || seen[u]) return false;
+    seen[u] = true;
+    return true;
+  });
+}
+
+function getImageUrlCandidates(att) {
+  var urls = [];
+  if (att.url) urls.push(att.url);
+  if (att.thumbnailUrl) urls.push(att.thumbnailUrl);
+
+  if (att.fileId) {
+    urls.push('https://drive.google.com/thumbnail?id=' + encodeURIComponent(att.fileId) + '&sz=w1200');
+    urls.push('https://drive.google.com/uc?export=view&id=' + encodeURIComponent(att.fileId));
+    urls.push('https://lh3.googleusercontent.com/d/' + encodeURIComponent(att.fileId));
+  }
+
+  if (att.directUrl) urls.push(att.directUrl);
+  if (att.driveUrl) urls.push(att.driveUrl);
+  return uniqueUrls(urls);
+}
+
+function handleImageError(img) {
+  var raw = img.getAttribute('data-fallbacks') || '%5B%5D';
+  var urls = [];
+
+  try {
+    urls = JSON.parse(decodeURIComponent(raw));
+  } catch(e) {
+    urls = [];
+  }
+
+  var nextIdx = parseInt(img.getAttribute('data-fallback-idx') || '0', 10) + 1;
+
+  if (nextIdx < urls.length) {
+    img.setAttribute('data-fallback-idx', String(nextIdx));
+    img.src = urls[nextIdx];
+    return;
+  }
+
+  img.classList.remove('loading');
+  img.style.opacity = '0.25';
+  img.title = 'تعذر عرض معاينة الصورة. اضغط فتح الصورة.';
 }
 
 function uploadFilesSequentially(files) {
@@ -704,15 +756,25 @@ function buildMsgEl(id, data) {
       var t = att.type || detectFileType(att.mime, att.name);
 
       if (t === 'image') {
-        // صورة — تظهر مباشرة عبر proxy
+        // Image preview: try multiple URLs automatically.
+        var imgUrls = getImageUrlCandidates(att);
+        var firstImgUrl = imgUrls[0] || att.url || att.driveUrl || '';
+        var encodedFallbacks = encodeURIComponent(JSON.stringify(imgUrls));
+
         mediaHtml +=
           '<img class="msg-image loading"'+
-          ' src="'+escHtml(att.url)+'"'+
+          ' src="'+escHtml(firstImgUrl)+'"'+
+          ' data-fallback-idx="0"'+
+          ' data-fallbacks="'+escHtml(encodedFallbacks)+'"'+
           ' alt="'+escHtml(att.name||'صورة')+'"'+
-          ' onload="this.classList.remove(\'loading\')"'+
-          ' onerror="this.classList.remove(\'loading\');this.style.opacity=\'0.25\'"'+
-          ' onclick="openLightbox(\''+escHtml(att.url)+'\')"'+
+          ' onload="this.classList.remove(\'loading\');this.style.opacity=\'1\'"'+
+          ' onerror="handleImageError(this)"'+
+          ' onclick="openLightbox(this.src)"'+
           '/>';
+
+        if (att.driveUrl) {
+          mediaHtml += '<a class="msg-file-link" href="'+escHtml(att.driveUrl)+'" target="_blank" style="margin-top:4px;max-width:160px;padding:5px 8px;font-size:11px">فتح الصورة</a>';
+        }
 
       } else if (t === 'video') {
         // فيديو — يشتغل مباشرة عبر proxy
