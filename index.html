@@ -509,6 +509,7 @@ function uploadViaAppsScript(file, idx, total) {
     var reader = new FileReader();
     reader.onload = function(e){
       var base64 = e.target.result.split(',')[1];
+      var previewPromise = createImagePreviewDataUrl(file);
 
       setProgressPct(Math.round((idx / total) * 70), idx + 1, total);
 
@@ -542,22 +543,54 @@ function uploadViaAppsScript(file, idx, total) {
 
         setProgressPct(Math.round(((idx + 1) / total) * 100), idx + 1, total);
 
-        resolve({
-          url         : proxyUrl,
-          thumbnailUrl: thumbnailUrl,
-          directUrl   : directUrl,
-          driveUrl    : driveUrl,
-          fileId      : fileId,
-          type        : fileType,
-          name        : file.name,
-          size        : file.size,
-          mime        : file.type
+        return previewPromise.then(function(previewUrl){
+          resolve({
+            url         : proxyUrl,
+            previewUrl  : previewUrl,
+            thumbnailUrl: thumbnailUrl,
+            directUrl   : directUrl,
+            driveUrl    : driveUrl,
+            fileId      : fileId,
+            type        : fileType,
+            name        : file.name,
+            size        : file.size,
+            mime        : file.type
+          });
         });
       })
       .catch(reject);
     };
     reader.onerror = function(){ reject(new Error('FileReader error')); };
     reader.readAsDataURL(file);
+  });
+}
+
+function createImagePreviewDataUrl(file) {
+  return new Promise(function(resolve) {
+    try {
+      if (!file || !file.type || !file.type.toLowerCase().startsWith("image/")) { resolve(null); return; }
+      var img = new Image();
+      var objectUrl = URL.createObjectURL(file);
+      img.onload = function() {
+        try {
+          var maxSide = 900;
+          var w = img.naturalWidth || img.width;
+          var h = img.naturalHeight || img.height;
+          if (!w || !h) { URL.revokeObjectURL(objectUrl); resolve(null); return; }
+          var scale = Math.min(1, maxSide / Math.max(w, h));
+          var canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.round(w * scale));
+          canvas.height = Math.max(1, Math.round(h * scale));
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          var dataUrl = canvas.toDataURL("image/jpeg", 0.72);
+          URL.revokeObjectURL(objectUrl);
+          resolve(dataUrl);
+        } catch(e) { try { URL.revokeObjectURL(objectUrl); } catch(_) {} resolve(null); }
+      };
+      img.onerror = function() { try { URL.revokeObjectURL(objectUrl); } catch(_) {} resolve(null); };
+      img.src = objectUrl;
+    } catch(e) { resolve(null); }
   });
 }
 
@@ -596,6 +629,7 @@ function uniqueUrls(list) {
 
 function getImageUrlCandidates(att) {
   var urls = [];
+  if (att.previewUrl) urls.push(att.previewUrl);
   if (att.url) urls.push(att.url);
   if (att.thumbnailUrl) urls.push(att.thumbnailUrl);
 
@@ -613,6 +647,7 @@ function getImageUrlCandidates(att) {
 function handleImageError(img) {
   var raw = img.getAttribute('data-fallbacks') || '%5B%5D';
   var urls = [];
+  if (att.previewUrl) urls.push(att.previewUrl);
 
   try {
     urls = JSON.parse(decodeURIComponent(raw));
