@@ -573,7 +573,7 @@ function createImagePreviewDataUrl(file) {
       var objectUrl = URL.createObjectURL(file);
       img.onload = function() {
         try {
-          var maxSide = 900;
+          var maxSide = 420;
           var w = img.naturalWidth || img.width;
           var h = img.naturalHeight || img.height;
           if (!w || !h) { URL.revokeObjectURL(objectUrl); resolve(null); return; }
@@ -583,7 +583,7 @@ function createImagePreviewDataUrl(file) {
           canvas.height = Math.max(1, Math.round(h * scale));
           var ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          var dataUrl = canvas.toDataURL("image/jpeg", 0.72);
+          var dataUrl = canvas.toDataURL("image/jpeg", 0.55);
           URL.revokeObjectURL(objectUrl);
           resolve(dataUrl);
         } catch(e) { try { URL.revokeObjectURL(objectUrl); } catch(_) {} resolve(null); }
@@ -665,7 +665,7 @@ function handleImageError(img) {
 
   img.classList.remove('loading');
   img.style.opacity = '0.25';
-  img.title = 'تعذر عرض معاينة الصورة. اضغط فتح الصورة.';
+  img.title = 'تعذر عرض معاينة الصورة.';
 }
 
 function uploadFilesSequentially(files) {
@@ -806,11 +806,6 @@ function buildMsgEl(id, data) {
           ' onerror="handleImageError(this)"'+
           ' onclick="openLightbox(this.src)"'+
           '/>';
-
-        if (att.driveUrl) {
-          mediaHtml += '<a class="msg-file-link" href="'+escHtml(att.driveUrl)+'" target="_blank" style="margin-top:4px;max-width:160px;padding:5px 8px;font-size:11px">فتح الصورة</a>';
-        }
-
       } else if (t === 'video') {
         // فيديو — يشتغل مباشرة عبر proxy
         mediaHtml +=
