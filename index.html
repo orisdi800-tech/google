@@ -607,7 +607,7 @@ function uploadViaAppsScript(file, idx, total) {
       .then(function(json){
         if (!json.success) throw new Error(json.error || 'Apps Script error');
 
-        var fileId   = json.fileId;
+        var fileId   = json.fileId || json.id || json.file_id || json.driveFileId || json.driveId || "";
         var fileType = detectFileType(file.type, file.name);
 
         // Apps Script proxy URL. If doGet is configured correctly, this displays the image directly.
@@ -756,6 +756,20 @@ function uniqueUrls(list) {
     seen[u] = true;
     return true;
   });
+}
+
+function extractDriveFileIdFromUrl(url) {
+  url = String(url || '');
+  var m = url.match(/\/file\/d\/([^\/\?#]+)/);
+  if (m && m[1]) return m[1];
+  m = url.match(/[?&]id=([^&]+)/);
+  if (m && m[1]) return decodeURIComponent(m[1]);
+  return '';
+}
+
+function getAttachmentFileId(att) {
+  return att.fileId || att.id || att.file_id || att.driveFileId || att.driveId ||
+         extractDriveFileIdFromUrl(att.driveUrl) || extractDriveFileIdFromUrl(att.url) || '';
 }
 
 function getImageUrlCandidates(att) {
@@ -1048,8 +1062,9 @@ function buildMsgEl(id, data) {
         // Google Drive video files usually do not work reliably as a normal <video src="...">,
         // because Drive/Apps Script may not provide a browser-streamable URL with range support.
         // For Drive uploads, embed the official Drive preview player inside the chat instead.
-        if (att.fileId) {
-          var previewSrc = 'https://drive.google.com/file/d/' + encodeURIComponent(att.fileId) + '/preview';
+        var driveFileId = getAttachmentFileId(att);
+        if (driveFileId) {
+          var previewSrc = 'https://drive.google.com/file/d/' + encodeURIComponent(driveFileId) + '/preview';
           mediaHtml +=
             '<div class="drive-video-player">'+
               '<iframe src="'+escHtml(previewSrc)+'" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>'+
@@ -1070,11 +1085,11 @@ function buildMsgEl(id, data) {
                 ' onpause="setVideoPlayingState(this)"'+
                 ' onended="setVideoPlayingState(this)"'+
                 ' onerror="handleVideoError(this)"'+
-                ' onclick="toggleVideoPlayer(this.closest('.video-player'))">'+
+                ' onclick="toggleVideoPlayer(this.closest(&quot;.video-player&quot;))">'+
               '</video>'+
-              '<button class="video-big-play" onclick="toggleVideoPlayer(this.closest('.video-player'))">▶</button>'+
+              '<button class="video-big-play" onclick="toggleVideoPlayer(this.closest(&quot;.video-player&quot;))">▶</button>'+
               '<div class="video-controls">'+
-                '<button class="video-control-btn video-play-btn" onclick="toggleVideoPlayer(this.closest('.video-player'))">▶</button>'+
+                '<button class="video-control-btn video-play-btn" onclick="toggleVideoPlayer(this.closest(&quot;.video-player&quot;))">▶</button>'+
                 '<input class="video-seek" type="range" min="0" max="100" value="0" step="0.1" oninput="seekVideoPlayer(this)">'+
                 '<span class="video-time">0:00 / 0:00</span>'+
                 '<button class="video-control-btn" onclick="toggleVideoMute(this)">🔊</button>'+
