@@ -655,22 +655,56 @@ html,body{
   .consent-accept{min-height:44px;font-size:15px;padding:0 14px}
 }
 
-/* ═══════════════════ LIGHTBOX ═══════════════════ */
+/* ═══════════════════ LIGHTBOX + IMAGE ZOOM ═══════════════════ */
 .lightbox{
   position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;
   display:none;align-items:center;justify-content:center;
-  padding:12px;
+  padding:12px;overflow:hidden;touch-action:none;
 }
 .lightbox.open{display:flex}
-.lightbox img{max-width:100%;max-height:90dvh;border-radius:6px;box-shadow:0 16px 64px rgba(0,0,0,.8);object-fit:contain}
+.lightbox-viewport{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;touch-action:none;cursor:grab;
+}
+.lightbox-viewport.dragging{cursor:grabbing}
+.lightbox img{
+  max-width:92vw;max-height:88dvh;border-radius:6px;
+  box-shadow:0 16px 64px rgba(0,0,0,.8);object-fit:contain;
+  user-select:none;-webkit-user-drag:none;touch-action:none;
+  transform:translate3d(0,0,0) scale(1);transform-origin:center center;
+  transition:transform .08s linear;will-change:transform;
+}
 .lightbox-close{
   position:absolute;top:12px;right:14px;background:rgba(255,255,255,.12);
   border:none;color:#fff;cursor:pointer;border-radius:50%;
   width:36px;height:36px;display:flex;align-items:center;justify-content:center;
-  touch-action:manipulation;
+  touch-action:manipulation;z-index:205;
 }
-.lightbox-close:hover{background:rgba(255,255,255,.22)}
+.lightbox-close:hover,.lightbox-zoom-btn:hover{background:rgba(255,255,255,.22)}
 .lightbox-close svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.lightbox-toolbar{
+  position:absolute;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%);display:flex;align-items:center;gap:7px;
+  background:rgba(13,13,14,.62);border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;padding:6px 8px;backdrop-filter:blur(10px);z-index:205;
+}
+.lightbox-zoom-btn{
+  width:34px;height:34px;border-radius:50%;border:none;
+  background:rgba(255,255,255,.12);color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:700;line-height:1;touch-action:manipulation;
+}
+.lightbox-reset-btn{width:auto;min-width:54px;border-radius:999px;font-size:12px;padding:0 12px}
+.lightbox-zoom-level{
+  min-width:46px;text-align:center;color:#dfe3f4;font-size:12px;
+  font-variant-numeric:tabular-nums;
+}
+@media (max-width:600px){
+  .lightbox-toolbar{bottom:calc(10px + env(safe-area-inset-bottom,0px));padding:5px 7px;gap:6px}
+  .lightbox-zoom-btn{width:32px;height:32px;font-size:17px}
+  .lightbox-reset-btn{min-width:48px;font-size:11px;padding:0 10px}
+  .lightbox img{max-width:94vw;max-height:86dvh}
+}
 
 /* ═══════════════════ TOAST ═══════════════════ */
 .toast{
@@ -799,6 +833,98 @@ html,body{width:100%;max-width:100%;overflow:hidden;}
   .send-btn{min-width:50px!important;font-size:13px!important;}
 }
 
+
+
+/* PATCH: Viewer count, keyboard-send only, and Apps Script upload compatibility */
+.presence-name.viewer-count,
+.presence-name.viewer-count.contact-list-profile-name{
+  color:#22c55e!important;
+  font-style:normal!important;
+  font-weight:600!important;
+}
+.presence-item.viewer-count-item .presence-dot{background:#22c55e!important;}
+.send-btn{display:none!important;}
+.input-wrap{gap:0!important;}
+.input-wrap .chat-textarea{flex:1 1 100%!important;width:100%!important;max-width:100%!important;}
+@media (max-width:600px){
+  .send-btn{display:none!important;}
+  .input-wrap{gap:0!important;}
+  .input-wrap .chat-textarea{flex:1 1 100%!important;width:100%!important;max-width:100%!important;}
+  .presence-name.viewer-count{color:#22c55e!important;font-style:normal!important;}
+}
+
+
+/* ADMIN CLEAR + ARABIC TYPING STATUS */
+.admin-clear-btn{
+  display:none;
+  width:20px;height:16px;border:none;background:transparent;
+  color:#9ca3af;cursor:pointer;border-radius:4px;
+  align-items:center;justify-content:center;padding:0;
+  transition:color .15s,background .15s;
+  margin-right:6px;
+}
+.admin-clear-btn.show{display:flex;}
+.admin-clear-btn:hover{color:#fca5a5;background:#2a1518;}
+.admin-clear-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.typing-bar .typing-name{color:#ffffff;font-weight:600;}
+.typing-bar .typing-separator{color:#5e6278;}
+.typing-bar .typing-status-word{color:#5e6278;}
+
+
+/* FINAL PATCH: presence size, visible scrollbars, mobile long-press actions, Arabic typing color, emoji rendering */
+.chat-messages-wrap,
+.chat-messages-container{
+  scrollbar-width:thin;
+  scrollbar-color:rgba(128,128,128,.4) rgba(128,128,128,.05);
+  scrollbar-gutter:stable;
+}
+.chat-messages-wrap::-webkit-scrollbar,
+.chat-messages-container::-webkit-scrollbar{
+  width:11px!important;
+  background-color:rgba(128,128,128,.05)!important;
+  border:none!important;
+}
+.chat-messages-wrap::-webkit-scrollbar-thumb,
+.chat-messages-container::-webkit-scrollbar-thumb{
+  border-radius:8px!important;
+  border:2px solid transparent!important;
+  background-clip:content-box!important;
+  background-color:rgba(128,128,128,.4)!important;
+}
+.chat-messages-wrap::-webkit-scrollbar-track,
+.chat-messages-container::-webkit-scrollbar-track{
+  background-color:rgba(128,128,128,.05)!important;
+}
+.presence-avatar{
+  width:25px!important;
+  height:25px!important;
+  flex:0 0 25px!important;
+}
+.presence-item{gap:7px!important;}
+@media (max-width:600px){
+  .presence-avatar{
+    width:24px!important;
+    height:24px!important;
+    flex:0 0 24px!important;
+  }
+  .presence-name{max-width:calc(var(--mobile-sidebar-w) - 44px)!important;}
+  .msg:hover .msg-actions{opacity:0!important;pointer-events:none!important;}
+  .msg.long-pressed .msg-actions{opacity:1!important;pointer-events:auto!important;}
+}
+@media (min-width:601px){
+  .msg:hover .msg-actions{opacity:1!important;pointer-events:auto!important;}
+}
+.typing-bar .typing-status-word{color:#4c7d9f!important;}
+.msg-text,
+.msg-content-line,
+.chat-textarea{
+  font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla','Segoe UI Symbol',sans-serif!important;
+}
+.msg-text,
+.chat-textarea{
+  font-variant-emoji:normal;
+}
+
 </style>
 </head>
 <body>
@@ -859,6 +985,9 @@ html,body{width:100%;max-width:100%;overflow:hidden;}
         <button class="send-btn" id="sendBtn" disabled aria-label="Send">Send</button>
       </div>
       <div class="logout-strip">
+        <button class="admin-clear-btn" id="adminClearBtn" type="button" title="حذف جميع الرسائل" aria-label="Delete all messages">
+          <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+        </button>
         <button class="logout-btn" id="logoutBtn" type="button" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name">
           <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg>
         </button>
@@ -906,7 +1035,15 @@ html,body{width:100%;max-width:100%;overflow:hidden;}
   <button class="lightbox-close" id="lightboxClose" aria-label="Close">
     <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
   </button>
-  <img id="lightboxImg" src="" alt=""/>
+  <div class="lightbox-viewport" id="lightboxViewport">
+    <img id="lightboxImg" src="" alt=""/>
+  </div>
+  <div class="lightbox-toolbar" aria-label="Image zoom controls">
+    <button class="lightbox-zoom-btn" id="lightboxZoomOut" type="button" aria-label="Zoom out">−</button>
+    <span class="lightbox-zoom-level" id="lightboxZoomLevel">100%</span>
+    <button class="lightbox-zoom-btn" id="lightboxZoomIn" type="button" aria-label="Zoom in">+</button>
+    <button class="lightbox-zoom-btn lightbox-reset-btn" id="lightboxZoomReset" type="button" aria-label="Reset zoom">Reset</button>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -945,6 +1082,7 @@ var unsubMessages = null;
 var isSending     = false;
 var userConsented = false;
 var DEFAULT_AVATAR = 'https://d167qii8h0pw75.cloudfront.net/images/D/E/F/DEFAULTUSER-resize_38x38.png';
+var ADMIN_NAME = '07800073421';
 
 /* ═══════════════════════════════════════════════
    MOBILE SIDEBAR TOGGLE
@@ -983,6 +1121,47 @@ function logoutUser() {
     try { auth.signOut(); } catch(e) {}
     location.reload();
   });
+}
+
+function isAdminUser() {
+  return !!(currentUser && String(currentUser.name || '').trim() === ADMIN_NAME);
+}
+
+function updateAdminControls() {
+  var btn = document.getElementById('adminClearBtn');
+  if (!btn) return;
+  if (isAdminUser()) btn.classList.add('show');
+  else btn.classList.remove('show');
+}
+
+function deleteAllMessages() {
+  if (!isAdminUser()) {
+    showToast('هذا الزر متاح للمسؤول فقط', 'error');
+    return;
+  }
+  if (!confirm('هل تريد حذف جميع الرسائل من المحادثة؟')) return;
+
+  var btn = document.getElementById('adminClearBtn');
+  if (btn) btn.disabled = true;
+
+  var messagesRef = db.collection('rooms').doc(ROOM_ID).collection('messages');
+
+  function deleteBatch() {
+    return messagesRef.limit(250).get().then(function(snap) {
+      if (snap.empty) return;
+      var batch = db.batch();
+      snap.docs.forEach(function(doc) { batch.delete(doc.ref); });
+      return batch.commit().then(deleteBatch);
+    });
+  }
+
+  deleteBatch()
+    .then(function() { showToast('تم حذف جميع الرسائل', 'success'); })
+    .catch(function(e) {
+      console.error('Delete all messages error:', e);
+      showToast('فشل حذف الرسائل', 'error');
+    })
+    .finally(function() { if (btn) btn.disabled = false; });
 }
 
 /* ═══════════════════════════════════════════════
@@ -1051,6 +1230,7 @@ function autoSignIn(name, devId) {
   isSignedIn  = true;
   document.getElementById('signinOverlay').style.display = 'none';
   document.getElementById('chatBottom').style.display    = 'block';
+  updateAdminControls();
   registerNamedPresence(name, devId);
   subscribeMessages();
   setTimeout(function(){ document.getElementById('chatInput').focus(); }, 300);
@@ -1153,43 +1333,44 @@ function uploadViaAppsScript(file, idx, total) {
 
 
 function postToAppsScriptWithProgress(payload, idx, total) {
-  return new Promise(function(resolve, reject){
-    try {
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', APPS_SCRIPT_URL, true);
-      xhr.setRequestHeader('Content-Type', 'text/plain');
+  // Google Apps Script often returns HTTP 0 with XMLHttpRequest upload progress
+  // because CORS preflight may fail. Use a simple fetch POST instead.
+  var progressTimer=null;
+  var fakePct=72;
+  function startSoftProgress(){
+    progressTimer=setInterval(function(){
+      fakePct=Math.min(fakePct+2,92);
+      setProgressPct(fakePct, idx+1, total);
+    },450);
+  }
+  function stopSoftProgress(){
+    if(progressTimer){ clearInterval(progressTimer); progressTimer=null; }
+  }
 
-      xhr.upload.onprogress = function(ev) {
-        if (ev && ev.lengthComputable) {
-          var uploadPct = 25 + Math.round((ev.loaded / ev.total) * 70);
-          setProgressPct(uploadPct, idx+1, total);
-        } else {
-          setProgressPct(35, idx+1, total);
-        }
-      };
-
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState !== 4) return;
-        if (xhr.status < 200 || xhr.status >= 300) {
-          reject(new Error('HTTP ' + xhr.status));
-          return;
-        }
-        try {
-          setProgressPct(98, idx+1, total);
-          resolve(JSON.parse(xhr.responseText || '{}'));
-        } catch(e) {
-          reject(new Error('Invalid Apps Script JSON response'));
-        }
-      };
-
-      xhr.onerror = function(){ reject(new Error('Network error')); };
-      xhr.ontimeout = function(){ reject(new Error('Upload timeout')); };
-      xhr.timeout = 120000;
-      xhr.send(JSON.stringify(payload));
-    } catch(e) { reject(e); }
+  startSoftProgress();
+  return fetch(APPS_SCRIPT_URL, {
+    method:'POST',
+    body:JSON.stringify(payload),
+    redirect:'follow'
+  })
+  .then(function(res){
+    stopSoftProgress();
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    setProgressPct(98, idx+1, total);
+    return res.text();
+  })
+  .then(function(txt){
+    try { return JSON.parse(txt || '{}'); }
+    catch(e) { throw new Error('Invalid Apps Script JSON response'); }
+  })
+  .catch(function(err){
+    stopSoftProgress();
+    if(err && (err.message==='Failed to fetch' || err.message==='NetworkError when attempting to fetch resource.')){
+      throw new Error('تعذر الاتصال بـ Apps Script. تأكد من نشره Web app بصلاحية Anyone.');
+    }
+    throw err;
   });
 }
-
 function createMediaPreviewDataUrl(file) {
   if (!file||!file.type) return Promise.resolve(null);
   var t = file.type.toLowerCase();
@@ -1258,6 +1439,16 @@ function getFileIcon(name,mime){
   if(m.startsWith('audio/')||/^(mp3|wav|aac|flac|m4a)$/.test(ext)) return '🎵';
   return({pdf:'📄',doc:'📝',docx:'📝',txt:'📃',zip:'🗜️',rar:'🗜️',xls:'📊',xlsx:'📊',csv:'📊',ppt:'📑',pptx:'📑'}[ext])||'📎';
 }
+
+function normalizeEmojiPresentation(str){
+  // Force colorful emoji presentation for common heart/symbol characters without touching dates or UI numbers.
+  return String(str || '')
+    .replace(/❤(?!\ufe0f)/g, '❤️')
+    .replace(/♥(?!\ufe0f)/g, '♥️')
+    .replace(/❣(?!\ufe0f)/g, '❣️')
+    .replace(/♡(?!\ufe0f)/g, '♡️');
+}
+
 function uniqueUrls(list){ var seen={}; return list.filter(function(u){ if(!u||seen[u])return false; seen[u]=true; return true; }); }
 function extractDriveId(url){ url=String(url||''); var m=url.match(/\/file\/d\/([^\/\?#]+)/); if(m&&m[1])return m[1]; m=url.match(/[?&]id=([^&]+)/); if(m&&m[1])return decodeURIComponent(m[1]); return''; }
 function getAttachmentFileId(att){ return att.fileId||att.id||att.file_id||att.driveFileId||att.driveId||extractDriveId(att.driveUrl)||extractDriveId(att.url)||''; }
@@ -1374,20 +1565,23 @@ document.getElementById('chatInput').addEventListener('keydown', function(e){
   /* mobile: Enter sends, Shift+Enter newline */
   if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
-document.getElementById('sendBtn').addEventListener('click', sendMessage);
+var sendBtnEl = document.getElementById('sendBtn');
+if (sendBtnEl) sendBtnEl.addEventListener('click', sendMessage);
 document.getElementById('logoutBtn').addEventListener('click', logoutUser);
+var adminClearBtnEl = document.getElementById('adminClearBtn');
+if (adminClearBtnEl) adminClearBtnEl.addEventListener('click', deleteAllMessages);
 document.getElementById('chatInput').addEventListener('input', function(){ autoResize(this); handleTyping(); updateSendBtn(); });
 
 function sendMessage(){
   if (!isSignedIn||isSending) return;
-  var text  = document.getElementById('chatInput').value.trim();
+  var text  = normalizeEmojiPresentation(document.getElementById('chatInput').value.trim());
   var files = pendingFiles.filter(function(f){ return f!=null; });
   if (!text&&!files.length) return;
   if (files.length>0&&!userConsented){ showToast('لم توافق على مشاركة الملفات','error'); return; }
 
   isSending = true;
   var btn = document.getElementById('sendBtn');
-  btn.disabled=true;
+  if (btn) btn.disabled=true;
 
   var savedText=text, savedFiles=files.slice();
   document.getElementById('chatInput').value='';
@@ -1402,7 +1596,7 @@ function sendMessage(){
     .catch(function(e){ hideUploadProgress(); showToast(e.message==='script/not-configured'?'⚠️ ضع رابط Apps Script أولاً':'فشل الرفع: '+(e.message||''),'error'); })
     .finally(finishSend);
 
-  function finishSend(){ isSending=false; btn.disabled=false; updateSendBtn(); }
+  function finishSend(){ isSending=false; if (btn) btn.disabled=false; updateSendBtn(); }
 }
 
 function saveMsg(text,attachments){
@@ -1485,6 +1679,7 @@ function buildMsgEl(id,data){
   }
 
   var editedBadge=data.edited?'<span class="msg-edited">(edited)</span>':'';
+  var displayText = normalizeEmojiPresentation(data.text||'');
   var socialEmbedHtml = buildSocialEmbedsHtml(data.text||'');
 
   /* SVG icons for edit/delete */
@@ -1507,7 +1702,7 @@ function buildMsgEl(id,data){
         '<span class="msg-inline-name">'+escHtml(data.name||'Unknown')+'</span> '+
         '<span class="msg-inline-type">('+escHtml(data.type||'Guest')+')</span>'+
         '<span class="msg-colon">:</span>'+
-        '<span class="msg-text" id="txt-'+id+'" data-raw="'+escHtml(data.text||'')+'">'+linkify(escHtml(data.text||''))+'</span>'+editedBadge+
+        '<span class="msg-text" id="txt-'+id+'" data-raw="'+escHtml(data.text||'')+'">'+linkify(escHtml(displayText))+'</span>'+editedBadge+
       '</div>'+
       socialEmbedHtml+
       mediaHtml+
@@ -1604,19 +1799,41 @@ function listenPresence(){
   rtdb.ref('presence/'+ROOM_ID).on('value',function(snap){ renderPresence(snap.val()||{}); });
 }
 function renderPresence(all){
-  var entries=Object.values(all);
+  var entries=Object.values(all||{});
   var count=entries.length;
+  var viewerCount=entries.filter(function(p){ return !p.name && p.isViewer; }).length;
+  var namedEntries=entries.filter(function(p){ return p.name; });
+  var anonymousEntries=entries.filter(function(p){ return !p.name && !p.isViewer; });
+
   document.getElementById('onlineCountEl').textContent=count+' online';
   document.getElementById('mobileOnlineCount').textContent=count;
-  var list=document.getElementById('presenceList'); list.innerHTML='';
-  entries.forEach(function(p){
-    var el=document.createElement('div'); el.className='presence-item';
-    var label=p.name||(p.isViewer?'viewer':'anonymous');
-    el.innerHTML='<div class="presence-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div><div class="presence-name '+(p.name?'':'anon')+'">'+escHtml(label)+'</div><div class="presence-dot" title="Online"></div>';
+
+  var list=document.getElementById('presenceList');
+  list.innerHTML='';
+
+  namedEntries.forEach(function(p){
+    var el=document.createElement('div');
+    el.className='presence-item';
+    var label=p.name;
+    el.innerHTML='<div class="presence-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div><div class="presence-name contact-list-profile-name">'+escHtml(label)+'</div><div class="presence-dot" title="Online"></div>';
+    list.appendChild(el);
+  });
+
+  if(viewerCount>0){
+    var viewerEl=document.createElement('div');
+    viewerEl.className='presence-item viewer-count-item';
+    var viewerLabel=viewerCount+' Viewer';
+    viewerEl.innerHTML='<div class="presence-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div><div class="presence-name contact-list-profile-name viewer-count">'+escHtml(viewerLabel)+'</div><div class="presence-dot" title="Online"></div>';
+    list.appendChild(viewerEl);
+  }
+
+  anonymousEntries.forEach(function(p){
+    var el=document.createElement('div');
+    el.className='presence-item';
+    el.innerHTML='<div class="presence-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div><div class="presence-name contact-list-profile-name anon">anonymous</div><div class="presence-dot" title="Online"></div>';
     list.appendChild(el);
   });
 }
-
 /* ═══════════════════════════════════════════════
    TYPING
 ═══════════════════════════════════════════════ */
@@ -1633,23 +1850,135 @@ function stopTyping(){
 }
 rtdb.ref('typing/'+ROOM_ID).on('value',function(snap){
   var all=snap.val()||{}, devId=currentUser?currentUser.deviceId:null;
-  var others=Object.entries(all).filter(function(e){ return e[0]!==devId; }).map(function(e){ return e[1].name; });
-  document.getElementById('typingBar').textContent=others.length?others.join(', ')+(others.length===1?' is typing…':' are typing…'):'';
+  var others=Object.entries(all)
+    .filter(function(e){ return e[0]!==devId; })
+    .map(function(e){ return e[1] && e[1].name ? e[1].name : ''; })
+    .filter(Boolean);
+
+  var bar = document.getElementById('typingBar');
+  if (!bar) return;
+
+  if (!others.length) {
+    bar.innerHTML = '';
+    return;
+  }
+
+  var namesHtml = others.map(function(name){
+    return '<span class="typing-name">' + escHtml(name) + '</span>';
+  }).join('<span class="typing-separator">، </span>');
+
+  bar.innerHTML = namesHtml + ' <span class="typing-status-word">يكتب...</span>';
 });
 
 /* ═══════════════════════════════════════════════
-   LIGHTBOX
+   LIGHTBOX + IMAGE ZOOM / PAN / PINCH
 ═══════════════════════════════════════════════ */
+var lightboxState = { scale:1, x:0, y:0, dragging:false, lastX:0, lastY:0, pinchStartDist:0, pinchStartScale:1 };
+function clamp(n,min,max){ return Math.min(Math.max(n,min),max); }
+function updateLightboxTransform(){
+  var img=document.getElementById('lightboxImg');
+  var level=document.getElementById('lightboxZoomLevel');
+  if(!img) return;
+  lightboxState.scale=clamp(lightboxState.scale,1,5);
+  if(lightboxState.scale<=1.001){ lightboxState.scale=1; lightboxState.x=0; lightboxState.y=0; }
+  img.style.transform='translate3d('+lightboxState.x+'px,'+lightboxState.y+'px,0) scale('+lightboxState.scale+')';
+  if(level) level.textContent=Math.round(lightboxState.scale*100)+'%';
+}
+function resetLightboxZoom(){
+  lightboxState.scale=1; lightboxState.x=0; lightboxState.y=0;
+  updateLightboxTransform();
+}
+function zoomLightbox(delta, cx, cy){
+  var oldScale=lightboxState.scale;
+  var nextScale=clamp(oldScale+delta,1,5);
+  if(nextScale===oldScale) return;
+  // Approximate zoom toward pointer/center for a natural feel
+  if(cx!=null && cy!=null){
+    var vw=window.innerWidth/2, vh=window.innerHeight/2;
+    lightboxState.x -= (cx-vw) * (nextScale-oldScale) / Math.max(nextScale,1);
+    lightboxState.y -= (cy-vh) * (nextScale-oldScale) / Math.max(nextScale,1);
+  }
+  lightboxState.scale=nextScale;
+  updateLightboxTransform();
+}
+function closeLightbox(){
+  var lb=document.getElementById('lightbox');
+  var img=document.getElementById('lightboxImg');
+  if(lb) lb.classList.remove('open');
+  if(img) img.src='';
+  resetLightboxZoom();
+}
 function openLightbox(url){
+  resetLightboxZoom();
   document.getElementById('lightboxImg').src=url;
   document.getElementById('lightbox').classList.add('open');
 }
-document.getElementById('lightboxClose').addEventListener('click',function(){
-  document.getElementById('lightbox').classList.remove('open');
-  document.getElementById('lightboxImg').src='';
-});
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('lightboxZoomIn').addEventListener('click',function(){ zoomLightbox(.35); });
+document.getElementById('lightboxZoomOut').addEventListener('click',function(){ zoomLightbox(-.35); });
+document.getElementById('lightboxZoomReset').addEventListener('click', resetLightboxZoom);
 document.getElementById('lightbox').addEventListener('click',function(e){
-  if(e.target===this){ this.classList.remove('open'); document.getElementById('lightboxImg').src=''; }
+  if(e.target===this){ closeLightbox(); }
+});
+document.getElementById('lightboxViewport').addEventListener('wheel',function(e){
+  e.preventDefault();
+  zoomLightbox(e.deltaY<0?.25:-.25,e.clientX,e.clientY);
+},{passive:false});
+document.getElementById('lightboxViewport').addEventListener('mousedown',function(e){
+  if(lightboxState.scale<=1) return;
+  lightboxState.dragging=true; lightboxState.lastX=e.clientX; lightboxState.lastY=e.clientY;
+  this.classList.add('dragging');
+});
+window.addEventListener('mousemove',function(e){
+  if(!lightboxState.dragging) return;
+  lightboxState.x += e.clientX-lightboxState.lastX;
+  lightboxState.y += e.clientY-lightboxState.lastY;
+  lightboxState.lastX=e.clientX; lightboxState.lastY=e.clientY;
+  updateLightboxTransform();
+});
+window.addEventListener('mouseup',function(){
+  lightboxState.dragging=false;
+  var vp=document.getElementById('lightboxViewport'); if(vp) vp.classList.remove('dragging');
+});
+function touchDistance(t1,t2){ var dx=t1.clientX-t2.clientX, dy=t1.clientY-t2.clientY; return Math.sqrt(dx*dx+dy*dy); }
+document.getElementById('lightboxViewport').addEventListener('touchstart',function(e){
+  if(e.touches.length===1){
+    lightboxState.dragging=lightboxState.scale>1;
+    lightboxState.lastX=e.touches[0].clientX; lightboxState.lastY=e.touches[0].clientY;
+  } else if(e.touches.length===2){
+    lightboxState.dragging=false;
+    lightboxState.pinchStartDist=touchDistance(e.touches[0],e.touches[1]);
+    lightboxState.pinchStartScale=lightboxState.scale;
+  }
+},{passive:false});
+document.getElementById('lightboxViewport').addEventListener('touchmove',function(e){
+  if(e.touches.length===2){
+    e.preventDefault();
+    var dist=touchDistance(e.touches[0],e.touches[1]);
+    if(lightboxState.pinchStartDist>0){
+      lightboxState.scale=clamp(lightboxState.pinchStartScale*(dist/lightboxState.pinchStartDist),1,5);
+      updateLightboxTransform();
+    }
+  } else if(e.touches.length===1 && lightboxState.dragging){
+    e.preventDefault();
+    var t=e.touches[0];
+    lightboxState.x += t.clientX-lightboxState.lastX;
+    lightboxState.y += t.clientY-lightboxState.lastY;
+    lightboxState.lastX=t.clientX; lightboxState.lastY=t.clientY;
+    updateLightboxTransform();
+  }
+},{passive:false});
+document.getElementById('lightboxViewport').addEventListener('touchend',function(){
+  lightboxState.dragging=false;
+  lightboxState.pinchStartDist=0;
+});
+window.addEventListener('keydown',function(e){
+  var lb=document.getElementById('lightbox');
+  if(!lb||!lb.classList.contains('open')) return;
+  if(e.key==='Escape') closeLightbox();
+  else if(e.key==='+'||e.key==='=') zoomLightbox(.35);
+  else if(e.key==='-'||e.key==='_') zoomLightbox(-.35);
+  else if(e.key==='0') resetLightboxZoom();
 });
 
 /* ═══════════════════════════════════════════════
@@ -1661,7 +1990,8 @@ function updateSendBtn(){
   if(isSending)return;
   var hasText=document.getElementById('chatInput').value.trim().length>0;
   var hasFiles=pendingFiles.some(function(f){ return f!=null; });
-  document.getElementById('sendBtn').disabled=!(hasText||hasFiles);
+  var btn=document.getElementById('sendBtn');
+  if(btn) btn.disabled=!(hasText||hasFiles);
 }
 function formatTime(d){ return d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true}); }
 function escHtml(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
