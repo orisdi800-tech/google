@@ -1607,7 +1607,7 @@ body.chat-uploading .chat-create-link{display:none!important;}
     <div class="chat-list noselect" style="display:none;"><div class="chat-list-container"><div class="chat-list-items"></div></div><div class="chat-list-toggle-icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></div><div class="chat-list-new-indicator"></div></div>
     <div class="chat-sticky-message" style="display:none;"></div><div class="chat-ad"></div><div class="chat-contacts-divider" id="chatContactsDivider"><div></div></div><div class="chat-contacts-banner"><div class="chat-online-count" id="onlineCountEl">0 online</div><a class="chat-contacts-show-button" style="display:none;" href="javascript:void(0);">show all...</a></div><div class="chat-contacts-container" id="sidebar"><div class="chat-contacts" id="presenceList"></div></div>
     <div class="typing-bar" id="typingBar"></div>
-    <div class="chat-input-container" id="chatBottom" style="display:none"><div class="chat-input-wrapper"><textarea class="chat-input chat-textarea" id="chatInput" placeholder="Type a message and press enter" rows="1" enterkeyhint="send" onfocus="this.placeholder=''" onblur="this.placeholder='Type a message and press enter'"></textarea><button class="send-btn" id="sendBtn" disabled aria-label="Send">Send</button><div class="chat-input-status" style="display:none"><div class="chat-input-approval">Waiting for moderator approval...</div><div class="chat-input-progress-border"><div class="chat-input-progress-container"><div class="chat-input-progress"></div></div></div></div><div class="chat-input-closed" style="display:none;"><div class="chat-input-closed-message">Chat is closed.</div></div></div><div class="attach-bar"><button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()" aria-label="Attach file">📎</button><input type="file" id="fileInput" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar"/></div><div class="upload-preview-bar" id="uploadPreviewBar"></div><div class="upload-progress-wrap" id="uploadProgressWrap"><div class="upload-progress-top"><div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div><div class="upload-progress-pct" id="uploadProgressPct">0%</div></div><div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div></div><div class="logout-strip"><button class="admin-clear-btn" id="adminClearBtn" type="button" title="حذف جميع الرسائل" aria-label="Delete all messages"></button><button class="logout-btn" id="logoutBtn" type="button" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"></button></div></div>
+    <div class="chat-input-container" id="chatBottom" style="display:none"><div class="chat-input-wrapper"><textarea class="chat-input chat-textarea" id="chatInput" placeholder="Type a message and press enter" rows="1" enterkeyhint="send" onfocus="this.placeholder=''" onblur="this.placeholder='Type a message and press enter'"></textarea><button class="send-btn" id="sendBtn" disabled aria-label="Send">Send</button><div class="chat-input-status" style="display:none"><div class="chat-input-approval">Waiting for moderator approval...</div><div class="chat-input-progress-border"><div class="chat-input-progress-container"><div class="chat-input-progress"></div></div></div></div><div class="chat-input-closed" style="display:none;"><div class="chat-input-closed-message">Chat is closed.</div></div></div><div class="attach-bar"><button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()" aria-label="Attach file">📎</button><input type="file" id="fileInput" multiple/></div><div class="upload-preview-bar" id="uploadPreviewBar"></div><div class="upload-progress-wrap" id="uploadProgressWrap"><div class="upload-progress-top"><div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div><div class="upload-progress-pct" id="uploadProgressPct">0%</div></div><div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div></div><div class="logout-strip"><button class="admin-clear-btn" id="adminClearBtn" type="button" title="حذف جميع الرسائل" aria-label="Delete all messages"></button><button class="logout-btn" id="logoutBtn" type="button" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"></button></div></div>
     <div class="chat-input-container signin-input-container" id="signinOverlay"><div class="chat-signin-box"><div class="signin-box"><div class="signin-title"><b>Please sign in</b></div><div class="valign" style="height:34px;"><div class="valign-in1"><div class="valign-in2"><div class="signin-row"><input class="signin-input guest-signin-name" id="nameInput" type="text" placeholder="Your name" maxlength="30" autocomplete="off" inputmode="text" enterkeyhint="done"/></div><div class="consent-btns"><button class="consent-accept popup-button guest-signin-submit" id="signinBtn">Sign in</button></div></div></div></div></div></div></div>
   </div>
   <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick(event);return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-gif-button" href="javascript:void(0);" onclick="onGifClick();return false;" title="إرسال GIF" aria-label="Send GIF">GIF</a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a>
@@ -2024,17 +2024,61 @@ function createVideoPosterDataUrl(file) {
 }
 function detectFileType(mime,name){
   var m=(mime||'').toLowerCase(), n=(name||'').toLowerCase();
-  if(m.startsWith('image/')||/\.(jpg|jpeg|png|gif|webp|svg|bmp)$/i.test(n)) return 'image';
-  if(m.startsWith('video/')||/\.(mp4|webm|ogg|mov|avi|mkv|m4v)$/i.test(n))  return 'video';
-  if(m.startsWith('audio/')||/\.(mp3|wav|aac|flac|m4a|ogg)$/i.test(n))      return 'audio';
+  if(m.startsWith('image/')||/\.(jpg|jpeg|png|gif|webp|svg|bmp|avif|heic|heif|tif|tiff|ico)$/i.test(n)) return 'image';
+  if(m.startsWith('video/')||/\.(mp4|m4v|webm|ogv|ogg|mov|qt|avi|mkv|flv|wmv|mpg|mpeg|mpe|3gp|3g2|ts|m2ts|mts|vob|rm|rmvb|divx|asf)$/i.test(n)) return 'video';
+  if(m.startsWith('audio/')||/\.(mp3|wav|aac|flac|m4a|oga|ogg|opus|weba|wma|aiff|aif|amr|mid|midi)$/i.test(n)) return 'audio';
   return 'file';
+}
+function getVideoMimeType(mime,name,url){
+  var m=(mime||'').toLowerCase();
+  var target=String(name||url||'').toLowerCase().split('?')[0].split('#')[0];
+  if(m && m.indexOf('video/')===0) return m;
+  if(/\.(mp4|m4v)$/i.test(target)) return 'video/mp4';
+  if(/\.webm$/i.test(target)) return 'video/webm';
+  if(/\.(ogv|ogg)$/i.test(target)) return 'video/ogg';
+  if(/\.(mov|qt)$/i.test(target)) return 'video/quicktime';
+  if(/\.avi$/i.test(target)) return 'video/x-msvideo';
+  if(/\.mkv$/i.test(target)) return 'video/x-matroska';
+  if(/\.wmv$/i.test(target)) return 'video/x-ms-wmv';
+  if(/\.(mpg|mpeg|mpe)$/i.test(target)) return 'video/mpeg';
+  if(/\.(3gp|3g2)$/i.test(target)) return 'video/3gpp';
+  return 'video/mp4';
+}
+function uploadcareVideoTransformUrl(uuid, format){
+  uuid = String(uuid || '').replace(/^\/+|\/+$/g, '');
+  format = String(format || 'mp4').replace(/[^a-z0-9]/ig,'').toLowerCase() || 'mp4';
+  if(!uuid) return '';
+  return UPLOADCARE_CDN_BASE.replace(/\/+$/,'') + '/' + encodeURIComponent(uuid) + '/video/-/format/' + format + '/';
+}
+function buildVideoSources(att, primaryUrl){
+  var urls = getVideoUrlCandidates(Object.assign({}, att || {}, {url: primaryUrl || (att && att.url) || ''}));
+  var uuid = att && (att.uuid || att.publicId);
+  var originalName = (att && att.name) || primaryUrl || 'video';
+  var originalMime = getVideoMimeType(att && att.mime, originalName, primaryUrl);
+  var originalLikelyPlayable = /video\/(mp4|webm|ogg|quicktime)/i.test(originalMime) || /\.(mp4|m4v|webm|ogv|ogg|mov)$/i.test(String(originalName||''));
+  var candidates = [];
+  function add(url,type,label){ if(url) candidates.push({url:url,type:type,label:label||''}); }
+  if(originalLikelyPlayable){ urls.forEach(function(u){ add(u, getVideoMimeType(att && att.mime, originalName, u), 'original'); }); }
+  if(uuid){
+    add(uploadcareVideoTransformUrl(uuid,'mp4'), 'video/mp4', 'mp4');
+    add(uploadcareVideoTransformUrl(uuid,'webm'), 'video/webm', 'webm');
+    add(uploadcareVideoTransformUrl(uuid,'ogg'), 'video/ogg', 'ogg');
+  }
+  if(!originalLikelyPlayable){ urls.forEach(function(u){ add(u, getVideoMimeType(att && att.mime, originalName, u), 'original'); }); }
+  var seen={};
+  candidates = candidates.filter(function(c){ var k=c.url+'|'+c.type; if(!c.url||seen[k]) return false; seen[k]=true; return true; });
+  var html = candidates.map(function(c){ return '<source src="'+escHtml(c.url)+'" type="'+escHtml(c.type)+'">'; }).join('');
+  var downloadUrl = (urls[0] || primaryUrl || (candidates[0]&&candidates[0].url) || '');
+  return {html:html, urls:candidates.map(function(c){return c.url;}), downloadUrl:downloadUrl};
 }
 function formatFileSize(b){ if(!b)return''; if(b<1024)return b+' B'; if(b<1048576)return(b/1024).toFixed(1)+' KB'; return(b/1048576).toFixed(1)+' MB'; }
 function getFileIcon(name,mime){
   var ext=((name||'').split('.').pop()||'').toLowerCase();
   var m=(mime||'').toLowerCase();
-  if(m.startsWith('audio/')||/^(mp3|wav|aac|flac|m4a)$/.test(ext)) return '🎵';
-  return({pdf:'📄',doc:'📝',docx:'📝',txt:'📃',zip:'🗜️',rar:'🗜️',xls:'📊',xlsx:'📊',csv:'📊',ppt:'📑',pptx:'📑'}[ext])||'📎';
+  if(m.startsWith('image/')||/^(jpg|jpeg|png|gif|webp|svg|bmp|avif|heic|heif|tif|tiff|ico)$/.test(ext)) return '🖼️';
+  if(m.startsWith('video/')||/^(mp4|m4v|webm|ogv|ogg|mov|qt|avi|mkv|flv|wmv|mpg|mpeg|3gp|3g2|ts|m2ts|mts)$/.test(ext)) return '🎬';
+  if(m.startsWith('audio/')||/^(mp3|wav|aac|flac|m4a|oga|ogg|opus|weba|wma|aiff|aif|amr|mid|midi)$/.test(ext)) return '🎵';
+  return({pdf:'📄',doc:'📝',docx:'📝',odt:'📝',rtf:'📝',txt:'📃',md:'📃',zip:'🗜️',rar:'🗜️','7z':'🗜️',tar:'🗜️',gz:'🗜️',xls:'📊',xlsx:'📊',csv:'📊',ods:'📊',ppt:'📑',pptx:'📑',odp:'📑',apk:'📦',exe:'⚙️',dmg:'💿',iso:'💿'}[ext])||'📎';
 }
 
 function normalizeEmojiPresentation(str){
@@ -2160,8 +2204,8 @@ function handlePlyrVideoError(video){
     if(wrap && !wrap.querySelector('.plyr-video-fallback.active')){
       var div = document.createElement('div');
       div.className = 'plyr-video-fallback active';
-      div.innerHTML = 'تعذر تشغيل الفيديو داخل المتصفح. قد تكون الصيغة غير مدعومة على هذا الجهاز. ' +
-        (link ? '<a target="_blank" rel="nofollow" href="'+escHtml(link)+'">فتح أو تحميل الفيديو</a>' : '');
+      div.innerHTML = 'تعذر تشغيل هذا النوع داخل مشغل المتصفح مباشرة. جرّب فتحه أو تحميله، أو ارفعه بصيغة MP4/H.264 للتشغيل الفوري. ' +
+        (link ? '<a target="_blank" rel="nofollow" href="'+escHtml(link)+'">فتح/تحميل الملف</a>' : '');
       wrap.appendChild(div);
     }
   }catch(e){}
@@ -2344,10 +2388,9 @@ function buildMsgEl(id,data){
         mediaHtml+='<img class="msg-image loading" src="'+escHtml(first)+'" data-fallback-idx="0" data-fallbacks="'+escHtml(enc)+'" alt="'+escHtml(att.name||'صورة')+'" onload="this.classList.remove(\'loading\');this.style.opacity=\'1\'" onerror="handleImageError(this)" onclick="event.stopPropagation();openLightbox(this.src)"/>';
       } else if(t==='video'){
         if(primaryUrl){
-          var videoUrls = getVideoUrlCandidates(Object.assign({}, att, {url: primaryUrl}));
-          var firstVideo = videoUrls[0] || primaryUrl;
-          var videoType = escHtml(att.mime || (String(firstVideo).match(/\.webm(?:$|[?#])/i) ? 'video/webm' : 'video/mp4'));
-          mediaHtml+='<div class="plyr-video-wrap" data-fallback-idx="0" data-fallbacks="'+escHtml(encodeURIComponent(JSON.stringify(videoUrls)))+'"><video class="plyr-video" controls playsinline webkit-playsinline preload="metadata" crossorigin="anonymous" data-download-url="'+escHtml(firstVideo)+'" onerror="handlePlyrVideoError(this)"><source src="'+escHtml(firstVideo)+'" type="'+videoType+'">متصفحك لا يدعم تشغيل هذا الفيديو.</video></div>';
+          var videoSources = buildVideoSources(att, primaryUrl);
+          var firstVideo = videoSources.downloadUrl || primaryUrl;
+          mediaHtml+='<div class="plyr-video-wrap" data-fallback-idx="0" data-fallbacks="'+escHtml(encodeURIComponent(JSON.stringify(videoSources.urls)))+'"><video class="plyr-video" controls playsinline webkit-playsinline preload="metadata" crossorigin="anonymous" data-download-url="'+escHtml(firstVideo)+'" onerror="handlePlyrVideoError(this)">'+videoSources.html+'متصفحك لا يدعم تشغيل هذا الفيديو.</video></div>';
         } else {
           var fid=getAttachmentFileId(att);
           if(fid) mediaHtml+='<div class="drive-video-player"><iframe src="https://drive.google.com/file/d/'+encodeURIComponent(fid)+'/preview" allow="autoplay; fullscreen; encrypted-media" allowfullscreen loading="lazy"></iframe></div><div class="drive-video-caption">'+escHtml(att.name||'فيديو')+'</div>';
