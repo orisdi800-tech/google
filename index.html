@@ -2116,31 +2116,76 @@ function uploadToFirebaseStorage(file, idx, total){
     } catch(e){ reject(e); }
   });
 }
+function normalizeDriveAttachment(dr,file){
+  dr = dr || {};
+  var fid = dr.fileId || dr.id || dr.file_id || dr.driveFileId || dr.driveId || getAttachmentFileId(dr) || '';
+  var driveUrl = dr.driveUrl || (fid ? ('https://drive.google.com/file/d/'+fid+'/view') : '');
+  var proxyUrl = dr.url || (fid ? (APPS_SCRIPT_URL+'?action=serve&id='+encodeURIComponent(fid)) : '');
+  var directUrl = dr.directUrl || (fid ? ('https://drive.google.com/uc?export=view&id='+encodeURIComponent(fid)) : proxyUrl);
+  var thumbUrl = dr.thumbnailUrl || (fid ? ('https://drive.google.com/thumbnail?id='+encodeURIComponent(fid)+'&sz=w1200') : '');
+  return {
+    url: proxyUrl || directUrl || driveUrl,
+    directUrl: directUrl || proxyUrl || driveUrl,
+    thumbnailUrl: thumbUrl,
+    driveUrl: driveUrl,
+    fileId: fid,
+    driveFileId: fid,
+    type: detectFileType(file.type,file.name),
+    name: file.name,
+    size: file.size,
+    mime: file.type || 'application/octet-stream',
+    displaySource: 'drive',
+    uploadedToDrive: true
+  };
+}
+function normalizeFirebaseAttachment(fb,file){
+  fb = fb || {};
+  return Object.assign({}, fb, {
+    url: fb.url || fb.firebaseUrl || fb.fullUrl,
+    firebaseUrl: fb.firebaseUrl || fb.url || fb.fullUrl,
+    fullUrl: fb.fullUrl || fb.firebaseUrl || fb.url,
+    type: fb.type || detectFileType(file.type,file.name),
+    name: fb.name || file.name,
+    size: fb.size || file.size,
+    mime: fb.mime || file.type || 'application/octet-stream',
+    displaySource: 'firebase',
+    uploadedToDrive: 'background'
+  });
+}
 function uploadFileEverywhere(file, idx, total){
-  // Start Drive upload at the same time, but do not block the chat message on it.
-  // The message preview uses Firebase Storage so it appears immediately after Firebase finishes.
-  var driveP;
-  try {
-    driveP = uploadViaAppsScript(file,idx,total).catch(function(e){
-      console.warn('Drive upload failed:', e);
-      return {driveError:e&&e.message?e.message:String(e)};
-    });
-  } catch(e) {
-    driveP = Promise.resolve({driveError:e&&e.message?e.message:String(e)});
-  }
-
-  return uploadToFirebaseStorage(file,idx,total).then(function(fb){
-    driveP.then(function(dr){ console.log('Drive upload result:', dr); }).catch(function(e){ console.warn('Drive upload error:', e); });
-    return Object.assign({}, fb, {
-      url: fb.url,
-      firebaseUrl: fb.firebaseUrl,
-      fullUrl: fb.fullUrl || fb.firebaseUrl || fb.url,
-      displaySource: 'firebase',
-      driveUrl: '',
-      driveFileId: '',
-      uploadedToDrive: 'pending',
-      driveError: ''
-    });
+  return new Promise(function(resolve,reject){
+    var resolved=false, fbError=null, driveError=null;
+    function done(att){
+      if(resolved) return;
+      resolved=true;
+      setProgressPct(100, idx+1, total);
+      resolve(att);
+    }
+    function failIfBothFailed(){
+      if(!resolved && fbError && driveError){
+        reject(new Error('فشل رفع الملف إلى Firebase و Drive: '+(fbError.message||fbError)+' / '+(driveError.message||driveError)));
+      }
+    }
+    try{
+      uploadToFirebaseStorage(file,idx,total).then(function(fb){
+        done(normalizeFirebaseAttachment(fb,file));
+      }).catch(function(e){
+        console.warn('Firebase upload failed:', e);
+        fbError=e||new Error('Firebase upload failed');
+        failIfBothFailed();
+      });
+    }catch(e){ fbError=e; }
+    try{
+      uploadViaAppsScript(file,idx,total).then(function(dr){
+        if(dr && dr.success===false) throw new Error(dr.error||'Drive upload failed');
+        done(normalizeDriveAttachment(dr,file));
+      }).catch(function(e){
+        console.warn('Drive upload failed:', e);
+        driveError=e||new Error('Drive upload failed');
+        failIfBothFailed();
+      });
+    }catch(e){ driveError=e; }
+    failIfBothFailed();
   });
 }
 function uploadFilesSequentially(files){
@@ -2186,7 +2231,12 @@ function sendMessage(){
     .catch(function(e){ hideUploadProgress(); showToast(e&&e.message==='script/not-configured'?'⚠️ ضع رابط Apps Script أولاً':'فشل الرفع: '+((e&&e.message)||''),'error'); })
     .finally(finishSend);
 
-  function finishSend(){ isSending=false; if (btn) btn.disabled=false; updateSendBtn(); }
+  function finishSend(){
+    isSending=false;
+    hideUploadProgress();
+    if (btn) btn.disabled=false;
+    updateSendBtn();
+  }
 }
 
 function saveMsg(text,attachments){
