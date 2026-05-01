@@ -1552,6 +1552,11 @@ body{background:#252836!important;overscroll-behavior:none}.group-chat-embedded{
 .plyr-video-wrap{width:min(520px,100%)!important;max-width:100%!important;margin-top:6px!important;background:#0b0c12!important;border:1px solid rgba(255,255,255,.08)!important;border-radius:6px!important;overflow:hidden!important}
 .plyr-video-wrap video{width:100%!important;max-height:70vh!important;background:#000!important;display:block!important}.plyr{--plyr-color-main:#6e8efb;--plyr-video-background:#000;--plyr-control-radius:4px;font-family:'Plus Jakarta Sans',sans-serif!important}.plyr__controls{direction:ltr!important}
 @media(max-width:600px){.plyr-video-wrap{width:100%!important}.plyr-video-wrap video{max-height:62vh!important}}
+.plyr-video-fallback{padding:8px 10px!important;background:#211824!important;color:#fca5a5!important;font-size:12px!important;line-height:1.5!important}
+.plyr-video-fallback a{color:#93c5fd!important;text-decoration:underline!important}
+.video-open-link{display:none!important}
+.plyr-video-wrap .plyr--video{min-height:120px!important}
+
 
 .msg-edit-wrap{display:block!important;margin:6px 0 2px 0!important;background:#141722!important;border:1px solid #333650!important;border-radius:8px!important;padding:8px!important;box-shadow:0 8px 20px rgba(0,0,0,.25)!important}
 .msg-edit-input{width:100%!important;min-height:70px!important;resize:vertical!important;background:#252836!important;color:#fff!important;border:1px solid #4a4f68!important;border-radius:6px!important;padding:8px 10px!important;font:14px/1.5 'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif!important;outline:none!important;box-sizing:border-box!important}
@@ -1572,6 +1577,26 @@ body.chat-uploading .chat-create-link{display:none!important;}
 
 </style>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"/>
+<style>
+/* REAL PLYR UI PATCH */
+.plyr-video-wrap{width:min(520px,100%)!important;max-width:100%!important;margin-top:6px!important;background:#05060a!important;border:1px solid rgba(255,255,255,.08)!important;border-radius:6px!important;overflow:hidden!important}
+.plyr-video-wrap video.plyr-video{width:100%!important;max-height:70vh!important;background:#000!important;display:block!important}
+.plyr-video-wrap .plyr{--plyr-color-main:#6e8efb;--plyr-video-background:#000;--plyr-control-radius:4px;--plyr-control-icon-size:15px;--plyr-control-spacing:8px;--plyr-video-controls-background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.76));font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji',sans-serif!important;width:100%!important;max-width:100%!important}
+.plyr-video-wrap .plyr__video-wrapper{background:#000!important;max-height:70vh!important}
+.plyr-video-wrap .plyr__controls{direction:ltr!important;background:var(--plyr-video-controls-background)!important;padding:8px!important}
+.plyr-video-wrap .plyr__control--overlaid{background:#6e8efb!important;color:#fff!important}
+.plyr-video-wrap .plyr__progress__buffer{color:rgba(255,255,255,.22)!important}
+.plyr-video-wrap .video-open-link{display:none!important}
+@media(max-width:600px){.plyr-video-wrap{width:100%!important}.plyr-video-wrap video.plyr-video,.plyr-video-wrap .plyr__video-wrapper{max-height:62vh!important}.plyr-video-wrap .plyr__controls{padding:6px!important}.plyr-video-wrap .plyr__volume{display:none!important}}
+
+
+/* GIF picker + organized social embeds patch */
+.gif-picker-overlay{position:fixed;inset:0;z-index:700;display:none;background:rgba(0,0,0,.48);align-items:flex-end;justify-content:center;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;direction:rtl}
+.gif-picker-overlay.show{display:flex}.gif-picker{width:min(560px,calc(100vw - 16px));max-height:min(580px,86dvh);background:#11131d;border:1px solid #2f3247;border-radius:12px 12px 0 0;box-shadow:0 -12px 34px rgba(0,0,0,.55);display:flex;flex-direction:column;overflow:hidden;color:#e8e9f0}.gif-picker-head{display:flex;align-items:center;gap:8px;padding:10px;background:#0d0d0e;border-bottom:1px solid #252836}.gif-picker-title{font-weight:700;font-size:13px;white-space:nowrap;color:#fff}.gif-picker-search{flex:1;background:#252836;border:1px solid #3a3d52;border-radius:7px;color:#fff;padding:8px 10px;font:13px inherit;outline:none;direction:rtl}.gif-picker-search:focus{border-color:#6e8efb;box-shadow:0 0 0 2px rgba(110,142,251,.18)}.gif-picker-close{border:0;background:#252836;color:#cfd3ea;border-radius:7px;width:34px;height:34px;cursor:pointer;font-size:18px;line-height:1}.gif-picker-close:hover{background:#333650;color:#fff}.gif-picker-note{font-size:11px;color:#8a8fac;padding:7px 10px;border-bottom:1px solid #252836;background:#151827;line-height:1.5}.gif-grid{padding:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;overflow:auto;min-height:160px}.gif-card{border:1px solid #2f3247;background:#0b0c12;border-radius:8px;overflow:hidden;cursor:pointer;min-height:92px;display:flex;align-items:center;justify-content:center}.gif-card:hover{border-color:#6e8efb;transform:translateY(-1px)}.gif-card img{width:100%;height:112px;object-fit:cover;display:block}.gif-empty{grid-column:1/-1;text-align:center;color:#8a8fac;padding:28px 8px;font-size:12px;line-height:1.6}@media(max-width:420px){.gif-grid{grid-template-columns:repeat(2,1fr)}.gif-card img{height:104px}.gif-picker{max-height:82dvh}}
+.social-embed-wrap{display:flex;flex-direction:column;gap:8px;margin-top:7px;max-width:100%}.social-embed-card{width:min(520px,100%);background:#11131d;border:1px solid rgba(255,255,255,.10);border-radius:9px;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.22);box-sizing:border-box}.social-embed-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;background:#181b29;color:#cfd3ea;font-size:11px;font-weight:700}.social-embed-platform{display:flex;align-items:center;gap:6px;min-width:0}.social-embed-platform:before{content:'';width:7px;height:7px;border-radius:50%;background:#6e8efb;display:inline-block;flex:0 0 7px}.social-embed-note{font-size:10px;color:#8a8fac;font-weight:500;white-space:nowrap}.social-embed-frame{width:100%;border:0;display:block;background:#000}.social-embed-wide{aspect-ratio:16/9;min-height:220px}.social-embed-youtube{aspect-ratio:16/9;min-height:220px}.social-embed-vertical{aspect-ratio:9/16;max-height:560px;min-height:380px}.social-embed-facebook{height:520px}.social-embed-instagram-card{background:#fff;padding:0;min-height:360px}.social-embed-instagram-card .instagram-media{min-width:0!important;width:100%!important;max-width:100%!important;margin:0!important}.social-embed-fallback{padding:10px;color:#a0a4bf;font-size:12px;line-height:1.6;background:#151827}.social-embed-fallback a{color:#93c5fd;text-decoration:none;word-break:break-word}@media(max-width:600px){.social-embed-card{width:100%}.social-embed-wide,.social-embed-youtube{min-height:190px}.social-embed-vertical{min-height:330px;max-height:480px}.social-embed-facebook{height:460px}}
+</style>
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+<script async src="https://www.instagram.com/embed.js"></script>
 </head>
 
 <body>
@@ -1579,13 +1604,13 @@ body.chat-uploading .chat-create-link{display:none!important;}
   <div class="chat-wrapper">
     <div class="chat-top"><div class="chat-name" id="chatTitle">Google</div><button class="sidebar-toggle" id="sidebarToggle" aria-label="Show online users"><span id="mobileOnlineCount">0</span></button></div>
     <div class="chat-messages-container" id="messagesWrap"><div class="chat-messages" id="chatMessages"><div class="chat-history-controls" style="display:none;"><a class="chat-history-load" href="javascript:void(0)">Load Earlier Messages</a></div><div class="chat-welcome-message"></div></div></div>
-    <div class="chat-list noselect" style="display:none;"><div class="chat-list-container"><div class="chat-list-items"></div></div><div class="chat-list-toggle-icon"><img src="/t.gif" /></div><div class="chat-list-new-indicator"></div></div>
+    <div class="chat-list noselect" style="display:none;"><div class="chat-list-container"><div class="chat-list-items"></div></div><div class="chat-list-toggle-icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></div><div class="chat-list-new-indicator"></div></div>
     <div class="chat-sticky-message" style="display:none;"></div><div class="chat-ad"></div><div class="chat-contacts-divider" id="chatContactsDivider"><div></div></div><div class="chat-contacts-banner"><div class="chat-online-count" id="onlineCountEl">0 online</div><a class="chat-contacts-show-button" style="display:none;" href="javascript:void(0);">show all...</a></div><div class="chat-contacts-container" id="sidebar"><div class="chat-contacts" id="presenceList"></div></div>
     <div class="typing-bar" id="typingBar"></div>
     <div class="chat-input-container" id="chatBottom" style="display:none"><div class="chat-input-wrapper"><textarea class="chat-input chat-textarea" id="chatInput" placeholder="Type a message and press enter" rows="1" enterkeyhint="send" onfocus="this.placeholder=''" onblur="this.placeholder='Type a message and press enter'"></textarea><button class="send-btn" id="sendBtn" disabled aria-label="Send">Send</button><div class="chat-input-status" style="display:none"><div class="chat-input-approval">Waiting for moderator approval...</div><div class="chat-input-progress-border"><div class="chat-input-progress-container"><div class="chat-input-progress"></div></div></div></div><div class="chat-input-closed" style="display:none;"><div class="chat-input-closed-message">Chat is closed.</div></div></div><div class="attach-bar"><button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()" aria-label="Attach file">📎</button><input type="file" id="fileInput" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar"/></div><div class="upload-preview-bar" id="uploadPreviewBar"></div><div class="upload-progress-wrap" id="uploadProgressWrap"><div class="upload-progress-top"><div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div><div class="upload-progress-pct" id="uploadProgressPct">0%</div></div><div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div></div><div class="logout-strip"><button class="admin-clear-btn" id="adminClearBtn" type="button" title="حذف جميع الرسائل" aria-label="Delete all messages"></button><button class="logout-btn" id="logoutBtn" type="button" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"></button></div></div>
     <div class="chat-input-container signin-input-container" id="signinOverlay"><div class="chat-signin-box"><div class="signin-box"><div class="signin-title"><b>Please sign in</b></div><div class="valign" style="height:34px;"><div class="valign-in1"><div class="valign-in2"><div class="signin-row"><input class="signin-input guest-signin-name" id="nameInput" type="text" placeholder="Your name" maxlength="30" autocomplete="off" inputmode="text" enterkeyhint="done"/></div><div class="consent-btns"><button class="consent-accept popup-button guest-signin-submit" id="signinBtn">Sign in</button></div></div></div></div></div></div></div>
   </div>
-  <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="/t.gif" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="/t.gif" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick(event);return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-gif-button" href="javascript:void(0);" onclick="onGifClick();return false;" title="إرسال GIF" aria-label="Send GIF">GIF</a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="/t.gif"/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="/t.gif" /></a>
+  <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick(event);return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-gif-button" href="javascript:void(0);" onclick="onGifClick();return false;" title="إرسال GIF" aria-label="Send GIF">GIF</a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a>
 </div>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
@@ -1593,6 +1618,9 @@ body.chat-uploading .chat-create-link{display:none!important;}
 <div class="msg-context-menu" id="msgContextMenu" dir="rtl"></div>
 <input type="file" id="mediaInput" multiple accept="image/*,video/*" style="display:none"/>
 <input type="file" id="gifInput" accept="image/gif" style="display:none"/>
+
+<div class="gif-picker-overlay" id="gifPickerOverlay" onclick="if(event.target===this)closeGifPicker()"><div class="gif-picker" role="dialog" aria-label="GIF picker"><div class="gif-picker-head"><div class="gif-picker-title">مكتبة GIF</div><input class="gif-picker-search" id="gifSearchInput" type="search" placeholder="ابحث عن GIF..." autocomplete="off" /><button class="gif-picker-close" type="button" onclick="closeGifPicker()" aria-label="Close">×</button></div><div class="gif-picker-note" id="gifPickerNote">يمكنك البحث داخل المكتبة الجاهزة. وللبحث الواسع من GIPHY أضف مفتاح GIPHY_API_KEY داخل الكود.</div><div class="gif-grid" id="gifGrid"></div></div></div>
+
 <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="lightbox-viewport" id="lightboxViewport"><img id="lightboxImg" src="" alt=""/></div><div class="lightbox-toolbar" aria-label="Image zoom controls"><button class="lightbox-zoom-btn" id="lightboxZoomOut" type="button" aria-label="Zoom out">−</button><span class="lightbox-zoom-level" id="lightboxZoomLevel">100%</span><button class="lightbox-zoom-btn" id="lightboxZoomIn" type="button" aria-label="Zoom in">+</button><button class="lightbox-zoom-btn lightbox-reset-btn" id="lightboxZoomReset" type="button" aria-label="Reset zoom">Reset</button></div></div>
 <div class="toast" id="toast"></div>
 <script type="text/javascript">
@@ -1601,6 +1629,32 @@ body.chat-uploading .chat-create-link{display:none!important;}
    ⚙️ Apps Script URL — ضع رابطك هنا
 ═══════════════════════════════════════════════ */
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9WjzuUmD--58Y6ncxGOhYduXhoJBecIbYA1jzWakRtm7en_-sgNztlnL2XMA3kg/exec';
+
+/* Uploadcare public key */
+var UPLOADCARE_PUBLIC_KEY = '90c1df0fe07861e8af2a';
+/* Personal Uploadcare CDN domain from your project. */
+var UPLOADCARE_CDN_BASE = 'https://3uv57uvajd.ucarecd.net/';
+function safeUploadcareFileName(name){
+  name = String(name || 'file').trim() || 'file';
+  name = name.replace(/[\/]+/g, '_').replace(/\s+/g, '_');
+  return encodeURIComponent(name);
+}
+function uploadcareCdnUrl(uuid, name){
+  uuid = String(uuid || '').replace(/^\/+|\/+$/g, '');
+  if(!uuid) return '';
+  return UPLOADCARE_CDN_BASE.replace(/\/+$/,'') + '/' + encodeURIComponent(uuid) + '/' + safeUploadcareFileName(name);
+}
+function uploadcareBareUrl(uuid){
+  uuid = String(uuid || '').replace(/^\/+|\/+$/g, '');
+  if(!uuid) return '';
+  return UPLOADCARE_CDN_BASE.replace(/\/+$/,'') + '/' + encodeURIComponent(uuid) + '/';
+}
+function normalizeUploadcareUrl(url, name){
+  url = String(url || '');
+  var m = url.match(/https?:\/\/(?:ucarecdn\.com|[^\/]+\.ucarecd\.net|[^\/]+\.ucarecdn\.net)\/([^\/?#]+)\/?/i);
+  if(m && m[1]) return uploadcareCdnUrl(decodeURIComponent(m[1]), name);
+  return url;
+}
 
 /* ═══════════════════════════════════════════════
    🔥 FIREBASE — من مشروعك
@@ -1618,7 +1672,7 @@ firebase.initializeApp(firebaseConfig);
 var db   = firebase.firestore();
 var rtdb = firebase.database();
 var auth = firebase.auth();
-var storage = firebase.storage();
+var storage = null; // Firebase Storage disabled: uploads use Uploadcare
 
 var ROOM_ID       = 'google-chat';
 var MSGS_PER_PAGE = 50;
@@ -2021,49 +2075,44 @@ function getInstagramCode(url){
 function isFacebookVideoUrl(url){ return /facebook\.com|fb\.watch/i.test(url) && /(reel|watch|videos|fb\.watch)/i.test(url); }
 
 function getYouTubeEmbedSrc(id){
-  var src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id)+'?playsinline=1&rel=0&modestbranding=1';
-  try {
-    if (location && location.origin && /^https?:/.test(location.origin)) {
-      src += '&origin=' + encodeURIComponent(location.origin);
-    }
-  } catch(e) {}
+  var src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id)+'?playsinline=1&rel=0&enablejsapi=1';
+  try{ if(location && location.origin && /^https?:/.test(location.origin)) src+='&origin='+encodeURIComponent(location.origin); }catch(e){}
   return src;
 }
+function normalizeInstagramUrl(url){
+  try{ var m=String(url||'').match(/instagram\.com\/(?:reel|p|tv)\/([^\/?#]+)/i); if(!m||!m[1]) return ''; var kind=/instagram\.com\/reel\//i.test(url)?'reel':(/instagram\.com\/tv\//i.test(url)?'tv':'p'); return 'https://www.instagram.com/'+kind+'/'+m[1]+'/'; }catch(e){return '';}
+}
+function isFacebookUrl(url){return /(?:^|\.)facebook\.com|fb\.watch/i.test(String(url||''));}
+function isFacebookVideoUrl(url){ return isFacebookUrl(url) && /(reel|watch|videos|fb\.watch)/i.test(String(url||'')); }
 function getSocialEmbeds(text){
   var urls=getUrlsFromText(text), embeds=[];
-  urls.forEach(function(url){
-    var h=getHost(url), yt=getYouTubeId(url), tk=getTikTokId(url), ig=getInstagramCode(url);
-    if(yt){
-      var isShort = /\/shorts\//i.test(url);
-      embeds.push({platform:isShort?'YouTube Shorts':'YouTube', type:'youtube', url:url, src:getYouTubeEmbedSrc(yt), cls:isShort?'social-embed-youtube':'social-embed-wide'});
-    } else if(tk){
-      embeds.push({platform:'TikTok', type:'tiktok', url:url, src:'https://www.tiktok.com/embed/v2/'+encodeURIComponent(tk), cls:'social-embed-tiktok'});
-    } else if(ig){
-      embeds.push({platform:'Instagram', type:'instagram', url:url, src:'https://www.instagram.com/reel/'+encodeURIComponent(ig)+'/embed', cls:'social-embed-instagram'});
-    } else if(isFacebookVideoUrl(url)){
-      embeds.push({platform:'Facebook', type:'facebook', url:url, src:'https://www.facebook.com/plugins/video.php?href='+encodeURIComponent(url)+'&show_text=false&width=360', cls:'social-embed-facebook'});
-    }
-  });
-  return embeds;
+  urls.forEach(function(url){ var yt=getYouTubeId(url), tk=getTikTokId(url), igUrl=normalizeInstagramUrl(url);
+    if(yt){ var isShort=/\/shorts\//i.test(url); embeds.push({platform:isShort?'YouTube Shorts':'YouTube',type:'youtube',url:url,src:getYouTubeEmbedSrc(yt),cls:isShort?'social-embed-vertical':'social-embed-youtube'}); }
+    else if(tk){ embeds.push({platform:'TikTok',type:'tiktok',url:url,src:'https://www.tiktok.com/embed/v2/'+encodeURIComponent(tk),cls:'social-embed-vertical'}); }
+    else if(igUrl){ embeds.push({platform:/\/reel\//i.test(igUrl)?'Instagram Reels':'Instagram Post',type:'instagram',url:igUrl,src:igUrl,cls:'social-embed-instagram'}); }
+    else if(isFacebookUrl(url)){ var plugin=isFacebookVideoUrl(url)?'video.php':'post.php'; embeds.push({platform:isFacebookVideoUrl(url)?'Facebook Video':'Facebook Post',type:'facebook',url:url,src:'https://www.facebook.com/plugins/'+plugin+'?href='+encodeURIComponent(url)+'&show_text=true&width=500',cls:'social-embed-facebook'}); }
+  }); return embeds;
 }
 function buildSocialEmbedsHtml(text){
-  var embeds=getSocialEmbeds(text);
-  if(!embeds.length) return '';
-  var html='<div class="social-embed-wrap">';
+  var embeds=getSocialEmbeds(text); if(!embeds.length) return ''; var html='<div class="social-embed-wrap">';
   embeds.forEach(function(e){
-    html+='<div class="social-embed-card">'+
-      '<div class="social-embed-head"><span class="social-embed-platform">'+escHtml(e.platform)+'</span><span class="social-embed-note">Preview</span></div>'+
-      '<iframe class="social-embed-frame '+escHtml(e.cls)+'" src="'+escHtml(e.src)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen loading="lazy"></iframe>'+
-      '<div class="social-embed-fallback">إذا منعت المنصة التشغيل داخل الصفحة، سيبقى الرابط ظاهرًا في الرسالة.</div>'+
-    '</div>';
-  });
-  html+='</div>';
-  return html;
+    if(e.type==='instagram'){
+      html+='<div class="social-embed-card social-embed-instagram-card"><div class="social-embed-head"><span class="social-embed-platform">'+escHtml(e.platform)+'</span><span class="social-embed-note">Embed</span></div><blockquote class="instagram-media" data-instgrm-permalink="'+escHtml(e.url)+'" data-instgrm-version="14" style="background:#FFF;border:0;margin:0;max-width:100%;min-width:0;width:100%;"></blockquote><div class="social-embed-fallback"><a target="_blank" rel="nofollow noopener" href="'+escHtml(e.url)+'">فتح المنشور على Instagram</a></div></div>';
+    }else{
+      html+='<div class="social-embed-card"><div class="social-embed-head"><span class="social-embed-platform">'+escHtml(e.platform)+'</span><span class="social-embed-note">Preview</span></div><iframe class="social-embed-frame '+escHtml(e.cls)+'" src="'+escHtml(e.src)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe><div class="social-embed-fallback"><a target="_blank" rel="nofollow noopener" href="'+escHtml(e.url)+'">فتح الرابط الأصلي</a></div></div>';
+    }
+  }); html+='</div>'; return html;
 }
+function processSocialEmbeds(root){ try{ if(window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process(); }catch(e){} }
 function getImageUrlCandidates(att){
   var urls=[];
-  if(att.previewUrl) urls.push(att.previewUrl);
-  if(att.url) urls.push(att.url);
+  if(att && att.provider === 'uploadcare' && (att.uuid || att.publicId)){
+    urls.push(uploadcareCdnUrl(att.uuid || att.publicId, att.name || 'image'));
+    urls.push(uploadcareBareUrl(att.uuid || att.publicId));
+  }
+  if(att && att.previewUrl) urls.push(normalizeUploadcareUrl(att.previewUrl, att.name));
+  if(att && att.cdnUrl) urls.push(normalizeUploadcareUrl(att.cdnUrl, att.name));
+  if(att && att.url) urls.push(normalizeUploadcareUrl(att.url, att.name));
   if(att.thumbnailUrl) urls.push(att.thumbnailUrl);
   if(att.fileId){
     urls.push('https://drive.google.com/thumbnail?id='+encodeURIComponent(att.fileId)+'&sz=w1200');
@@ -2082,8 +2131,13 @@ function handleImageError(img){
 }
 function getVideoUrlCandidates(att){
   var urls=[];
-  if(att.url) urls.push(att.url);
-  if(att.directUrl) urls.push(att.directUrl);
+  if(att && att.provider === 'uploadcare' && (att.uuid || att.publicId)){
+    urls.push(uploadcareCdnUrl(att.uuid || att.publicId, att.name || 'video.mp4'));
+    urls.push(uploadcareBareUrl(att.uuid || att.publicId));
+  }
+  if(att && att.cdnUrl) urls.push(normalizeUploadcareUrl(att.cdnUrl, att.name));
+  if(att && att.url) urls.push(normalizeUploadcareUrl(att.url, att.name));
+  if(att && att.directUrl) urls.push(normalizeUploadcareUrl(att.directUrl, att.name));
   if(att.fileId){
     urls.push('https://drive.google.com/uc?export=download&id='+encodeURIComponent(att.fileId));
     urls.push('https://drive.google.com/uc?export=view&id='+encodeURIComponent(att.fileId));
@@ -2099,97 +2153,89 @@ function seekVideoPlayer(range){ var p=getVideoPlayer(range); if(!p)return; var 
 function toggleVideoMute(btn){ var p=getVideoPlayer(btn); if(!p)return; var v=p.querySelector('video'); if(!v)return; v.muted=!v.muted; btn.textContent=v.muted?'🔇':'🔊'; }
 function fullscreenVideoPlayer(btn){ var p=getVideoPlayer(btn); if(!p)return; document.fullscreenElement?document.exitFullscreen():(p.requestFullscreen&&p.requestFullscreen()); }
 function handleVideoError(video){ var p=getVideoPlayer(video); if(!p)return; var urls=[]; try{urls=JSON.parse(decodeURIComponent(p.getAttribute('data-fallbacks')||'%5B%5D'));}catch(e){} var next=parseInt(p.getAttribute('data-fallback-idx')||'0',10)+1; if(next<urls.length){ p.setAttribute('data-fallback-idx',String(next)); video.src=urls[next]; video.load(); return; } p.classList.add('video-failed'); var err=p.querySelector('.video-error'); if(err)err.textContent='تعذر تشغيل الفيديو داخل المحادثة.'; }
-function uploadToFirebaseStorage(file, idx, total){
+function handlePlyrVideoError(video){
+  try{
+    var wrap = video.closest('.plyr-video-wrap');
+    var link = video.getAttribute('data-download-url') || video.currentSrc || video.src || '';
+    if(wrap && !wrap.querySelector('.plyr-video-fallback.active')){
+      var div = document.createElement('div');
+      div.className = 'plyr-video-fallback active';
+      div.innerHTML = 'تعذر تشغيل الفيديو داخل المتصفح. قد تكون الصيغة غير مدعومة على هذا الجهاز. ' +
+        (link ? '<a target="_blank" rel="nofollow" href="'+escHtml(link)+'">فتح أو تحميل الفيديو</a>' : '');
+      wrap.appendChild(div);
+    }
+  }catch(e){}
+}
+
+function uploadToUploadcare(file, idx, total){
   return new Promise(function(resolve, reject){
     try{
-      var safeName = String(file.name || 'file').replace(/[^\w.\-\u0600-\u06FF]+/g,'_');
-      var path = 'chat_uploads/'+ROOM_ID+'/'+Date.now()+'_'+Math.random().toString(36).slice(2)+'_'+safeName;
-      var ref = storage.ref().child(path);
-      var task = ref.put(file, {contentType:file.type || 'application/octet-stream'});
-      task.on('state_changed', function(snap){
-        if (snap && snap.totalBytes) setProgressPct(Math.round((snap.bytesTransferred/snap.totalBytes)*96), idx+1, total);
-      }, reject, function(){
-        task.snapshot.ref.getDownloadURL().then(function(url){
-          resolve({firebaseUrl:url,url:url,fullUrl:url,storagePath:path,type:detectFileType(file.type,file.name),name:file.name,size:file.size,mime:file.type});
-        }).catch(reject);
-      });
-    } catch(e){ reject(e); }
-  });
-}
-function normalizeDriveAttachment(dr,file){
-  dr = dr || {};
-  var fid = dr.fileId || dr.id || dr.file_id || dr.driveFileId || dr.driveId || getAttachmentFileId(dr) || '';
-  var driveUrl = dr.driveUrl || (fid ? ('https://drive.google.com/file/d/'+fid+'/view') : '');
-  var proxyUrl = dr.url || (fid ? (APPS_SCRIPT_URL+'?action=serve&id='+encodeURIComponent(fid)) : '');
-  var directUrl = dr.directUrl || (fid ? ('https://drive.google.com/uc?export=view&id='+encodeURIComponent(fid)) : proxyUrl);
-  var thumbUrl = dr.thumbnailUrl || (fid ? ('https://drive.google.com/thumbnail?id='+encodeURIComponent(fid)+'&sz=w1200') : '');
-  return {
-    url: proxyUrl || directUrl || driveUrl,
-    directUrl: directUrl || proxyUrl || driveUrl,
-    thumbnailUrl: thumbUrl,
-    driveUrl: driveUrl,
-    fileId: fid,
-    driveFileId: fid,
-    type: detectFileType(file.type,file.name),
-    name: file.name,
-    size: file.size,
-    mime: file.type || 'application/octet-stream',
-    displaySource: 'drive',
-    uploadedToDrive: true
-  };
-}
-function normalizeFirebaseAttachment(fb,file){
-  fb = fb || {};
-  return Object.assign({}, fb, {
-    url: fb.url || fb.firebaseUrl || fb.fullUrl,
-    firebaseUrl: fb.firebaseUrl || fb.url || fb.fullUrl,
-    fullUrl: fb.fullUrl || fb.firebaseUrl || fb.url,
-    type: fb.type || detectFileType(file.type,file.name),
-    name: fb.name || file.name,
-    size: fb.size || file.size,
-    mime: fb.mime || file.type || 'application/octet-stream',
-    displaySource: 'firebase',
-    uploadedToDrive: 'background'
-  });
-}
-function uploadFileEverywhere(file, idx, total){
-  return new Promise(function(resolve,reject){
-    var resolved=false, fbError=null, driveError=null;
-    function done(att){
-      if(resolved) return;
-      resolved=true;
-      setProgressPct(100, idx+1, total);
-      resolve(att);
-    }
-    function failIfBothFailed(){
-      if(!resolved && fbError && driveError){
-        reject(new Error('فشل رفع الملف إلى Firebase و Drive: '+(fbError.message||fbError)+' / '+(driveError.message||driveError)));
+      if(!UPLOADCARE_PUBLIC_KEY || UPLOADCARE_PUBLIC_KEY.indexOf('ضع') >= 0){
+        reject(new Error('uploadcare/not-configured'));
+        return;
       }
-    }
-    try{
-      uploadToFirebaseStorage(file,idx,total).then(function(fb){
-        done(normalizeFirebaseAttachment(fb,file));
-      }).catch(function(e){
-        console.warn('Firebase upload failed:', e);
-        fbError=e||new Error('Firebase upload failed');
-        failIfBothFailed();
-      });
-    }catch(e){ fbError=e; }
-    try{
-      uploadViaAppsScript(file,idx,total).then(function(dr){
-        if(dr && dr.success===false) throw new Error(dr.error||'Drive upload failed');
-        done(normalizeDriveAttachment(dr,file));
-      }).catch(function(e){
-        console.warn('Drive upload failed:', e);
-        driveError=e||new Error('Drive upload failed');
-        failIfBothFailed();
-      });
-    }catch(e){ driveError=e; }
-    failIfBothFailed();
+      var xhr = new XMLHttpRequest();
+      var form = new FormData();
+      form.append('UPLOADCARE_PUB_KEY', UPLOADCARE_PUBLIC_KEY);
+      form.append('UPLOADCARE_STORE', '1');
+      form.append('file', file, file.name || 'upload');
+
+      xhr.open('POST', 'https://upload.uploadcare.com/base/', true);
+      xhr.upload.onprogress = function(ev){
+        if(ev && ev.lengthComputable){
+          var oneFilePct = ev.loaded / ev.total;
+          var globalPct = Math.round(((idx + oneFilePct) / Math.max(total,1)) * 100);
+          setProgressPct(globalPct, idx+1, total);
+        }
+      };
+      xhr.onerror = function(){ reject(new Error('فشل الاتصال بـ Uploadcare')); };
+      xhr.ontimeout = function(){ reject(new Error('انتهت مهلة رفع الملف إلى Uploadcare')); };
+      xhr.onload = function(){
+        if(xhr.status < 200 || xhr.status >= 300){
+          reject(new Error('Uploadcare HTTP '+xhr.status));
+          return;
+        }
+        var json;
+        try{ json = JSON.parse(xhr.responseText || '{}'); }
+        catch(e){ reject(new Error('Uploadcare returned invalid JSON')); return; }
+        var uuid = json.file || json.uuid || '';
+        if(!uuid){ reject(new Error('لم يرجع Uploadcare معرف الملف')); return; }
+        var cdnUrl = uploadcareCdnUrl(uuid, file.name || 'file');
+        var cdnBareUrl = uploadcareBareUrl(uuid);
+        var fileType = detectFileType(file.type, file.name);
+        setProgressPct(Math.round(((idx+1)/Math.max(total,1))*100), idx+1, total);
+        resolve({
+          provider: 'uploadcare',
+          uuid: uuid,
+          publicId: uuid,
+          url: cdnUrl,
+          cdnUrl: cdnUrl,
+          cdnBareUrl: cdnBareUrl,
+          directUrl: cdnUrl,
+          fullUrl: cdnUrl,
+          type: fileType,
+          name: file.name || 'file',
+          size: file.size || 0,
+          mime: file.type || 'application/octet-stream',
+          displaySource: 'uploadcare',
+          uploadedToUploadcare: true
+        });
+      };
+      xhr.send(form);
+    }catch(e){ reject(e); }
   });
 }
+
 function uploadFilesSequentially(files){
-  return Promise.all(files.map(function(file,i){return uploadFileEverywhere(file,i,files.length);}));
+  var results=[];
+  function next(i){
+    if(i>=files.length) return Promise.resolve(results);
+    return uploadToUploadcare(files[i], i, files.length).then(function(att){
+      results.push(att);
+      return next(i+1);
+    });
+  }
+  return next(0);
 }
 
 /* ═══════════════════════════════════════════════
@@ -2289,7 +2335,8 @@ function buildMsgEl(id,data){
   if(atts&&Array.isArray(atts)&&atts.length){
     mediaHtml='<div class="msg-media-wrap">';
     atts.forEach(function(att){
-      if(!att) return; var t=att.type||detectFileType(att.mime,att.name); var primaryUrl=att.firebaseUrl||att.fullUrl||att.url||att.directUrl||att.thumbnailUrl||'';
+      if(!att) return; var t=att.type||detectFileType(att.mime,att.name); var primaryUrl=att.firebaseUrl||att.fullUrl||att.cdnUrl||att.url||att.directUrl||att.thumbnailUrl||'';
+      if(att.provider==='uploadcare') primaryUrl = normalizeUploadcareUrl(primaryUrl, att.name);
       if(t==='image'){
         var imgUrls=getImageUrlCandidates(Object.assign({},att,{url:primaryUrl}));
         var first=primaryUrl||imgUrls[0]||att.driveUrl||'';
@@ -2297,7 +2344,10 @@ function buildMsgEl(id,data){
         mediaHtml+='<img class="msg-image loading" src="'+escHtml(first)+'" data-fallback-idx="0" data-fallbacks="'+escHtml(enc)+'" alt="'+escHtml(att.name||'صورة')+'" onload="this.classList.remove(\'loading\');this.style.opacity=\'1\'" onerror="handleImageError(this)" onclick="event.stopPropagation();openLightbox(this.src)"/>';
       } else if(t==='video'){
         if(primaryUrl){
-          mediaHtml+='<div class="plyr-video-wrap"><video class="plyr-video" controls playsinline preload="metadata" src="'+escHtml(primaryUrl)+'" type="'+escHtml(att.mime||'video/mp4')+'"></video></div>';
+          var videoUrls = getVideoUrlCandidates(Object.assign({}, att, {url: primaryUrl}));
+          var firstVideo = videoUrls[0] || primaryUrl;
+          var videoType = escHtml(att.mime || (String(firstVideo).match(/\.webm(?:$|[?#])/i) ? 'video/webm' : 'video/mp4'));
+          mediaHtml+='<div class="plyr-video-wrap" data-fallback-idx="0" data-fallbacks="'+escHtml(encodeURIComponent(JSON.stringify(videoUrls)))+'"><video class="plyr-video" controls playsinline webkit-playsinline preload="metadata" crossorigin="anonymous" data-download-url="'+escHtml(firstVideo)+'" onerror="handlePlyrVideoError(this)"><source src="'+escHtml(firstVideo)+'" type="'+videoType+'">متصفحك لا يدعم تشغيل هذا الفيديو.</video></div>';
         } else {
           var fid=getAttachmentFileId(att);
           if(fid) mediaHtml+='<div class="drive-video-player"><iframe src="https://drive.google.com/file/d/'+encodeURIComponent(fid)+'/preview" allow="autoplay; fullscreen; encrypted-media" allowfullscreen loading="lazy"></iframe></div><div class="drive-video-caption">'+escHtml(att.name||'فيديو')+'</div>';
@@ -2313,10 +2363,10 @@ function buildMsgEl(id,data){
   }
   var editedBadge=data.edited?'<span class="msg-edited">(edited)</span>':'';
   el.innerHTML='<div class="msg-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div>'+'<div class="msg-body"><div class="msg-date-line">'+escHtml(formatTime(ts))+'</div><div class="msg-content-line"><span class="msg-inline-name">'+escHtml(data.name||'Unknown')+'</span> <span class="msg-inline-type">('+escHtml(data.type||'Guest')+')</span><span class="msg-colon">:</span><span class="msg-text" id="txt-'+id+'" data-raw="'+escHtml(data.text||'')+'">'+linkify(escHtml(displayText))+'</span>'+editedBadge+'</div>'+socialEmbedHtml+mediaHtml+'</div>';
-  setTimeout(function(){initPlyrIn(el);},80); return el;
+  setTimeout(function(){initPlyrIn(el);processSocialEmbeds(el);},120); return el;
 }
 
-function updateMsgEl(id,data){ var el=document.getElementById('msg-'+id); if(!el)return; var next=buildMsgEl(id,data); el.parentNode.replaceChild(next,el); setTimeout(function(){initPlyrIn(next);},80); }
+function updateMsgEl(id,data){ var el=document.getElementById('msg-'+id); if(!el)return; var next=buildMsgEl(id,data); el.parentNode.replaceChild(next,el); setTimeout(function(){initPlyrIn(next);processSocialEmbeds(next);},120); }
 function removeMsgEl(id){ var el=document.getElementById('msg-'+id); if(el)el.remove(); }
 
 /* edit / delete / copy contextual menu */
@@ -2382,10 +2432,22 @@ function onAttachClick(ev){
 }
 function chooseFromGallery(){hideAttachChoiceMenu();document.getElementById('mediaInput').click();}
 function chooseFromFiles(){hideAttachChoiceMenu();document.getElementById('fileInput').click();}
-function onGifClick(){if(!userConsented){showToast('سجّل الدخول أولاً','error');return;}document.getElementById('gifInput').click();}
+function onGifClick(){if(!userConsented){showToast('سجّل الدخول أولاً','error');return;}openGifPicker();}
 document.getElementById('fileInput').addEventListener('change',function(){Array.from(this.files).forEach(addFilePreview);this.value='';});
 document.getElementById('mediaInput').addEventListener('change',function(){Array.from(this.files).forEach(addFilePreview);this.value='';});
 document.getElementById('gifInput').addEventListener('change',function(){Array.from(this.files).forEach(addFilePreview);this.value='';});
+
+var GIPHY_API_KEY = ''; // ضع مفتاح GIPHY هنا لتفعيل البحث الواسع من GIPHY.
+var BUILTIN_GIFS=[{title:'تصفيق applause',url:'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif'},{title:'ضحك laugh funny',url:'https://media.giphy.com/media/10JhviFuU2gWD6/giphy.gif'},{title:'تمام ok',url:'https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif'},{title:'نعم yes',url:'https://media.giphy.com/media/26u4cqiYI30juCOGY/giphy.gif'},{title:'لا no',url:'https://media.giphy.com/media/d10dMmzqCYqQ0/giphy.gif'},{title:'ممتاز great',url:'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif'},{title:'حزين sad',url:'https://media.giphy.com/media/OPU6wzx8JrHna/giphy.gif'},{title:'صدمة shocked wow',url:'https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif'},{title:'حب love heart',url:'https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif'},{title:'انتظار waiting',url:'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'},{title:'قهوة coffee',url:'https://media.giphy.com/media/687qS11pXwjCM/giphy.gif'},{title:'احتفال party',url:'https://media.giphy.com/media/artj92V8o75VPL7AeQ/giphy.gif'}];
+function openGifPicker(){var ov=document.getElementById('gifPickerOverlay');if(!ov)return;ov.classList.add('show');var inp=document.getElementById('gifSearchInput');if(inp){inp.value='';setTimeout(function(){inp.focus();},80);}renderGifGrid(BUILTIN_GIFS);}
+function closeGifPicker(){var ov=document.getElementById('gifPickerOverlay');if(ov)ov.classList.remove('show');}
+function renderGifGrid(items){var grid=document.getElementById('gifGrid');if(!grid)return;if(!items||!items.length){grid.innerHTML='<div class="gif-empty">لا توجد نتائج GIF مطابقة.</div>';return;}grid.innerHTML=items.map(function(g){return '<button type="button" class="gif-card" onclick="sendGifFromLibrary(\''+escJs(g.url)+'\',\''+escJs(g.title||'GIF')+'\')"><img src="'+escHtml(g.url)+'" alt="'+escHtml(g.title||'GIF')+'" loading="lazy"></button>';}).join('');}
+function searchBuiltinGifs(q){q=String(q||'').trim().toLowerCase();if(!q)return BUILTIN_GIFS;return BUILTIN_GIFS.filter(function(g){return String(g.title||'').toLowerCase().indexOf(q)!==-1;});}
+function searchGiphy(q){if(!GIPHY_API_KEY){renderGifGrid(searchBuiltinGifs(q));return;}var grid=document.getElementById('gifGrid');if(grid)grid.innerHTML='<div class="gif-empty">جاري البحث...</div>';fetch('https://api.giphy.com/v1/gifs/search?api_key='+encodeURIComponent(GIPHY_API_KEY)+'&q='+encodeURIComponent(q||'reaction')+'&limit=24&rating=pg&bundle=messaging_non_clips').then(function(r){return r.json();}).then(function(json){var items=(json.data||[]).map(function(x){var img=(x.images&&x.images.fixed_height_small)||x.images.downsized_medium||x.images.original||{};return{title:x.title||'GIF',url:img.url};}).filter(function(x){return x.url;});renderGifGrid(items.length?items:searchBuiltinGifs(q));}).catch(function(){renderGifGrid(searchBuiltinGifs(q));});}
+var gifSearchTimer=null;setTimeout(function(){var inp=document.getElementById('gifSearchInput');if(inp)inp.addEventListener('input',function(){clearTimeout(gifSearchTimer);var q=this.value;gifSearchTimer=setTimeout(function(){searchGiphy(q);},350);});},0);
+function sendGifFromLibrary(url,title){closeGifPicker();var attachment={provider:'gif-library',type:'image',mime:'image/gif',url:url,cdnUrl:url,directUrl:url,fullUrl:url,name:title||'GIF',size:0,displaySource:'gif'};saveMsg('',[attachment]).then(function(){scrollToBottom();}).catch(function(){showToast('فشل إرسال GIF','error');});}
+function escJs(str){return String(str||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');}
+
 function addFilePreview(file){
   pendingFiles.push(file);
   var idx=pendingFiles.length-1;
@@ -2623,13 +2685,27 @@ window.addEventListener('keydown',function(e){
 });
 
 function initPlyrIn(root){
-  if(!root||!window.Plyr)return;
+  if(!root)return;
+  if(!window.Plyr){
+    setTimeout(function(){initPlyrIn(root);},300);
+    return;
+  }
   var nodes=root.querySelectorAll?root.querySelectorAll('video.plyr-video:not([data-plyr-ready])'):[];
-  Array.prototype.forEach.call(nodes,function(v){
-    try{v.setAttribute('data-plyr-ready','1');new Plyr(v,{controls:['play-large','play','progress','current-time','mute','volume','fullscreen'],fullscreen:{iosNative:true},clickToPlay:true});}catch(e){}
+  nodes.forEach(function(v){
+    try{
+      v.setAttribute('data-plyr-ready','1');
+      new Plyr(v,{
+        controls:['play-large','play','progress','current-time','duration','mute','volume','settings','fullscreen'],
+        settings:['speed'],
+        fullscreen:{enabled:true,iosNative:true},
+        clickToPlay:true,
+        keyboard:{focused:true,global:false},
+        tooltips:{controls:false,seek:true},
+        hideControls:true
+      });
+    }catch(e){ try{console.warn('Plyr init failed', e);}catch(_){} }
   });
 }
-
 /* ═══════════════════════════════════════════════
    HELPERS
 ═══════════════════════════════════════════════ */
@@ -2676,6 +2752,7 @@ setTimeout(updateMobileBottomSpace, 50);
 setTimeout(updateMobileBottomSpace, 500);
 
 
+window.addEventListener("load", function(){setTimeout(function(){initPlyrIn(document);processSocialEmbeds(document);},350);});
 </script>
 </body>
 </html>
