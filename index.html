@@ -1519,11 +1519,15 @@ body{background:#252836!important;overscroll-behavior:none}.group-chat-embedded{
 
 
 /* ADVANCED USER PATCH: footer spacing, attachment choices, typing, safe message width, Plyr, menu, emoji, GIF */
-.chat-footer-attach-button{right:84px!important}
-.chat-footer-gif-button{display:block!important;position:absolute!important;bottom:8px!important;right:50px!important;width:24px!important;height:20px!important;color:#6c7982!important;text-align:center!important;line-height:20px!important;font-size:10px!important;font-weight:700!important;border:1px solid #3a3d52!important;border-radius:3px!important;text-decoration:none!important;background:#171923!important;letter-spacing:.2px!important}
+.chat-footer-attach-button{right:120px!important}
+.chat-footer-gif-button{display:block!important;position:absolute!important;bottom:8px!important;right:84px!important;width:24px!important;height:20px!important;color:#6c7982!important;text-align:center!important;line-height:20px!important;font-size:10px!important;font-weight:700!important;border:1px solid #3a3d52!important;border-radius:3px!important;text-decoration:none!important;background:#171923!important;letter-spacing:.2px!important;z-index:60!important}
+.chat-footer-mic-button{display:flex!important;position:absolute!important;bottom:8px!important;right:50px!important;width:22px!important;height:20px!important;align-items:center!important;justify-content:center!important;color:#6c7982!important;border:1px solid #3a3d52!important;border-radius:3px!important;text-decoration:none!important;background:#171923!important;z-index:60!important;cursor:pointer!important}
+.chat-footer-mic-button svg{width:14px!important;height:14px!important;stroke:currentColor!important;fill:none!important;stroke-width:2!important;stroke-linecap:round!important;stroke-linejoin:round!important;display:block!important}
 .chat-footer-logout-button{right:15px!important}
-.chat-footer-attach-button:hover,.chat-footer-gif-button:hover,.chat-footer-logout-button:hover{color:#fff!important;border-color:#5e6278!important;background:#202333!important;text-decoration:none!important}
-@media(max-width:420px){.chat-footer-attach-button{right:78px!important}.chat-footer-gif-button{right:46px!important}.chat-footer-logout-button{right:12px!important}}
+.chat-footer-attach-button:hover,.chat-footer-gif-button:hover,.chat-footer-mic-button:hover,.chat-footer-logout-button:hover{color:#fff!important;border-color:#5e6278!important;background:#202333!important;text-decoration:none!important}
+.chat-footer-mic-button.recording{color:#ff6b6b!important;border-color:#ff6b6b!important;background:#2a1518!important;animation:voicePulse 1s infinite alternate}
+@keyframes voicePulse{from{opacity:.75}to{opacity:1}}
+@media(max-width:420px){.chat-footer-attach-button{right:112px!important}.chat-footer-gif-button{right:80px!important}.chat-footer-mic-button{right:47px!important}.chat-footer-logout-button{right:12px!important}}
 
 .attach-choice-menu,.msg-context-menu{position:fixed;z-index:500;display:none;background:#11131d;border:1px solid #2f3247;border-radius:8px;box-shadow:0 12px 28px rgba(0,0,0,.45);overflow:hidden;color:#e8e9f0;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;min-width:170px;direction:rtl}
 .attach-choice-menu.show,.msg-context-menu.show{display:block}
@@ -1583,6 +1587,25 @@ body.chat-uploading .chat-create-link{display:none!important;}
 .msg-file-link.iphone-file{border:1px solid rgba(255,255,255,.08)!important;background:#202333!important;color:#e8e9f0!important}
 .msg-file-hint{display:block;font-size:10px;color:#8a8fac;margin-top:2px;line-height:1.25}
 
+
+
+/* VOICE MESSAGE PATCH: Uploadcare-only recording UI */
+.voice-recorder-overlay{position:fixed;left:50%;bottom:46px;transform:translateX(-50%) translateY(20px);z-index:650;display:none;min-width:260px;max-width:min(92vw,420px);background:#11131d;border:1px solid #2f3247;border-radius:8px;box-shadow:0 12px 30px rgba(0,0,0,.45);color:#e8e9f0;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;padding:10px 12px;direction:rtl;opacity:0;transition:opacity .18s,transform .18s}
+.voice-recorder-overlay.show{display:block;opacity:1;transform:translateX(-50%) translateY(0)}
+.voice-recorder-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:12px;color:#cfd3ea}
+.voice-rec-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 0 0 rgba(239,68,68,.6);animation:voiceDot 1s infinite}
+@keyframes voiceDot{0%{box-shadow:0 0 0 0 rgba(239,68,68,.55)}70%{box-shadow:0 0 0 8px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+.voice-rec-timer{font-size:18px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;margin-inline-start:auto;direction:ltr}
+.voice-rec-actions{display:flex;gap:8px;align-items:center;justify-content:flex-start}
+.voice-rec-actions button{border:0;border-radius:5px;padding:7px 10px;font-size:12px;font-family:inherit;cursor:pointer;color:#fff;background:#2a2d3e}
+.voice-rec-actions button:hover{background:#3a3d52}
+.voice-rec-actions .voice-stop-send{background:#14532d;color:#86efac;font-weight:700}.voice-rec-actions .voice-stop-send:hover{background:#166534}
+.voice-rec-actions .voice-cancel{background:#2a1518;color:#fca5a5}.voice-rec-actions .voice-cancel:hover{background:#431f24}
+.voice-audio-card{display:block;max-width:min(320px,88%);margin-top:4px;background:#11131d;border:1px solid #2f3247;border-radius:6px;padding:7px;color:#e8e9f0}
+.voice-audio-title{display:flex;align-items:center;gap:6px;color:#91cc00;font-size:11px;font-weight:700;margin-bottom:6px}
+.voice-audio-card audio{width:100%;height:34px;display:block}
+@media(max-width:600px){.voice-recorder-overlay{bottom:42px;min-width:240px}.voice-rec-actions button{padding:8px 9px}}
+
 </style>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"/>
 <style>
@@ -1636,7 +1659,7 @@ body.chat-uploading .chat-create-link{display:none!important;}
     <div class="chat-input-container" id="chatBottom" style="display:none"><div class="chat-input-wrapper"><textarea class="chat-input chat-textarea" id="chatInput" placeholder="Type a message and press enter" rows="1" enterkeyhint="send" onfocus="this.placeholder=''" onblur="this.placeholder='Type a message and press enter'"></textarea><button class="send-btn" id="sendBtn" disabled aria-label="Send">Send</button><div class="chat-input-status" style="display:none"><div class="chat-input-approval">Waiting for moderator approval...</div><div class="chat-input-progress-border"><div class="chat-input-progress-container"><div class="chat-input-progress"></div></div></div></div><div class="chat-input-closed" style="display:none;"><div class="chat-input-closed-message">Chat is closed.</div></div></div><div class="attach-bar"><button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()" aria-label="Attach file">📎</button><input type="file" id="fileInput" multiple accept="*/*"/></div><div class="upload-preview-bar" id="uploadPreviewBar"></div><div class="upload-progress-wrap" id="uploadProgressWrap"><div class="upload-progress-top"><div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div><div class="upload-progress-pct" id="uploadProgressPct">0%</div></div><div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div></div><div class="logout-strip"><button class="admin-clear-btn" id="adminClearBtn" type="button" title="حذف جميع الرسائل" aria-label="Delete all messages"></button><button class="logout-btn" id="logoutBtn" type="button" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"></button></div></div>
     <div class="chat-input-container signin-input-container" id="signinOverlay"><div class="chat-signin-box"><div class="signin-box"><div class="signin-title"><b>Please sign in</b></div><div class="valign" style="height:34px;"><div class="valign-in1"><div class="valign-in2"><div class="signin-row"><input class="signin-input guest-signin-name" id="nameInput" type="text" placeholder="Your name" maxlength="30" autocomplete="off" inputmode="text" enterkeyhint="done"/></div><div class="consent-btns"><button class="consent-accept popup-button guest-signin-submit" id="signinBtn">Sign in</button></div></div></div></div></div></div></div>
   </div>
-  <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick(event);return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-gif-button" href="javascript:void(0);" onclick="onGifClick();return false;" title="إرسال GIF" aria-label="Send GIF">GIF</a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a>
+  <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick(event);return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-gif-button" href="javascript:void(0);" onclick="onGifClick();return false;" title="إرسال GIF" aria-label="Send GIF">GIF</a><a class="chat-footer-mic-button" id="voiceRecordBtn" href="javascript:void(0);" onclick="onVoiceClick(event);return false;" title="تسجيل رسالة صوتية" aria-label="Record voice message"><svg viewBox="0 0 24 24"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a7 7 0 0 1-14 0"/><path d="M12 18v4"/><path d="M8 22h8"/></svg></a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a>
 </div>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
@@ -1646,6 +1669,8 @@ body.chat-uploading .chat-create-link{display:none!important;}
 <input type="file" id="gifInput" accept="image/gif" style="display:none"/>
 
 <div class="gif-picker-overlay" id="gifPickerOverlay" onclick="if(event.target===this)closeGifPicker()"><div class="gif-picker" role="dialog" aria-label="GIF picker"><div class="gif-picker-head"><div class="gif-picker-title">مكتبة GIF</div><input class="gif-picker-search" id="gifSearchInput" type="search" placeholder="ابحث عن GIF..." autocomplete="off" /><button class="gif-picker-close" type="button" onclick="closeGifPicker()" aria-label="Close">×</button></div><div class="gif-picker-note" id="gifPickerNote">اكتب كلمة مثل: ضحك، حب، حزين، تمام، لا، شكر، صدمة، قهوة. إذا لم توجد مطابقة دقيقة ستظهر اقتراحات شائعة بدل رسالة لا توجد نتائج.</div><div class="gif-grid" id="gifGrid"></div></div></div>
+
+<div class="voice-recorder-overlay" id="voiceRecorderOverlay" dir="rtl"><div class="voice-recorder-head"><span class="voice-rec-dot"></span><span id="voiceRecStatus">جاري تسجيل رسالة صوتية...</span><span class="voice-rec-timer" id="voiceRecTimer">00:00</span></div><div class="voice-rec-actions"><button type="button" class="voice-stop-send" id="voiceStopSendBtn" onclick="stopVoiceRecording(true)">إرسال</button><button type="button" class="voice-cancel" id="voiceCancelBtn" onclick="stopVoiceRecording(false)">إلغاء</button></div></div>
 
 <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="lightbox-viewport" id="lightboxViewport"><img id="lightboxImg" src="" alt=""/></div><div class="lightbox-toolbar" aria-label="Image zoom controls"><button class="lightbox-zoom-btn" id="lightboxZoomOut" type="button" aria-label="Zoom out">−</button><span class="lightbox-zoom-level" id="lightboxZoomLevel">100%</span><button class="lightbox-zoom-btn" id="lightboxZoomIn" type="button" aria-label="Zoom in">+</button><button class="lightbox-zoom-btn lightbox-reset-btn" id="lightboxZoomReset" type="button" aria-label="Reset zoom">Reset</button></div></div>
 <div class="toast" id="toast"></div>
@@ -2357,6 +2382,151 @@ function uploadToUploadcare(file, idx, total){
   return attempt(1);
 }
 
+
+/* ═══════════════════════════════════════════════
+   VOICE MESSAGES — record in memory, upload to Uploadcare, then save message
+   No temporary chat message is created before Uploadcare returns a URL.
+═══════════════════════════════════════════════ */
+var voiceRecorder = null;
+var voiceStream = null;
+var voiceChunks = [];
+var voiceStartedAt = 0;
+var voiceTimerInterval = null;
+var isVoiceUploading = false;
+
+function getSupportedVoiceMime(){
+  if(!window.MediaRecorder) return '';
+  var choices = [
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/mp4',
+    'audio/ogg;codecs=opus',
+    'audio/ogg'
+  ];
+  for(var i=0;i<choices.length;i++){
+    try{ if(MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(choices[i])) return choices[i]; }catch(e){}
+  }
+  return '';
+}
+function voiceExtFromMime(mime){
+  mime=String(mime||'').toLowerCase();
+  if(mime.indexOf('mp4')>=0) return 'm4a';
+  if(mime.indexOf('ogg')>=0) return 'ogg';
+  return 'webm';
+}
+function formatVoiceTimer(ms){
+  var s=Math.max(0,Math.floor(ms/1000));
+  var m=Math.floor(s/60); s=s%60;
+  return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function showVoiceOverlay(show){
+  var overlay=document.getElementById('voiceRecorderOverlay');
+  var btn=document.getElementById('voiceRecordBtn');
+  if(overlay) overlay.classList.toggle('show', !!show);
+  if(btn) btn.classList.toggle('recording', !!show);
+}
+function updateVoiceTimer(){
+  var el=document.getElementById('voiceRecTimer');
+  if(el) el.textContent=formatVoiceTimer(Date.now()-voiceStartedAt);
+}
+function onVoiceClick(ev){
+  if(ev) ev.preventDefault();
+  if(!isSignedIn){ showToast('سجّل الدخول أولاً لإرسال رسالة صوتية','error'); return; }
+  if(isSending || isVoiceUploading){ showToast('انتظر حتى تنتهي عملية الإرسال الحالية','error'); return; }
+  if(voiceRecorder && voiceRecorder.state==='recording'){
+    stopVoiceRecording(true);
+    return;
+  }
+  startVoiceRecording();
+}
+function startVoiceRecording(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){
+    showToast('المتصفح لا يدعم تسجيل الصوت. جرّب Safari/Chrome محدثًا.','error');
+    return;
+  }
+  var mime=getSupportedVoiceMime();
+  navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}})
+    .then(function(stream){
+      voiceStream=stream;
+      voiceChunks=[];
+      var options=mime?{mimeType:mime}:undefined;
+      voiceRecorder=new MediaRecorder(stream, options);
+      voiceRecorder.ondataavailable=function(e){ if(e && e.data && e.data.size>0) voiceChunks.push(e.data); };
+      voiceRecorder.onerror=function(e){ console.error('Voice recorder error:',e); showToast('حدث خطأ أثناء التسجيل','error'); cleanupVoiceRecorder(); };
+      voiceRecorder.start(250);
+      voiceStartedAt=Date.now();
+      updateVoiceTimer();
+      clearInterval(voiceTimerInterval);
+      voiceTimerInterval=setInterval(updateVoiceTimer, 500);
+      showVoiceOverlay(true);
+    })
+    .catch(function(err){
+      console.error('Microphone permission error:',err);
+      var msg='تعذر تشغيل الميكروفون. اسمح للموقع باستخدام الميكروفون من إعدادات المتصفح.';
+      if(err && err.name==='NotAllowedError') msg='تم رفض إذن الميكروفون. فعّل إذن الميكروفون لهذا الموقع.';
+      if(err && err.name==='NotFoundError') msg='لم يتم العثور على ميكروفون في الجهاز.';
+      showToast(msg,'error');
+    });
+}
+function cleanupVoiceRecorder(){
+  clearInterval(voiceTimerInterval); voiceTimerInterval=null;
+  showVoiceOverlay(false);
+  try{ if(voiceStream) voiceStream.getTracks().forEach(function(t){t.stop();}); }catch(e){}
+  voiceStream=null; voiceRecorder=null; voiceChunks=[];
+}
+function stopVoiceRecording(shouldSend){
+  if(!voiceRecorder || voiceRecorder.state==='inactive'){
+    cleanupVoiceRecorder();
+    return;
+  }
+  var recorder=voiceRecorder;
+  recorder.onstop=function(){
+    var chunks=voiceChunks.slice();
+    var durationMs=Date.now()-voiceStartedAt;
+    var mime=(recorder.mimeType || getSupportedVoiceMime() || 'audio/webm').split(';')[0];
+    try{ if(voiceStream) voiceStream.getTracks().forEach(function(t){t.stop();}); }catch(e){}
+    clearInterval(voiceTimerInterval); voiceTimerInterval=null;
+    showVoiceOverlay(false);
+    voiceStream=null; voiceRecorder=null; voiceChunks=[];
+    if(!shouldSend) return;
+    if(durationMs < 700 || !chunks.length){ showToast('التسجيل قصير جدًا','error'); return; }
+    sendVoiceBlob(chunks, mime, durationMs);
+  };
+  try{ recorder.stop(); }catch(e){ cleanupVoiceRecorder(); }
+}
+function sendVoiceBlob(chunks, mime, durationMs){
+  if(isVoiceUploading || isSending) return;
+  isVoiceUploading=true; isSending=true;
+  var btn=document.getElementById('sendBtn'); if(btn) btn.disabled=true;
+  var ext=voiceExtFromMime(mime);
+  var name='voice_'+Date.now()+'.'+ext;
+  var blob=new Blob(chunks,{type:mime});
+  var file;
+  try{ file=new File([blob], name, {type:mime, lastModified:Date.now()}); }
+  catch(e){ file=blob; file.name=name; }
+  showUploadProgress(1);
+  setProgressPct(1,1,1);
+  uploadToUploadcare(file,0,1).then(function(att){
+    att.type='audio';
+    att.mime=mime;
+    att.name=name;
+    att.isVoiceMessage=true;
+    att.durationMs=durationMs;
+    att.displaySource='uploadcare';
+    return saveMsg('', [att]);
+  }).then(function(){
+    hideUploadProgress();
+  }).catch(function(err){
+    console.error('Voice upload failed:',err);
+    hideUploadProgress();
+    showToast('فشل إرسال الرسالة الصوتية: '+((err&&err.message)||''),'error');
+  }).finally(function(){
+    isVoiceUploading=false; isSending=false;
+    if(btn) btn.disabled=false;
+    updateSendBtn();
+  });
+}
+
 function uploadToDriveMirror(file, idx, total){
   return new Promise(function(resolve, reject){
     try{
@@ -2602,7 +2772,12 @@ function buildMsgEl(id,data){
           if(fid) mediaHtml+='<div class="drive-video-player"><iframe src="https://drive.google.com/file/d/'+encodeURIComponent(fid)+'/preview" allow="autoplay; fullscreen; encrypted-media" allowfullscreen loading="lazy"></iframe></div><div class="drive-video-caption">'+escHtml(att.name||'فيديو')+'</div>';
         }
       } else if(t==='audio'){
-        mediaHtml+='<audio controls preload="metadata" style="max-width:min(260px,100%);margin-top:2px;"><source src="'+escHtml(primaryUrl||att.url)+'" type="'+escHtml(att.mime||'audio/mpeg')+'"></audio>';
+        var audioUrl=primaryUrl||att.url||att.cdnUrl||att.directUrl||'';
+        if(att.isVoiceMessage){
+          mediaHtml+='<div class="voice-audio-card"><div class="voice-audio-title">🎙️ رسالة صوتية</div><audio controls preload="metadata" src="'+escHtml(audioUrl)+'"></audio></div>';
+        } else {
+          mediaHtml+='<audio controls preload="metadata" style="max-width:min(260px,100%);margin-top:2px;" src="'+escHtml(audioUrl)+'"><source src="'+escHtml(audioUrl)+'" type="'+escHtml(att.mime||'audio/mpeg')+'"></audio>';
+        }
       } else {
         var icon=getFileIcon(att.name,att.mime);
         var size=att.size?formatFileSize(att.size):'';
