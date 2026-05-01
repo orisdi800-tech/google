@@ -1517,7 +1517,61 @@ body{background:#252836!important;overscroll-behavior:none}.group-chat-embedded{
   .chat-footer-logout-button{right:12px!important;}
 }
 
+
+/* ADVANCED USER PATCH: footer spacing, attachment choices, typing, safe message width, Plyr, menu, emoji, GIF */
+.chat-footer-attach-button{right:84px!important}
+.chat-footer-gif-button{display:block!important;position:absolute!important;bottom:8px!important;right:50px!important;width:24px!important;height:20px!important;color:#6c7982!important;text-align:center!important;line-height:20px!important;font-size:10px!important;font-weight:700!important;border:1px solid #3a3d52!important;border-radius:3px!important;text-decoration:none!important;background:#171923!important;letter-spacing:.2px!important}
+.chat-footer-logout-button{right:15px!important}
+.chat-footer-attach-button:hover,.chat-footer-gif-button:hover,.chat-footer-logout-button:hover{color:#fff!important;border-color:#5e6278!important;background:#202333!important;text-decoration:none!important}
+@media(max-width:420px){.chat-footer-attach-button{right:78px!important}.chat-footer-gif-button{right:46px!important}.chat-footer-logout-button{right:12px!important}}
+
+.attach-choice-menu,.msg-context-menu{position:fixed;z-index:500;display:none;background:#11131d;border:1px solid #2f3247;border-radius:8px;box-shadow:0 12px 28px rgba(0,0,0,.45);overflow:hidden;color:#e8e9f0;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;min-width:170px;direction:rtl}
+.attach-choice-menu.show,.msg-context-menu.show{display:block}
+.attach-choice-menu button,.msg-context-menu button{display:block;width:100%;border:0;background:transparent;color:#e8e9f0;text-align:right;padding:10px 12px;font-family:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.attach-choice-menu button:hover,.msg-context-menu button:hover{background:#252836;color:#fff}
+.msg-context-menu button.danger{color:#fca5a5}.msg-context-menu button.danger:hover{background:#2a1518}
+
+.typing-bar{display:block!important;position:absolute!important;left:5px!important;right:132px!important;bottom:68px!important;height:18px!important;line-height:18px!important;z-index:38!important;background:#252836!important;color:#8a8fac!important;padding:0 8px!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;font-size:11px!important;pointer-events:none!important}
+.typing-bar:empty{display:none!important}.typing-bar .typing-name{color:#fff!important;font-weight:700!important}.typing-bar .typing-status-word{color:#4c7d9f!important}.typing-bar .typing-separator{color:#8a8fac!important}
+.chat-messages-container{bottom:86px!important;padding-right:4px!important;box-sizing:border-box!important}
+.msg-body{max-width:100%!important;box-sizing:border-box!important;overflow:hidden!important}.msg-content-line,.msg-text{overflow-wrap:anywhere!important;word-break:break-word!important;unicode-bidi:plaintext!important}.msg-media-wrap{max-width:100%!important;overflow:hidden!important}
+.msg-image{max-width:min(100%,520px)!important;max-height:70vh!important;object-fit:contain!important;cursor:zoom-in!important}
+.msg-file-link,.video-player,.drive-video-player,.social-embed-card{max-width:min(100%,520px)!important;box-sizing:border-box!important}
+@media(max-width:600px){.typing-bar{right:132px!important}.chat-messages-container{bottom:86px!important}.msg-image,.video-player,.drive-video-player,.social-embed-card{max-width:100%!important;width:100%!important}.msg-content-line,.msg-text{font-size:13px!important}}
+@media(max-width:420px){.typing-bar{right:112px!important}.chat-messages-container{right:112px!important;bottom:86px!important}}
+
+.upload-progress-wrap{position:fixed!important;left:10px!important;right:142px!important;bottom:74px!important;z-index:420!important;background:#0d0d0e!important;border:1px solid #2a2d3e!important;border-radius:6px!important;padding:7px 9px!important;box-shadow:0 8px 22px rgba(0,0,0,.35)!important;color:#a0a4bf!important;display:none!important}
+.upload-progress-wrap[style*="block"]{display:block!important}.upload-progress-top{display:flex!important;justify-content:space-between!important;gap:8px!important;margin-bottom:5px!important}.upload-progress-label,.upload-progress-pct{font-size:11px!important}.upload-progress-pct{color:#6e8efb!important;font-weight:700!important}
+.upload-progress-bar{height:4px!important;background:#2a2d3e!important;border-radius:8px!important;overflow:hidden!important}.upload-progress-fill{height:100%!important;width:0%;background:linear-gradient(90deg,#6e8efb,#a78bfa)!important;border-radius:8px!important;transition:width .2s ease!important}
+@media(max-width:420px){.upload-progress-wrap{right:122px!important;left:8px!important}}
+
+.upload-preview-bar[style*="flex"]{display:flex!important;position:fixed!important;left:10px!important;right:142px!important;bottom:116px!important;z-index:410!important;background:#0d0d0e!important;border:1px solid #2a2d3e!important;border-radius:6px!important;padding:6px!important;gap:6px!important;flex-wrap:wrap!important}
+.preview-thumb{width:46px!important;height:46px!important;object-fit:cover!important;border-radius:4px!important}.preview-file-chip{background:#252836!important;color:#d7dbea!important;border-radius:4px!important;padding:6px 8px!important;font-size:11px!important;max-width:170px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+.preview-remove{position:absolute!important;top:-6px!important;right:-6px!important;width:16px!important;height:16px!important;border-radius:50%!important;border:0!important;background:#e53e3e!important;color:#fff!important;font-size:10px!important;cursor:pointer!important}.preview-item{position:relative!important;display:inline-flex!important}
+
+.plyr-video-wrap{width:min(520px,100%)!important;max-width:100%!important;margin-top:6px!important;background:#0b0c12!important;border:1px solid rgba(255,255,255,.08)!important;border-radius:6px!important;overflow:hidden!important}
+.plyr-video-wrap video{width:100%!important;max-height:70vh!important;background:#000!important;display:block!important}.plyr{--plyr-color-main:#6e8efb;--plyr-video-background:#000;--plyr-control-radius:4px;font-family:'Plus Jakarta Sans',sans-serif!important}.plyr__controls{direction:ltr!important}
+@media(max-width:600px){.plyr-video-wrap{width:100%!important}.plyr-video-wrap video{max-height:62vh!important}}
+
+.msg-edit-wrap{display:block!important;margin:6px 0 2px 0!important;background:#141722!important;border:1px solid #333650!important;border-radius:8px!important;padding:8px!important;box-shadow:0 8px 20px rgba(0,0,0,.25)!important}
+.msg-edit-input{width:100%!important;min-height:70px!important;resize:vertical!important;background:#252836!important;color:#fff!important;border:1px solid #4a4f68!important;border-radius:6px!important;padding:8px 10px!important;font:14px/1.5 'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif!important;outline:none!important;box-sizing:border-box!important}
+.msg-edit-input:focus{border-color:#6e8efb!important;box-shadow:0 0 0 2px rgba(110,142,251,.18)!important}.msg-edit-btns{display:flex!important;gap:7px!important;margin-top:7px!important;justify-content:flex-end!important}.msg-edit-save,.msg-edit-cancel{border:0!important;border-radius:5px!important;padding:6px 12px!important;font-family:inherit!important;font-size:12px!important;cursor:pointer!important}.msg-edit-save{background:#6e8efb!important;color:#fff!important}.msg-edit-cancel{background:#2f3247!important;color:#cfd3ea!important}
+
+.lightbox{background:rgba(13,13,14,.94)!important}.lightbox img{border-radius:8px!important;border:1px solid rgba(255,255,255,.12)!important;background:#05060a!important}.lightbox-toolbar{background:#0d0d0e!important;border-color:#2f3247!important}.lightbox-close,.lightbox-zoom-btn{background:#252836!important;color:#e8e9f0!important}.lightbox-close:hover,.lightbox-zoom-btn:hover{background:#333650!important;color:#fff!important}
+
+body,.chat-wrapper,.chat-input,.chat-textarea,.msg-text,.msg-content-line,.signin-input{font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla','Segoe UI Symbol',sans-serif!important;font-variant-emoji:normal!important}
+
+
+
+/* FIX PATCH: progress in Chatroll footer, no typing strip, do not reserve extra message height */
+body.chat-uploading .chat-create-link{display:none!important;}
+.upload-progress-wrap{position:fixed!important;left:15px!important;right:auto!important;bottom:8px!important;width:130px!important;height:20px!important;z-index:520!important;background:transparent!important;border:0!important;border-radius:0!important;padding:0!important;box-shadow:none!important;color:#8a8fac!important;display:none!important;overflow:hidden!important}
+.upload-progress-wrap[style*="block"]{display:block!important}.upload-progress-top{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:5px!important;margin:0!important;height:11px!important;line-height:11px!important}.upload-progress-label{font-size:9px!important;line-height:11px!important;color:#8a8fac!important;max-width:82px!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}.upload-progress-pct{font-size:9px!important;line-height:11px!important;color:#91cc00!important;font-weight:700!important}.upload-progress-bar{height:3px!important;margin-top:3px!important;background:#252836!important;border-radius:3px!important;overflow:hidden!important;width:100%!important}.upload-progress-fill{height:100%!important;width:0%;background:#91cc00!important;border-radius:3px!important;transition:width .18s linear!important}
+.typing-bar{display:block!important;position:absolute!important;left:15px!important;right:142px!important;bottom:70px!important;height:15px!important;line-height:15px!important;z-index:38!important;background:transparent!important;color:#8a8fac!important;padding:0!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;font-size:11px!important;pointer-events:none!important}.typing-bar:empty{display:none!important}.chat-messages-container{bottom:68px!important}
+@media(max-width:420px){.upload-progress-wrap{left:10px!important;width:118px!important}.typing-bar{right:122px!important}.chat-messages-container{bottom:68px!important}}
+
 </style>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"/>
 </head>
 
 <body>
@@ -1531,9 +1585,14 @@ body{background:#252836!important;overscroll-behavior:none}.group-chat-embedded{
     <div class="chat-input-container" id="chatBottom" style="display:none"><div class="chat-input-wrapper"><textarea class="chat-input chat-textarea" id="chatInput" placeholder="Type a message and press enter" rows="1" enterkeyhint="send" onfocus="this.placeholder=''" onblur="this.placeholder='Type a message and press enter'"></textarea><button class="send-btn" id="sendBtn" disabled aria-label="Send">Send</button><div class="chat-input-status" style="display:none"><div class="chat-input-approval">Waiting for moderator approval...</div><div class="chat-input-progress-border"><div class="chat-input-progress-container"><div class="chat-input-progress"></div></div></div></div><div class="chat-input-closed" style="display:none;"><div class="chat-input-closed-message">Chat is closed.</div></div></div><div class="attach-bar"><button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()" aria-label="Attach file">📎</button><input type="file" id="fileInput" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt,.zip,.rar"/></div><div class="upload-preview-bar" id="uploadPreviewBar"></div><div class="upload-progress-wrap" id="uploadProgressWrap"><div class="upload-progress-top"><div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div><div class="upload-progress-pct" id="uploadProgressPct">0%</div></div><div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div></div><div class="logout-strip"><button class="admin-clear-btn" id="adminClearBtn" type="button" title="حذف جميع الرسائل" aria-label="Delete all messages"></button><button class="logout-btn" id="logoutBtn" type="button" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"></button></div></div>
     <div class="chat-input-container signin-input-container" id="signinOverlay"><div class="chat-signin-box"><div class="signin-box"><div class="signin-title"><b>Please sign in</b></div><div class="valign" style="height:34px;"><div class="valign-in1"><div class="valign-in2"><div class="signin-row"><input class="signin-input guest-signin-name" id="nameInput" type="text" placeholder="Your name" maxlength="30" autocomplete="off" inputmode="text" enterkeyhint="done"/></div><div class="consent-btns"><button class="consent-accept popup-button guest-signin-submit" id="signinBtn">Sign in</button></div></div></div></div></div></div></div>
   </div>
-  <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="/t.gif" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="/t.gif" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick();return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="/t.gif"/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="/t.gif" /></a>
+  <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="/t.gif" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="/t.gif" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick(event);return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-gif-button" href="javascript:void(0);" onclick="onGifClick();return false;" title="إرسال GIF" aria-label="Send GIF">GIF</a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="/t.gif"/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="/t.gif" /></a>
 </div>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<div class="attach-choice-menu" id="attachChoiceMenu" dir="rtl"><button type="button" onclick="chooseFromGallery()">اختيار من المعرض</button><button type="button" onclick="chooseFromFiles()">اختيار من ملفات الجهاز</button></div>
+<div class="msg-context-menu" id="msgContextMenu" dir="rtl"></div>
+<input type="file" id="mediaInput" multiple accept="image/*,video/*" style="display:none"/>
+<input type="file" id="gifInput" accept="image/gif" style="display:none"/>
 <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="lightbox-viewport" id="lightboxViewport"><img id="lightboxImg" src="" alt=""/></div><div class="lightbox-toolbar" aria-label="Image zoom controls"><button class="lightbox-zoom-btn" id="lightboxZoomOut" type="button" aria-label="Zoom out">−</button><span class="lightbox-zoom-level" id="lightboxZoomLevel">100%</span><button class="lightbox-zoom-btn" id="lightboxZoomIn" type="button" aria-label="Zoom in">+</button><button class="lightbox-zoom-btn lightbox-reset-btn" id="lightboxZoomReset" type="button" aria-label="Reset zoom">Reset</button></div></div>
 <div class="toast" id="toast"></div>
 <script type="text/javascript">
@@ -1559,6 +1618,7 @@ firebase.initializeApp(firebaseConfig);
 var db   = firebase.firestore();
 var rtdb = firebase.database();
 var auth = firebase.auth();
+var storage = firebase.storage();
 
 var ROOM_ID       = 'google-chat';
 var MSGS_PER_PAGE = 50;
@@ -1860,13 +1920,7 @@ function postToAppsScriptWithProgress(payload, idx, total) {
     throw err;
   });
 }
-function createMediaPreviewDataUrl(file) {
-  if (!file||!file.type) return Promise.resolve(null);
-  var t = file.type.toLowerCase();
-  if (t.startsWith('image/')) return createImagePreviewDataUrl(file);
-  if (t.startsWith('video/')) return createVideoPosterDataUrl(file);
-  return Promise.resolve(null);
-}
+function createMediaPreviewDataUrl(file) { return Promise.resolve(null); }
 function createImagePreviewDataUrl(file) {
   return new Promise(function(resolve){
     try {
@@ -2045,7 +2099,53 @@ function seekVideoPlayer(range){ var p=getVideoPlayer(range); if(!p)return; var 
 function toggleVideoMute(btn){ var p=getVideoPlayer(btn); if(!p)return; var v=p.querySelector('video'); if(!v)return; v.muted=!v.muted; btn.textContent=v.muted?'🔇':'🔊'; }
 function fullscreenVideoPlayer(btn){ var p=getVideoPlayer(btn); if(!p)return; document.fullscreenElement?document.exitFullscreen():(p.requestFullscreen&&p.requestFullscreen()); }
 function handleVideoError(video){ var p=getVideoPlayer(video); if(!p)return; var urls=[]; try{urls=JSON.parse(decodeURIComponent(p.getAttribute('data-fallbacks')||'%5B%5D'));}catch(e){} var next=parseInt(p.getAttribute('data-fallback-idx')||'0',10)+1; if(next<urls.length){ p.setAttribute('data-fallback-idx',String(next)); video.src=urls[next]; video.load(); return; } p.classList.add('video-failed'); var err=p.querySelector('.video-error'); if(err)err.textContent='تعذر تشغيل الفيديو داخل المحادثة.'; }
-function uploadFilesSequentially(files){ var results=[]; function next(i){ if(i>=files.length)return Promise.resolve(results); return uploadViaAppsScript(files[i],i,files.length).then(function(a){ results.push(a); return next(i+1); }); } return next(0); }
+function uploadToFirebaseStorage(file, idx, total){
+  return new Promise(function(resolve, reject){
+    try{
+      var safeName = String(file.name || 'file').replace(/[^\w.\-\u0600-\u06FF]+/g,'_');
+      var path = 'chat_uploads/'+ROOM_ID+'/'+Date.now()+'_'+Math.random().toString(36).slice(2)+'_'+safeName;
+      var ref = storage.ref().child(path);
+      var task = ref.put(file, {contentType:file.type || 'application/octet-stream'});
+      task.on('state_changed', function(snap){
+        if (snap && snap.totalBytes) setProgressPct(Math.round((snap.bytesTransferred/snap.totalBytes)*96), idx+1, total);
+      }, reject, function(){
+        task.snapshot.ref.getDownloadURL().then(function(url){
+          resolve({firebaseUrl:url,url:url,fullUrl:url,storagePath:path,type:detectFileType(file.type,file.name),name:file.name,size:file.size,mime:file.type});
+        }).catch(reject);
+      });
+    } catch(e){ reject(e); }
+  });
+}
+function uploadFileEverywhere(file, idx, total){
+  // Start Drive upload at the same time, but do not block the chat message on it.
+  // The message preview uses Firebase Storage so it appears immediately after Firebase finishes.
+  var driveP;
+  try {
+    driveP = uploadViaAppsScript(file,idx,total).catch(function(e){
+      console.warn('Drive upload failed:', e);
+      return {driveError:e&&e.message?e.message:String(e)};
+    });
+  } catch(e) {
+    driveP = Promise.resolve({driveError:e&&e.message?e.message:String(e)});
+  }
+
+  return uploadToFirebaseStorage(file,idx,total).then(function(fb){
+    driveP.then(function(dr){ console.log('Drive upload result:', dr); }).catch(function(e){ console.warn('Drive upload error:', e); });
+    return Object.assign({}, fb, {
+      url: fb.url,
+      firebaseUrl: fb.firebaseUrl,
+      fullUrl: fb.fullUrl || fb.firebaseUrl || fb.url,
+      displaySource: 'firebase',
+      driveUrl: '',
+      driveFileId: '',
+      uploadedToDrive: 'pending',
+      driveError: ''
+    });
+  });
+}
+function uploadFilesSequentially(files){
+  return Promise.all(files.map(function(file,i){return uploadFileEverywhere(file,i,files.length);}));
+}
 
 /* ═══════════════════════════════════════════════
    SEND
@@ -2081,8 +2181,9 @@ function sendMessage(){
 
   showUploadProgress(savedFiles.length);
   uploadFilesSequentially(savedFiles)
-    .then(function(atts){ hideUploadProgress(); return saveMsg(savedText,atts); })
-    .catch(function(e){ hideUploadProgress(); showToast(e.message==='script/not-configured'?'⚠️ ضع رابط Apps Script أولاً':'فشل الرفع: '+(e.message||''),'error'); })
+    .then(function(atts){ setProgressPct(100,savedFiles.length,savedFiles.length); return saveMsg(savedText,atts); })
+    .then(function(){ hideUploadProgress(); })
+    .catch(function(e){ hideUploadProgress(); showToast(e&&e.message==='script/not-configured'?'⚠️ ضع رابط Apps Script أولاً':'فشل الرفع: '+((e&&e.message)||''),'error'); })
     .finally(finishSend);
 
   function finishSend(){ isSending=false; if (btn) btn.disabled=false; updateSendBtn(); }
@@ -2093,7 +2194,11 @@ function saveMsg(text,attachments){
     text:text, attachments:attachments,
     name:currentUser.name, type:'Guest', deviceId:currentUser.deviceId,
     timestamp:firebase.firestore.FieldValue.serverTimestamp(), edited:false
-  }).catch(function(){ showToast('فشل حفظ الرسالة','error'); });
+  }).catch(function(e){
+    console.error('Save message failed:', e);
+    showToast('فشل حفظ الرسالة: '+(e&&e.message?e.message:''),'error');
+    throw e;
+  });
 }
 
 /* ═══════════════════════════════════════════════
@@ -2102,7 +2207,7 @@ function saveMsg(text,attachments){
 function subscribeMessages(){
   if(unsubMessages) unsubMessages();
   unsubMessages = db.collection('rooms').doc(ROOM_ID).collection('messages')
-    .orderBy('timestamp','asc').limitToLast(MSGS_PER_PAGE)
+    .orderBy('timestamp','asc')
     .onSnapshot(function(snap){
       snap.docChanges().forEach(function(ch){
         if(ch.type==='added')    renderMessage(ch.doc.id,ch.doc.data(),true);
@@ -2119,155 +2224,165 @@ function renderMessage(id,data,scrollDown){
   if(w) document.getElementById('chatMessages').insertBefore(el,w);
   else  document.getElementById('chatMessages').appendChild(el);
   if(scrollDown) scrollToBottom();
+  setTimeout(function(){initPlyrIn(el);},80);
 }
 
 function buildMsgEl(id,data){
-  var isOwn = currentUser && data.deviceId===currentUser.deviceId;
-  var ts    = data.timestamp?(data.timestamp.toDate?data.timestamp.toDate():new Date(data.timestamp)):new Date();
-  var el    = document.createElement('div');
-  el.className='msg message'; el.id='msg-'+id; el.dataset.id=id;
-
-  /* long-press for mobile action reveal */
-  var longPressTimer;
-  el.addEventListener('touchstart', function(){ longPressTimer=setTimeout(function(){ el.classList.add('long-pressed'); },550); },{passive:true});
-  el.addEventListener('touchend',   function(){ clearTimeout(longPressTimer); },{passive:true});
-  el.addEventListener('touchmove',  function(){ clearTimeout(longPressTimer); },{passive:true});
-
-  var mediaHtml='';
-  var atts=data.attachments;
+  var isOwn=currentUser && data.deviceId===currentUser.deviceId;
+  var ts=data.timestamp?(data.timestamp.toDate?data.timestamp.toDate():new Date(data.timestamp)):new Date();
+  var el=document.createElement('div'); el.className='msg message'; el.id='msg-'+id; el.dataset.id=id;
+  var displayText=normalizeEmojiPresentation(data.text||'');
+  var socialEmbedHtml=buildSocialEmbedsHtml(data.text||'');
+  el.addEventListener('click',function(e){var tag=(e.target&&e.target.tagName||'').toLowerCase(); if(tag==='a'||tag==='button'||tag==='textarea'||tag==='input'||tag==='video'||tag==='iframe'||(e.target.closest&&e.target.closest('.msg-edit-wrap'))) return; openMessageMenu(id,isOwn,data.text||'',e.clientX||20,e.clientY||20);});
+  el.addEventListener('contextmenu',function(e){e.preventDefault();openMessageMenu(id,isOwn,data.text||'',e.clientX||20,e.clientY||20);});
+  var mediaHtml=''; var atts=data.attachments;
   if(atts&&Array.isArray(atts)&&atts.length){
     mediaHtml='<div class="msg-media-wrap">';
     atts.forEach(function(att){
-      if(!att||!att.url) return;
-      var t=att.type||detectFileType(att.mime,att.name);
+      if(!att) return; var t=att.type||detectFileType(att.mime,att.name); var primaryUrl=att.firebaseUrl||att.fullUrl||att.url||att.directUrl||att.thumbnailUrl||'';
       if(t==='image'){
-        var imgUrls=getImageUrlCandidates(att);
-        var first=imgUrls[0]||att.url||att.driveUrl||'';
-        var enc=encodeURIComponent(JSON.stringify(imgUrls));
-        mediaHtml+='<img class="msg-image loading" src="'+escHtml(first)+'" data-fallback-idx="0" data-fallbacks="'+escHtml(enc)+'" alt="'+escHtml(att.name||'صورة')+'" onload="this.classList.remove(\'loading\');this.style.opacity=\'1\'" onerror="handleImageError(this)" onclick="openLightbox(this.src)"/>';
+        var imgUrls=getImageUrlCandidates(Object.assign({},att,{url:primaryUrl}));
+        var first=primaryUrl||imgUrls[0]||att.driveUrl||'';
+        var enc=encodeURIComponent(JSON.stringify(imgUrls.length?imgUrls:[first]));
+        mediaHtml+='<img class="msg-image loading" src="'+escHtml(first)+'" data-fallback-idx="0" data-fallbacks="'+escHtml(enc)+'" alt="'+escHtml(att.name||'صورة')+'" onload="this.classList.remove(\'loading\');this.style.opacity=\'1\'" onerror="handleImageError(this)" onclick="event.stopPropagation();openLightbox(this.src)"/>';
       } else if(t==='video'){
-        var fid=getAttachmentFileId(att);
-        if(fid){
-          mediaHtml+='<div class="drive-video-player"><iframe src="https://drive.google.com/file/d/'+encodeURIComponent(fid)+'/preview" allow="autoplay; fullscreen; encrypted-media" allowfullscreen loading="lazy"></iframe></div><div class="drive-video-caption">'+escHtml(att.name||'فيديو')+'</div>';
+        if(primaryUrl){
+          mediaHtml+='<div class="plyr-video-wrap"><video class="plyr-video" controls playsinline preload="metadata" src="'+escHtml(primaryUrl)+'" type="'+escHtml(att.mime||'video/mp4')+'"></video></div>';
         } else {
-          var vurls=getVideoUrlCandidates(att);
-          var vfirst=vurls[0]||att.url||'';
-          var venc=encodeURIComponent(JSON.stringify(vurls));
-          var posterAttr=att.previewUrl?' poster="'+escHtml(att.previewUrl)+'"':'';
-          mediaHtml+='<div class="video-player" data-fallback-idx="0" data-fallbacks="'+escHtml(venc)+'"><video preload="metadata" playsinline src="'+escHtml(vfirst)+'" type="'+escHtml(att.mime||'video/mp4')+'"'+posterAttr+' onloadedmetadata="updateVideoPlayer(this)" ontimeupdate="updateVideoPlayer(this)" onplay="setVideoPlayingState(this)" onpause="setVideoPlayingState(this)" onended="setVideoPlayingState(this)" onerror="handleVideoError(this)" onclick="toggleVideoPlayer(this.closest(\'&quot;.video-player&quot;\'))"></video><button class="video-big-play" onclick="toggleVideoPlayer(this.closest(\'.video-player\'))">▶</button><div class="video-controls"><button class="video-control-btn video-play-btn" onclick="toggleVideoPlayer(this.closest(\'.video-player\'))">▶</button><input class="video-seek" type="range" min="0" max="100" value="0" step="0.1" oninput="seekVideoPlayer(this)"><span class="video-time">0:00 / 0:00</span><button class="video-control-btn" onclick="toggleVideoMute(this)">🔊</button><button class="video-control-btn" onclick="fullscreenVideoPlayer(this)">⛶</button></div><div class="video-error"></div></div>';
+          var fid=getAttachmentFileId(att);
+          if(fid) mediaHtml+='<div class="drive-video-player"><iframe src="https://drive.google.com/file/d/'+encodeURIComponent(fid)+'/preview" allow="autoplay; fullscreen; encrypted-media" allowfullscreen loading="lazy"></iframe></div><div class="drive-video-caption">'+escHtml(att.name||'فيديو')+'</div>';
         }
       } else if(t==='audio'){
-        mediaHtml+='<audio controls preload="metadata" style="max-width:min(260px,70vw);margin-top:2px;"><source src="'+escHtml(att.url)+'" type="'+escHtml(att.mime||'audio/mpeg')+'"></audio>';
+        mediaHtml+='<audio controls preload="metadata" style="max-width:min(260px,100%);margin-top:2px;"><source src="'+escHtml(primaryUrl||att.url)+'" type="'+escHtml(att.mime||'audio/mpeg')+'"></audio>';
       } else {
         var icon=getFileIcon(att.name,att.mime);
         var size=att.size?formatFileSize(att.size):'';
-        mediaHtml+='<a class="msg-file-link" href="'+escHtml(att.driveUrl||att.url)+'" target="_blank"><span class="msg-file-icon">'+icon+'</span><span class="msg-file-info"><span class="msg-file-name">'+escHtml(att.name||'ملف')+'</span>'+(size?'<span class="msg-file-size">'+size+'</span>':'')+  '</span></a>';
+        mediaHtml+='<a class="msg-file-link" href="'+escHtml(att.driveUrl||primaryUrl||att.url)+'" target="_blank" onclick="event.stopPropagation()"><span class="msg-file-icon">'+icon+'</span><span class="msg-file-info"><span class="msg-file-name">'+escHtml(att.name||'ملف')+'</span>'+(size?'<span class="msg-file-size">'+size+'</span>':'')+'</span></a>';
       }
-    });
-    mediaHtml+='</div>';
+    }); mediaHtml+='</div>';
   }
-
   var editedBadge=data.edited?'<span class="msg-edited">(edited)</span>':'';
-  var displayText = normalizeEmojiPresentation(data.text||'');
-  var socialEmbedHtml = buildSocialEmbedsHtml(data.text||'');
-
-  /* SVG icons for edit/delete */
-  var actionsHtml=isOwn
-    ? '<div class="msg-actions">'+
-        '<button class="msg-action-btn" onclick="startEdit(\''+id+'\')" title="Edit">'+
-          '<svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>'+
-        '</button>'+
-        '<button class="msg-action-btn" onclick="deleteMsg(\''+id+'\')" title="Delete">'+
-          '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>'+
-        '</button>'+
-      '</div>'
-    : '';
-
-  el.innerHTML=
-    '<div class="msg-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div>'+
-    '<div class="msg-body">'+
-      '<div class="msg-date-line">'+escHtml(formatTime(ts))+'</div>'+
-      '<div class="msg-content-line">'+
-        '<span class="msg-inline-name">'+escHtml(data.name||'Unknown')+'</span> '+
-        '<span class="msg-inline-type">('+escHtml(data.type||'Guest')+')</span>'+
-        '<span class="msg-colon">:</span>'+
-        '<span class="msg-text" id="txt-'+id+'" data-raw="'+escHtml(data.text||'')+'">'+linkify(escHtml(displayText))+'</span>'+editedBadge+
-      '</div>'+
-      socialEmbedHtml+
-      mediaHtml+
-    '</div>'+
-    actionsHtml;
-  return el;
+  el.innerHTML='<div class="msg-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div>'+'<div class="msg-body"><div class="msg-date-line">'+escHtml(formatTime(ts))+'</div><div class="msg-content-line"><span class="msg-inline-name">'+escHtml(data.name||'Unknown')+'</span> <span class="msg-inline-type">('+escHtml(data.type||'Guest')+')</span><span class="msg-colon">:</span><span class="msg-text" id="txt-'+id+'" data-raw="'+escHtml(data.text||'')+'">'+linkify(escHtml(displayText))+'</span>'+editedBadge+'</div>'+socialEmbedHtml+mediaHtml+'</div>';
+  setTimeout(function(){initPlyrIn(el);},80); return el;
 }
 
-function updateMsgEl(id,data){ var el=document.getElementById('msg-'+id); if(!el)return; el.parentNode.replaceChild(buildMsgEl(id,data),el); }
+function updateMsgEl(id,data){ var el=document.getElementById('msg-'+id); if(!el)return; var next=buildMsgEl(id,data); el.parentNode.replaceChild(next,el); setTimeout(function(){initPlyrIn(next);},80); }
 function removeMsgEl(id){ var el=document.getElementById('msg-'+id); if(el)el.remove(); }
 
-/* edit / delete */
+/* edit / delete / copy contextual menu */
+function openMessageMenu(id,isOwn,rawText,x,y){
+  var menu=document.getElementById('msgContextMenu');if(!menu)return;
+  var html='<button type="button" onclick="copyMsg(\''+id+'\')">نسخ الرسالة</button>';
+  if(isOwn){html+='<button type="button" onclick="startEdit(\''+id+'\')">تعديل الرسالة</button><button type="button" class="danger" onclick="deleteMsg(\''+id+'\')">حذف الرسالة</button>';}
+  menu.innerHTML=html;menu.classList.add('show');
+  var pad=8,w=190,h=isOwn?120:44;
+  menu.style.left=Math.min(Math.max(x,pad),window.innerWidth-w-pad)+'px';
+  menu.style.top=Math.min(Math.max(y,pad),window.innerHeight-h-pad)+'px';
+  setTimeout(function(){document.addEventListener('click',closeMessageMenuOnce,{once:true});},0);
+}
+function closeMessageMenuOnce(e){var m=document.getElementById('msgContextMenu');if(m&&(!e||!m.contains(e.target)))m.classList.remove('show');}
+function getMsgRawText(id){var txtEl=document.getElementById('txt-'+id);return txtEl?(txtEl.dataset.raw||txtEl.textContent||''):'';}
+function copyMsg(id){
+  var text=getMsgRawText(id);closeMessageMenuOnce();
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){showToast('تم نسخ الرسالة','success');}).catch(function(){fallbackCopy(text);});}
+  else fallbackCopy(text);
+}
+function fallbackCopy(text){var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast('تم نسخ الرسالة','success');}catch(e){showToast('تعذر النسخ','error');}ta.remove();}
 function startEdit(id){
-  if(editingMsgId) cancelEdit(editingMsgId);
+  closeMessageMenuOnce();
+  if(editingMsgId)cancelEdit(editingMsgId);
   editingMsgId=id;
-  var txtEl=document.getElementById('txt-'+id); if(!txtEl)return;
+  var txtEl=document.getElementById('txt-'+id);if(!txtEl)return;
   var raw=txtEl.dataset.raw||txtEl.textContent.replace(' (edited)','');
   txtEl.dataset.raw=raw;
-  var wrap=document.createElement('div'); wrap.className='msg-edit-wrap'; wrap.id='edit-wrap-'+id;
-  wrap.innerHTML='<textarea class="msg-edit-input" id="edit-inp-'+id+'" rows="2">'+escHtml(raw)+'</textarea><div class="msg-edit-btns"><button class="msg-edit-save" onclick="saveEdit(\''+id+'\')">Save</button><button class="msg-edit-cancel" onclick="cancelEdit(\''+id+'\')">Cancel</button></div>';
-  txtEl.style.display='none';
-  txtEl.parentNode.insertBefore(wrap,txtEl.nextSibling);
-  var inp=document.getElementById('edit-inp-'+id);
-  inp.focus(); inp.selectionStart=inp.selectionEnd=inp.value.length;
+  var wrap=document.createElement('div');wrap.className='msg-edit-wrap';wrap.id='edit-wrap-'+id;
+  wrap.innerHTML='<textarea class="msg-edit-input" id="edit-inp-'+id+'" rows="3">'+escHtml(raw)+'</textarea><div class="msg-edit-btns"><button class="msg-edit-cancel" onclick="cancelEdit(\''+id+'\')">إلغاء</button><button class="msg-edit-save" onclick="saveEdit(\''+id+'\')">حفظ</button></div>';
+  txtEl.style.display='none';txtEl.parentNode.insertBefore(wrap,txtEl.nextSibling);
+  var inp=document.getElementById('edit-inp-'+id);inp.focus();inp.selectionStart=inp.selectionEnd=inp.value.length;
 }
 function saveEdit(id){
-  var inp=document.getElementById('edit-inp-'+id); if(!inp)return;
-  var t=inp.value.trim(); if(!t)return;
+  var inp=document.getElementById('edit-inp-'+id);if(!inp)return;
+  var t=normalizeEmojiPresentation(inp.value.trim());if(!t)return;
   db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id)
     .update({text:t,edited:true,editedAt:firebase.firestore.FieldValue.serverTimestamp()})
-    .then(function(){ editingMsgId=null; })
-    .catch(function(){ showToast('فشل التعديل','error'); });
+    .then(function(){editingMsgId=null;})
+    .catch(function(){showToast('فشل التعديل','error');});
 }
 function cancelEdit(id){
-  var wrap=document.getElementById('edit-wrap-'+id), txtEl=document.getElementById('txt-'+id);
-  if(wrap)wrap.remove(); if(txtEl)txtEl.style.display=''; editingMsgId=null;
+  var wrap=document.getElementById('edit-wrap-'+id),txtEl=document.getElementById('txt-'+id);
+  if(wrap)wrap.remove();if(txtEl)txtEl.style.display='';editingMsgId=null;
 }
 function deleteMsg(id){
-  if(!confirm('Delete this message?')) return;
+  closeMessageMenuOnce();
+  if(!confirm('Delete this message?'))return;
   db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).delete();
 }
 
-/* file preview */
-function onAttachClick(){
-  if(!userConsented){ showToast('لم توافق على مشاركة الملفات. أعد تحميل الصفحة لتغيير اختيارك.','error'); return; }
-  document.getElementById('fileInput').click();
+/* file preview and attachment choices */
+function hideAttachChoiceMenu(){var m=document.getElementById('attachChoiceMenu');if(m)m.classList.remove('show');}
+function onAttachClick(ev){
+  if(!userConsented){showToast('لم توافق على مشاركة الملفات. أعد تحميل الصفحة لتغيير اختيارك.','error');return;}
+  var m=document.getElementById('attachChoiceMenu');if(!m){chooseFromFiles();return;}
+  var x=ev&&ev.clientX?ev.clientX:window.innerWidth-180;
+  var y=ev&&ev.clientY?ev.clientY:window.innerHeight-60;
+  m.style.left=Math.min(Math.max(8,x-160),window.innerWidth-180)+'px';
+  m.style.top=Math.min(Math.max(8,y-96),window.innerHeight-96)+'px';
+  m.classList.add('show');
+  setTimeout(function(){document.addEventListener('click',function once(e){if(!m.contains(e.target))m.classList.remove('show');document.removeEventListener('click',once);});},0);
 }
-document.getElementById('fileInput').addEventListener('change',function(){
-  Array.from(this.files).forEach(addFilePreview); this.value='';
-});
+function chooseFromGallery(){hideAttachChoiceMenu();document.getElementById('mediaInput').click();}
+function chooseFromFiles(){hideAttachChoiceMenu();document.getElementById('fileInput').click();}
+function onGifClick(){if(!userConsented){showToast('سجّل الدخول أولاً','error');return;}document.getElementById('gifInput').click();}
+document.getElementById('fileInput').addEventListener('change',function(){Array.from(this.files).forEach(addFilePreview);this.value='';});
+document.getElementById('mediaInput').addEventListener('change',function(){Array.from(this.files).forEach(addFilePreview);this.value='';});
+document.getElementById('gifInput').addEventListener('change',function(){Array.from(this.files).forEach(addFilePreview);this.value='';});
 function addFilePreview(file){
   pendingFiles.push(file);
   var idx=pendingFiles.length-1;
   var bar=document.getElementById('uploadPreviewBar');
   bar.style.display='flex';
-  var item=document.createElement('div'); item.className='preview-item';
-  if(file.type.startsWith('image/')){
+  var item=document.createElement('div');item.className='preview-item';
+  if(file.type&&file.type.startsWith('image/')){
     var reader=new FileReader();
-    reader.onload=function(e){ item.innerHTML='<img class="preview-thumb" src="'+e.target.result+'"/><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>'; };
+    reader.onload=function(e){item.innerHTML='<img class="preview-thumb" src="'+e.target.result+'"/><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';};
     reader.readAsDataURL(file);
-  } else {
+  }else{
     item.innerHTML='<div class="preview-file-chip">'+getFileIcon(file.name,file.type)+' '+escHtml(file.name)+'</div><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';
   }
-  bar.appendChild(item); updateSendBtn();
+  bar.appendChild(item);updateSendBtn();
 }
 function removePreview(idx,el){
-  pendingFiles[idx]=null; el.remove();
-  if(!document.getElementById('uploadPreviewBar').children.length) document.getElementById('uploadPreviewBar').style.display='none';
+  pendingFiles[idx]=null;el.remove();
+  if(!document.getElementById('uploadPreviewBar').children.length)document.getElementById('uploadPreviewBar').style.display='none';
   updateSendBtn();
 }
-function clearUploadPreview(){ pendingFiles=[]; var bar=document.getElementById('uploadPreviewBar'); bar.innerHTML=''; bar.style.display='none'; }
+function clearUploadPreview(){pendingFiles=[];var bar=document.getElementById('uploadPreviewBar');bar.innerHTML='';bar.style.display='none';}
 
 /* progress */
-function showUploadProgress(total){ document.getElementById('uploadProgressWrap').style.display='block'; document.getElementById('uploadProgressLabel').textContent='جاري رفع '+total+' ملف...'; document.getElementById('uploadProgressPct').textContent='0%'; document.getElementById('uploadProgressFill').style.width='0%'; }
-function setProgressPct(pct,n,total){ var s=Math.min(Math.max(Math.round(pct),0),100); document.getElementById('uploadProgressFill').style.width=s+'%'; document.getElementById('uploadProgressPct').textContent=s+'%'; document.getElementById('uploadProgressLabel').textContent='ملف '+n+' من '+total; }
-function hideUploadProgress(){ document.getElementById('uploadProgressWrap').style.display='none'; document.getElementById('uploadProgressFill').style.width='0%'; }
+function showUploadProgress(total){
+  document.body.classList.add('chat-uploading');
+  var wrap=document.getElementById('uploadProgressWrap');
+  if(!wrap)return;
+  wrap.style.display='block';
+  document.getElementById('uploadProgressLabel').textContent= total>1 ? ('رفع '+total+' ملفات') : 'رفع ملف';
+  document.getElementById('uploadProgressPct').textContent='0%';
+  document.getElementById('uploadProgressFill').style.width='0%';
+}
+function setProgressPct(pct,n,total){
+  var s=Math.min(Math.max(Math.round(pct),0),100);
+  var fill=document.getElementById('uploadProgressFill'), pctEl=document.getElementById('uploadProgressPct'), lab=document.getElementById('uploadProgressLabel');
+  if(fill)fill.style.width=s+'%';
+  if(pctEl)pctEl.textContent=s+'%';
+  if(lab)lab.textContent= total>1 ? ('ملف '+n+'/'+total) : 'رفع ملف';
+}
+function hideUploadProgress(){
+  var wrap=document.getElementById('uploadProgressWrap');
+  setTimeout(function(){
+    document.body.classList.remove('chat-uploading');
+    if(wrap)wrap.style.display='none';
+    var fill=document.getElementById('uploadProgressFill'); if(fill)fill.style.width='0%';
+  },180);
+}
 
 /* ═══════════════════════════════════════════════
    PRESENCE
@@ -2456,6 +2571,14 @@ window.addEventListener('keydown',function(e){
   else if(e.key==='-'||e.key==='_') zoomLightbox(-.35);
   else if(e.key==='0') resetLightboxZoom();
 });
+
+function initPlyrIn(root){
+  if(!root||!window.Plyr)return;
+  var nodes=root.querySelectorAll?root.querySelectorAll('video.plyr-video:not([data-plyr-ready])'):[];
+  Array.prototype.forEach.call(nodes,function(v){
+    try{v.setAttribute('data-plyr-ready','1');new Plyr(v,{controls:['play-large','play','progress','current-time','mute','volume','fullscreen'],fullscreen:{iosNative:true},clickToPlay:true});}catch(e){}
+  });
+}
 
 /* ═══════════════════════════════════════════════
    HELPERS
