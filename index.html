@@ -1575,6 +1575,14 @@ body.chat-uploading .chat-create-link{display:none!important;}
 .typing-bar{display:block!important;position:absolute!important;left:15px!important;right:142px!important;bottom:70px!important;height:15px!important;line-height:15px!important;z-index:38!important;background:transparent!important;color:#8a8fac!important;padding:0!important;overflow:hidden!important;white-space:nowrap!important;text-overflow:ellipsis!important;font-size:11px!important;pointer-events:none!important}.typing-bar:empty{display:none!important}.chat-messages-container{bottom:68px!important}
 @media(max-width:420px){.upload-progress-wrap{left:10px!important;width:118px!important}.typing-bar{right:122px!important}.chat-messages-container{bottom:68px!important}}
 
+
+/* iPhone upload resilience patch */
+.ios-upload-note{position:fixed;left:10px;right:142px;bottom:92px;z-index:430;background:#11131d;border:1px solid #2a2d3e;color:#cbd5e1;border-radius:6px;padding:7px 9px;font-size:11px;line-height:1.35;display:none;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.ios-upload-note.show{display:block}
+@media(max-width:420px){.ios-upload-note{right:112px;font-size:10.5px}}
+.msg-file-link.iphone-file{border:1px solid rgba(255,255,255,.08)!important;background:#202333!important;color:#e8e9f0!important}
+.msg-file-hint{display:block;font-size:10px;color:#8a8fac;margin-top:2px;line-height:1.25}
+
 </style>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"/>
 <style>
@@ -1607,19 +1615,19 @@ body.chat-uploading .chat-create-link{display:none!important;}
     <div class="chat-list noselect" style="display:none;"><div class="chat-list-container"><div class="chat-list-items"></div></div><div class="chat-list-toggle-icon"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></div><div class="chat-list-new-indicator"></div></div>
     <div class="chat-sticky-message" style="display:none;"></div><div class="chat-ad"></div><div class="chat-contacts-divider" id="chatContactsDivider"><div></div></div><div class="chat-contacts-banner"><div class="chat-online-count" id="onlineCountEl">0 online</div><a class="chat-contacts-show-button" style="display:none;" href="javascript:void(0);">show all...</a></div><div class="chat-contacts-container" id="sidebar"><div class="chat-contacts" id="presenceList"></div></div>
     <div class="typing-bar" id="typingBar"></div>
-    <div class="chat-input-container" id="chatBottom" style="display:none"><div class="chat-input-wrapper"><textarea class="chat-input chat-textarea" id="chatInput" placeholder="Type a message and press enter" rows="1" enterkeyhint="send" onfocus="this.placeholder=''" onblur="this.placeholder='Type a message and press enter'"></textarea><button class="send-btn" id="sendBtn" disabled aria-label="Send">Send</button><div class="chat-input-status" style="display:none"><div class="chat-input-approval">Waiting for moderator approval...</div><div class="chat-input-progress-border"><div class="chat-input-progress-container"><div class="chat-input-progress"></div></div></div></div><div class="chat-input-closed" style="display:none;"><div class="chat-input-closed-message">Chat is closed.</div></div></div><div class="attach-bar"><button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()" aria-label="Attach file">📎</button><input type="file" id="fileInput" multiple/></div><div class="upload-preview-bar" id="uploadPreviewBar"></div><div class="upload-progress-wrap" id="uploadProgressWrap"><div class="upload-progress-top"><div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div><div class="upload-progress-pct" id="uploadProgressPct">0%</div></div><div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div></div><div class="logout-strip"><button class="admin-clear-btn" id="adminClearBtn" type="button" title="حذف جميع الرسائل" aria-label="Delete all messages"></button><button class="logout-btn" id="logoutBtn" type="button" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"></button></div></div>
+    <div class="chat-input-container" id="chatBottom" style="display:none"><div class="chat-input-wrapper"><textarea class="chat-input chat-textarea" id="chatInput" placeholder="Type a message and press enter" rows="1" enterkeyhint="send" onfocus="this.placeholder=''" onblur="this.placeholder='Type a message and press enter'"></textarea><button class="send-btn" id="sendBtn" disabled aria-label="Send">Send</button><div class="chat-input-status" style="display:none"><div class="chat-input-approval">Waiting for moderator approval...</div><div class="chat-input-progress-border"><div class="chat-input-progress-container"><div class="chat-input-progress"></div></div></div></div><div class="chat-input-closed" style="display:none;"><div class="chat-input-closed-message">Chat is closed.</div></div></div><div class="attach-bar"><button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()" aria-label="Attach file">📎</button><input type="file" id="fileInput" multiple accept="*/*"/></div><div class="upload-preview-bar" id="uploadPreviewBar"></div><div class="upload-progress-wrap" id="uploadProgressWrap"><div class="upload-progress-top"><div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div><div class="upload-progress-pct" id="uploadProgressPct">0%</div></div><div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div></div><div class="logout-strip"><button class="admin-clear-btn" id="adminClearBtn" type="button" title="حذف جميع الرسائل" aria-label="Delete all messages"></button><button class="logout-btn" id="logoutBtn" type="button" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"></button></div></div>
     <div class="chat-input-container signin-input-container" id="signinOverlay"><div class="chat-signin-box"><div class="signin-box"><div class="signin-title"><b>Please sign in</b></div><div class="valign" style="height:34px;"><div class="valign-in1"><div class="valign-in2"><div class="signin-row"><input class="signin-input guest-signin-name" id="nameInput" type="text" placeholder="Your name" maxlength="30" autocomplete="off" inputmode="text" enterkeyhint="done"/></div><div class="consent-btns"><button class="consent-accept popup-button guest-signin-submit" id="signinBtn">Sign in</button></div></div></div></div></div></div></div>
   </div>
   <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick(event);return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-gif-button" href="javascript:void(0);" onclick="onGifClick();return false;" title="إرسال GIF" aria-label="Send GIF">GIF</a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a>
 </div>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<div class="attach-choice-menu" id="attachChoiceMenu" dir="rtl"><button type="button" onclick="chooseFromGallery()">اختيار من المعرض</button><button type="button" onclick="chooseFromFiles()">اختيار من ملفات الجهاز</button></div>
+<div class="attach-choice-menu" id="attachChoiceMenu" dir="rtl"><button type="button" onclick="chooseFromGallery()">اختيار من المعرض</button><button type="button" onclick="chooseFromFiles()">اختيار من ملفات الجهاز</button></div><div class="ios-upload-note" id="iosUploadNote"></div>
 <div class="msg-context-menu" id="msgContextMenu" dir="rtl"></div>
-<input type="file" id="mediaInput" multiple accept="image/*,video/*" style="display:none"/>
+<input type="file" id="mediaInput" multiple accept="image/*,video/*,.heic,.heif,.heics,.heifs,.mov,.m4v,.mp4,.3gp,.3g2,.avi,.mkv,.webm" style="display:none"/>
 <input type="file" id="gifInput" accept="image/gif" style="display:none"/>
 
-<div class="gif-picker-overlay" id="gifPickerOverlay" onclick="if(event.target===this)closeGifPicker()"><div class="gif-picker" role="dialog" aria-label="GIF picker"><div class="gif-picker-head"><div class="gif-picker-title">مكتبة GIF</div><input class="gif-picker-search" id="gifSearchInput" type="search" placeholder="ابحث عن GIF..." autocomplete="off" /><button class="gif-picker-close" type="button" onclick="closeGifPicker()" aria-label="Close">×</button></div><div class="gif-picker-note" id="gifPickerNote">يمكنك البحث داخل المكتبة الجاهزة. وللبحث الواسع من GIPHY أضف مفتاح GIPHY_API_KEY داخل الكود.</div><div class="gif-grid" id="gifGrid"></div></div></div>
+<div class="gif-picker-overlay" id="gifPickerOverlay" onclick="if(event.target===this)closeGifPicker()"><div class="gif-picker" role="dialog" aria-label="GIF picker"><div class="gif-picker-head"><div class="gif-picker-title">مكتبة GIF</div><input class="gif-picker-search" id="gifSearchInput" type="search" placeholder="ابحث عن GIF..." autocomplete="off" /><button class="gif-picker-close" type="button" onclick="closeGifPicker()" aria-label="Close">×</button></div><div class="gif-picker-note" id="gifPickerNote">اكتب كلمة مثل: ضحك، حب، حزين، تمام، لا، شكر، صدمة، قهوة. إذا لم توجد مطابقة دقيقة ستظهر اقتراحات شائعة بدل رسالة لا توجد نتائج.</div><div class="gif-grid" id="gifGrid"></div></div></div>
 
 <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="lightbox-viewport" id="lightboxViewport"><img id="lightboxImg" src="" alt=""/></div><div class="lightbox-toolbar" aria-label="Image zoom controls"><button class="lightbox-zoom-btn" id="lightboxZoomOut" type="button" aria-label="Zoom out">−</button><span class="lightbox-zoom-level" id="lightboxZoomLevel">100%</span><button class="lightbox-zoom-btn" id="lightboxZoomIn" type="button" aria-label="Zoom in">+</button><button class="lightbox-zoom-btn lightbox-reset-btn" id="lightboxZoomReset" type="button" aria-label="Reset zoom">Reset</button></div></div>
 <div class="toast" id="toast"></div>
@@ -2211,20 +2219,78 @@ function handlePlyrVideoError(video){
   }catch(e){}
 }
 
-function uploadToUploadcare(file, idx, total){
+function isIOSDevice(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+function getExtFromName(name){
+  var m=String(name||'').match(/\.([a-z0-9]{1,12})$/i);
+  return m ? m[1].toLowerCase() : '';
+}
+function inferMimeFromName(name, fallback){
+  var ext=getExtFromName(name);
+  var map={
+    heic:'image/heic',heif:'image/heif',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',gif:'image/gif',webp:'image/webp',bmp:'image/bmp',tif:'image/tiff',tiff:'image/tiff',svg:'image/svg+xml',avif:'image/avif',
+    mp4:'video/mp4',m4v:'video/mp4',mov:'video/quicktime',qt:'video/quicktime',webm:'video/webm',ogv:'video/ogg',ogg:'video/ogg',avi:'video/x-msvideo',mkv:'video/x-matroska',wmv:'video/x-ms-wmv',mpg:'video/mpeg',mpeg:'video/mpeg','3gp':'video/3gpp','3g2':'video/3gpp2',
+    mp3:'audio/mpeg',m4a:'audio/mp4',aac:'audio/aac',wav:'audio/wav',caf:'audio/x-caf',aif:'audio/aiff',aiff:'audio/aiff',flac:'audio/flac',opus:'audio/opus',amr:'audio/amr',
+    pdf:'application/pdf',zip:'application/zip',rar:'application/vnd.rar','7z':'application/x-7z-compressed',txt:'text/plain',csv:'text/csv',json:'application/json',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',xls:'application/vnd.ms-excel',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',ppt:'application/vnd.ms-powerpoint',pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation',pages:'application/octet-stream',numbers:'application/octet-stream',key:'application/octet-stream'
+  };
+  return map[ext] || fallback || 'application/octet-stream';
+}
+function safeClientFileName(file, idx){
+  var raw=(file && file.name ? String(file.name) : '').trim();
+  if(!raw){
+    var t=(file && file.type) || '';
+    var ext=t.indexOf('image/')===0 ? '.jpg' : (t.indexOf('video/')===0 ? '.mp4' : (t.indexOf('audio/')===0 ? '.m4a' : '.bin'));
+    raw='iphone_upload_'+Date.now()+'_'+(idx||0)+ext;
+  }
+  return raw.replace(/[\u0000-\u001f\u007f]/g,'').replace(/[\\/]+/g,'_').slice(0,180) || ('upload_'+Date.now()+'.bin');
+}
+function prepareUploadFile(file, idx){
+  if(!file) throw new Error('لم يتم اختيار ملف');
+  if(typeof file.size === 'number' && file.size <= 0){
+    throw new Error('الملف غير جاهز للرفع أو حجمه صفر. في iPhone افتح الملف من تطبيق Files/Photos وانتظر تحميله من iCloud ثم حاول مرة أخرى.');
+  }
+  var name=safeClientFileName(file, idx);
+  var inferredType=inferMimeFromName(name, file.type || '');
+  try{
+    if((!file.name || !file.type) && typeof File !== 'undefined'){
+      return new File([file], name, {type: inferredType, lastModified: file.lastModified || Date.now()});
+    }
+  }catch(e){}
+  return file;
+}
+function showIOSUploadNote(msg){
+  var el=document.getElementById('iosUploadNote');
+  if(!el) return;
+  el.textContent=msg;
+  el.classList.add('show');
+  clearTimeout(showIOSUploadNote._t);
+  showIOSUploadNote._t=setTimeout(function(){el.classList.remove('show');},6500);
+}
+function uploadcareErrorMessage(status, responseText, fallback){
+  if(status===0) return 'تعذر الاتصال بـ Uploadcare. تحقق من الإنترنت، أو جرّب متصفح Safari/Chrome، أو قلّل حجم الملف.';
+  if(status===400) return 'رفض Uploadcare الملف. قد تكون الصيغة أو اسم الملف غير مناسب، جرّب إعادة تسمية الملف أو اختيار ملف آخر.';
+  if(status===401 || status===403) return 'مفتاح Uploadcare غير مسموح أو إعدادات المشروع تمنع هذا الرفع.';
+  if(status===413) return 'حجم الملف أكبر من الحد المسموح في الخطة أو إعدادات Uploadcare.';
+  if(status>=500) return 'خادم Uploadcare لم يستجب بشكل صحيح. حاول مرة أخرى بعد قليل.';
+  return fallback || ('Uploadcare HTTP '+status);
+}
+function uploadToUploadcareOnce(file, idx, total, attempt){
   return new Promise(function(resolve, reject){
     try{
       if(!UPLOADCARE_PUBLIC_KEY || UPLOADCARE_PUBLIC_KEY.indexOf('ضع') >= 0){
         reject(new Error('uploadcare/not-configured'));
         return;
       }
+      var uploadFile=prepareUploadFile(file, idx);
+      var uploadName=safeClientFileName(uploadFile, idx);
       var xhr = new XMLHttpRequest();
       var form = new FormData();
       form.append('UPLOADCARE_PUB_KEY', UPLOADCARE_PUBLIC_KEY);
       form.append('UPLOADCARE_STORE', '1');
-      form.append('file', file, file.name || 'upload');
-
+      form.append('file', uploadFile, uploadName);
       xhr.open('POST', 'https://upload.uploadcare.com/base/', true);
+      xhr.timeout = 15 * 60 * 1000;
       xhr.upload.onprogress = function(ev){
         if(ev && ev.lengthComputable){
           var oneFilePct = ev.loaded / ev.total;
@@ -2232,11 +2298,12 @@ function uploadToUploadcare(file, idx, total){
           setProgressPct(globalPct, idx+1, total);
         }
       };
-      xhr.onerror = function(){ reject(new Error('فشل الاتصال بـ Uploadcare')); };
-      xhr.ontimeout = function(){ reject(new Error('انتهت مهلة رفع الملف إلى Uploadcare')); };
+      xhr.onerror = function(){ reject(new Error(uploadcareErrorMessage(0,'','فشل الاتصال بـ Uploadcare'))); };
+      xhr.onabort = function(){ reject(new Error('تم إلغاء الرفع قبل اكتماله')); };
+      xhr.ontimeout = function(){ reject(new Error('انتهت مهلة رفع الملف. جرّب شبكة أقوى أو ارفع ملفًا أصغر.')); };
       xhr.onload = function(){
         if(xhr.status < 200 || xhr.status >= 300){
-          reject(new Error('Uploadcare HTTP '+xhr.status));
+          reject(new Error(uploadcareErrorMessage(xhr.status, xhr.responseText)));
           return;
         }
         var json;
@@ -2244,40 +2311,51 @@ function uploadToUploadcare(file, idx, total){
         catch(e){ reject(new Error('Uploadcare returned invalid JSON')); return; }
         var uuid = json.file || json.uuid || '';
         if(!uuid){ reject(new Error('لم يرجع Uploadcare معرف الملف')); return; }
-        var cdnUrl = uploadcareCdnUrl(uuid, file.name || 'file');
+        var cdnUrl = uploadcareCdnUrl(uuid, uploadName || 'file');
         var cdnBareUrl = uploadcareBareUrl(uuid);
-        var fileType = detectFileType(file.type, file.name);
+        var mime = uploadFile.type || inferMimeFromName(uploadName, file.type || 'application/octet-stream');
+        var fileType = detectFileType(mime, uploadName);
         setProgressPct(Math.round(((idx+1)/Math.max(total,1))*100), idx+1, total);
-        resolve({
-          provider: 'uploadcare',
-          uuid: uuid,
-          publicId: uuid,
-          url: cdnUrl,
-          cdnUrl: cdnUrl,
-          cdnBareUrl: cdnBareUrl,
-          directUrl: cdnUrl,
-          fullUrl: cdnUrl,
-          type: fileType,
-          name: file.name || 'file',
-          size: file.size || 0,
-          mime: file.type || 'application/octet-stream',
-          displaySource: 'uploadcare',
-          uploadedToUploadcare: true
-        });
+        resolve({provider:'uploadcare',uuid:uuid,publicId:uuid,url:cdnUrl,cdnUrl:cdnUrl,cdnBareUrl:cdnBareUrl,directUrl:cdnUrl,fullUrl:cdnUrl,type:fileType,name:uploadName||'file',size:uploadFile.size||file.size||0,mime:mime,displaySource:'uploadcare',uploadedToUploadcare:true,iosSafe:isIOSDevice()});
       };
       xhr.send(form);
     }catch(e){ reject(e); }
   });
 }
-
+function uploadToUploadcare(file, idx, total){
+  var maxAttempts = isIOSDevice() ? 3 : 2;
+  function attempt(n){
+    return uploadToUploadcareOnce(file, idx, total, n).catch(function(err){
+      var msg=(err&&err.message)||'';
+      var retryable=/الاتصال|مهلة|network|timeout|HTTP 5|Uploadcare HTTP 5|تعذر/i.test(msg);
+      if(n < maxAttempts && retryable){
+        setProgressPct(Math.max(1, Math.round((idx/Math.max(total,1))*100)), idx+1, total);
+        return new Promise(function(res){setTimeout(res, 900*n);}).then(function(){return attempt(n+1);});
+      }
+      throw err;
+    });
+  }
+  return attempt(1);
+}
 function uploadFilesSequentially(files){
-  var results=[];
+  var results=[], failures=[];
   function next(i){
-    if(i>=files.length) return Promise.resolve(results);
+    if(i>=files.length){
+      if(failures.length && !results.length){
+        var first=failures[0] && failures[0].error ? failures[0].error.message : 'فشل الرفع';
+        return Promise.reject(new Error(first));
+      }
+      if(failures.length){
+        showToast('تم رفع '+results.length+' وفشل '+failures.length+' ملف. تحقق من الملفات الكبيرة أو غير المحملة من iCloud.', 'error');
+      }
+      return Promise.resolve(results);
+    }
     return uploadToUploadcare(files[i], i, files.length).then(function(att){
       results.push(att);
-      return next(i+1);
-    });
+    }).catch(function(err){
+      console.error('Upload failed for file', files[i] && files[i].name, err);
+      failures.push({file:files[i], error:err});
+    }).then(function(){return next(i+1);});
   }
   return next(0);
 }
@@ -2400,7 +2478,7 @@ function buildMsgEl(id,data){
       } else {
         var icon=getFileIcon(att.name,att.mime);
         var size=att.size?formatFileSize(att.size):'';
-        mediaHtml+='<a class="msg-file-link" href="'+escHtml(att.driveUrl||primaryUrl||att.url)+'" target="_blank" onclick="event.stopPropagation()"><span class="msg-file-icon">'+icon+'</span><span class="msg-file-info"><span class="msg-file-name">'+escHtml(att.name||'ملف')+'</span>'+(size?'<span class="msg-file-size">'+size+'</span>':'')+'</span></a>';
+        mediaHtml+='<a class="msg-file-link iphone-file" href="'+escHtml(att.driveUrl||primaryUrl||att.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="msg-file-icon">'+icon+'</span><span class="msg-file-info"><span class="msg-file-name">'+escHtml(att.name||'ملف')+'</span>'+(size?'<span class="msg-file-size">'+size+'</span>':'')+'<span class="msg-file-hint">فتح / تحميل الملف</span></span></a>';
       }
     }); mediaHtml+='</div>';
   }
@@ -2473,21 +2551,112 @@ function onAttachClick(ev){
   m.classList.add('show');
   setTimeout(function(){document.addEventListener('click',function once(e){if(!m.contains(e.target))m.classList.remove('show');document.removeEventListener('click',once);});},0);
 }
-function chooseFromGallery(){hideAttachChoiceMenu();document.getElementById('mediaInput').click();}
-function chooseFromFiles(){hideAttachChoiceMenu();document.getElementById('fileInput').click();}
+function chooseFromGallery(){hideAttachChoiceMenu();if(isIOSDevice())showIOSUploadNote('ملاحظة iPhone: إذا كان الملف في iCloud ولم يكتمل تنزيله، افتحه أولًا من الصور أو Files ثم أعد اختياره.');var el=document.getElementById('mediaInput'); if(el) el.click();}
+function chooseFromFiles(){hideAttachChoiceMenu();if(isIOSDevice())showIOSUploadNote('اختر Browse/تصفح للوصول إلى كل الملفات في iPhone. إذا فشل ملف كبير، جرّب شبكة أقوى أو ملفًا أصغر.');var el=document.getElementById('fileInput'); if(el) el.click();}
 function onGifClick(){if(!userConsented){showToast('سجّل الدخول أولاً','error');return;}openGifPicker();}
-document.getElementById('fileInput').addEventListener('change',function(){Array.from(this.files).forEach(addFilePreview);this.value='';});
-document.getElementById('mediaInput').addEventListener('change',function(){Array.from(this.files).forEach(addFilePreview);this.value='';});
-document.getElementById('gifInput').addEventListener('change',function(){Array.from(this.files).forEach(addFilePreview);this.value='';});
+function handleSelectedFiles(input){
+  var files=Array.from((input&&input.files)||[]);
+  if(!files.length)return;
+  files.forEach(function(file){
+    try{
+      if(file && typeof file.size==='number' && file.size<=0){
+        showToast('ملف غير جاهز للرفع: '+(file.name||'ملف من iPhone'), 'error');
+        showIOSUploadNote('قد يكون الملف ما يزال في iCloud. افتحه/نزّله أولًا ثم حاول مرة أخرى.');
+      } else addFilePreview(file);
+    }catch(e){showToast('تعذر قراءة ملف محدد','error');}
+  });
+  input.value='';
+}
+document.getElementById('fileInput').addEventListener('change',function(){handleSelectedFiles(this);});
+document.getElementById('mediaInput').addEventListener('change',function(){handleSelectedFiles(this);});
+document.getElementById('gifInput').addEventListener('change',function(){handleSelectedFiles(this);});
 
-var GIPHY_API_KEY = ''; // ضع مفتاح GIPHY هنا لتفعيل البحث الواسع من GIPHY.
-var BUILTIN_GIFS=[{title:'تصفيق applause',url:'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif'},{title:'ضحك laugh funny',url:'https://media.giphy.com/media/10JhviFuU2gWD6/giphy.gif'},{title:'تمام ok',url:'https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif'},{title:'نعم yes',url:'https://media.giphy.com/media/26u4cqiYI30juCOGY/giphy.gif'},{title:'لا no',url:'https://media.giphy.com/media/d10dMmzqCYqQ0/giphy.gif'},{title:'ممتاز great',url:'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif'},{title:'حزين sad',url:'https://media.giphy.com/media/OPU6wzx8JrHna/giphy.gif'},{title:'صدمة shocked wow',url:'https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif'},{title:'حب love heart',url:'https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif'},{title:'انتظار waiting',url:'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'},{title:'قهوة coffee',url:'https://media.giphy.com/media/687qS11pXwjCM/giphy.gif'},{title:'احتفال party',url:'https://media.giphy.com/media/artj92V8o75VPL7AeQ/giphy.gif'}];
-function openGifPicker(){var ov=document.getElementById('gifPickerOverlay');if(!ov)return;ov.classList.add('show');var inp=document.getElementById('gifSearchInput');if(inp){inp.value='';setTimeout(function(){inp.focus();},80);}renderGifGrid(BUILTIN_GIFS);}
+
+var GIPHY_API_KEY = ''; // اختياري: ضع مفتاح GIPHY هنا للبحث العالمي. بدون مفتاح يعمل البحث من مكتبة داخلية موسعة.
+var BUILTIN_GIFS=[
+  {title:'ضحك laugh funny haha lol',keywords:'ضحك اضحك يضحك مضحك نكتة ههه ههههه 😂 laugh funny lol haha',url:'https://media.giphy.com/media/10JhviFuU2gWD6/giphy.gif'},
+  {title:'تصفيق applause clap bravo',keywords:'تصفيق صفق برافو احسنت ممتاز رائع clap applause bravo',url:'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif'},
+  {title:'تمام ok okay good',keywords:'تمام اوكي اوك جيد زين موافق okay ok good nice',url:'https://media.giphy.com/media/3o6Zt6ML6BklcajjsA/giphy.gif'},
+  {title:'نعم yes yup agree',keywords:'نعم اي ايه موافق صحيح yes yup agree',url:'https://media.giphy.com/media/26u4cqiYI30juCOGY/giphy.gif'},
+  {title:'لا no nope disagree',keywords:'لا كلا مو لا nope no disagree',url:'https://media.giphy.com/media/d10dMmzqCYqQ0/giphy.gif'},
+  {title:'ممتاز great awesome wow',keywords:'ممتاز رائع عظيم خرافي قوي wow great awesome amazing',url:'https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif'},
+  {title:'حزين sad cry upset',keywords:'حزين حزن زعلان زعل ابكي بكاء دموع sad cry upset',url:'https://media.giphy.com/media/OPU6wzx8JrHna/giphy.gif'},
+  {title:'صدمة shocked surprised wow',keywords:'صدمة مصدوم مندهش مستغرب واو shocked surprise wow',url:'https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif'},
+  {title:'حب love heart',keywords:'حب احبك قلب قلوب رومانس love heart',url:'https://media.giphy.com/media/26FLdmIp6wJr91JAI/giphy.gif'},
+  {title:'انتظار waiting wait',keywords:'انتظار انتظر انتظري لحظة شوي waiting wait',url:'https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif'},
+  {title:'قهوة coffee',keywords:'قهوة كوفي صباح نشاط coffee morning',url:'https://media.giphy.com/media/687qS11pXwjCM/giphy.gif'},
+  {title:'احتفال party celebrate',keywords:'احتفال حفلة مبروك عيد نجاح celebrate party congrats',url:'https://media.giphy.com/media/artj92V8o75VPL7AeQ/giphy.gif'},
+  {title:'مرحباً hello hi wave',keywords:'مرحبا هلا اهلا سلام هاي hello hi hey wave',url:'https://media.giphy.com/media/ASd0Ukj0y3qMM/giphy.gif'},
+  {title:'شكراً thanks thank you',keywords:'شكرا شكر ممنون تسلم يسلمو thanks thank you',url:'https://media.giphy.com/media/l3q2wJsC23ikJg9xe/giphy.gif'},
+  {title:'نوم sleep tired',keywords:'نوم نعسان تعبان تعب sleepy sleep tired',url:'https://media.giphy.com/media/l0MYu38R0PPhIXe36/giphy.gif'},
+  {title:'غضب angry mad',keywords:'غضب غاضب عصبي زعلان angry mad rage',url:'https://media.giphy.com/media/11tTNkNy1SdXGg/giphy.gif'},
+  {title:'تفكير thinking hmm',keywords:'تفكير افكر شنو ليش هممم thinking hmm confused',url:'https://media.giphy.com/media/3o7TKTDn976rzVgky4/giphy.gif'},
+  {title:'رقص dance happy',keywords:'رقص ارقص فرح سعيد happy dance',url:'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif'},
+  {title:'وجه كف facepalm',keywords:'فيس بالم احراج خطأ facepalm oops',url:'https://media.giphy.com/media/3xz2BLBOt13X9AgjEA/giphy.gif'},
+  {title:'اعجاب thumbs up',keywords:'اعجاب تمام موافق لايك thumbs up like',url:'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif'}
+];
+var GIF_SYNONYMS={
+  'ضحك':'laugh','اضحك':'laugh','هههه':'laugh','ههههه':'laugh','نكتة':'laugh',
+  'تمام':'ok','اوكي':'ok','اوك':'ok','زين':'ok','جيد':'ok','موافق':'yes',
+  'اي':'yes','ايه':'yes','نعم':'yes','صح':'yes','صحيح':'yes',
+  'لا':'no','كلا':'no','مو':'no',
+  'حزين':'sad','زعلان':'sad','زعل':'sad','ابكي':'sad','بكاء':'sad','دموع':'sad',
+  'حب':'love','احبك':'love','قلب':'love','قلوب':'love',
+  'صدمة':'shocked','مصدوم':'shocked','واو':'wow','مندهش':'shocked','مستغرب':'shocked',
+  'شكرا':'thanks','شكر':'thanks','ممنون':'thanks','تسلم':'thanks','يسلمو':'thanks',
+  'مرحبا':'hello','هلا':'hello','اهلا':'hello','سلام':'hello','هاي':'hello',
+  'قهوة':'coffee','كوفي':'coffee','صباح':'coffee',
+  'انتظار':'waiting','انتظر':'waiting','لحظة':'waiting','شوي':'waiting',
+  'احتفال':'party','مبروك':'party','نجاح':'party','عيد':'party','حفلة':'party',
+  'غضب':'angry','غاضب':'angry','عصبي':'angry',
+  'نوم':'sleep','نعسان':'sleep','تعبان':'sleep','تعب':'sleep',
+  'تفكير':'thinking','افكر':'thinking','ليش':'thinking','شنو':'thinking',
+  'رقص':'dance','فرح':'happy','سعيد':'happy',
+  'اعجاب':'like','لايك':'like'
+};
+function normalizeGifQuery(q){
+  q=String(q||'').toLowerCase().trim();
+  q=q.replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[ًٌٍَُِّْـ]/g,'');
+  q=q.replace(/[^\w\u0600-\u06ff\s]+/g,' ').replace(/\s+/g,' ').trim();
+  var parts=q.split(' ').filter(Boolean);
+  var extra=[];
+  parts.forEach(function(w){ if(GIF_SYNONYMS[w]) extra.push(GIF_SYNONYMS[w]); });
+  return (q+' '+extra.join(' ')).trim();
+}
+function openGifPicker(){var ov=document.getElementById('gifPickerOverlay');if(!ov)return;ov.classList.add('show');var inp=document.getElementById('gifSearchInput');if(inp){inp.value='';setTimeout(function(){inp.focus();},80);}renderGifGrid(BUILTIN_GIFS,'');}
 function closeGifPicker(){var ov=document.getElementById('gifPickerOverlay');if(ov)ov.classList.remove('show');}
-function renderGifGrid(items){var grid=document.getElementById('gifGrid');if(!grid)return;if(!items||!items.length){grid.innerHTML='<div class="gif-empty">لا توجد نتائج GIF مطابقة.</div>';return;}grid.innerHTML=items.map(function(g){return '<button type="button" class="gif-card" onclick="sendGifFromLibrary(\''+escJs(g.url)+'\',\''+escJs(g.title||'GIF')+'\')"><img src="'+escHtml(g.url)+'" alt="'+escHtml(g.title||'GIF')+'" loading="lazy"></button>';}).join('');}
-function searchBuiltinGifs(q){q=String(q||'').trim().toLowerCase();if(!q)return BUILTIN_GIFS;return BUILTIN_GIFS.filter(function(g){return String(g.title||'').toLowerCase().indexOf(q)!==-1;});}
-function searchGiphy(q){if(!GIPHY_API_KEY){renderGifGrid(searchBuiltinGifs(q));return;}var grid=document.getElementById('gifGrid');if(grid)grid.innerHTML='<div class="gif-empty">جاري البحث...</div>';fetch('https://api.giphy.com/v1/gifs/search?api_key='+encodeURIComponent(GIPHY_API_KEY)+'&q='+encodeURIComponent(q||'reaction')+'&limit=24&rating=pg&bundle=messaging_non_clips').then(function(r){return r.json();}).then(function(json){var items=(json.data||[]).map(function(x){var img=(x.images&&x.images.fixed_height_small)||x.images.downsized_medium||x.images.original||{};return{title:x.title||'GIF',url:img.url};}).filter(function(x){return x.url;});renderGifGrid(items.length?items:searchBuiltinGifs(q));}).catch(function(){renderGifGrid(searchBuiltinGifs(q));});}
-var gifSearchTimer=null;setTimeout(function(){var inp=document.getElementById('gifSearchInput');if(inp)inp.addEventListener('input',function(){clearTimeout(gifSearchTimer);var q=this.value;gifSearchTimer=setTimeout(function(){searchGiphy(q);},350);});},0);
+function renderGifGrid(items,notice){
+  var grid=document.getElementById('gifGrid');if(!grid)return;
+  var note=document.getElementById('gifPickerNote');
+  if(note && notice) note.textContent=notice;
+  else if(note) note.textContent='اكتب كلمة مثل: ضحك، حب، حزين، تمام، لا، شكر، صدمة، قهوة. إذا لم توجد مطابقة دقيقة ستظهر اقتراحات شائعة بدل رسالة لا توجد نتائج.';
+  if(!items||!items.length){items=BUILTIN_GIFS.slice(0,12); if(note) note.textContent='لم أجد مطابقة دقيقة، فهذه اقتراحات شائعة.';}
+  grid.innerHTML=items.map(function(g){return '<button type="button" class="gif-card" onclick="sendGifFromLibrary(\''+escJs(g.url)+'\',\''+escJs(g.title||'GIF')+'\')"><img src="'+escHtml(g.url)+'" alt="'+escHtml(g.title||'GIF')+'" loading="lazy"></button>';}).join('');
+}
+function searchBuiltinGifs(q){
+  var nq=normalizeGifQuery(q);
+  if(!nq)return BUILTIN_GIFS;
+  var tokens=nq.split(' ').filter(Boolean);
+  var scored=BUILTIN_GIFS.map(function(g){
+    var hay=normalizeGifQuery((g.title||'')+' '+(g.keywords||''));
+    var score=0;
+    tokens.forEach(function(t){ if(hay.indexOf(t)!==-1) score+=2; });
+    if(hay.indexOf(nq)!==-1) score+=5;
+    return {g:g,score:score};
+  }).filter(function(x){return x.score>0;}).sort(function(a,b){return b.score-a.score;}).map(function(x){return x.g;});
+  return scored.length?scored:BUILTIN_GIFS.slice(0,12);
+}
+function searchGiphy(q){
+  q=String(q||'').trim();
+  if(!GIPHY_API_KEY){
+    var local=searchBuiltinGifs(q);
+    var notice=q?'نتائج من المكتبة الداخلية. للبحث في الإنترنت أضف GIPHY_API_KEY داخل الكود.':'';
+    renderGifGrid(local,notice);return;
+  }
+  var grid=document.getElementById('gifGrid');if(grid)grid.innerHTML='<div class="gif-empty">جاري البحث...</div>';
+  fetch('https://api.giphy.com/v1/gifs/search?api_key='+encodeURIComponent(GIPHY_API_KEY)+'&q='+encodeURIComponent(q||'reaction')+'&limit=24&rating=pg&bundle=messaging_non_clips').then(function(r){return r.json();}).then(function(json){var items=(json.data||[]).map(function(x){var img=(x.images&&x.images.fixed_height_small)||x.images.downsized_medium||x.images.original||{};return{title:x.title||'GIF',url:img.url};}).filter(function(x){return x.url;});renderGifGrid(items.length?items:searchBuiltinGifs(q),items.length?'':'لم تصل نتائج من GIPHY، فهذه اقتراحات من المكتبة الداخلية.');}).catch(function(){renderGifGrid(searchBuiltinGifs(q),'تعذر الاتصال بـ GIPHY، فهذه اقتراحات من المكتبة الداخلية.');});
+}
+var gifSearchTimer=null;setTimeout(function(){var inp=document.getElementById('gifSearchInput');if(inp)inp.addEventListener('input',function(){clearTimeout(gifSearchTimer);var q=this.value;gifSearchTimer=setTimeout(function(){searchGiphy(q);},220);});},0);
 function sendGifFromLibrary(url,title){closeGifPicker();var attachment={provider:'gif-library',type:'image',mime:'image/gif',url:url,cdnUrl:url,directUrl:url,fullUrl:url,name:title||'GIF',size:0,displaySource:'gif'};saveMsg('',[attachment]).then(function(){scrollToBottom();}).catch(function(){showToast('فشل إرسال GIF','error');});}
 function escJs(str){return String(str||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');}
 
@@ -2497,12 +2666,17 @@ function addFilePreview(file){
   var bar=document.getElementById('uploadPreviewBar');
   bar.style.display='flex';
   var item=document.createElement('div');item.className='preview-item';
-  if(file.type&&file.type.startsWith('image/')){
+  var name=safeClientFileName(file, idx);
+  var mime=file.type||inferMimeFromName(name,'');
+  var ext=getExtFromName(name);
+  var canPreviewImage = mime.indexOf('image/')===0 && !/^(heic|heif|tif|tiff|svg|avif)$/i.test(ext) && (file.size||0) < 12*1024*1024;
+  if(canPreviewImage){
     var reader=new FileReader();
     reader.onload=function(e){item.innerHTML='<img class="preview-thumb" src="'+e.target.result+'"/><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';};
+    reader.onerror=function(){item.innerHTML='<div class="preview-file-chip">'+getFileIcon(name,mime)+' '+escHtml(name)+'</div><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';};
     reader.readAsDataURL(file);
   }else{
-    item.innerHTML='<div class="preview-file-chip">'+getFileIcon(file.name,file.type)+' '+escHtml(file.name)+'</div><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';
+    item.innerHTML='<div class="preview-file-chip">'+getFileIcon(name,mime)+' '+escHtml(name)+'</div><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';
   }
   bar.appendChild(item);updateSendBtn();
 }
