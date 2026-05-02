@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ar">
 <head>
@@ -5,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="mobile-web-app-capable" content="yes"/>
-<title>Google — Uploadcare + Drive Mirror</title>
+<title>Google — Chat Uploadcare + Drive Mirror</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:400,500,600,700"/>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
@@ -4008,6 +4009,132 @@ body.chat-unlocked .chat-footer-logout-button{display:flex!important;}
   }
   window.addEventListener('resize',function(){setTimeout(applyKeyboardLift,80);});
   window.__forceKeyboardLiftFix=applyKeyboardLift;
+})();
+</script>
+
+
+
+<style id="instagram-inapp-keyboard-stable-override">
+/* Stable in-app keyboard fix: do not shrink/blank the message area; only lift the input bar and footer controls. */
+@media (max-width:700px){
+  body.keyboard-open .chat-wrapper{bottom:36px!important;transform:none!important;height:auto!important;overflow:hidden!important;}
+  body.keyboard-open .chat-messages-container,
+  body.keyboard-open.chat-locked .chat-messages-container,
+  body.keyboard-open.chat-unlocked .chat-messages-container{
+    top:36px!important;
+    bottom:68px!important;
+    overflow-y:auto!important;
+  }
+  body.keyboard-open .chat-contacts-container{top:36px!important;bottom:92px!important;}
+  body.keyboard-open .chat-contacts-divider{top:36px!important;bottom:68px!important;}
+  body.keyboard-open .chat-contacts-banner{bottom:68px!important;}
+  body.keyboard-open .public-news-board{padding-bottom:86px!important;}
+  body.keyboard-open .chat-input-container#chatBottom,
+  body.keyboard-open .signin-input-container#signinOverlay{
+    position:fixed!important;
+    left:0!important;
+    right:0!important;
+    bottom:calc(36px + var(--ig-keyboard-lift-stable,0px))!important;
+    height:68px!important;
+    z-index:9999!important;
+    transform:none!important;
+    background:#0d0d0e!important;
+  }
+  body.keyboard-open .chat-reply-preview{bottom:calc(104px + var(--ig-keyboard-lift-stable,0px))!important;}
+  body.keyboard-open .chat-footer-attach-button,
+  body.keyboard-open .chat-footer-gif-button,
+  body.keyboard-open .chat-footer-mic-button,
+  body.keyboard-open .chat-footer-logout-button,
+  body.keyboard-open .chat-footer-clear-button.show{
+    position:fixed!important;
+    bottom:calc(8px + var(--ig-keyboard-lift-stable,0px))!important;
+    transform:none!important;
+    z-index:10000!important;
+  }
+  body.chat-locked.keyboard-open .chat-footer-attach-button,
+  body.chat-locked.keyboard-open .chat-footer-gif-button,
+  body.chat-locked.keyboard-open .chat-footer-mic-button,
+  body.chat-locked.keyboard-open .chat-footer-logout-button,
+  body.chat-locked.keyboard-open .chat-footer-clear-button{display:none!important;}
+}
+</style>
+<script id="instagram-inapp-keyboard-stable-override-js">
+(function(){
+  var focused=null;
+  var focusAt=0;
+  function isMobile(){return Math.min(window.innerWidth||0, screen.width||9999) <= 760;}
+  function isTextInput(el){
+    if(!el) return false;
+    var id=el.id||'';
+    var tag=(el.tagName||'').toLowerCase();
+    var type=(el.type||'text').toLowerCase();
+    return id==='chatInput' || id==='nameInput' || tag==='textarea' || (tag==='input' && /text|search|password|number|tel|email|url|numeric/.test(type));
+  }
+  function realLift(){
+    if(!window.visualViewport) return 0;
+    var vv=window.visualViewport;
+    var layoutH=window.innerHeight||document.documentElement.clientHeight||0;
+    var lift=Math.round(layoutH - vv.height - vv.offsetTop);
+    if(lift>40) return Math.min(lift, Math.round(layoutH*0.55));
+    return 0;
+  }
+  function conservativeFallback(){
+    /* Only use fallback when the webview clearly reduced layout height. Avoid the old permanent huge blank gap. */
+    var h=window.innerHeight||document.documentElement.clientHeight||0;
+    var sh=screen.height||0;
+    if(!h||!sh) return 0;
+    if(h < sh*0.78){
+      var v=Math.round(sh-h);
+      if(v>80) return Math.min(Math.max(v,220),390);
+    }
+    return 0;
+  }
+  function setLift(v){
+    v=Math.max(0,Math.round(v||0));
+    document.documentElement.style.setProperty('--ig-keyboard-lift-stable',v+'px');
+    document.documentElement.style.setProperty('--ig-keyboard-lift',v+'px');
+    document.documentElement.style.setProperty('--keyboard-lift',v+'px');
+    document.body.classList.toggle('keyboard-open',v>0);
+  }
+  function update(){
+    if(!isMobile()) return setLift(0);
+    var active=isTextInput(document.activeElement)?document.activeElement:focused;
+    if(!isTextInput(active)) return setLift(0);
+    var lift=realLift();
+    if(!lift) lift=conservativeFallback();
+    /* If there is no objective sign of keyboard height, do not guess. This prevents the Instagram blank-space bug after closing the keyboard. */
+    setLift(lift);
+  }
+  document.addEventListener('focusin',function(e){
+    if(isTextInput(e.target)){
+      focused=e.target; focusAt=Date.now();
+      setTimeout(update,60); setTimeout(update,220); setTimeout(update,520);
+    }
+  },true);
+  document.addEventListener('focusout',function(e){
+    if(isTextInput(e.target)){
+      setTimeout(function(){ if(!isTextInput(document.activeElement)){ focused=null; setLift(0); } },120);
+      setTimeout(function(){ if(!isTextInput(document.activeElement)){ focused=null; setLift(0); } },450);
+    }
+  },true);
+  ['touchstart','pointerdown','click'].forEach(function(ev){
+    document.addEventListener(ev,function(e){
+      if(!isTextInput(e.target) && !e.target.closest('.chat-input-container')){
+        setTimeout(function(){ if(!isTextInput(document.activeElement)){focused=null;setLift(0);} },120);
+      }
+    },true);
+  });
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',update);
+    window.visualViewport.addEventListener('scroll',update);
+  }
+  window.addEventListener('resize',function(){setTimeout(update,50);});
+  document.addEventListener('visibilitychange',function(){ if(document.hidden){setLift(0);} else {setTimeout(update,120);} });
+  setInterval(function(){
+    if(!isTextInput(document.activeElement) && !isTextInput(focused)) setLift(0);
+    else update();
+  },900);
+  window.__stableKeyboardFix=update;
 })();
 </script>
 
