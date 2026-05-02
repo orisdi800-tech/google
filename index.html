@@ -3306,6 +3306,188 @@ setTimeout(updateMobileBottomSpace, 50);
 setTimeout(updateMobileBottomSpace, 500);
 
 
+
+
+/* ═══════════════════════════════════════════════
+   PATCH: iPhone MOV + cross-device voice compatibility
+   - MOV/QuickTime video: prefer Uploadcare MP4 transcode URL first.
+   - Voice messages: record as WAV via Web Audio for iOS/Android playback.
+═══════════════════════════════════════════════ */
+(function(){
+  var style=document.createElement('style');
+  style.textContent = '.plyr-video-fallback.active,.audio-fallback-note{margin-top:6px;padding:7px 8px;background:#181b29;border:1px solid rgba(255,255,255,.08);border-radius:7px;color:#aeb4d0;font-size:11px;line-height:1.45}.plyr-video-fallback a,.audio-fallback-note a{color:#8da4ff;text-decoration:none}.voice-audio-card audio{width:100%;max-width:260px}';
+  document.head.appendChild(style);
+})();
+
+function isLikelyIPhoneMovName(name,mime){
+  var s=String(name||'').toLowerCase();
+  var m=String(mime||'').toLowerCase();
+  return /\.(mov|qt)$/i.test(s) || m.indexOf('quicktime')>=0;
+}
+
+/* Override: put Uploadcare MP4 transcode first for MOV/unknown videos; keep original as fallback. */
+function buildVideoSources(att, primaryUrl){
+  var urls = getVideoUrlCandidates(Object.assign({}, att || {}, {url: primaryUrl || (att && att.url) || ''}));
+  var uuid = att && (att.uuid || att.publicId);
+  var originalName = (att && att.name) || primaryUrl || 'video';
+  var originalMime = getVideoMimeType(att && att.mime, originalName, primaryUrl);
+  var isMov = isLikelyIPhoneMovName(originalName, originalMime);
+  var candidates=[];
+  function add(url,type,label){ if(url) candidates.push({url:url,type:type,label:label||''}); }
+  if(uuid && isMov){
+    add(uploadcareVideoTransformUrl(uuid,'mp4'), 'video/mp4', 'uploadcare-mp4-first');
+  }
+  if(!isMov){
+    urls.forEach(function(u){ add(u, getVideoMimeType(att && att.mime, originalName, u), 'original'); });
+  }
+  if(uuid){
+    add(uploadcareVideoTransformUrl(uuid,'mp4'), 'video/mp4', 'mp4');
+    add(uploadcareVideoTransformUrl(uuid,'webm'), 'video/webm', 'webm');
+    add(uploadcareVideoTransformUrl(uuid,'ogg'), 'video/ogg', 'ogg');
+  }
+  if(isMov){
+    urls.forEach(function(u){ add(u, getVideoMimeType(att && att.mime, originalName, u), 'original'); });
+  }
+  var seen={};
+  candidates=candidates.filter(function(c){var k=c.url+'|'+c.type; if(!c.url||seen[k])return false; seen[k]=true; return true;});
+  var html=candidates.map(function(c){return '<source src="'+escHtml(c.url)+'" type="'+escHtml(c.type)+'">';}).join('');
+  var downloadUrl = (urls[0] || primaryUrl || (candidates[0]&&candidates[0].url) || '');
+  return {html:html, urls:candidates.map(function(c){return c.url;}), downloadUrl:downloadUrl};
+}
+
+/* Better video timeout: if a MOV/converted file keeps black-loading, show a useful fallback instead of silent spinner. */
+function attachVideoWatchdog(video){
+  if(!video || video.dataset.watchdogReady) return;
+  video.dataset.watchdogReady='1';
+  var timer=setTimeout(function(){
+    try{
+      if(video.readyState < 1){
+        handlePlyrVideoError(video);
+      }
+    }catch(e){}
+  }, 9000);
+  ['loadedmetadata','canplay','playing','error'].forEach(function(ev){
+    video.addEventListener(ev,function(){clearTimeout(timer);},{once:true});
+  });
+}
+
+/* Override Plyr init to also attach a loading watchdog. */
+function initPlyrIn(root){
+  if(!root)return;
+  var nodes=root.querySelectorAll?root.querySelectorAll('video.plyr-video:not([data-plyr-ready])'):[];
+  nodes.forEach(function(v){ attachVideoWatchdog(v); });
+  if(!window.Plyr){ setTimeout(function(){initPlyrIn(root);},300); return; }
+  nodes.forEach(function(v){
+    try{
+      v.setAttribute('data-plyr-ready','1');
+      new Plyr(v,{controls:['play-large','play','progress','current-time','duration','mute','volume','settings','fullscreen'],settings:['speed'],fullscreen:{enabled:true,iosNative:true},clickToPlay:true,keyboard:{focused:true,global:false},tooltips:{controls:false,seek:true},hideControls:true});
+    }catch(e){try{console.warn('Plyr init failed',e);}catch(_){}}
+  });
+}
+
+/* Cross-device voice: record WAV instead of WebM so iPhone Safari can play Android voice messages too. */
+var wavAudioContext=null, wavSource=null, wavProcessor=null, wavBuffers=[], wavSampleRate=44100, wavShouldSend=false;
+function mergeFloat32(buffers){
+  var len=0; buffers.forEach(function(b){len+=b.length;});
+  var out=new Float32Array(len), off=0;
+  buffers.forEach(function(b){out.set(b,off); off+=b.length;});
+  return out;
+}
+function writeAscii(view, offset, str){ for(var i=0;i<str.length;i++) view.setUint8(offset+i, str.charCodeAt(i)); }
+function encodeWav(samples, sampleRate){
+  var numChannels=1, bytesPerSample=2, blockAlign=numChannels*bytesPerSample;
+  var buffer=new ArrayBuffer(44 + samples.length*2);
+  var view=new DataView(buffer);
+  writeAscii(view,0,'RIFF');
+  view.setUint32(4,36+samples.length*2,true);
+  writeAscii(view,8,'WAVE');
+  writeAscii(view,12,'fmt ');
+  view.setUint32(16,16,true);
+  view.setUint16(20,1,true);
+  view.setUint16(22,numChannels,true);
+  view.setUint32(24,sampleRate,true);
+  view.setUint32(28,sampleRate*blockAlign,true);
+  view.setUint16(32,blockAlign,true);
+  view.setUint16(34,16,true);
+  writeAscii(view,36,'data');
+  view.setUint32(40,samples.length*2,true);
+  var offset=44;
+  for(var i=0;i<samples.length;i++,offset+=2){
+    var s=Math.max(-1,Math.min(1,samples[i]));
+    view.setInt16(offset, s<0 ? s*0x8000 : s*0x7FFF, true);
+  }
+  return new Blob([view], {type:'audio/wav'});
+}
+function cleanupVoiceRecorder(){
+  clearInterval(voiceTimerInterval); voiceTimerInterval=null;
+  showVoiceOverlay(false);
+  try{ if(wavProcessor){ wavProcessor.disconnect(); } }catch(e){}
+  try{ if(wavSource){ wavSource.disconnect(); } }catch(e){}
+  try{ if(wavAudioContext && wavAudioContext.state!=='closed'){ wavAudioContext.close(); } }catch(e){}
+  try{ if(voiceStream) voiceStream.getTracks().forEach(function(t){t.stop();}); }catch(e){}
+  wavAudioContext=null; wavSource=null; wavProcessor=null; wavBuffers=[];
+  voiceStream=null; voiceRecorder=null; voiceChunks=[];
+}
+function startVoiceRecording(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ showToast('المتصفح لا يدعم تسجيل الصوت.','error'); return; }
+  navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}})
+    .then(function(stream){
+      voiceStream=stream; wavBuffers=[]; wavShouldSend=false;
+      var AC=window.AudioContext || window.webkitAudioContext;
+      if(!AC){
+        /* fallback to original MediaRecorder path only when WebAudio is unavailable */
+        var mime=getSupportedVoiceMime();
+        var options=mime?{mimeType:mime}:undefined;
+        voiceRecorder=new MediaRecorder(stream, options);
+        voiceChunks=[];
+        voiceRecorder.ondataavailable=function(e){ if(e&&e.data&&e.data.size>0) voiceChunks.push(e.data); };
+        voiceRecorder.onstop=function(){ var durationMs=Date.now()-voiceStartedAt; var mm=(voiceRecorder&&voiceRecorder.mimeType||mime||'audio/webm').split(';')[0]; if(wavShouldSend&&voiceChunks.length) sendVoiceBlob(voiceChunks,mm,durationMs); cleanupVoiceRecorder(); };
+        voiceRecorder.start(250);
+      } else {
+        wavAudioContext=new AC(); wavSampleRate=wavAudioContext.sampleRate || 44100;
+        wavSource=wavAudioContext.createMediaStreamSource(stream);
+        wavProcessor=wavAudioContext.createScriptProcessor(4096,1,1);
+        wavProcessor.onaudioprocess=function(ev){
+          try{ wavBuffers.push(new Float32Array(ev.inputBuffer.getChannelData(0))); }catch(e){}
+        };
+        wavSource.connect(wavProcessor); wavProcessor.connect(wavAudioContext.destination);
+        voiceRecorder={state:'recording'};
+      }
+      voiceStartedAt=Date.now(); updateVoiceTimer();
+      clearInterval(voiceTimerInterval); voiceTimerInterval=setInterval(updateVoiceTimer,500);
+      showVoiceOverlay(true);
+    })
+    .catch(function(err){
+      console.error('Microphone permission error:',err);
+      var msg='تعذر تشغيل الميكروفون. اسمح للموقع باستخدام الميكروفون من إعدادات المتصفح.';
+      if(err&&err.name==='NotAllowedError') msg='تم رفض إذن الميكروفون. فعّل إذن الميكروفون لهذا الموقع.';
+      if(err&&err.name==='NotFoundError') msg='لم يتم العثور على ميكروفون في الجهاز.';
+      showToast(msg,'error');
+    });
+}
+function stopVoiceRecording(shouldSend){
+  if(!voiceRecorder){ cleanupVoiceRecorder(); return; }
+  wavShouldSend=!!shouldSend;
+  var durationMs=Date.now()-voiceStartedAt;
+  if(wavAudioContext){
+    var samples=mergeFloat32(wavBuffers);
+    var wavBlob=encodeWav(samples, wavSampleRate);
+    cleanupVoiceRecorder();
+    if(!shouldSend) return;
+    if(durationMs<700 || !samples.length){ showToast('التسجيل قصير جدًا','error'); return; }
+    sendVoiceBlob([wavBlob], 'audio/wav', durationMs);
+  } else if(voiceRecorder && voiceRecorder.state!=='inactive'){
+    try{ voiceRecorder.stop(); }catch(e){ cleanupVoiceRecorder(); }
+  } else cleanupVoiceRecorder();
+}
+function voiceExtFromMime(mime){
+  mime=String(mime||'').toLowerCase();
+  if(mime.indexOf('wav')>=0) return 'wav';
+  if(mime.indexOf('mp4')>=0) return 'm4a';
+  if(mime.indexOf('ogg')>=0) return 'ogg';
+  return 'webm';
+}
+
 window.addEventListener("load", function(){setTimeout(function(){initPlyrIn(document);processSocialEmbeds(document);},350);});
 </script>
 </body>
