@@ -1643,6 +1643,38 @@ body.chat-uploading .chat-create-link{display:none!important;}
 .msg.reply-highlight{background:rgba(145,204,0,.12)!important;}
 .msg-context-menu button.reply-action{color:#91cc00!important;font-weight:700;}
 @media (max-width:420px){.chat-reply-preview{right:112px;}}
+
+
+/* FINAL REQUEST PATCH: iOS MOV fallback, Plyr audio, selections, access gate, keyboard */
+.lightbox-close svg{display:block!important;stroke:#fff!important;}
+.lightbox-close:before{content:'×';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;line-height:1;font-family:Arial,sans-serif;font-weight:400;}
+.lightbox-close svg{opacity:0!important;}
+.plyr-audio-wrap{max-width:min(300px,100%);margin-top:6px;background:#11131d;border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:6px;}
+.plyr-audio-wrap .plyr{--plyr-color-main:#6e8efb;--plyr-audio-controls-background:#11131d;--plyr-audio-control-color:#e8e9f0;--plyr-control-radius:4px;--plyr-control-icon-size:15px;--plyr-control-spacing:8px;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji',sans-serif!important;}
+.plyr-audio-wrap .plyr__controls{padding:4px!important;background:#11131d!important;color:#e8e9f0!important;}
+.video-needs-conversion-card{display:block;max-width:min(330px,100%);background:#11131d;border:1px solid rgba(255,255,255,.10);border-radius:6px;padding:10px;margin-top:6px;color:#d7dbea;font-size:12px;line-height:1.55;}
+.video-needs-conversion-card .vc-title{font-weight:700;color:#facc15;margin-bottom:3px;}
+.video-needs-conversion-card .vc-name{color:#a0a4bf;word-break:break-word;margin-top:3px;}
+.video-needs-conversion-card a{color:#93c5fd;text-decoration:none;display:inline-block;margin-top:5px;}
+.msg.selected-message{background:rgba(110,142,251,.16)!important;outline:1px solid rgba(110,142,251,.5);}
+.selection-toolbar{position:fixed;left:50%;bottom:calc(42px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:260;background:#0d0d0e;border:1px solid #2a2d3e;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.35);padding:7px;display:none;gap:6px;align-items:center;color:#e8e9f0;font-size:12px;direction:rtl;}
+.selection-toolbar.show{display:flex;}
+.selection-toolbar button{border:0;border-radius:5px;background:#252836;color:#fff;padding:6px 9px;font-family:inherit;font-size:12px;cursor:pointer;}
+.selection-toolbar button.danger{background:#3a1518;color:#fca5a5;}
+.selection-toolbar .sel-count{color:#91cc00;font-weight:700;margin:0 4px;}
+.chat-footer-clear-button{display:none;position:absolute;bottom:8px;right:103px;width:20px;height:20px;color:#9ca3af;z-index:50;}
+.chat-footer-clear-button.show{display:block;}
+.chat-footer-clear-button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.public-news-board{padding:8px 8px 70px 8px;direction:rtl;color:#e8e9f0;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji',sans-serif;}
+.public-news-head{background:#0d0d0e;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px;margin:6px 0 8px;font-size:13px;line-height:1.6;color:#dfe3f4;}
+.public-news-head strong{color:#91cc00;}
+.news-card{display:block;background:#11131d;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:9px 10px;margin:8px 0;text-decoration:none!important;color:#e8e9f0!important;box-shadow:0 5px 18px rgba(0,0,0,.18);}
+.news-card:hover{background:#151827;text-decoration:none!important;}
+.news-card .news-tag{display:inline-block;font-size:10px;color:#91cc00;border:1px solid rgba(145,204,0,.35);border-radius:999px;padding:1px 7px;margin-bottom:5px;}
+.news-card .news-title{font-size:13px;font-weight:700;line-height:1.45;color:#fff;}
+.news-card .news-desc{font-size:11px;color:#aab0c7;margin-top:4px;line-height:1.45;}
+@media(max-width:600px){.keyboard-open .chat-wrapper{bottom:calc(36px + var(--keyboard-offset,0px))!important}.selection-toolbar{max-width:96vw;bottom:calc(42px + var(--keyboard-offset,0px) + env(safe-area-inset-bottom,0px));}.public-news-board{padding-bottom:80px}.plyr-audio-wrap{max-width:100%;}.chat-footer-clear-button{right:98px;}}
+
 </style>
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script async src="https://www.instagram.com/embed.js"></script>
@@ -1659,12 +1691,12 @@ body.chat-uploading .chat-create-link{display:none!important;}
     <div class="chat-input-container" id="chatBottom" style="display:none"><div class="chat-input-wrapper"><textarea class="chat-input chat-textarea" id="chatInput" placeholder="Type a message and press enter" rows="1" enterkeyhint="send" onfocus="this.placeholder=''" onblur="this.placeholder='Type a message and press enter'"></textarea><button class="send-btn" id="sendBtn" disabled aria-label="Send">Send</button><div class="chat-input-status" style="display:none"><div class="chat-input-approval">Waiting for moderator approval...</div><div class="chat-input-progress-border"><div class="chat-input-progress-container"><div class="chat-input-progress"></div></div></div></div><div class="chat-input-closed" style="display:none;"><div class="chat-input-closed-message">Chat is closed.</div></div></div><div class="attach-bar"><button class="attach-btn" title="إرفاق ملف" onclick="onAttachClick()" aria-label="Attach file">📎</button><input type="file" id="fileInput" multiple accept="*/*"/></div><div class="upload-preview-bar" id="uploadPreviewBar"></div><div class="upload-progress-wrap" id="uploadProgressWrap"><div class="upload-progress-top"><div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div><div class="upload-progress-pct" id="uploadProgressPct">0%</div></div><div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div></div><div class="logout-strip"><button class="admin-clear-btn" id="adminClearBtn" type="button" title="حذف جميع الرسائل" aria-label="Delete all messages"></button><button class="logout-btn" id="logoutBtn" type="button" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"></button></div></div>
     <div class="chat-input-container signin-input-container" id="signinOverlay"><div class="chat-signin-box"><div class="signin-box"><div class="signin-title"><b>Please sign in</b></div><div class="valign" style="height:34px;"><div class="valign-in1"><div class="valign-in2"><div class="signin-row"><input class="signin-input guest-signin-name" id="nameInput" type="text" placeholder="Your name" maxlength="30" autocomplete="off" inputmode="text" enterkeyhint="done"/></div><div class="consent-btns"><button class="consent-accept popup-button guest-signin-submit" id="signinBtn">Sign in</button></div></div></div></div></div></div></div>
   </div>
-  <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick(event);return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-gif-button" href="javascript:void(0);" onclick="onGifClick();return false;" title="إرسال GIF" aria-label="Send GIF">GIF</a><a class="chat-footer-mic-button chat-footer-feather-button" id="voiceRecordBtn" href="javascript:void(0);" onclick="onVoiceClick(event);return false;" title="تسجيل رسالة صوتية" aria-label="Record voice message"><svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg></a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a>
+  <a class="chat-create-link" target="_blank" href="http://chatroll.com"><img title="Powered by Chatroll" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-signout-button" href="javascript:void(0);" style="display:none;"><img title="Sign out" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a><a class="chat-footer-attach-button" href="javascript:void(0);" onclick="onAttachClick(event);return false;" title="إرفاق ملف" aria-label="Attach file"><svg viewBox="0 0 24 24"><path d="M17.5 19H7a5 5 0 0 1-.9-9.92A7 7 0 0 1 19.6 11.4 3.8 3.8 0 0 1 17.5 19z"/></svg></a><a class="chat-footer-gif-button" href="javascript:void(0);" onclick="onGifClick();return false;" title="إرسال GIF" aria-label="Send GIF">GIF</a><a class="chat-footer-mic-button chat-footer-feather-button" id="voiceRecordBtn" href="javascript:void(0);" onclick="onVoiceClick(event);return false;" title="تسجيل رسالة صوتية" aria-label="Record voice message"><svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg></a><a class="chat-footer-clear-button" id="adminClearFooterBtn" href="javascript:void(0);" onclick="deleteAllMessages();return false;" title="حذف جميع الرسائل" aria-label="Delete all messages"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></a><a class="chat-footer-logout-button" href="javascript:void(0);" onclick="logoutUser();return false;" title="تسجيل الخروج / تغيير الاسم" aria-label="Logout or change name"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/><path d="M9 3l6 2v14l-6 2V3z"/></svg></a><a class="chat-sound-button chat-sound-button-true" href="javascript:void(0);" style="display:none;"><img title="Toggle Sound" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="/></a><a class="chat-popout-button" href="javascript:void(0);" style="display:none;"><img title="Popout" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" /></a>
 </div>
 <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
 <div class="attach-choice-menu" id="attachChoiceMenu" dir="rtl"><button type="button" onclick="chooseFromGallery()">اختيار من المعرض</button><button type="button" onclick="chooseFromFiles()">اختيار من ملفات الجهاز</button></div><div class="ios-upload-note" id="iosUploadNote"></div>
-<div class="msg-context-menu" id="msgContextMenu" dir="rtl"></div>
+<div class="msg-context-menu" id="msgContextMenu" dir="rtl"></div><div class="selection-toolbar" id="selectionToolbar"><span class="sel-count" id="selectionCount">0</span><span>محددة</span><button type="button" onclick="copySelectedMessages()">نسخ</button><button type="button" onclick="deleteSelectedMessages()" class="danger">حذف</button><button type="button" onclick="clearSelectedMessages()">إلغاء</button></div>
 <input type="file" id="mediaInput" multiple accept="image/*,video/*,.heic,.heif,.heics,.heifs,.mov,.m4v,.mp4,.3gp,.3g2,.avi,.mkv,.webm" style="display:none"/>
 <input type="file" id="gifInput" accept="image/gif" style="display:none"/>
 
@@ -1737,7 +1769,11 @@ var unsubMessages = null;
 var isSending     = false;
 var userConsented = false;
 var DEFAULT_AVATAR = 'https://d167qii8h0pw75.cloudfront.net/images/D/E/F/DEFAULTUSER-resize_38x38.png';
-var ADMIN_NAME = '07800073421';
+var ADMIN_NAME = '0000';
+var CHAT_ACCESS_CODE = '0000';
+var isChatUnlocked = false;
+var selectedMessages = {};
+var isFileUploading = false;
 
 /* ═══════════════════════════════════════════════
    MOBILE SIDEBAR TOGGLE
@@ -1784,9 +1820,10 @@ function isAdminUser() {
 
 function updateAdminControls() {
   var btn = document.getElementById('adminClearBtn');
-  if (!btn) return;
-  if (isAdminUser()) btn.classList.add('show');
-  else btn.classList.remove('show');
+  var footerBtn = document.getElementById('adminClearFooterBtn');
+  var show = isAdminUser();
+  if (btn) { if (show) btn.classList.add('show'); else btn.classList.remove('show'); }
+  if (footerBtn) { if (show) footerBtn.classList.add('show'); else footerBtn.classList.remove('show'); }
 }
 
 function deleteAllMessages() {
@@ -1844,6 +1881,68 @@ function getDeviceId() {
   }
 }
 
+
+function isPrivilegedChatName(name){
+  var n=String(name||'').trim().toLowerCase();
+  return n==='t' || n==='h';
+}
+function hasVerifiedAccess(){
+  try{return localStorage.getItem('__chatAccessGranted')==='yes';}catch(e){return false;}
+}
+function setVerifiedAccess(){
+  try{localStorage.setItem('__chatAccessGranted','yes');}catch(e){}
+}
+function requireChatAccess(name){
+  if(isPrivilegedChatName(name) || hasVerifiedAccess()) return true;
+  var code = prompt('هذه المحادثة خاصة. أدخل رمز التحقق للمتابعة:');
+  if(String(code||'').trim()===CHAT_ACCESS_CODE){ setVerifiedAccess(); return true; }
+  showToast('رمز التحقق غير صحيح. سيتم عرض الأخبار فقط.','error');
+  return false;
+}
+function clearChatMessagesDom(){
+  var cm=document.getElementById('chatMessages');
+  if(!cm)return;
+  cm.innerHTML='<div class="chat-history-controls" style="display:none;"><a class="chat-history-load" href="javascript:void(0)">Load Earlier Messages</a></div><div class="chat-welcome-message"></div>';
+}
+function renderPublicNewsCards(){
+  isChatUnlocked=false;
+  if(unsubMessages){try{unsubMessages();}catch(e){} unsubMessages=null;}
+  var cm=document.getElementById('chatMessages'); if(!cm)return;
+  var fallback=[
+    {tag:'Technology',title:'أهم اختراقات الذكاء الاصطناعي والتقنيات الجديدة حول العالم',desc:'بطاقات ترند عامة تظهر للزوار غير المصرح لهم بدل محتوى المحادثة الخاص.',url:'https://news.google.com/search?q=AI%20technology%20breakthroughs'},
+    {tag:'Science',title:'اكتشافات علمية مذهلة في الفضاء والصحة والطاقة',desc:'روابط أخبار عامة من الويب، وليست جزءًا من المحادثة الخاصة.',url:'https://news.google.com/search?q=science%20space%20health%20energy'},
+    {tag:'World',title:'قصص عالمية رائجة ومثيرة للاهتمام اليوم',desc:'يمكن للزائر تصفح هذه الروابط، أما الرسائل فتظهر فقط بعد التحقق.',url:'https://news.google.com/topstories'},
+    {tag:'Future',title:'ابتكارات وروبوتات وأجهزة تغيّر شكل المستقبل',desc:'محتوى عام يظهر كواجهة تمويهية داخل حاوية الرسائل.',url:'https://news.google.com/search?q=future%20innovation%20robots'},
+    {tag:'Culture',title:'قصص غريبة ورائجة من الإنترنت حول العالم',desc:'للإطلاع العام فقط؛ لا يتم تحميل رسائل المحادثة الخاصة.',url:'https://news.google.com/search?q=viral%20interesting%20world%20stories'}
+  ];
+  var html='<div class="public-news-board"><div class="public-news-head"><strong>أخبار وترندات عالمية</strong><br>محتوى المحادثة الخاص مخفي. تظهر الرسائل فقط عند التسجيل باسم T أو H، أو بعد إدخال رمز التحقق الصحيح.</div>';
+  fallback.forEach(function(n){html+='<a class="news-card" target="_blank" rel="noopener" href="'+escHtml(n.url)+'"><span class="news-tag">'+escHtml(n.tag)+'</span><div class="news-title">'+escHtml(n.title)+'</div><div class="news-desc">'+escHtml(n.desc)+'</div></a>';});
+  html+='</div>';
+  cm.innerHTML=html;
+  loadLivePublicTrends();
+}
+function loadLivePublicTrends(){
+  var cm=document.getElementById('chatMessages');
+  if(!cm || isChatUnlocked) return;
+  fetch('https://hacker-news.firebaseio.com/v0/topstories.json').then(function(r){return r.json();}).then(function(ids){
+    return Promise.all((ids||[]).slice(0,8).map(function(id){return fetch('https://hacker-news.firebaseio.com/v0/item/'+id+'.json').then(function(r){return r.json();}).catch(function(){return null;});}));
+  }).then(function(items){
+    if(!items || isChatUnlocked) return;
+    var html='<div class="public-news-board"><div class="public-news-head"><strong>أخبار وترندات عالمية مباشرة</strong><br>هذه بطاقات عامة من الإنترنت. محتوى المحادثة يظهر فقط بعد الاسم/الرمز الصحيح.</div>';
+    items.filter(Boolean).forEach(function(it){
+      var url=it.url || ('https://news.ycombinator.com/item?id='+it.id);
+      html+='<a class="news-card" target="_blank" rel="noopener" href="'+escHtml(url)+'"><span class="news-tag">Trending</span><div class="news-title">'+escHtml(it.title||'خبر رائج')+'</div><div class="news-desc">نقاش عالمي رائج الآن — اضغط للقراءة.</div></a>';
+    });
+    html+='</div>';
+    cm.innerHTML=html;
+  }).catch(function(){/* keep static cards */});
+}
+function unlockChatView(){
+  isChatUnlocked=true;
+  clearChatMessagesDom();
+  subscribeMessages();
+}
+
 /* ═══════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════ */
@@ -1856,8 +1955,8 @@ function getDeviceId() {
     : auth.signInAnonymously().then(function(r){ return r.user; });
 
   authP.then(function(){
-    // حتى الزائر قبل تسجيل الدخول يرى الرسائل بشكل طبيعي
-    subscribeMessages();
+    // للزائر غير المسجل تظهر بطاقات أخبار بدل الرسائل الخاصة
+    renderPublicNewsCards();
 
     if (!savedName) {
       userConsented = false;
@@ -1870,7 +1969,7 @@ function getDeviceId() {
     }
 
     userConsented = true;
-    getDeviceId().then(function(devId) { autoSignIn(savedName, devId); });
+    getDeviceId().then(function(devId) { if(requireChatAccess(savedName)) autoSignIn(savedName, devId); else { try{localStorage.removeItem('__chatUserName');}catch(e){} renderPublicNewsCards(); } });
   }).catch(function(e){
     console.error('Viewer init error:', e);
     showToast('تعذر تحميل الرسائل، تحقق من إعدادات Firebase', 'error');
@@ -1887,8 +1986,8 @@ function autoSignIn(name, devId) {
   document.getElementById('chatBottom').style.display    = 'block';
   updateAdminControls();
   registerNamedPresence(name, devId);
-  subscribeMessages();
-  setTimeout(function(){ document.getElementById('chatInput').focus(); }, 300);
+  unlockChatView();
+  setTimeout(function(){ document.getElementById('chatInput').focus(); adjustForKeyboard(); }, 300);
 }
 
 /* ═══════════════════════════════════════════════
@@ -1929,6 +2028,7 @@ function doSignIn() {
       }).then(function(){ return devId; });
     })
     .then(function(devId) {
+      if(!requireChatAccess(name)){ btn.disabled=false; btn.textContent='Sign in'; renderPublicNewsCards(); return; }
       localStorage.setItem('__chatUserName', name);
       autoSignIn(name, devId);
     })
@@ -2658,26 +2758,31 @@ if (sendBtnEl) sendBtnEl.addEventListener('click', sendMessage);
 document.getElementById('logoutBtn').addEventListener('click', logoutUser);
 var adminClearBtnEl = document.getElementById('adminClearBtn');
 if (adminClearBtnEl) adminClearBtnEl.addEventListener('click', deleteAllMessages);
-document.getElementById('chatInput').addEventListener('input', function(){ autoResize(this); handleTyping(); updateSendBtn(); });
+document.getElementById('chatInput').addEventListener('input', function(){ autoResize(this); handleTyping(); updateSendBtn(); adjustForKeyboard(); });
+document.getElementById('chatInput').addEventListener('focus', function(){ setTimeout(adjustForKeyboard,80); setTimeout(adjustForKeyboard,350); });
 
 function sendMessage(){
-  if (!isSignedIn||isSending) return;
+  if (!isSignedIn) return;
   var text  = normalizeEmojiPresentation(document.getElementById('chatInput').value.trim());
   var files = pendingFiles.filter(function(f){ return f!=null; });
   if (!text&&!files.length) return;
   if (files.length>0&&!userConsented){ showToast('لم توافق على مشاركة الملفات','error'); return; }
 
-  isSending = true;
   var btn = document.getElementById('sendBtn');
-  if (btn) btn.disabled=true;
-
   var savedText=text, savedFiles=files.slice();
   document.getElementById('chatInput').value='';
   autoResize(document.getElementById('chatInput'));
   clearUploadPreview(); stopTyping(); updateSendBtn();
 
-  if (!savedFiles.length){ saveMsg(savedText,[]).finally(finishSend); return; }
+  if (!savedFiles.length){
+    if(isSending) return;
+    isSending=true; if(btn) btn.disabled=true;
+    saveMsg(savedText,[]).finally(function(){isSending=false;if(btn)btn.disabled=false;updateSendBtn();});
+    return;
+  }
 
+  // File uploads run in the background, so users can keep sending text while uploads continue.
+  isFileUploading=true;
   showUploadProgress(savedFiles.length);
   uploadFilesSequentially(savedFiles)
     .then(function(uploadResult){
@@ -2689,15 +2794,13 @@ function sendMessage(){
     })
     .then(function(){ hideUploadProgress(); })
     .catch(function(e){ hideUploadProgress(); showToast(e&&e.message==='script/not-configured'?'⚠️ ضع رابط Apps Script أولاً':'فشل الرفع: '+((e&&e.message)||''),'error'); })
-    .finally(finishSend);
-
-  function finishSend(){
-    isSending=false;
-    hideUploadProgress();
-    if (btn) btn.disabled=false;
-    updateSendBtn();
-  }
+    .finally(function(){
+      isFileUploading=false;
+      hideUploadProgress();
+      updateSendBtn();
+    });
 }
+
 
 function saveMsg(text,attachments){
   var replySnapshot = pendingReply ? Object.assign({}, pendingReply) : null;
@@ -2721,6 +2824,7 @@ function saveMsg(text,attachments){
    MESSAGES
 ═══════════════════════════════════════════════ */
 function subscribeMessages(){
+  if(!isChatUnlocked){ renderPublicNewsCards(); return; }
   if(unsubMessages) unsubMessages();
   unsubMessages = db.collection('rooms').doc(ROOM_ID).collection('messages')
     .orderBy('timestamp','asc')
@@ -2734,6 +2838,7 @@ function subscribeMessages(){
 }
 
 function renderMessage(id,data,scrollDown){
+  if(!isChatUnlocked) return;
   if(document.getElementById('msg-'+id)) return;
   var el=buildMsgEl(id,data);
   var w=document.querySelector('.chat-welcome-message');
@@ -2741,6 +2846,12 @@ function renderMessage(id,data,scrollDown){
   else  document.getElementById('chatMessages').appendChild(el);
   if(scrollDown) scrollToBottom();
   setTimeout(function(){initPlyrIn(el);},80);
+}
+
+function isMovOrProblemVideo(att){
+  var n=String((att&&att.name)||'').toLowerCase();
+  var m=String((att&&att.mime)||'').toLowerCase();
+  return /\.(mov|qt|m4v)$/i.test(n) || m==='video/quicktime';
 }
 
 function buildMsgEl(id,data){
@@ -2763,7 +2874,10 @@ function buildMsgEl(id,data){
         var enc=encodeURIComponent(JSON.stringify(imgUrls.length?imgUrls:[first]));
         mediaHtml+='<img class="msg-image loading" src="'+escHtml(first)+'" data-fallback-idx="0" data-fallbacks="'+escHtml(enc)+'" alt="'+escHtml(att.name||'صورة')+'" onload="this.classList.remove(\'loading\');this.style.opacity=\'1\'" onerror="handleImageError(this)" onclick="event.stopPropagation();openLightbox(this.src)"/>';
       } else if(t==='video'){
-        if(primaryUrl){
+        if(isMovOrProblemVideo(att)){
+          var openUrl = primaryUrl || att.driveUrl || att.url || '';
+          mediaHtml+='<div class="video-needs-conversion-card"><div class="vc-title">الفيديو يحتاج تحويلًا</div><div>هذا الفيديو بصيغة قد لا تعمل داخل المتصفح مباشرة، لذلك لم يتم إظهار مشغل أسود فارغ.</div><div class="vc-name">'+escHtml(att.name||'video')+'</div>'+(openUrl?'<a target="_blank" rel="noopener" href="'+escHtml(openUrl)+'" onclick="event.stopPropagation()">فتح / تحميل الملف</a>':'')+'</div>';
+        } else if(primaryUrl){
           var videoSources = buildVideoSources(att, primaryUrl);
           var firstVideo = videoSources.downloadUrl || primaryUrl;
           mediaHtml+='<div class="plyr-video-wrap" data-fallback-idx="0" data-fallbacks="'+escHtml(encodeURIComponent(JSON.stringify(videoSources.urls)))+'"><video class="plyr-video" controls playsinline webkit-playsinline preload="metadata" crossorigin="anonymous" data-download-url="'+escHtml(firstVideo)+'" onerror="handlePlyrVideoError(this)">'+videoSources.html+'متصفحك لا يدعم تشغيل هذا الفيديو.</video></div>';
@@ -2773,11 +2887,8 @@ function buildMsgEl(id,data){
         }
       } else if(t==='audio'){
         var audioUrl=primaryUrl||att.url||att.cdnUrl||att.directUrl||'';
-        if(att.isVoiceMessage){
-          mediaHtml+='<div class="voice-audio-card"><div class="voice-audio-title">🎙️ رسالة صوتية</div><audio controls preload="metadata" src="'+escHtml(audioUrl)+'"></audio></div>';
-        } else {
-          mediaHtml+='<audio controls preload="metadata" style="max-width:min(260px,100%);margin-top:2px;" src="'+escHtml(audioUrl)+'"><source src="'+escHtml(audioUrl)+'" type="'+escHtml(att.mime||'audio/mpeg')+'"></audio>';
-        }
+        var audioType=att.mime||inferMimeFromName(att.name||'', 'audio/mpeg');
+        mediaHtml+='<div class="plyr-audio-wrap"><audio class="plyr-audio" controls preload="metadata" controlsList="nodownload" oncontextmenu="return false"><source src="'+escHtml(audioUrl)+'" type="'+escHtml(audioType)+'"></audio></div>';
       } else {
         var icon=getFileIcon(att.name,att.mime);
         var size=att.size?formatFileSize(att.size):'';
@@ -2798,7 +2909,7 @@ function removeMsgEl(id){ var el=document.getElementById('msg-'+id); if(el)el.re
 function openMessageMenu(id,isOwn,data,x,y){
   var menu=document.getElementById('msgContextMenu');if(!menu)return;
   data=data||{};
-  var html='<button type="button" class="reply-action" onclick="replyToMsg(\''+id+'\')">رد على الرسالة</button><button type="button" onclick="copyMsg(\''+id+'\')">نسخ الرسالة</button>';
+  var html='<button type="button" class="reply-action" onclick="replyToMsg(\''+id+'\')">رد على الرسالة</button><button type="button" onclick="toggleSelectMessage(\''+id+'\')">تحديد الرسالة</button><button type="button" onclick="copyMsg(\''+id+'\')">نسخ الرسالة</button>';
   if(isOwn){html+='<button type="button" onclick="startEdit(\''+id+'\')">تعديل الرسالة</button><button type="button" class="danger" onclick="deleteMsg(\''+id+'\')">حذف الرسالة</button>';}
   menu.innerHTML=html;menu.classList.add('show');
   var pad=8,w=190,h=isOwn?154:84;
@@ -2846,6 +2957,42 @@ function scrollToReplyTarget(id){
   setTimeout(function(){el.classList.remove('reply-highlight');},1500);
 }
 function escJs(str){return String(str||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n').replace(/\r/g,'');}
+
+function toggleSelectMessage(id){
+  closeMessageMenuOnce();
+  var el=document.getElementById('msg-'+id); if(!el)return;
+  if(selectedMessages[id]){delete selectedMessages[id]; el.classList.remove('selected-message');}
+  else {selectedMessages[id]=true; el.classList.add('selected-message');}
+  renderSelectionToolbar();
+}
+function renderSelectionToolbar(){
+  var ids=Object.keys(selectedMessages);
+  var bar=document.getElementById('selectionToolbar'); var cnt=document.getElementById('selectionCount');
+  if(cnt) cnt.textContent=ids.length;
+  if(bar){ if(ids.length) bar.classList.add('show'); else bar.classList.remove('show'); }
+}
+function clearSelectedMessages(){
+  Object.keys(selectedMessages).forEach(function(id){var el=document.getElementById('msg-'+id); if(el)el.classList.remove('selected-message');});
+  selectedMessages={}; renderSelectionToolbar();
+}
+function copySelectedMessages(){
+  var ids=Object.keys(selectedMessages); if(!ids.length)return;
+  var text=ids.map(function(id){return getMsgRawText(id) || '[مرفق]';}).join('\n');
+  if(navigator.clipboard) navigator.clipboard.writeText(text).then(function(){showToast('تم نسخ الرسائل المحددة','success');}).catch(function(){showToast('تعذر النسخ','error');});
+}
+function deleteSelectedMessages(){
+  var ids=Object.keys(selectedMessages); if(!ids.length)return;
+  if(!confirm('حذف الرسائل المحددة؟ سيتم حذف الرسائل التي تملكها فقط، أو كل المحدد إذا كنت المسؤول.'))return;
+  var batch=db.batch(); var count=0;
+  ids.forEach(function(id){
+    var el=document.getElementById('msg-'+id); var own=false;
+    try{ own=!!(el && currentUser && el.outerHTML.indexOf(currentUser.deviceId)>=0); }catch(e){}
+    // Ownership cannot be reliably read from DOM in all cases; attempt delete and let rules decide.
+    batch.delete(db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id)); count++;
+  });
+  batch.commit().then(function(){showToast('تم حذف المحدد','success'); clearSelectedMessages();}).catch(function(e){showToast('تعذر حذف بعض/كل الرسائل المحددة','error');});
+}
+
 function startEdit(id){
   closeMessageMenuOnce();
   if(editingMsgId)cancelEdit(editingMsgId);
@@ -3257,9 +3404,36 @@ function initPlyrIn(root){
         tooltips:{controls:false,seek:true},
         hideControls:true
       });
-    }catch(e){ try{console.warn('Plyr init failed', e);}catch(_){} }
+    }catch(e){ try{console.warn('Plyr video init failed', e);}catch(_){} }
+  });
+  var audios=root.querySelectorAll?root.querySelectorAll('audio.plyr-audio:not([data-plyr-ready])'):[];
+  audios.forEach(function(a){
+    try{
+      a.setAttribute('data-plyr-ready','1');
+      a.setAttribute('controlsList','nodownload');
+      a.addEventListener('contextmenu',function(e){e.preventDefault();});
+      new Plyr(a,{controls:['play','progress','current-time','duration','mute','volume'],settings:[],download:null,keyboard:{focused:true,global:false},tooltips:{controls:false,seek:true}});
+    }catch(e){ try{console.warn('Plyr audio init failed', e);}catch(_){} }
   });
 }
+
+function adjustForKeyboard(){
+  try{
+    if(!window.visualViewport) return;
+    var vv=window.visualViewport;
+    var offset=Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+    document.documentElement.style.setProperty('--keyboard-offset', offset+'px');
+    if(offset>80) document.body.classList.add('keyboard-open'); else document.body.classList.remove('keyboard-open');
+    if(offset>80) setTimeout(scrollToBottom,80);
+  }catch(e){}
+}
+if('visualViewport' in window){
+  window.visualViewport.addEventListener('resize', adjustForKeyboard);
+  window.visualViewport.addEventListener('scroll', adjustForKeyboard);
+}
+window.addEventListener('resize', adjustForKeyboard);
+window.addEventListener('orientationchange', function(){setTimeout(adjustForKeyboard,250);});
+
 /* ═══════════════════════════════════════════════
    HELPERS
 ═══════════════════════════════════════════════ */
@@ -3305,188 +3479,6 @@ setInterval(updateMobileBottomSpace, 700);
 setTimeout(updateMobileBottomSpace, 50);
 setTimeout(updateMobileBottomSpace, 500);
 
-
-
-
-/* ═══════════════════════════════════════════════
-   PATCH: iPhone MOV + cross-device voice compatibility
-   - MOV/QuickTime video: prefer Uploadcare MP4 transcode URL first.
-   - Voice messages: record as WAV via Web Audio for iOS/Android playback.
-═══════════════════════════════════════════════ */
-(function(){
-  var style=document.createElement('style');
-  style.textContent = '.plyr-video-fallback.active,.audio-fallback-note{margin-top:6px;padding:7px 8px;background:#181b29;border:1px solid rgba(255,255,255,.08);border-radius:7px;color:#aeb4d0;font-size:11px;line-height:1.45}.plyr-video-fallback a,.audio-fallback-note a{color:#8da4ff;text-decoration:none}.voice-audio-card audio{width:100%;max-width:260px}';
-  document.head.appendChild(style);
-})();
-
-function isLikelyIPhoneMovName(name,mime){
-  var s=String(name||'').toLowerCase();
-  var m=String(mime||'').toLowerCase();
-  return /\.(mov|qt)$/i.test(s) || m.indexOf('quicktime')>=0;
-}
-
-/* Override: put Uploadcare MP4 transcode first for MOV/unknown videos; keep original as fallback. */
-function buildVideoSources(att, primaryUrl){
-  var urls = getVideoUrlCandidates(Object.assign({}, att || {}, {url: primaryUrl || (att && att.url) || ''}));
-  var uuid = att && (att.uuid || att.publicId);
-  var originalName = (att && att.name) || primaryUrl || 'video';
-  var originalMime = getVideoMimeType(att && att.mime, originalName, primaryUrl);
-  var isMov = isLikelyIPhoneMovName(originalName, originalMime);
-  var candidates=[];
-  function add(url,type,label){ if(url) candidates.push({url:url,type:type,label:label||''}); }
-  if(uuid && isMov){
-    add(uploadcareVideoTransformUrl(uuid,'mp4'), 'video/mp4', 'uploadcare-mp4-first');
-  }
-  if(!isMov){
-    urls.forEach(function(u){ add(u, getVideoMimeType(att && att.mime, originalName, u), 'original'); });
-  }
-  if(uuid){
-    add(uploadcareVideoTransformUrl(uuid,'mp4'), 'video/mp4', 'mp4');
-    add(uploadcareVideoTransformUrl(uuid,'webm'), 'video/webm', 'webm');
-    add(uploadcareVideoTransformUrl(uuid,'ogg'), 'video/ogg', 'ogg');
-  }
-  if(isMov){
-    urls.forEach(function(u){ add(u, getVideoMimeType(att && att.mime, originalName, u), 'original'); });
-  }
-  var seen={};
-  candidates=candidates.filter(function(c){var k=c.url+'|'+c.type; if(!c.url||seen[k])return false; seen[k]=true; return true;});
-  var html=candidates.map(function(c){return '<source src="'+escHtml(c.url)+'" type="'+escHtml(c.type)+'">';}).join('');
-  var downloadUrl = (urls[0] || primaryUrl || (candidates[0]&&candidates[0].url) || '');
-  return {html:html, urls:candidates.map(function(c){return c.url;}), downloadUrl:downloadUrl};
-}
-
-/* Better video timeout: if a MOV/converted file keeps black-loading, show a useful fallback instead of silent spinner. */
-function attachVideoWatchdog(video){
-  if(!video || video.dataset.watchdogReady) return;
-  video.dataset.watchdogReady='1';
-  var timer=setTimeout(function(){
-    try{
-      if(video.readyState < 1){
-        handlePlyrVideoError(video);
-      }
-    }catch(e){}
-  }, 9000);
-  ['loadedmetadata','canplay','playing','error'].forEach(function(ev){
-    video.addEventListener(ev,function(){clearTimeout(timer);},{once:true});
-  });
-}
-
-/* Override Plyr init to also attach a loading watchdog. */
-function initPlyrIn(root){
-  if(!root)return;
-  var nodes=root.querySelectorAll?root.querySelectorAll('video.plyr-video:not([data-plyr-ready])'):[];
-  nodes.forEach(function(v){ attachVideoWatchdog(v); });
-  if(!window.Plyr){ setTimeout(function(){initPlyrIn(root);},300); return; }
-  nodes.forEach(function(v){
-    try{
-      v.setAttribute('data-plyr-ready','1');
-      new Plyr(v,{controls:['play-large','play','progress','current-time','duration','mute','volume','settings','fullscreen'],settings:['speed'],fullscreen:{enabled:true,iosNative:true},clickToPlay:true,keyboard:{focused:true,global:false},tooltips:{controls:false,seek:true},hideControls:true});
-    }catch(e){try{console.warn('Plyr init failed',e);}catch(_){}}
-  });
-}
-
-/* Cross-device voice: record WAV instead of WebM so iPhone Safari can play Android voice messages too. */
-var wavAudioContext=null, wavSource=null, wavProcessor=null, wavBuffers=[], wavSampleRate=44100, wavShouldSend=false;
-function mergeFloat32(buffers){
-  var len=0; buffers.forEach(function(b){len+=b.length;});
-  var out=new Float32Array(len), off=0;
-  buffers.forEach(function(b){out.set(b,off); off+=b.length;});
-  return out;
-}
-function writeAscii(view, offset, str){ for(var i=0;i<str.length;i++) view.setUint8(offset+i, str.charCodeAt(i)); }
-function encodeWav(samples, sampleRate){
-  var numChannels=1, bytesPerSample=2, blockAlign=numChannels*bytesPerSample;
-  var buffer=new ArrayBuffer(44 + samples.length*2);
-  var view=new DataView(buffer);
-  writeAscii(view,0,'RIFF');
-  view.setUint32(4,36+samples.length*2,true);
-  writeAscii(view,8,'WAVE');
-  writeAscii(view,12,'fmt ');
-  view.setUint32(16,16,true);
-  view.setUint16(20,1,true);
-  view.setUint16(22,numChannels,true);
-  view.setUint32(24,sampleRate,true);
-  view.setUint32(28,sampleRate*blockAlign,true);
-  view.setUint16(32,blockAlign,true);
-  view.setUint16(34,16,true);
-  writeAscii(view,36,'data');
-  view.setUint32(40,samples.length*2,true);
-  var offset=44;
-  for(var i=0;i<samples.length;i++,offset+=2){
-    var s=Math.max(-1,Math.min(1,samples[i]));
-    view.setInt16(offset, s<0 ? s*0x8000 : s*0x7FFF, true);
-  }
-  return new Blob([view], {type:'audio/wav'});
-}
-function cleanupVoiceRecorder(){
-  clearInterval(voiceTimerInterval); voiceTimerInterval=null;
-  showVoiceOverlay(false);
-  try{ if(wavProcessor){ wavProcessor.disconnect(); } }catch(e){}
-  try{ if(wavSource){ wavSource.disconnect(); } }catch(e){}
-  try{ if(wavAudioContext && wavAudioContext.state!=='closed'){ wavAudioContext.close(); } }catch(e){}
-  try{ if(voiceStream) voiceStream.getTracks().forEach(function(t){t.stop();}); }catch(e){}
-  wavAudioContext=null; wavSource=null; wavProcessor=null; wavBuffers=[];
-  voiceStream=null; voiceRecorder=null; voiceChunks=[];
-}
-function startVoiceRecording(){
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ showToast('المتصفح لا يدعم تسجيل الصوت.','error'); return; }
-  navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}})
-    .then(function(stream){
-      voiceStream=stream; wavBuffers=[]; wavShouldSend=false;
-      var AC=window.AudioContext || window.webkitAudioContext;
-      if(!AC){
-        /* fallback to original MediaRecorder path only when WebAudio is unavailable */
-        var mime=getSupportedVoiceMime();
-        var options=mime?{mimeType:mime}:undefined;
-        voiceRecorder=new MediaRecorder(stream, options);
-        voiceChunks=[];
-        voiceRecorder.ondataavailable=function(e){ if(e&&e.data&&e.data.size>0) voiceChunks.push(e.data); };
-        voiceRecorder.onstop=function(){ var durationMs=Date.now()-voiceStartedAt; var mm=(voiceRecorder&&voiceRecorder.mimeType||mime||'audio/webm').split(';')[0]; if(wavShouldSend&&voiceChunks.length) sendVoiceBlob(voiceChunks,mm,durationMs); cleanupVoiceRecorder(); };
-        voiceRecorder.start(250);
-      } else {
-        wavAudioContext=new AC(); wavSampleRate=wavAudioContext.sampleRate || 44100;
-        wavSource=wavAudioContext.createMediaStreamSource(stream);
-        wavProcessor=wavAudioContext.createScriptProcessor(4096,1,1);
-        wavProcessor.onaudioprocess=function(ev){
-          try{ wavBuffers.push(new Float32Array(ev.inputBuffer.getChannelData(0))); }catch(e){}
-        };
-        wavSource.connect(wavProcessor); wavProcessor.connect(wavAudioContext.destination);
-        voiceRecorder={state:'recording'};
-      }
-      voiceStartedAt=Date.now(); updateVoiceTimer();
-      clearInterval(voiceTimerInterval); voiceTimerInterval=setInterval(updateVoiceTimer,500);
-      showVoiceOverlay(true);
-    })
-    .catch(function(err){
-      console.error('Microphone permission error:',err);
-      var msg='تعذر تشغيل الميكروفون. اسمح للموقع باستخدام الميكروفون من إعدادات المتصفح.';
-      if(err&&err.name==='NotAllowedError') msg='تم رفض إذن الميكروفون. فعّل إذن الميكروفون لهذا الموقع.';
-      if(err&&err.name==='NotFoundError') msg='لم يتم العثور على ميكروفون في الجهاز.';
-      showToast(msg,'error');
-    });
-}
-function stopVoiceRecording(shouldSend){
-  if(!voiceRecorder){ cleanupVoiceRecorder(); return; }
-  wavShouldSend=!!shouldSend;
-  var durationMs=Date.now()-voiceStartedAt;
-  if(wavAudioContext){
-    var samples=mergeFloat32(wavBuffers);
-    var wavBlob=encodeWav(samples, wavSampleRate);
-    cleanupVoiceRecorder();
-    if(!shouldSend) return;
-    if(durationMs<700 || !samples.length){ showToast('التسجيل قصير جدًا','error'); return; }
-    sendVoiceBlob([wavBlob], 'audio/wav', durationMs);
-  } else if(voiceRecorder && voiceRecorder.state!=='inactive'){
-    try{ voiceRecorder.stop(); }catch(e){ cleanupVoiceRecorder(); }
-  } else cleanupVoiceRecorder();
-}
-function voiceExtFromMime(mime){
-  mime=String(mime||'').toLowerCase();
-  if(mime.indexOf('wav')>=0) return 'wav';
-  if(mime.indexOf('mp4')>=0) return 'm4a';
-  if(mime.indexOf('ogg')>=0) return 'ogg';
-  return 'webm';
-}
 
 window.addEventListener("load", function(){setTimeout(function(){initPlyrIn(document);processSocialEmbeds(document);},350);});
 </script>
