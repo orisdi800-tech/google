@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="mobile-web-app-capable" content="yes"/>
-<title>Google — Uploadcare + Drive Mirror</title>
+<title>Google — Chat Uploadcare + Drive Mirror</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:400,500,600,700"/>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
@@ -4134,6 +4134,505 @@ body.chat-unlocked .chat-footer-logout-button{display:flex!important;}
     else update();
   },900);
   window.__stableKeyboardFix=update;
+})();
+</script>
+
+
+
+<!-- FINAL OVERRIDE: stable in-app keyboard docking without message gaps -->
+<style id="final-instagram-keyboard-gap-fix">
+@media (max-width:600px){
+  :root{--final-kb-lift:0px;--footer-row-h:36px;}
+  body.keyboard-open .chat-wrapper{bottom:36px!important;transform:none!important;}
+
+  /* Dock the actual input/sign-in bar directly above the keyboard. */
+  body.keyboard-open .chat-input-container#chatBottom,
+  body.keyboard-open .signin-input-container#signinOverlay{
+    position:fixed!important;
+    left:0!important;
+    right:0!important;
+    bottom:var(--final-kb-lift)!important;
+    height:68px!important;
+    z-index:9000!important;
+    transform:none!important;
+    background:#0d0d0e!important;
+  }
+
+  /* Keep footer buttons attached to the same lifted area, not floating in the sidebar. */
+  body.keyboard-open .chat-footer-attach-button,
+  body.keyboard-open .chat-footer-gif-button,
+  body.keyboard-open .chat-footer-mic-button,
+  body.keyboard-open .chat-footer-logout-button,
+  body.keyboard-open .chat-footer-clear-button.show{
+    position:fixed!important;
+    bottom:calc(var(--final-kb-lift) + 8px)!important;
+    transform:none!important;
+    z-index:9010!important;
+  }
+
+  /* Important: do not over-shrink the message list. Its bottom should meet the top of the input bar. */
+  body.keyboard-open .chat-messages-container{
+    bottom:calc(var(--final-kb-lift) + 68px)!important;
+    transform:none!important;
+  }
+  body.keyboard-open .chat-contacts-container{
+    bottom:calc(var(--final-kb-lift) + 92px)!important;
+  }
+  body.keyboard-open .chat-contacts-divider{
+    bottom:calc(var(--final-kb-lift) + 68px)!important;
+  }
+  body.keyboard-open .chat-contacts-banner{
+    bottom:calc(var(--final-kb-lift) + 68px)!important;
+  }
+  body.keyboard-open .chat-reply-preview{
+    bottom:calc(var(--final-kb-lift) + 68px)!important;
+    z-index:9020!important;
+  }
+
+  /* When not logged in, keep the news board visible and only lift the sign-in bar. */
+  body.chat-locked.keyboard-open .chat-messages-container{
+    bottom:calc(var(--final-kb-lift) + 68px)!important;
+  }
+  body.chat-locked.keyboard-open .public-news-board{
+    padding-bottom:calc(var(--final-kb-lift) + 84px)!important;
+  }
+}
+</style>
+<script id="final-instagram-keyboard-gap-fix-js">
+(function(){
+  var baseH = window.innerHeight || document.documentElement.clientHeight || 0;
+  var active = false;
+  function isEditable(el){
+    return !!(el && (el.id==='chatInput' || el.id==='nameInput' || el.classList && (el.classList.contains('chat-input') || el.classList.contains('signin-input')) || el.tagName==='TEXTAREA' || el.tagName==='INPUT'));
+  }
+  function focusedEditable(){ return isEditable(document.activeElement); }
+  function calcLift(){
+    if(!focusedEditable()) return 0;
+    var lift = 0;
+    if(window.visualViewport){
+      var vv = window.visualViewport;
+      lift = Math.max(0, Math.round((window.innerHeight || baseH) - (vv.height + vv.offsetTop)));
+    }
+    /* Instagram/FB in-app browsers sometimes report 0 even when keyboard is open. Use a conservative fallback only while focused. */
+    if(lift < 80 && /Instagram|FBAN|FBAV|TikTok|Line|Twitter/i.test(navigator.userAgent||'')){
+      lift = Math.round((window.innerHeight || baseH) * 0.36);
+    }
+    return Math.min(Math.max(lift,0), Math.round((window.innerHeight || baseH)*0.55));
+  }
+  function apply(){
+    var lift = calcLift();
+    document.documentElement.style.setProperty('--final-kb-lift', lift + 'px');
+    document.body.classList.toggle('keyboard-open', lift > 0);
+    active = lift > 0;
+    if(active){
+      var el=document.getElementById('chatInput')||document.getElementById('nameInput');
+      setTimeout(function(){
+        try{ if(document.activeElement && document.activeElement.scrollIntoView) document.activeElement.scrollIntoView({block:'nearest',inline:'nearest'}); }catch(e){}
+      },80);
+    }
+  }
+  function resetSoon(){ setTimeout(function(){ if(!focusedEditable()){ document.documentElement.style.setProperty('--final-kb-lift','0px'); document.body.classList.remove('keyboard-open'); } },180); }
+  document.addEventListener('focusin', function(e){ if(isEditable(e.target)){ baseH = Math.max(baseH, window.innerHeight||0); setTimeout(apply,80); setTimeout(apply,320); setTimeout(apply,700);} });
+  document.addEventListener('focusout', resetSoon);
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', apply);
+    window.visualViewport.addEventListener('scroll', apply);
+  }
+  window.addEventListener('resize', function(){ if(!active) baseH = Math.max(baseH, window.innerHeight||0); setTimeout(apply,80); });
+})();
+</script>
+
+
+
+<!-- HARD FIX: keep Chatroll input visible above Instagram/Facebook in-app keyboards -->
+<style id="hard-input-visible-keyboard-fix">
+@media (max-width:600px){
+  :root{--hard-kb-lift:0px;--hard-footer-h:36px;}
+  body.force-input-dock{overflow:hidden!important;padding-bottom:0!important;}
+
+  /* Override every previous keyboard rule. The input bar sits ABOVE the small footer icon strip. */
+  body.force-input-dock .chat-input-container#chatBottom,
+  body.force-input-dock .signin-input-container#signinOverlay{
+    display:block!important;
+    position:fixed!important;
+    left:0!important;
+    right:0!important;
+    bottom:calc(var(--hard-kb-lift) + var(--hard-footer-h))!important;
+    height:68px!important;
+    z-index:2147483000!important;
+    transform:none!important;
+    background:#0d0d0e!important;
+    visibility:visible!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+  }
+
+  body.force-input-dock .chat-input-wrapper{
+    position:absolute!important;
+    top:10px!important;
+    bottom:10px!important;
+    left:10px!important;
+    right:10px!important;
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    z-index:2147483001!important;
+  }
+  body.force-input-dock #chatInput,
+  body.force-input-dock .chat-input,
+  body.force-input-dock .chat-textarea{
+    position:absolute!important;
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    max-height:none!important;
+    top:0!important;
+    left:0!important;
+    bottom:auto!important;
+    right:auto!important;
+    z-index:2147483002!important;
+    background:#252836!important;
+    color:#fff!important;
+    caret-color:#fff!important;
+  }
+
+  /* Footer icons stay in the footer strip directly above the keyboard. */
+  body.force-input-dock .chat-footer-attach-button,
+  body.force-input-dock .chat-footer-gif-button,
+  body.force-input-dock .chat-footer-mic-button,
+  body.force-input-dock .chat-footer-logout-button,
+  body.force-input-dock .chat-footer-clear-button.show{
+    position:fixed!important;
+    bottom:calc(var(--hard-kb-lift) + 8px)!important;
+    transform:none!important;
+    z-index:2147483003!important;
+    visibility:visible!important;
+    opacity:1!important;
+  }
+  body.chat-locked.force-input-dock .chat-footer-attach-button,
+  body.chat-locked.force-input-dock .chat-footer-gif-button,
+  body.chat-locked.force-input-dock .chat-footer-mic-button,
+  body.chat-locked.force-input-dock .chat-footer-logout-button,
+  body.chat-locked.force-input-dock .chat-footer-clear-button{display:none!important;}
+
+  /* Message area ends exactly above the lifted input. No extra black hole and no covering by the input. */
+  body.force-input-dock .chat-messages-container{
+    bottom:calc(var(--hard-kb-lift) + 104px)!important;
+    transform:none!important;
+  }
+  body.force-input-dock .chat-contacts-container{bottom:calc(var(--hard-kb-lift) + 128px)!important;}
+  body.force-input-dock .chat-contacts-divider{bottom:calc(var(--hard-kb-lift) + 104px)!important;}
+  body.force-input-dock .chat-contacts-banner{bottom:calc(var(--hard-kb-lift) + 104px)!important;}
+  body.force-input-dock .chat-reply-preview{bottom:calc(var(--hard-kb-lift) + 104px)!important;z-index:2147483004!important;}
+
+  /* Neutralize old patches while the hard dock is active. */
+  body.force-input-dock.keyboard-open .chat-wrapper{bottom:36px!important;transform:none!important;}
+}
+</style>
+<script id="hard-input-visible-keyboard-fix-js">
+(function(){
+  var startH = Math.max(window.innerHeight||0, document.documentElement.clientHeight||0);
+  var lastLift = 0;
+  function isEditable(el){
+    return !!(el && (el.id==='chatInput' || el.id==='nameInput' || el.tagName==='TEXTAREA' || el.tagName==='INPUT' || (el.classList && (el.classList.contains('chat-input') || el.classList.contains('signin-input')))));
+  }
+  function focusedEditable(){ return isEditable(document.activeElement); }
+  function isMobile(){ return window.matchMedia && window.matchMedia('(max-width:600px)').matches; }
+  function calcLift(){
+    if(!isMobile() || !focusedEditable()) return 0;
+    var inner = window.innerHeight || document.documentElement.clientHeight || startH || 0;
+    var liftVV = 0;
+    if(window.visualViewport){
+      var vv = window.visualViewport;
+      liftVV = Math.max(0, Math.round(inner - (vv.height + vv.offsetTop)));
+    }
+    var liftScreen = 0;
+    try{
+      var sh = window.screen && window.screen.height ? window.screen.height : 0;
+      // Some Android in-app browsers report screen.height in CSS pixels; when useful, this catches the keyboard.
+      if(sh && sh > inner) liftScreen = Math.round(sh - inner);
+    }catch(e){}
+    var lift = Math.max(liftVV, liftScreen);
+
+    // Instagram/FB webviews often report 0 even while the keyboard is visibly open.
+    // While a text field is focused, use a conservative mobile fallback rather than hiding the input behind the keyboard.
+    if(lift < 120){
+      lift = Math.round((startH || inner) * 0.38);
+    }
+    var maxLift = Math.round((startH || inner) * 0.58);
+    lift = Math.min(Math.max(lift,0), maxLift);
+    return lift;
+  }
+  function apply(){
+    var lift = calcLift();
+    lastLift = lift;
+    document.documentElement.style.setProperty('--hard-kb-lift', lift + 'px');
+    if(lift > 0){
+      document.body.classList.add('force-input-dock');
+      document.body.classList.add('keyboard-open');
+      // Keep the caret field visible without scrolling the entire Chatroll layout unpredictably.
+      setTimeout(function(){
+        try{
+          var field = document.activeElement;
+          if(isEditable(field)) field.scrollIntoView({block:'nearest', inline:'nearest'});
+        }catch(e){}
+      }, 60);
+    }else{
+      document.body.classList.remove('force-input-dock');
+      document.body.classList.remove('keyboard-open');
+    }
+  }
+  function resetIfBlurred(){
+    setTimeout(function(){
+      if(!focusedEditable()){
+        document.documentElement.style.setProperty('--hard-kb-lift','0px');
+        document.body.classList.remove('force-input-dock');
+        document.body.classList.remove('keyboard-open');
+      }
+    },220);
+  }
+  document.addEventListener('focusin', function(e){
+    if(isEditable(e.target)){
+      startH = Math.max(startH, window.innerHeight||0, document.documentElement.clientHeight||0);
+      setTimeout(apply,40); setTimeout(apply,180); setTimeout(apply,520); setTimeout(apply,950);
+    }
+  }, true);
+  document.addEventListener('focusout', resetIfBlurred, true);
+  document.addEventListener('input', function(e){ if(isEditable(e.target)) setTimeout(apply,20); }, true);
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', function(){ if(focusedEditable()) apply(); });
+    window.visualViewport.addEventListener('scroll', function(){ if(focusedEditable()) apply(); });
+  }
+  window.addEventListener('resize', function(){ if(focusedEditable()) setTimeout(apply,60); else startH=Math.max(startH,window.innerHeight||0); });
+  window.addEventListener('orientationchange', function(){ startH=0; setTimeout(function(){ startH=Math.max(window.innerHeight||0,document.documentElement.clientHeight||0); apply(); },450); });
+})();
+</script>
+
+
+
+<!-- Instagram/in-app browser manual composer fix: the visible toolbar in Instagram is the keyboard toolbar, not the chat footer. -->
+<style id="ig-manual-composer-fix-css">
+@media (max-width:700px){
+  body.ig-manual-composer-active,
+  body.ig-manual-composer-active.keyboard-open{
+    padding-bottom:0!important;
+    overflow:hidden!important;
+  }
+  body.ig-manual-composer-active .chat-wrapper,
+  body.ig-manual-composer-active.keyboard-open .chat-wrapper{
+    bottom:36px!important;
+    transform:none!important;
+  }
+  body.ig-manual-composer-active .chat-messages-container,
+  body.ig-manual-composer-active.keyboard-open .chat-messages-container{
+    bottom:68px!important;
+    transform:none!important;
+  }
+  body.ig-manual-composer-active .chat-contacts-container,
+  body.ig-manual-composer-active.keyboard-open .chat-contacts-container{
+    bottom:92px!important;
+    transform:none!important;
+  }
+  body.ig-manual-composer-active .chat-contacts-divider,
+  body.ig-manual-composer-active.keyboard-open .chat-contacts-divider{
+    bottom:68px!important;
+    transform:none!important;
+  }
+  body.ig-manual-composer-active .chat-contacts-banner,
+  body.ig-manual-composer-active.keyboard-open .chat-contacts-banner{
+    bottom:68px!important;
+    transform:none!important;
+  }
+  body.ig-manual-composer-active .chat-input-container#chatBottom,
+  body.ig-manual-composer-active.keyboard-open .chat-input-container#chatBottom,
+  body.ig-manual-composer-active .signin-input-container#signinOverlay,
+  body.ig-manual-composer-active.keyboard-open .signin-input-container#signinOverlay{
+    position:absolute!important;
+    bottom:0!important;
+    left:0!important;
+    right:0!important;
+    transform:none!important;
+    opacity:.22!important;
+    pointer-events:none!important;
+  }
+  body.ig-manual-composer-active .chat-footer-attach-button,
+  body.ig-manual-composer-active .chat-footer-gif-button,
+  body.ig-manual-composer-active .chat-footer-mic-button,
+  body.ig-manual-composer-active .chat-footer-logout-button,
+  body.ig-manual-composer-active .chat-footer-clear-button.show,
+  body.ig-manual-composer-active.keyboard-open .chat-footer-attach-button,
+  body.ig-manual-composer-active.keyboard-open .chat-footer-gif-button,
+  body.ig-manual-composer-active.keyboard-open .chat-footer-mic-button,
+  body.ig-manual-composer-active.keyboard-open .chat-footer-logout-button,
+  body.ig-manual-composer-active.keyboard-open .chat-footer-clear-button.show{
+    transform:none!important;
+    bottom:8px!important;
+    opacity:.22!important;
+    pointer-events:none!important;
+  }
+  #igManualComposer{
+    display:none;
+    position:fixed;
+    left:10px;
+    right:10px;
+    bottom:calc(var(--ig-manual-keyboard-h, 42vh) + 10px);
+    z-index:2147483000;
+    background:#0d0d0e;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:10px;
+    padding:8px;
+    box-shadow:0 12px 34px rgba(0,0,0,.55);
+    box-sizing:border-box;
+  }
+  body.ig-manual-composer-active #igManualComposer{display:flex!important;align-items:flex-end;gap:7px;}
+  #igManualComposerInput{
+    flex:1;
+    min-width:0;
+    height:46px;
+    max-height:116px;
+    resize:none;
+    overflow:auto;
+    border:0;
+    outline:0;
+    border-radius:6px;
+    background:#252836;
+    color:#fff;
+    font:16px 'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;
+    line-height:1.45;
+    padding:11px 10px;
+    box-sizing:border-box;
+    -webkit-appearance:none;
+  }
+  #igManualComposerInput::placeholder{color:#a9aec8;opacity:.95;}
+  #igManualComposerSend{
+    width:46px;
+    height:46px;
+    border:0;
+    border-radius:7px;
+    background:#6e8efb;
+    color:#fff;
+    font-size:18px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    touch-action:manipulation;
+  }
+  #igManualComposerSend:active{transform:scale(.97);}
+}
+</style>
+<div id="igManualComposer" aria-hidden="true">
+  <textarea id="igManualComposerInput" rows="1" enterkeyhint="send"></textarea>
+  <button id="igManualComposerSend" type="button" aria-label="Send">➤</button>
+</div>
+<script id="ig-manual-composer-fix-js">
+(function(){
+  var ua = navigator.userAgent || '';
+  var isMobile = /Android|iPhone|iPad|iPod/i.test(ua) || (Math.min(screen.width||0, screen.height||0) < 760);
+  var isInApp = /Instagram|FBAN|FBAV|FB_IAB|Line|TikTok|Snapchat|Twitter/i.test(ua);
+  // Keep the fix available on mobile even if the in-app browser hides its UA marker.
+  if(!isMobile) return;
+  var composer = document.getElementById('igManualComposer');
+  var input = document.getElementById('igManualComposerInput');
+  var send = document.getElementById('igManualComposerSend');
+  if(!composer || !input || !send) return;
+  var mode = null; // chat | signin
+  var refInput = null;
+  var hidingTimer = null;
+  function keyboardGuess(){
+    var h = 0;
+    try{
+      if(window.visualViewport){
+        h = Math.round(window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop);
+      }
+    }catch(e){}
+    if(!h || h < 140){
+      // Instagram/FB often reports the full viewport even when the keyboard is open.
+      // 38vh is close to the real Android Gboard height in Instagram, without touching the Chatroll layout.
+      h = Math.round((window.innerHeight || document.documentElement.clientHeight || 700) * 0.38);
+    }
+    h = Math.max(275, Math.min(h, 620));
+    document.documentElement.style.setProperty('--ig-manual-keyboard-h', h + 'px');
+  }
+  function enableManual(target, targetMode){
+    if(!target) return;
+    clearTimeout(hidingTimer);
+    refInput = target;
+    mode = targetMode;
+    keyboardGuess();
+    document.body.classList.remove('keyboard-open');
+    document.body.classList.add('ig-manual-composer-active');
+    document.documentElement.style.setProperty('--keyboard-lift','0px');
+    document.documentElement.style.setProperty('--ig-keyboard-lift','0px');
+    input.placeholder = targetMode === 'signin' ? (target.getAttribute('placeholder') || 'Your name') : (target.getAttribute('placeholder') || 'Type a message and press enter');
+    input.value = target.value || '';
+    autoSize();
+    setTimeout(function(){
+      try{ input.focus({preventScroll:true}); }catch(e){ try{input.focus();}catch(_){} }
+      try{ input.selectionStart = input.selectionEnd = input.value.length; }catch(e){}
+      keyboardGuess();
+    },60);
+  }
+  function disableManual(){
+    document.body.classList.remove('ig-manual-composer-active');
+    refInput = null;
+    mode = null;
+  }
+  function autoSize(){
+    input.style.height='auto';
+    input.style.height=Math.min(input.scrollHeight,116)+'px';
+  }
+  function syncToRef(){
+    if(refInput){
+      refInput.value = input.value;
+      try{ refInput.dispatchEvent(new Event('input',{bubbles:true})); }catch(e){}
+    }
+  }
+  function submitManual(){
+    syncToRef();
+    if(mode === 'signin'){
+      if(typeof doSignIn === 'function') doSignIn();
+      else { var b=document.getElementById('signinBtn'); if(b) b.click(); }
+      disableManual();
+      return;
+    }
+    if(mode === 'chat'){
+      if(typeof sendMessage === 'function') sendMessage();
+      else { var b2=document.getElementById('sendBtn'); if(b2) b2.click(); }
+      input.value='';
+      autoSize();
+      setTimeout(function(){ try{input.focus({preventScroll:true});}catch(e){} },30);
+    }
+  }
+  input.addEventListener('input',function(){ autoSize(); syncToRef(); keyboardGuess(); });
+  input.addEventListener('keydown',function(e){
+    if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); submitManual(); }
+  });
+  input.addEventListener('focus',keyboardGuess);
+  send.addEventListener('click',submitManual);
+  document.addEventListener('focusin',function(e){
+    var t=e.target;
+    if(!t) return;
+    if(t.id === 'chatInput') enableManual(t,'chat');
+    else if(t.id === 'nameInput') enableManual(t,'signin');
+  },true);
+  document.addEventListener('focusout',function(e){
+    clearTimeout(hidingTimer);
+    hidingTimer=setTimeout(function(){
+      var a=document.activeElement;
+      if(a===input || a===send || a===document.getElementById('chatInput') || a===document.getElementById('nameInput')) return;
+      disableManual();
+    },220);
+  },true);
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize',function(){ if(document.body.classList.contains('ig-manual-composer-active')) keyboardGuess(); });
+    window.visualViewport.addEventListener('scroll',function(){ if(document.body.classList.contains('ig-manual-composer-active')) keyboardGuess(); });
+  }
+  window.addEventListener('orientationchange',function(){ if(document.body.classList.contains('ig-manual-composer-active')) setTimeout(keyboardGuess,400); });
 })();
 </script>
 
