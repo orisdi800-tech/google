@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="mobile-web-app-capable" content="yes"/>
-<title>Google —  Uploadcare + Drive Mirror</title>
+<title>Google — Chat Uploadcare + Drive Mirror</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:400,500,600,700"/>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
@@ -3702,5 +3702,193 @@ setTimeout(updateMobileBottomSpace, 500);
 
 window.addEventListener("load", function(){setTimeout(function(){initPlyrIn(document);processSocialEmbeds(document);},350);});
 </script>
+
+
+<style id="tech-trends-session-keyboard-final-patch">
+/* === FINAL PATCH: modern Arabic tech trend cards only === */
+body.chat-locked .chat-contacts-container,
+body.chat-locked .chat-contacts-divider,
+body.chat-locked .chat-contacts-banner,
+body.chat-locked .chat-footer-attach-button,
+body.chat-locked .chat-footer-gif-button,
+body.chat-locked .chat-footer-mic-button,
+body.chat-locked .chat-footer-logout-button,
+body.chat-locked .chat-footer-clear-button,
+body.chat-locked .chat-create-link{display:none!important;}
+body.chat-locked .chat-messages-container{right:5px!important;}
+body.chat-unlocked .chat-contacts-container{display:block!important;}
+body.chat-unlocked .chat-contacts-divider{display:block!important;}
+body.chat-unlocked .chat-contacts-banner{display:block!important;}
+body.chat-unlocked .chat-footer-attach-button,
+body.chat-unlocked .chat-footer-gif-button,
+body.chat-unlocked .chat-footer-mic-button,
+body.chat-unlocked .chat-footer-logout-button{display:flex!important;}
+.chat-create-link{display:none!important;}
+.public-news-board{direction:rtl;box-sizing:border-box;padding:10px 10px 86px!important;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(178px,1fr))!important;gap:12px!important;color:#e8e9f0;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;}
+.news-card{position:relative!important;display:flex!important;flex-direction:column!important;min-height:228px!important;aspect-ratio:.92/1!important;margin:0!important;padding:0!important;overflow:hidden!important;border-radius:18px!important;background:linear-gradient(180deg,#181b29 0%,#10121d 64%,#0d0e16 100%)!important;border:1px solid rgba(255,255,255,.12)!important;box-shadow:0 12px 28px rgba(0,0,0,.28)!important;text-decoration:none!important;color:#fff!important;isolation:isolate;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;}
+.news-card:before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(110,142,251,.24),transparent 44%),linear-gradient(180deg,transparent 42%,rgba(0,0,0,.28));z-index:1;pointer-events:none;}
+.news-card:hover{transform:translateY(-3px)!important;border-color:rgba(110,142,251,.55)!important;box-shadow:0 16px 36px rgba(0,0,0,.38)!important;text-decoration:none!important;}
+.news-thumb{width:100%!important;height:47%!important;min-height:104px!important;object-fit:cover!important;border-radius:0!important;background:#24283a!important;display:block!important;filter:saturate(1.04) contrast(1.02);}
+.news-content{position:relative;z-index:2;display:flex!important;flex-direction:column!important;min-width:0!important;flex:1!important;padding:10px 11px 11px!important;overflow:hidden!important;}
+.news-card .news-tag{display:inline-flex!important;align-self:flex-start!important;max-width:100%!important;padding:4px 8px!important;border-radius:999px!important;background:rgba(110,142,251,.16)!important;border:1px solid rgba(110,142,251,.35)!important;color:#c7d2fe!important;font-size:10px!important;line-height:1!important;font-weight:800!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;margin:0 0 7px!important;}
+.news-card .news-title{font-size:13.5px!important;line-height:1.38!important;font-weight:900!important;color:#fff!important;display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical!important;overflow:hidden!important;text-shadow:0 1px 0 rgba(0,0,0,.16);}
+.news-card .news-desc{font-size:10.8px!important;line-height:1.45!important;color:#b7bfd7!important;margin-top:6px!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;}
+.news-source{margin-top:auto!important;padding-top:8px!important;display:flex!important;align-items:center!important;gap:5px!important;color:#8e97b6!important;font-size:9.7px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.news-source:before{content:'';width:6px;height:6px;border-radius:50%;background:#91cc00;flex:0 0 6px;box-shadow:0 0 0 3px rgba(145,204,0,.10);}
+.loading-news{grid-column:1/-1!important;aspect-ratio:auto!important;min-height:96px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;color:#aeb5cc!important;padding:18px!important;}
+@media(max-width:600px){.public-news-board{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;padding:9px 8px 84px!important}.news-card{min-height:204px!important;aspect-ratio:.82/1!important;border-radius:16px!important}.news-thumb{height:44%!important;min-height:88px!important}.news-content{padding:8px 8px 9px!important}.news-card .news-title{font-size:12.2px!important;line-height:1.34!important}.news-card .news-desc{font-size:9.8px!important;line-height:1.35!important}.news-source{font-size:9.2px!important}}
+@media(max-width:355px){.public-news-board{grid-template-columns:1fr!important}.news-card{min-height:176px!important;aspect-ratio:auto!important}.news-thumb{height:104px!important}}
+/* === safer keyboard lift: move only the input area and footer controls, keep previews/icons visible === */
+@media(max-width:700px){
+  body.keyboard-open{--keyboard-lift:0px;}
+  body.keyboard-open .chat-wrapper{bottom:36px!important;transform:none!important;}
+  body.keyboard-open .chat-input-container#chatBottom,
+  body.keyboard-open .signin-input-container#signinOverlay{bottom:0!important;transform:translate3d(0,calc(-1 * var(--keyboard-lift,0px)),0)!important;will-change:transform;}
+  body.keyboard-open .chat-reply-preview{bottom:calc(68px + var(--keyboard-lift,0px))!important;}
+  body.keyboard-open .chat-messages-container{bottom:calc(68px + var(--keyboard-lift,0px))!important;}
+  body.keyboard-open .chat-footer-attach-button,
+  body.keyboard-open .chat-footer-gif-button,
+  body.keyboard-open .chat-footer-mic-button,
+  body.keyboard-open .chat-footer-logout-button,
+  body.keyboard-open .chat-footer-clear-button.show{transform:translate3d(0,calc(-1 * var(--keyboard-lift,0px)),0)!important;will-change:transform;}
+  body.keyboard-open .selection-toolbar{bottom:calc(42px + var(--keyboard-lift,0px) + env(safe-area-inset-bottom,0px))!important;}
+}
+</style>
+<script id="tech-trends-session-keyboard-final-patch-js">
+(function(){
+  var CHAT_INACTIVITY_MS = 5 * 60 * 1000;
+  function now(){return Date.now();}
+  function ss(k,v){try{sessionStorage.setItem(k,String(v));}catch(e){}}
+  function sg(k){try{return sessionStorage.getItem(k);}catch(e){return null;}}
+  function ls(k,v){try{localStorage.setItem(k,String(v));}catch(e){}}
+  function lg(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function rm(){for(var i=0;i<arguments.length;i++){try{sessionStorage.removeItem(arguments[i]);localStorage.removeItem(arguments[i]);}catch(e){}}}
+  function markActive(){var t=now();ss('__chatLastActiveAt',t);ls('__chatLastActiveAt',t);}
+  function markAway(){var t=now();ss('__chatAwayAt',t);ls('__chatAwayAt',t);}
+  function expired(){
+    var a=parseInt(lg('__chatAwayAt')||sg('__chatAwayAt')||0,10);
+    var last=parseInt(lg('__chatLastActiveAt')||sg('__chatLastActiveAt')||0,10);
+    var base=Math.max(a||0,last||0);
+    if(!base) return false;
+    return now()-base >= CHAT_INACTIVITY_MS;
+  }
+  window.__chatMarkActive = markActive;
+  var oldUnlock=window.unlockChatView;
+  window.unlockChatView=function(){markActive();ss('__chatSessionUnlocked','yes');ls('__chatSessionUnlocked','yes');if(typeof oldUnlock==='function') return oldUnlock.apply(this,arguments);};
+  var oldRequire=window.requireChatAccess;
+  window.requireChatAccess=function(name){
+    if(expired()){rm('__chatAccessGranted','__chatAccessName','__chatSessionUnlocked','__chatUserName');}
+    if(typeof oldRequire==='function') return oldRequire.apply(this,arguments).then(function(ok){if(ok)markActive();return ok;});
+    return Promise.resolve(true);
+  };
+  function hardExpireIfNeeded(){
+    if(expired() && (window.isSignedIn || document.body.classList.contains('chat-unlocked') || localStorage.getItem('__chatUserName'))){
+      rm('__chatAccessGranted','__chatAccessName','__chatSessionUnlocked','__chatUserName');
+      if(typeof window.forceReturnToLogin==='function') window.forceReturnToLogin();
+    }
+  }
+  ['click','keydown','touchstart','pointerdown'].forEach(function(ev){document.addEventListener(ev,function(){if(document.body.classList.contains('chat-unlocked'))markActive();},{passive:true});});
+  document.addEventListener('visibilitychange',function(){if(document.hidden){markAway();}else{hardExpireIfNeeded(); if(document.body.classList.contains('chat-unlocked'))markActive();}});
+  window.addEventListener('pagehide',markAway);
+  window.addEventListener('pageshow',function(){setTimeout(hardExpireIfNeeded,50);});
+  setTimeout(hardExpireIfNeeded,120);
+
+  function cleanTitle(s){return String(s||'').replace(/\s+-\s+[^-]{2,80}$/,'').replace(/<!\[CDATA\[|\]\]>/g,'').trim();}
+  function stripHtml(s){return String(s||'').replace(/<img[^>]*>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim();}
+  function imageFromItem(it){
+    try{
+      if(it.thumbnail) return it.thumbnail;
+      if(it.enclosure && it.enclosure.link && /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(it.enclosure.link)) return it.enclosure.link;
+      var html=it.content||it.description||'';
+      var m=String(html).match(/<img[^>]+src=["']([^"']+)["']/i); if(m&&m[1]) return m[1].replace(/&amp;/g,'&');
+      var media=it['media:content']||it.media; if(media && media.url) return media.url;
+    }catch(e){}
+    return '';
+  }
+  function fallbackTechImage(n){
+    var text=((n&&n.title)||'')+' '+((n&&n.tag)||'');
+    if(/ذكاء|AI|اصطناعي|chatgpt|شات/.test(text)) return 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80';
+    if(/هاتف|آيفون|ايفون|أندرويد|اندرويد|سامسونج|هواوي/.test(text)) return 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80';
+    if(/ويندوز|حاسوب|كمبيوتر|معالج|بطاقة|نفيديا|إنتل|intel|nvidia|amd/.test(text)) return 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80';
+    if(/أمن|اختراق|ثغرة|حماية|خصوصية|vpn|password/.test(text)) return 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80';
+    if(/تطبيق|واتساب|تيليغرام|انستغرام|يوتيوب|app/.test(text)) return 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=80';
+    return 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80';
+  }
+  function isTechUsefulTrend(it){
+    var t=((it.title||'')+' '+(it.description||'')+' '+(it.source||'')).toLowerCase();
+    return /(ذكاء|اصطناعي|ai|chatgpt|openai|google|غوغل|جوجل|microsoft|مايكروسوفت|apple|آبل|ابل|iphone|ios|أندرويد|اندرويد|android|samsung|سامسونج|هاتف|هواتف|تطبيق|تطبيقات|واتساب|whatsapp|telegram|تيليغرام|windows|ويندوز|chrome|كروم|browser|متصفح|nvidia|نفيديا|amd|intel|إنتل|معالج|حاسوب|كمبيوتر|لابتوب|أمن|سيبراني|اختراق|ثغرة|حماية|خصوصية|تحديث|نظام|برنامج|برامج|تقنية|تكنولوجيا|techno\s*120|techno120)/i.test(t) && !/(رياضة|كرة|مباراة|انتخابات|حرب|سعر النفط|طقس|أمطار)/i.test(t);
+  }
+  window.publicTrendCards=function(){
+    return [
+      {tag:'ترند الذكاء الاصطناعي',title:'أدوات الذكاء الاصطناعي التي تغيّر استخدام الهاتف والحاسوب يوميًا',desc:'متابعة عربية لأبرز التطبيقات والميزات الجديدة التي أحدثت صدى بين المستخدمين.',source:'Google News عربي',url:'https://news.google.com/search?q=%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%D8%A7%D8%AA%20%D9%87%D9%88%D8%A7%D8%AA%D9%81&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80'},
+      {tag:'هواتف وأنظمة',title:'تحديثات iOS وAndroid الأكثر تداولًا بين مستخدمي الهواتف',desc:'مشاكل، مزايا، تحسينات بطارية، أمان، وتجارب مستخدمين بعد التحديثات الجديدة.',source:'Google News عربي',url:'https://news.google.com/search?q=iOS%20Android%20%D8%AA%D8%AD%D8%AF%D9%8A%D8%AB%20%D9%87%D9%88%D8%A7%D8%AA%D9%81&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80'},
+      {tag:'برامج الحاسوب',title:'أخبار Windows والمتصفحات والبرامج التي تهم مستخدمي الكمبيوتر',desc:'تحديثات مهمة، ثغرات، ميزات جديدة، وبرامج أخذت صدى واسعًا بين المستخدمين.',source:'Google News عربي',url:'https://news.google.com/search?q=Windows%20%D9%83%D8%B1%D9%88%D9%85%20%D8%A8%D8%B1%D8%A7%D9%85%D8%AC%20%D8%AD%D8%A7%D8%B3%D9%88%D8%A8%20%D8%AA%D8%AD%D8%AF%D9%8A%D8%AB&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80'},
+      {tag:'الأمن والخصوصية',title:'ثغرات واختراقات وتنبيهات حماية يجب أن يعرفها مستخدمو الأجهزة',desc:'كل ما يهم المستخدم العادي حول كلمات المرور، التطبيقات الخطرة، وحماية الحسابات.',source:'Google News عربي',url:'https://news.google.com/search?q=%D8%AB%D8%BA%D8%B1%D8%A9%20%D8%A3%D9%85%D9%86%D9%8A%D8%A9%20%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%D8%A7%D8%AA&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80'},
+      {tag:'تطبيقات رائجة',title:'تحديثات واتساب وتيليغرام ويوتيوب وإنستغرام التي يتحدث عنها المستخدمون',desc:'ميزات جديدة، تغييرات واجهة، أدوات منشئي المحتوى، ومشاكل منتشرة بعد التحديثات.',source:'Google News عربي',url:'https://news.google.com/search?q=%D9%88%D8%A7%D8%AA%D8%B3%D8%A7%D8%A8%20%D8%AA%D9%8A%D9%84%D9%8A%D8%BA%D8%B1%D8%A7%D9%85%20%D9%8A%D9%88%D8%AA%D9%8A%D9%88%D8%A8%20%D8%AA%D8%AD%D8%AF%D9%8A%D8%AB&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=80'},
+      {tag:'Techno 120',title:'ترندات Techno 120 والأخبار التقنية العالمية الأكثر إثارة بالعربية',desc:'هواتف، ذكاء اصطناعي، تطبيقات، وأجهزة تحولت إلى حديث المهتمين بالتقنية.',source:'Techno 120 / Google News',url:'https://news.google.com/search?q=Techno%20120%20%D8%AA%D9%82%D9%86%D9%8A%D8%A9%20%D8%AA%D8%B1%D9%86%D8%AF&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80'}
+    ];
+  };
+  window.renderNewsCards=function(cards){
+    var cm=document.getElementById('chatMessages'); if(!cm)return;
+    var html='<div class="public-news-board">';
+    (cards||[]).slice(0,12).forEach(function(n){
+      var img=n.img||fallbackTechImage(n);
+      html+='<a class="news-card" target="_blank" rel="noopener" href="'+escHtml(n.url||'#')+'"><img class="news-thumb" src="'+escHtml(img)+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\''+fallbackTechImage(n)+'\';"><div class="news-content"><span class="news-tag">'+escHtml(n.tag||'ترند تقني')+'</span><div class="news-title">'+escHtml(cleanTitle(n.title||'خبر تقني مهم'))+'</div><div class="news-desc">'+escHtml(n.desc||'افتح المصدر لقراءة التفاصيل الكاملة.')+'</div><div class="news-source">'+escHtml(n.source||'مصدر موثوق')+'</div></div></a>';
+    });
+    html+='</div>'; cm.innerHTML=html;
+  };
+  window.renderPublicNewsCards=function(){
+    window.isChatUnlocked=false; document.body.classList.add('chat-locked'); document.body.classList.remove('chat-unlocked');
+    if(window.unsubMessages){try{window.unsubMessages();}catch(e){} window.unsubMessages=null;}
+    var cm=document.getElementById('chatMessages'); if(!cm)return;
+    cm.innerHTML='<div class="public-news-board"><div class="news-card loading-news">جاري تحميل أهم الترندات التقنية العربية اليوم...</div></div>';
+    clearTimeout(window.__newsLoadTimer);
+    window.__newsLoadTimer=setTimeout(function(){ window.renderNewsCards(window.publicTrendCards()); },1600);
+    loadLiveTechTrends();
+  };
+  function loadLiveTechTrends(){
+    var feeds=[
+      {tag:'ذكاء اصطناعي',source:'Google News عربي',url:'https://news.google.com/rss/search?q=%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%D8%A7%D8%AA%20%D9%87%D9%88%D8%A7%D8%AA%D9%81%20when%3A1d&hl=ar&gl=IQ&ceid=IQ:ar'},
+      {tag:'هواتف وأنظمة',source:'Google News عربي',url:'https://news.google.com/rss/search?q=iPhone%20Android%20iOS%20%D8%AA%D8%AD%D8%AF%D9%8A%D8%AB%20%D9%87%D9%88%D8%A7%D8%AA%D9%81%20when%3A2d&hl=ar&gl=IQ&ceid=IQ:ar'},
+      {tag:'برامج وحواسيب',source:'Google News عربي',url:'https://news.google.com/rss/search?q=Windows%20Chrome%20%D8%A8%D8%B1%D8%A7%D9%85%D8%AC%20%D8%AD%D8%A7%D8%B3%D9%88%D8%A8%20%D8%AA%D8%AD%D8%AF%D9%8A%D8%AB%20when%3A2d&hl=ar&gl=IQ&ceid=IQ:ar'},
+      {tag:'أمن وخصوصية',source:'Google News عربي',url:'https://news.google.com/rss/search?q=%D8%AB%D8%BA%D8%B1%D8%A9%20%D8%A7%D8%AE%D8%AA%D8%B1%D8%A7%D9%82%20%D8%AE%D8%B5%D9%88%D8%B5%D9%8A%D8%A9%20%D8%AA%D8%B7%D8%A8%D9%8A%D9%82%D8%A7%D8%AA%20when%3A7d&hl=ar&gl=IQ&ceid=IQ:ar'},
+      {tag:'Techno 120',source:'Google News عربي',url:'https://news.google.com/rss/search?q=Techno%20120%20%D8%AA%D9%82%D9%86%D9%8A%D8%A9%20%D8%AA%D8%B1%D9%86%D8%AF%20when%3A7d&hl=ar&gl=IQ&ceid=IQ:ar'}
+    ];
+    var proxy='https://api.rss2json.com/v1/api.json?rss_url=';
+    Promise.allSettled(feeds.map(function(f){
+      return fetch(proxy+encodeURIComponent(f.url)).then(function(r){return r.json();}).then(function(j){
+        return (j.items||[]).filter(isTechUsefulTrend).slice(0,4).map(function(it){
+          var title=cleanTitle(it.title||'');
+          var desc=stripHtml(it.description||'').slice(0,145);
+          return {tag:f.tag,source:(it.author||f.source||'مصدر تقني'),title:title,desc:desc||'خبر تقني رائج يهم مستخدمي الهواتف والحواسيب.',url:it.link||'#',img:imageFromItem(it)||fallbackTechImage({title:title,tag:f.tag})};
+        });
+      });
+    })).then(function(results){
+      var cards=[]; results.forEach(function(r){if(r.status==='fulfilled'&&Array.isArray(r.value))cards=cards.concat(r.value);});
+      if(cards.length<5) cards=cards.concat(window.publicTrendCards());
+      clearTimeout(window.__newsLoadTimer); window.renderNewsCards(cards);
+    }).catch(function(){clearTimeout(window.__newsLoadTimer); window.renderNewsCards(window.publicTrendCards());});
+  }
+  setTimeout(function(){ if(document.body.classList.contains('chat-locked')) window.renderPublicNewsCards(); },300);
+
+  /* safer mobile keyboard handling for Instagram/Facebook/TikTok in-app browsers */
+  function activeChatInput(){var a=document.activeElement; return a && (a.id==='chatInput' || a.id==='nameInput' || a.classList.contains('chat-input') || a.classList.contains('signin-input'));}
+  function updateKeyboardLift(){
+    var lift=0;
+    if(activeChatInput() && window.visualViewport){
+      var vv=window.visualViewport;
+      lift=Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop));
+      if(lift<40) lift=0;
+      lift=Math.min(lift, Math.round(window.innerHeight*0.45));
+    }
+    document.documentElement.style.setProperty('--keyboard-lift', lift+'px');
+    document.body.classList.toggle('keyboard-open', lift>0);
+    if(lift>0){var inp=document.getElementById('chatInput'); if(inp){setTimeout(function(){try{inp.scrollIntoView({block:'nearest',inline:'nearest'});}catch(e){}},60);}}
+  }
+  if(window.visualViewport){window.visualViewport.addEventListener('resize',updateKeyboardLift);window.visualViewport.addEventListener('scroll',updateKeyboardLift);} 
+  window.addEventListener('resize',updateKeyboardLift);document.addEventListener('focusin',function(){setTimeout(updateKeyboardLift,80);});document.addEventListener('focusout',function(){setTimeout(updateKeyboardLift,160);});
+})();
+</script>
+
 </body>
 </html>
