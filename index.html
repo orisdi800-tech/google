@@ -1527,7 +1527,7 @@ body{background:#252836!important;overscroll-behavior:none}.group-chat-embedded{
 .chat-footer-attach-button:hover,.chat-footer-gif-button:hover,.chat-footer-mic-button:hover,.chat-footer-logout-button:hover{color:#fff!important;border-color:#5e6278!important;background:#202333!important;text-decoration:none!important}
 .chat-footer-mic-button.recording{color:#ff6b6b!important;border-color:#ff6b6b!important;background:#2a1518!important;animation:voicePulse 1s infinite alternate}
 @keyframes voicePulse{from{opacity:.75}to{opacity:1}}
-@media(max-width:420px){.chat-footer-attach-button{right:112px!important}.chat-footer-gif-button{right:80px!important}.chat-footer-mic-button{right:47px!important}.chat-footer-logout-button{right:12px!important}}
+@media(max-width:420px){.chat-footer-clear-button{right:144px!important}.chat-footer-attach-button{right:112px!important}.chat-footer-gif-button{right:80px!important}.chat-footer-mic-button{right:47px!important}.chat-footer-logout-button{right:12px!important}}
 
 .attach-choice-menu,.msg-context-menu{position:fixed;z-index:500;display:none;background:#11131d;border:1px solid #2f3247;border-radius:8px;box-shadow:0 12px 28px rgba(0,0,0,.45);overflow:hidden;color:#e8e9f0;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif;min-width:170px;direction:rtl}
 .attach-choice-menu.show,.msg-context-menu.show{display:block}
@@ -1606,6 +1606,21 @@ body.chat-uploading .chat-create-link{display:none!important;}
 .voice-audio-card audio{width:100%;height:34px;display:block}
 @media(max-width:600px){.voice-recorder-overlay{bottom:42px;min-width:240px}.voice-rec-actions button{padding:8px 9px}}
 
+
+/* Access code modal and improved public cards */
+.access-code-overlay{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.58);backdrop-filter:blur(3px);font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji',sans-serif;direction:rtl;padding:18px;}
+.access-code-overlay.show{display:flex;}
+.access-code-dialog{width:min(330px,92vw);background:#11131d;border:1px solid #2f3247;border-radius:12px;box-shadow:0 18px 60px rgba(0,0,0,.65);padding:16px;color:#e8e9f0;}
+.access-code-title{font-size:15px;font-weight:800;color:#fff;margin-bottom:10px;text-align:center;}
+.access-code-input{width:100%;height:42px;border-radius:7px;border:1px solid #3a3d52;background:#252836;color:#fff;font:18px 'Plus Jakarta Sans',sans-serif;text-align:center;letter-spacing:5px;outline:none;box-sizing:border-box;}
+.access-code-input:focus{border-color:#6e8efb;box-shadow:0 0 0 2px rgba(110,142,251,.18);}
+.access-code-error{display:none;color:#fca5a5;font-size:12px;text-align:center;margin-top:8px;}
+.access-code-actions{display:flex;gap:8px;margin-top:13px;}
+.access-code-actions button{flex:1;border:0;border-radius:7px;height:36px;font:13px 'Plus Jakarta Sans',sans-serif;cursor:pointer;}
+.access-code-ok{background:#6e8efb;color:#fff;font-weight:700;}
+.access-code-cancel{background:#252836;color:#cfd3ea;}
+@media(max-width:420px){.news-card{grid-template-columns:76px minmax(0,1fr);gap:8px}.news-thumb{width:76px;height:70px}.chat-footer-clear-button{right:144px!important;}}
+
 </style>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"/>
 <style>
@@ -1662,18 +1677,19 @@ body.chat-uploading .chat-create-link{display:none!important;}
 .selection-toolbar button{border:0;border-radius:5px;background:#252836;color:#fff;padding:6px 9px;font-family:inherit;font-size:12px;cursor:pointer;}
 .selection-toolbar button.danger{background:#3a1518;color:#fca5a5;}
 .selection-toolbar .sel-count{color:#91cc00;font-weight:700;margin:0 4px;}
-.chat-footer-clear-button{display:none;position:absolute;bottom:8px;right:103px;width:20px;height:20px;color:#9ca3af;z-index:50;}
-.chat-footer-clear-button.show{display:block;}
-.chat-footer-clear-button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.chat-footer-clear-button{display:none!important;position:absolute!important;bottom:8px!important;right:154px!important;width:22px!important;height:20px!important;color:#fca5a5!important;z-index:65!important;border:1px solid #3a3d52!important;border-radius:3px!important;background:#171923!important;align-items:center!important;justify-content:center!important;}
+.chat-footer-clear-button.show{display:flex!important;}
+.chat-footer-clear-button svg{width:14px!important;height:14px!important;stroke:currentColor!important;fill:none!important;stroke-width:2!important;stroke-linecap:round!important;stroke-linejoin:round!important;}
 .public-news-board{padding:8px 8px 70px 8px;direction:rtl;color:#e8e9f0;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji',sans-serif;}
-.public-news-head{background:#0d0d0e;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:10px;margin:6px 0 8px;font-size:13px;line-height:1.6;color:#dfe3f4;}
-.public-news-head strong{color:#91cc00;}
-.news-card{display:block;background:#11131d;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:9px 10px;margin:8px 0;text-decoration:none!important;color:#e8e9f0!important;box-shadow:0 5px 18px rgba(0,0,0,.18);}
-.news-card:hover{background:#151827;text-decoration:none!important;}
-.news-card .news-tag{display:inline-block;font-size:10px;color:#91cc00;border:1px solid rgba(145,204,0,.35);border-radius:999px;padding:1px 7px;margin-bottom:5px;}
-.news-card .news-title{font-size:13px;font-weight:700;line-height:1.45;color:#fff;}
-.news-card .news-desc{font-size:11px;color:#aab0c7;margin-top:4px;line-height:1.45;}
-@media(max-width:600px){.keyboard-open .chat-wrapper{bottom:calc(36px + var(--keyboard-offset,0px))!important}.selection-toolbar{max-width:96vw;bottom:calc(42px + var(--keyboard-offset,0px) + env(safe-area-inset-bottom,0px));}.public-news-board{padding-bottom:80px}.plyr-audio-wrap{max-width:100%;}.chat-footer-clear-button{right:98px;}}
+.public-news-head{display:none!important;}
+.news-card{display:grid;grid-template-columns:82px minmax(0,1fr);gap:9px;align-items:stretch;background:#11131d;border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:7px;margin:8px 0;text-decoration:none!important;color:#e8e9f0!important;box-shadow:0 5px 18px rgba(0,0,0,.20);overflow:hidden;}
+.news-card:hover{background:#151827;text-decoration:none!important;border-color:rgba(145,204,0,.28);transform:translateY(-1px);}
+.news-thumb{width:82px;height:74px;border-radius:7px;object-fit:cover;background:#252836;display:block;}
+.news-content{min-width:0;display:flex;flex-direction:column;justify-content:center;}
+.news-card .news-tag{display:inline-block;align-self:flex-start;font-size:10px;color:#91cc00;border:1px solid rgba(145,204,0,.35);border-radius:999px;padding:1px 7px;margin-bottom:5px;white-space:nowrap;}
+.news-card .news-title{font-size:13px;font-weight:700;line-height:1.42;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.news-card .news-desc{font-size:11px;color:#aab0c7;margin-top:4px;line-height:1.42;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+@media(max-width:600px){.keyboard-open .chat-wrapper{bottom:calc(36px + var(--keyboard-offset,0px))!important}.selection-toolbar{max-width:96vw;bottom:calc(42px + var(--keyboard-offset,0px) + env(safe-area-inset-bottom,0px));}.public-news-board{padding-bottom:80px}.plyr-audio-wrap{max-width:100%;}.chat-footer-clear-button{right:144px!important;}}
 
 </style>
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
@@ -1702,6 +1718,8 @@ body.chat-uploading .chat-create-link{display:none!important;}
 
 <div class="gif-picker-overlay" id="gifPickerOverlay" onclick="if(event.target===this)closeGifPicker()"><div class="gif-picker" role="dialog" aria-label="GIF picker"><div class="gif-picker-head"><div class="gif-picker-title">مكتبة GIF</div><input class="gif-picker-search" id="gifSearchInput" type="search" placeholder="ابحث عن GIF..." autocomplete="off" /><button class="gif-picker-close" type="button" onclick="closeGifPicker()" aria-label="Close">×</button></div><div class="gif-picker-note" id="gifPickerNote">اكتب كلمة مثل: ضحك، حب، حزين، تمام، لا، شكر، صدمة، قهوة. إذا لم توجد مطابقة دقيقة ستظهر اقتراحات شائعة بدل رسالة لا توجد نتائج.</div><div class="gif-grid" id="gifGrid"></div></div></div>
 
+
+<div class="access-code-overlay" id="accessCodeOverlay" dir="rtl"><div class="access-code-dialog"><div class="access-code-title">أدخل رمز التحقق للمتابعة</div><input class="access-code-input" id="accessCodeInput" type="password" inputmode="numeric" maxlength="12" autocomplete="off"/><div class="access-code-error" id="accessCodeError">رمز التحقق غير صحيح</div><div class="access-code-actions"><button class="access-code-ok" id="accessCodeOkBtn" type="button">متابعة</button><button class="access-code-cancel" id="accessCodeCancelBtn" type="button">إلغاء</button></div></div></div>
 <div class="voice-recorder-overlay" id="voiceRecorderOverlay" dir="rtl"><div class="voice-recorder-head"><span class="voice-rec-dot"></span><span id="voiceRecStatus">جاري تسجيل رسالة صوتية...</span><span class="voice-rec-timer" id="voiceRecTimer">00:00</span></div><div class="voice-rec-actions"><button type="button" class="voice-stop-send" id="voiceStopSendBtn" onclick="stopVoiceRecording(true)">إرسال</button><button type="button" class="voice-cancel" id="voiceCancelBtn" onclick="stopVoiceRecording(false)">إلغاء</button></div></div>
 
 <div class="lightbox" id="lightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="lightbox-viewport" id="lightboxViewport"><img id="lightboxImg" src="" alt=""/></div><div class="lightbox-toolbar" aria-label="Image zoom controls"><button class="lightbox-zoom-btn" id="lightboxZoomOut" type="button" aria-label="Zoom out">−</button><span class="lightbox-zoom-level" id="lightboxZoomLevel">100%</span><button class="lightbox-zoom-btn" id="lightboxZoomIn" type="button" aria-label="Zoom in">+</button><button class="lightbox-zoom-btn lightbox-reset-btn" id="lightboxZoomReset" type="button" aria-label="Reset zoom">Reset</button></div></div>
@@ -1808,7 +1826,7 @@ function logoutUser() {
   cleanup.then(function(){
     try { if (unsubMessages) unsubMessages(); } catch(e) {}
     try { localStorage.removeItem('__chatUserName'); } catch(e) {}
-    try { localStorage.removeItem('__chatDeviceId'); } catch(e) {}
+    try { localStorage.removeItem('__chatDeviceId'); try{sessionStorage.removeItem('__chatAccessGranted');sessionStorage.removeItem('__chatAccessName');}catch(e){} } catch(e) {}
     try { auth.signOut(); } catch(e) {}
     location.reload();
   });
@@ -1886,63 +1904,112 @@ function isPrivilegedChatName(name){
   var n=String(name||'').trim().toLowerCase();
   return n==='t' || n==='h';
 }
-function hasVerifiedAccess(){
-  try{return localStorage.getItem('__chatAccessGranted')==='yes';}catch(e){return false;}
+function hasVerifiedAccessForName(name){
+  try{
+    return sessionStorage.getItem('__chatAccessGranted')==='yes' && sessionStorage.getItem('__chatAccessName')===String(name||'').trim();
+  }catch(e){return false;}
 }
-function setVerifiedAccess(){
-  try{localStorage.setItem('__chatAccessGranted','yes');}catch(e){}
+function setVerifiedAccessForName(name){
+  try{
+    sessionStorage.setItem('__chatAccessGranted','yes');
+    sessionStorage.setItem('__chatAccessName',String(name||'').trim());
+  }catch(e){}
+}
+function showAccessCodeDialog(){
+  return new Promise(function(resolve){
+    var overlay=document.getElementById('accessCodeOverlay');
+    var input=document.getElementById('accessCodeInput');
+    var err=document.getElementById('accessCodeError');
+    var ok=document.getElementById('accessCodeOkBtn');
+    var cancel=document.getElementById('accessCodeCancelBtn');
+    if(!overlay || !input || !ok || !cancel){ resolve(false); return; }
+    function cleanup(result){
+      overlay.classList.remove('show');
+      ok.removeEventListener('click', onOk);
+      cancel.removeEventListener('click', onCancel);
+      input.removeEventListener('keydown', onKey);
+      resolve(result);
+    }
+    function onOk(){
+      if(String(input.value||'').trim()===CHAT_ACCESS_CODE){ cleanup(true); }
+      else { if(err) err.style.display='block'; input.select(); }
+    }
+    function onCancel(){ cleanup(false); }
+    function onKey(e){ if(e.key==='Enter') onOk(); else if(e.key==='Escape') onCancel(); }
+    input.value=''; if(err) err.style.display='none';
+    overlay.classList.add('show');
+    ok.addEventListener('click', onOk);
+    cancel.addEventListener('click', onCancel);
+    input.addEventListener('keydown', onKey);
+    setTimeout(function(){ input.focus(); },40);
+  });
 }
 function requireChatAccess(name){
-  if(isPrivilegedChatName(name) || hasVerifiedAccess()) return true;
-  var code = prompt('هذه المحادثة خاصة. أدخل رمز التحقق للمتابعة:');
-  if(String(code||'').trim()===CHAT_ACCESS_CODE){ setVerifiedAccess(); return true; }
-  showToast('رمز التحقق غير صحيح. سيتم عرض الأخبار فقط.','error');
-  return false;
+  if(isPrivilegedChatName(name) || hasVerifiedAccessForName(name)) return Promise.resolve(true);
+  return showAccessCodeDialog().then(function(ok){
+    if(ok){ setVerifiedAccessForName(name); return true; }
+    showToast('رمز التحقق غير صحيح.','error');
+    return false;
+  });
 }
 function clearChatMessagesDom(){
   var cm=document.getElementById('chatMessages');
   if(!cm)return;
   cm.innerHTML='<div class="chat-history-controls" style="display:none;"><a class="chat-history-load" href="javascript:void(0)">Load Earlier Messages</a></div><div class="chat-welcome-message"></div>';
 }
+function publicTrendCards(){
+  return [
+    {tag:'English Trend',title:'AI speaking partners: the hottest way learners practice English daily',desc:'Practice pronunciation, replies, and natural conversation with AI speaking tools.',url:'https://news.google.com/search?q=AI%20English%20speaking%20practice',img:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=320&q=80'},
+    {tag:'English Learning',title:'Shadowing technique: why learners copy native speech to sound natural',desc:'A very popular method for accent, rhythm, listening, and fluency.',url:'https://news.google.com/search?q=English%20shadowing%20technique%20learning',img:'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=320&q=80'},
+    {tag:'Vocabulary',title:'Microlearning vocabulary: 5-minute English routines that actually stick',desc:'Short daily sessions are trending because they are easier to maintain.',url:'https://news.google.com/search?q=English%20vocabulary%20microlearning',img:'https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=320&q=80'},
+    {tag:'IELTS/TOEFL',title:'New study strategies for IELTS and TOEFL learners using AI feedback',desc:'Learners are using instant writing and speaking feedback to improve faster.',url:'https://news.google.com/search?q=IELTS%20TOEFL%20AI%20feedback%20English',img:'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=320&q=80'},
+    {tag:'Pronunciation',title:'Connected speech: the secret behind understanding fast native English',desc:'Trends in teaching linking, reductions, and real-life listening.',url:'https://news.google.com/search?q=connected%20speech%20English%20learning',img:'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=320&q=80'},
+    {tag:'Health',title:'Sleep and memory: why better sleep helps English words stay longer',desc:'Health research often connects sleep quality with learning and recall.',url:'https://news.google.com/search?q=sleep%20memory%20language%20learning%20health',img:'https://images.unsplash.com/photo-1511295742362-92c96b1861dc?auto=format&fit=crop&w=320&q=80'},
+    {tag:'Health',title:'Walking while learning: the simple habit linked to focus and mood',desc:'A light health-focused card for learners who study with audio lessons.',url:'https://news.google.com/search?q=walking%20learning%20focus%20health',img:'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=320&q=80'}
+  ];
+}
 function renderPublicNewsCards(){
   isChatUnlocked=false;
   if(unsubMessages){try{unsubMessages();}catch(e){} unsubMessages=null;}
   var cm=document.getElementById('chatMessages'); if(!cm)return;
-  var fallback=[
-    {tag:'Technology',title:'أهم اختراقات الذكاء الاصطناعي والتقنيات الجديدة حول العالم',desc:'بطاقات ترند عامة تظهر للزوار غير المصرح لهم بدل محتوى المحادثة الخاص.',url:'https://news.google.com/search?q=AI%20technology%20breakthroughs'},
-    {tag:'Science',title:'اكتشافات علمية مذهلة في الفضاء والصحة والطاقة',desc:'روابط أخبار عامة من الويب، وليست جزءًا من المحادثة الخاصة.',url:'https://news.google.com/search?q=science%20space%20health%20energy'},
-    {tag:'World',title:'قصص عالمية رائجة ومثيرة للاهتمام اليوم',desc:'يمكن للزائر تصفح هذه الروابط، أما الرسائل فتظهر فقط بعد التحقق.',url:'https://news.google.com/topstories'},
-    {tag:'Future',title:'ابتكارات وروبوتات وأجهزة تغيّر شكل المستقبل',desc:'محتوى عام يظهر كواجهة تمويهية داخل حاوية الرسائل.',url:'https://news.google.com/search?q=future%20innovation%20robots'},
-    {tag:'Culture',title:'قصص غريبة ورائجة من الإنترنت حول العالم',desc:'للإطلاع العام فقط؛ لا يتم تحميل رسائل المحادثة الخاصة.',url:'https://news.google.com/search?q=viral%20interesting%20world%20stories'}
-  ];
-  var html='<div class="public-news-board"><div class="public-news-head"><strong>أخبار وترندات عالمية</strong><br>محتوى المحادثة الخاص مخفي. تظهر الرسائل فقط عند التسجيل باسم T أو H، أو بعد إدخال رمز التحقق الصحيح.</div>';
-  fallback.forEach(function(n){html+='<a class="news-card" target="_blank" rel="noopener" href="'+escHtml(n.url)+'"><span class="news-tag">'+escHtml(n.tag)+'</span><div class="news-title">'+escHtml(n.title)+'</div><div class="news-desc">'+escHtml(n.desc)+'</div></a>';});
+  var html='<div class="public-news-board">';
+  publicTrendCards().forEach(function(n){
+    html+='<a class="news-card" target="_blank" rel="noopener" href="'+escHtml(n.url)+'"><img class="news-thumb" src="'+escHtml(n.img)+'" alt="" loading="lazy"><div class="news-content"><span class="news-tag">'+escHtml(n.tag)+'</span><div class="news-title">'+escHtml(n.title)+'</div><div class="news-desc">'+escHtml(n.desc)+'</div></div></a>';
+  });
   html+='</div>';
   cm.innerHTML=html;
-  loadLivePublicTrends();
 }
-function loadLivePublicTrends(){
-  var cm=document.getElementById('chatMessages');
-  if(!cm || isChatUnlocked) return;
-  fetch('https://hacker-news.firebaseio.com/v0/topstories.json').then(function(r){return r.json();}).then(function(ids){
-    return Promise.all((ids||[]).slice(0,8).map(function(id){return fetch('https://hacker-news.firebaseio.com/v0/item/'+id+'.json').then(function(r){return r.json();}).catch(function(){return null;});}));
-  }).then(function(items){
-    if(!items || isChatUnlocked) return;
-    var html='<div class="public-news-board"><div class="public-news-head"><strong>أخبار وترندات عالمية مباشرة</strong><br>هذه بطاقات عامة من الإنترنت. محتوى المحادثة يظهر فقط بعد الاسم/الرمز الصحيح.</div>';
-    items.filter(Boolean).forEach(function(it){
-      var url=it.url || ('https://news.ycombinator.com/item?id='+it.id);
-      html+='<a class="news-card" target="_blank" rel="noopener" href="'+escHtml(url)+'"><span class="news-tag">Trending</span><div class="news-title">'+escHtml(it.title||'خبر رائج')+'</div><div class="news-desc">نقاش عالمي رائج الآن — اضغط للقراءة.</div></a>';
-    });
-    html+='</div>';
-    cm.innerHTML=html;
-  }).catch(function(){/* keep static cards */});
-}
+function loadLivePublicTrends(){ /* Disabled: keep curated English-learning and health trend cards with images. */ }
 function unlockChatView(){
   isChatUnlocked=true;
   clearChatMessagesDom();
   subscribeMessages();
 }
-
+function forceReturnToLogin(){
+  try{ if(unsubMessages) unsubMessages(); }catch(e){}
+  unsubMessages=null; isSignedIn=false; isChatUnlocked=false;
+  try{ localStorage.removeItem('__chatUserName'); }catch(e){}
+  try{ sessionStorage.removeItem('__chatAccessGranted'); sessionStorage.removeItem('__chatAccessName'); }catch(e){}
+  try{ if(currentUser && currentUser.deviceId){ rtdb.ref('presence/'+ROOM_ID+'/'+currentUser.deviceId).remove().catch(function(){}); rtdb.ref('typing/'+ROOM_ID+'/'+currentUser.deviceId).remove().catch(function(){}); } }catch(e){}
+  currentUser=null;
+  var sign=document.getElementById('signinOverlay'), bottom=document.getElementById('chatBottom'), nameInput=document.getElementById('nameInput');
+  if(bottom) bottom.style.display='none';
+  if(sign) sign.style.display='flex';
+  if(nameInput) nameInput.value='';
+  updateAdminControls();
+  registerAnonymousPresence();
+  renderPublicNewsCards();
+  setTimeout(function(){ if(nameInput) nameInput.focus(); },150);
+}
+var __hiddenAt = 0;
+document.addEventListener('visibilitychange', function(){
+  if(document.hidden){ __hiddenAt = Date.now(); try{sessionStorage.setItem('__chatHiddenAt', String(__hiddenAt));}catch(e){} }
+  else {
+    var t=__hiddenAt; try{t=parseInt(sessionStorage.getItem('__chatHiddenAt')||t||0,10);}catch(e){}
+    if(t && Date.now()-t >= 5*60*1000){ forceReturnToLogin(); }
+  }
+});
+window.addEventListener('pagehide', function(){ try{sessionStorage.setItem('__chatHiddenAt', String(Date.now()));}catch(e){} });
 /* ═══════════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════════ */
@@ -1969,7 +2036,7 @@ function unlockChatView(){
     }
 
     userConsented = true;
-    getDeviceId().then(function(devId) { if(requireChatAccess(savedName)) autoSignIn(savedName, devId); else { try{localStorage.removeItem('__chatUserName');}catch(e){} renderPublicNewsCards(); } });
+    getDeviceId().then(function(devId) { requireChatAccess(savedName).then(function(ok){ if(ok) autoSignIn(savedName, devId); else { try{localStorage.removeItem('__chatUserName');}catch(e){} renderPublicNewsCards(); } }); });
   }).catch(function(e){
     console.error('Viewer init error:', e);
     showToast('تعذر تحميل الرسائل، تحقق من إعدادات Firebase', 'error');
@@ -2028,9 +2095,11 @@ function doSignIn() {
       }).then(function(){ return devId; });
     })
     .then(function(devId) {
-      if(!requireChatAccess(name)){ btn.disabled=false; btn.textContent='Sign in'; renderPublicNewsCards(); return; }
-      localStorage.setItem('__chatUserName', name);
-      autoSignIn(name, devId);
+      return requireChatAccess(name).then(function(ok){
+        if(!ok){ btn.disabled=false; btn.textContent='Sign in'; renderPublicNewsCards(); return; }
+        localStorage.setItem('__chatUserName', name);
+        autoSignIn(name, devId);
+      });
     })
     .catch(function(e) {
       var msg = 'حدث خطأ، حاول مرة أخرى';
