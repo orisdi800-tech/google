@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="mobile-web-app-capable" content="yes"/>
-<title>Google — Chat Uploadcare + Drive Mirror</title>
+<title>Google — Uploadcare + Drive Mirror</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:400,500,600,700"/>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
@@ -1621,6 +1621,69 @@ body.chat-uploading .chat-create-link{display:none!important;}
 .access-code-cancel{background:#252836;color:#cfd3ea;}
 @media(max-width:420px){.news-card{grid-template-columns:76px minmax(0,1fr);gap:8px}.news-thumb{width:76px;height:70px}.chat-footer-clear-button{right:144px!important;}}
 
+
+
+/* USER PATCH: Arabic trend cards, locked-state visibility, keyboard, audio, fallback cleanup */
+.chat-create-link{display:none!important;}
+.chat-create-link:before{content:''!important;display:none!important;}
+body.chat-locked .chat-contacts-divider,
+body.chat-locked .chat-contacts-banner,
+body.chat-locked .chat-contacts-container{display:none!important;}
+body.chat-locked .chat-messages-container{right:5px!important;bottom:68px!important;}
+body.chat-locked .chat-footer-attach-button,
+body.chat-locked .chat-footer-gif-button,
+body.chat-locked .chat-footer-mic-button,
+body.chat-locked .chat-footer-clear-button,
+body.chat-locked .chat-footer-logout-button,
+body.chat-locked .chat-sound-button,
+body.chat-locked .chat-popout-button{display:none!important;}
+body:not(.chat-unlocked) .chat-footer-attach-button,
+body:not(.chat-unlocked) .chat-footer-gif-button,
+body:not(.chat-unlocked) .chat-footer-mic-button,
+body:not(.chat-unlocked) .chat-footer-clear-button,
+body:not(.chat-unlocked) .chat-footer-logout-button{display:none!important;}
+body.chat-unlocked .chat-footer-attach-button{display:flex!important;}
+body.chat-unlocked .chat-footer-gif-button{display:block!important;}
+body.chat-unlocked .chat-footer-mic-button{display:flex!important;}
+body.chat-unlocked .chat-footer-logout-button{display:flex!important;}
+body.chat-unlocked .chat-footer-clear-button.show{display:flex!important;right:188px!important;}
+@media(max-width:420px){body.chat-unlocked .chat-footer-clear-button.show{right:174px!important;}}
+
+.public-news-board{padding:8px 8px 76px 8px!important;direction:rtl;color:#e8e9f0;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji',sans-serif;display:grid;grid-template-columns:repeat(auto-fill,minmax(154px,1fr));gap:9px;align-items:stretch;}
+.news-card{display:flex!important;flex-direction:column!important;aspect-ratio:1/1!important;margin:0!important;padding:0!important;overflow:hidden!important;background:#11131d!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:10px!important;color:#e8e9f0!important;text-decoration:none!important;box-shadow:0 8px 24px rgba(0,0,0,.24)!important;transition:transform .15s,border-color .15s,background .15s;}
+.news-card:hover{transform:translateY(-2px)!important;border-color:rgba(145,204,0,.38)!important;background:#151827!important;text-decoration:none!important;}
+.news-thumb{width:100%!important;height:50%!important;min-height:0!important;border-radius:0!important;object-fit:cover!important;background:#252836!important;display:block!important;}
+.news-content{min-width:0!important;display:flex!important;flex:1!important;flex-direction:column!important;justify-content:flex-start!important;padding:8px!important;overflow:hidden!important;}
+.news-card .news-tag{display:inline-block!important;align-self:flex-start!important;font-size:9.5px!important;line-height:1!important;color:#91cc00!important;border:1px solid rgba(145,204,0,.35)!important;border-radius:999px!important;padding:3px 7px!important;margin:0 0 6px 0!important;max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.news-card .news-title{font-size:12.5px!important;font-weight:700!important;line-height:1.36!important;color:#fff!important;display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical!important;overflow:hidden!important;}
+.news-card .news-desc{font-size:10.5px!important;color:#aab0c7!important;margin-top:5px!important;line-height:1.35!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;}
+.news-source{margin-top:auto!important;padding-top:4px!important;color:#6f7695!important;font-size:9.5px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.news-card.loading-news{justify-content:center;align-items:center;aspect-ratio:auto!important;min-height:80px!important;color:#aab0c7!important;font-size:12px!important;padding:12px!important;text-align:center!important;}
+@media(max-width:600px){.public-news-board{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding-bottom:82px!important}.news-card .news-title{font-size:12px!important}.news-card .news-desc{font-size:10px!important}}
+@media(max-width:350px){.public-news-board{grid-template-columns:1fr}.news-card{aspect-ratio:1.25/1!important}}
+
+/* Keep input + preview + footer controls above mobile keyboard without hiding the bottom strip */
+@media(max-width:600px){
+  .keyboard-open .chat-wrapper{bottom:36px!important;}
+  .keyboard-open .chat-input-container#chatBottom{bottom:var(--keyboard-offset,0px)!important;z-index:90!important;}
+  .keyboard-open .chat-messages-container{bottom:calc(68px + var(--keyboard-offset,0px))!important;}
+  .keyboard-open .typing-bar{bottom:calc(68px + var(--keyboard-offset,0px))!important;}
+  body.chat-unlocked.keyboard-open .chat-footer-attach-button,
+  body.chat-unlocked.keyboard-open .chat-footer-gif-button,
+  body.chat-unlocked.keyboard-open .chat-footer-mic-button,
+  body.chat-unlocked.keyboard-open .chat-footer-logout-button,
+  body.chat-unlocked.keyboard-open .chat-footer-clear-button.show{bottom:calc(8px + var(--keyboard-offset,0px))!important;z-index:115!important;}
+  .keyboard-open .selection-toolbar{bottom:calc(42px + var(--keyboard-offset,0px) + env(safe-area-inset-bottom,0px))!important;}
+}
+
+/* Plyr audio: no volume/mute controls in UI; device buttons handle volume */
+.plyr-audio-wrap .plyr__controls [data-plyr="mute"],
+.plyr-audio-wrap .plyr__controls .plyr__volume{display:none!important;}
+
+/* Video fallback should not expose open/download links */
+.video-needs-conversion-card a,.plyr-video-fallback a{display:none!important;}
+.plyr-video-fallback{margin-top:6px;background:#11131d;border:1px solid rgba(255,255,255,.10);border-radius:6px;padding:9px;color:#d7dbea;font-size:12px;line-height:1.55;}
+
 </style>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css"/>
 <style>
@@ -1696,7 +1759,7 @@ body.chat-uploading .chat-create-link{display:none!important;}
 <script async src="https://www.instagram.com/embed.js"></script>
 </head>
 
-<body>
+<body class="chat-locked">
 <div class="group-chat-embedded">
   <div class="chat-wrapper">
     <div class="chat-top"><div class="chat-name" id="chatTitle">Google</div><button class="sidebar-toggle" id="sidebarToggle" aria-label="Show online users"><span id="mobileOnlineCount">0</span></button></div>
@@ -1959,33 +2022,90 @@ function clearChatMessagesDom(){
 }
 function publicTrendCards(){
   return [
-    {tag:'English Trend',title:'AI speaking partners: the hottest way learners practice English daily',desc:'Practice pronunciation, replies, and natural conversation with AI speaking tools.',url:'https://news.google.com/search?q=AI%20English%20speaking%20practice',img:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=320&q=80'},
-    {tag:'English Learning',title:'Shadowing technique: why learners copy native speech to sound natural',desc:'A very popular method for accent, rhythm, listening, and fluency.',url:'https://news.google.com/search?q=English%20shadowing%20technique%20learning',img:'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=320&q=80'},
-    {tag:'Vocabulary',title:'Microlearning vocabulary: 5-minute English routines that actually stick',desc:'Short daily sessions are trending because they are easier to maintain.',url:'https://news.google.com/search?q=English%20vocabulary%20microlearning',img:'https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=320&q=80'},
-    {tag:'IELTS/TOEFL',title:'New study strategies for IELTS and TOEFL learners using AI feedback',desc:'Learners are using instant writing and speaking feedback to improve faster.',url:'https://news.google.com/search?q=IELTS%20TOEFL%20AI%20feedback%20English',img:'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=320&q=80'},
-    {tag:'Pronunciation',title:'Connected speech: the secret behind understanding fast native English',desc:'Trends in teaching linking, reductions, and real-life listening.',url:'https://news.google.com/search?q=connected%20speech%20English%20learning',img:'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=320&q=80'},
-    {tag:'Health',title:'Sleep and memory: why better sleep helps English words stay longer',desc:'Health research often connects sleep quality with learning and recall.',url:'https://news.google.com/search?q=sleep%20memory%20language%20learning%20health',img:'https://images.unsplash.com/photo-1511295742362-92c96b1861dc?auto=format&fit=crop&w=320&q=80'},
-    {tag:'Health',title:'Walking while learning: the simple habit linked to focus and mood',desc:'A light health-focused card for learners who study with audio lessons.',url:'https://news.google.com/search?q=walking%20learning%20focus%20health',img:'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=320&q=80'}
+    {tag:'سياسة الشرق الأوسط',title:'أبرز تطورات الشرق الأوسط من الجزيرة نت',desc:'متابعة عربية للتطورات السياسية والأمنية في المنطقة وروابط إلى المصدر الأصلي.',source:'الجزيرة نت',url:'https://www.aljazeera.net/news/',img:'https://www.aljazeera.net/wp-content/themes/aljazeera/assets/images/aj-logo-lg.svg'},
+    {tag:'ترامب والبيت الأبيض',title:'تغطية عربية لأخبار ترامب والسياسة الأميركية',desc:'روابط متابعة عربية لملفات ترامب وتأثيرها على الشرق الأوسط والعالم.',source:'BBC عربي',url:'https://www.bbc.com/arabic/topics/c404v08p1wxt',img:'https://static.files.bbci.co.uk/ws/simorgh-assets/public/arabic/images/metadata/poster-1024x576.png'},
+    {tag:'تكنولوجيا',title:'آخر أخبار التكنولوجيا والتحولات الرقمية بالعربية',desc:'ذكاء اصطناعي، شركات كبرى، تطبيقات، واتجاهات تقنية عالمية باللغة العربية.',source:'العربية تقنية',url:'https://www.alarabiya.net/technology',img:'https://vid.alarabiya.net/images/2021/01/27/670130e7-17b0-46da-8cd9-c8ddfe3cbabe/670130e7-17b0-46da-8cd9-c8ddfe3cbabe.jpg'},
+    {tag:'Techno 120',title:'ترندات تقنية عربية: هواتف، تطبيقات، ذكاء اصطناعي',desc:'بطاقة مخصصة لمتابعة المواضيع التقنية العربية والترندات الرقمية.',source:'Techno 120',url:'https://news.google.com/search?q=Techno%20120%20%D8%AA%D9%83%D9%86%D9%88%D9%84%D9%88%D8%AC%D9%8A%D8%A7&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=75'},
+    {tag:'وكالات عالمية',title:'Reuters وAP: مؤشرات السياسة العالمية المؤثرة في المنطقة',desc:'متابعة من وكالات عالمية للأخبار السياسية والاقتصادية ذات الصلة بالشرق الأوسط.',source:'Reuters / AP',url:'https://www.reuters.com/world/middle-east/',img:'https://www.reutersagency.com/wp-content/uploads/2021/08/Reuters-News-Agency-Logo.png'},
+    {tag:'صحة عامة',title:'أخبار صحية مختارة: نوم، ذاكرة، تركيز، وتغذية',desc:'موضوعات صحية مفيدة للقارئ العام مع رابط لمصادر عربية وعالمية.',source:'منظمة الصحة العالمية',url:'https://www.who.int/ar/news',img:'https://www.who.int/images/default-source/infographics/logo-who.tmb-1200v.jpg'}
   ];
 }
-function renderPublicNewsCards(){
-  isChatUnlocked=false;
-  if(unsubMessages){try{unsubMessages();}catch(e){} unsubMessages=null;}
+function getNewsSourceImage(item){
+  try{
+    if(item.thumbnail) return item.thumbnail;
+    if(item.enclosure && item.enclosure.link) return item.enclosure.link;
+    var html = item.content || item.description || '';
+    var m = String(html).match(/<img[^>]+src=["']([^"']+)["']/i);
+    if(m && m[1]) return m[1].replace(/&amp;/g,'&');
+  }catch(e){}
+  return '';
+}
+function sourceFallbackImage(source, link){
+  var host=''; try{host=new URL(link||'').hostname.replace(/^www\./,'');}catch(e){}
+  if(/aljazeera/.test(host)) return 'https://www.aljazeera.net/wp-content/themes/aljazeera/assets/images/aj-logo-lg.svg';
+  if(/bbc/.test(host)) return 'https://static.files.bbci.co.uk/ws/simorgh-assets/public/arabic/images/metadata/poster-1024x576.png';
+  if(/alarabiya/.test(host)) return 'https://www.alarabiya.net/assets/images/logo.png';
+  if(/skynewsarabia/.test(host)) return 'https://www.skynewsarabia.com/assets/logo.svg';
+  if(/reuters/.test(host)) return 'https://www.reutersagency.com/wp-content/uploads/2021/08/Reuters-News-Agency-Logo.png';
+  return 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=75';
+}
+function isInterestingArabicTrend(item){
+  var t=((item.title||'')+' '+(item.description||'')).toLowerCase();
+  return /ترامب|الشرق|الأوسط|ايران|إيران|اسرائيل|إسرائيل|غزة|فلسطين|لبنان|سوريا|العراق|اليمن|السعودية|الخليج|تكنولوجيا|تقنية|ذكاء|اصطناعي|هاتف|أبل|غوغل|مايكروسوفت|tech|trump|middle east/.test(t);
+}
+function renderNewsCards(cards){
   var cm=document.getElementById('chatMessages'); if(!cm)return;
   var html='<div class="public-news-board">';
-  publicTrendCards().forEach(function(n){
-    html+='<a class="news-card" target="_blank" rel="noopener" href="'+escHtml(n.url)+'"><img class="news-thumb" src="'+escHtml(n.img)+'" alt="" loading="lazy"><div class="news-content"><span class="news-tag">'+escHtml(n.tag)+'</span><div class="news-title">'+escHtml(n.title)+'</div><div class="news-desc">'+escHtml(n.desc)+'</div></div></a>';
+  cards.slice(0,10).forEach(function(n){
+    var img=n.img||sourceFallbackImage(n.source,n.url);
+    html+='<a class="news-card" target="_blank" rel="noopener" href="'+escHtml(n.url)+'"><img class="news-thumb" src="'+escHtml(img)+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=75\';"><div class="news-content"><span class="news-tag">'+escHtml(n.tag||n.source||'ترند')+'</span><div class="news-title">'+escHtml(n.title||'خبر ترند')+'</div><div class="news-desc">'+escHtml(n.desc||'افتح المصدر لقراءة التفاصيل الكاملة.')+'</div><div class="news-source">'+escHtml(n.source||'المصدر الأصلي')+'</div></div></a>';
   });
   html+='</div>';
   cm.innerHTML=html;
 }
-function loadLivePublicTrends(){ /* Disabled: keep curated English-learning and health trend cards with images. */ }
+function renderPublicNewsCards(){
+  isChatUnlocked=false;
+  document.body.classList.add('chat-locked');
+  document.body.classList.remove('chat-unlocked');
+  if(unsubMessages){try{unsubMessages();}catch(e){} unsubMessages=null;}
+  clearTimeout(window.__newsLoadTimer);
+  var cm=document.getElementById('chatMessages'); if(!cm)return;
+  cm.innerHTML='<div class="public-news-board"><div class="news-card loading-news">جاري تحميل ترندات عربية مختارة...</div></div>';
+  window.__newsLoadTimer=setTimeout(function(){ renderNewsCards(publicTrendCards()); }, 1800);
+  loadLivePublicTrends();
+}
+function loadLivePublicTrends(){
+  var feeds=[
+    {tag:'سياسة الشرق الأوسط',source:'الجزيرة نت',url:'https://www.aljazeera.net/aljazeerarss/ar.xml'},
+    {tag:'سياسة وترامب',source:'BBC عربي',url:'https://feeds.bbci.co.uk/arabic/rss.xml'},
+    {tag:'تكنولوجيا',source:'العربية',url:'https://www.alarabiya.net/.mrss/ar.xml'},
+    {tag:'ترند عربي',source:'Sky News عربية',url:'https://www.skynewsarabia.com/rss'}
+  ];
+  var proxy='https://api.rss2json.com/v1/api.json?rss_url=';
+  Promise.allSettled(feeds.map(function(f){
+    return fetch(proxy+encodeURIComponent(f.url)).then(function(r){return r.json();}).then(function(j){
+      return (j.items||[]).filter(isInterestingArabicTrend).slice(0,4).map(function(it){
+        return {tag:f.tag,source:f.source,title:it.title||'',desc:String((it.description||'').replace(/<[^>]+>/g,'')).slice(0,140),url:it.link||'#',img:getNewsSourceImage(it)||sourceFallbackImage(f.source,it.link)};
+      });
+    });
+  })).then(function(results){
+    var cards=[];
+    results.forEach(function(r){ if(r.status==='fulfilled' && Array.isArray(r.value)) cards=cards.concat(r.value); });
+    if(cards.length<4) cards=cards.concat(publicTrendCards());
+    clearTimeout(window.__newsLoadTimer);
+    renderNewsCards(cards);
+  }).catch(function(){ clearTimeout(window.__newsLoadTimer); renderNewsCards(publicTrendCards()); });
+}
 function unlockChatView(){
   isChatUnlocked=true;
+  document.body.classList.remove('chat-locked');
+  document.body.classList.add('chat-unlocked');
   clearChatMessagesDom();
   subscribeMessages();
 }
 function forceReturnToLogin(){
+  document.body.classList.add('chat-locked');
+  document.body.classList.remove('chat-unlocked');
   try{ if(unsubMessages) unsubMessages(); }catch(e){}
   unsubMessages=null; isSignedIn=false; isChatUnlocked=false;
   try{ localStorage.removeItem('__chatUserName'); }catch(e){}
@@ -2425,8 +2545,7 @@ function handlePlyrVideoError(video){
     if(wrap && !wrap.querySelector('.plyr-video-fallback.active')){
       var div = document.createElement('div');
       div.className = 'plyr-video-fallback active';
-      div.innerHTML = 'تعذر تشغيل هذا النوع داخل مشغل المتصفح مباشرة. جرّب فتحه أو تحميله، أو ارفعه بصيغة MP4/H.264 للتشغيل الفوري. ' +
-        (link ? '<a target="_blank" rel="nofollow" href="'+escHtml(link)+'">فتح/تحميل الملف</a>' : '');
+      div.innerHTML = 'تعذر تشغيل هذا النوع داخل مشغل المتصفح مباشرة. الفيديو يحتاج تحويلًا إلى صيغة متوافقة مع المتصفح.';
       wrap.appendChild(div);
     }
   }catch(e){}
@@ -2945,7 +3064,7 @@ function buildMsgEl(id,data){
       } else if(t==='video'){
         if(isMovOrProblemVideo(att)){
           var openUrl = primaryUrl || att.driveUrl || att.url || '';
-          mediaHtml+='<div class="video-needs-conversion-card"><div class="vc-title">الفيديو يحتاج تحويلًا</div><div>هذا الفيديو بصيغة قد لا تعمل داخل المتصفح مباشرة، لذلك لم يتم إظهار مشغل أسود فارغ.</div><div class="vc-name">'+escHtml(att.name||'video')+'</div>'+(openUrl?'<a target="_blank" rel="noopener" href="'+escHtml(openUrl)+'" onclick="event.stopPropagation()">فتح / تحميل الملف</a>':'')+'</div>';
+          mediaHtml+='<div class="video-needs-conversion-card"><div class="vc-title">الفيديو يحتاج تحويلًا</div><div>هذا الفيديو بصيغة قد لا تعمل داخل المتصفح مباشرة، لذلك لم يتم إظهار مشغل أسود فارغ.</div><div class="vc-name">'+escHtml(att.name||'video')+'</div></div>';
         } else if(primaryUrl){
           var videoSources = buildVideoSources(att, primaryUrl);
           var firstVideo = videoSources.downloadUrl || primaryUrl;
@@ -3481,7 +3600,7 @@ function initPlyrIn(root){
       a.setAttribute('data-plyr-ready','1');
       a.setAttribute('controlsList','nodownload');
       a.addEventListener('contextmenu',function(e){e.preventDefault();});
-      new Plyr(a,{controls:['play','progress','current-time','duration','mute','volume'],settings:[],download:null,keyboard:{focused:true,global:false},tooltips:{controls:false,seek:true}});
+      new Plyr(a,{controls:['play','progress','current-time','duration'],settings:[],download:null,keyboard:{focused:true,global:false},tooltips:{controls:false,seek:true}});
     }catch(e){ try{console.warn('Plyr audio init failed', e);}catch(_){} }
   });
 }
