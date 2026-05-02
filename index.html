@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="mobile-web-app-capable" content="yes"/>
-<title>Google — Uploadcare + Drive Mirror</title>
+<title>Google —  Uploadcare + Drive Mirror</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:400,500,600,700"/>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js">
@@ -1623,7 +1623,7 @@ body.chat-uploading .chat-create-link{display:none!important;}
 
 
 
-/* USER PATCH: Arabic trend cards, locked-state visibility, keyboard, audio, fallback cleanup */
+/* USER PATCH: Baghdad + Techno120 trend cards, locked-state visibility, audio, fallback cleanup */
 .chat-create-link{display:none!important;}
 .chat-create-link:before{content:''!important;display:none!important;}
 body.chat-locked .chat-contacts-divider,
@@ -1649,32 +1649,54 @@ body.chat-unlocked .chat-footer-logout-button{display:flex!important;}
 body.chat-unlocked .chat-footer-clear-button.show{display:flex!important;right:188px!important;}
 @media(max-width:420px){body.chat-unlocked .chat-footer-clear-button.show{right:174px!important;}}
 
-.public-news-board{padding:8px 8px 76px 8px!important;direction:rtl;color:#e8e9f0;font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji',sans-serif;display:grid;grid-template-columns:repeat(auto-fill,minmax(154px,1fr));gap:9px;align-items:stretch;}
-.news-card{display:flex!important;flex-direction:column!important;aspect-ratio:1/1!important;margin:0!important;padding:0!important;overflow:hidden!important;background:#11131d!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:10px!important;color:#e8e9f0!important;text-decoration:none!important;box-shadow:0 8px 24px rgba(0,0,0,.24)!important;transition:transform .15s,border-color .15s,background .15s;}
-.news-card:hover{transform:translateY(-2px)!important;border-color:rgba(145,204,0,.38)!important;background:#151827!important;text-decoration:none!important;}
-.news-thumb{width:100%!important;height:50%!important;min-height:0!important;border-radius:0!important;object-fit:cover!important;background:#252836!important;display:block!important;}
-.news-content{min-width:0!important;display:flex!important;flex:1!important;flex-direction:column!important;justify-content:flex-start!important;padding:8px!important;overflow:hidden!important;}
-.news-card .news-tag{display:inline-block!important;align-self:flex-start!important;font-size:9.5px!important;line-height:1!important;color:#91cc00!important;border:1px solid rgba(145,204,0,.35)!important;border-radius:999px!important;padding:3px 7px!important;margin:0 0 6px 0!important;max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-.news-card .news-title{font-size:12.5px!important;font-weight:700!important;line-height:1.36!important;color:#fff!important;display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical!important;overflow:hidden!important;}
-.news-card .news-desc{font-size:10.5px!important;color:#aab0c7!important;margin-top:5px!important;line-height:1.35!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;}
-.news-source{margin-top:auto!important;padding-top:4px!important;color:#6f7695!important;font-size:9.5px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
-.news-card.loading-news{justify-content:center;align-items:center;aspect-ratio:auto!important;min-height:80px!important;color:#aab0c7!important;font-size:12px!important;padding:12px!important;text-align:center!important;}
-@media(max-width:600px){.public-news-board{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding-bottom:82px!important}.news-card .news-title{font-size:12px!important}.news-card .news-desc{font-size:10px!important}}
-@media(max-width:350px){.public-news-board{grid-template-columns:1fr}.news-card{aspect-ratio:1.25/1!important}}
-
-/* Keep input + preview + footer controls above mobile keyboard without hiding the bottom strip */
-@media(max-width:600px){
-  .keyboard-open .chat-wrapper{bottom:36px!important;}
-  .keyboard-open .chat-input-container#chatBottom{bottom:var(--keyboard-offset,0px)!important;z-index:90!important;}
-  .keyboard-open .chat-messages-container{bottom:calc(68px + var(--keyboard-offset,0px))!important;}
-  .keyboard-open .typing-bar{bottom:calc(68px + var(--keyboard-offset,0px))!important;}
-  body.chat-unlocked.keyboard-open .chat-footer-attach-button,
-  body.chat-unlocked.keyboard-open .chat-footer-gif-button,
-  body.chat-unlocked.keyboard-open .chat-footer-mic-button,
-  body.chat-unlocked.keyboard-open .chat-footer-logout-button,
-  body.chat-unlocked.keyboard-open .chat-footer-clear-button.show{bottom:calc(8px + var(--keyboard-offset,0px))!important;z-index:115!important;}
-  .keyboard-open .selection-toolbar{bottom:calc(42px + var(--keyboard-offset,0px) + env(safe-area-inset-bottom,0px))!important;}
+/* Login-only public trend board: Baghdad + Techno120. Does not affect the unlocked chat layout. */
+.public-news-board{
+  padding:9px 9px 76px 9px!important;
+  direction:rtl;color:#e8e9f0;
+  font-family:'Plus Jakarta Sans','Apple Color Emoji','Segoe UI Emoji',sans-serif;
+  display:grid!important;
+  grid-template-columns:repeat(auto-fill,minmax(166px,1fr))!important;
+  gap:10px!important;align-items:stretch!important;
+  background:#252836!important;
 }
+.news-card{
+  display:flex!important;flex-direction:column!important;
+  min-height:206px!important;aspect-ratio:0.86/1!important;
+  margin:0!important;padding:0!important;overflow:hidden!important;
+  background:linear-gradient(180deg,#151827 0%,#10121c 100%)!important;
+  border:1px solid rgba(255,255,255,.11)!important;
+  border-radius:16px!important;color:#e8e9f0!important;text-decoration:none!important;
+  box-shadow:0 10px 30px rgba(0,0,0,.26)!important;
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,background .16s ease!important;
+  position:relative!important;
+}
+.news-card:before{content:'';position:absolute;inset:0;border-radius:16px;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,0) 34%);z-index:1;}
+.news-card:hover{transform:translateY(-2px)!important;border-color:rgba(145,204,0,.42)!important;background:#171b2b!important;text-decoration:none!important;box-shadow:0 14px 36px rgba(0,0,0,.34)!important;}
+.news-thumb{width:100%!important;height:46%!important;min-height:92px!important;border-radius:0!important;object-fit:cover!important;background:#1c2030!important;display:block!important;filter:saturate(1.05) contrast(1.02)!important;}
+.news-content{min-width:0!important;display:flex!important;flex:1!important;flex-direction:column!important;justify-content:flex-start!important;padding:9px 10px 10px!important;overflow:hidden!important;position:relative!important;z-index:2!important;}
+.news-card .news-tag{display:inline-flex!important;align-self:flex-start!important;align-items:center!important;gap:4px!important;font-size:10px!important;line-height:1!important;color:#b7f44a!important;background:rgba(145,204,0,.10)!important;border:1px solid rgba(145,204,0,.30)!important;border-radius:999px!important;padding:4px 8px!important;margin:0 0 7px 0!important;max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.news-card .news-title{font-size:13px!important;font-weight:800!important;line-height:1.38!important;color:#fff!important;display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical!important;overflow:hidden!important;letter-spacing:-.1px!important;}
+.news-card .news-desc{font-size:10.7px!important;color:#aeb5cc!important;margin-top:6px!important;line-height:1.45!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;}
+.news-source{margin-top:auto!important;padding-top:7px!important;color:#7f87a5!important;font-size:9.7px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.news-card.loading-news{justify-content:center!important;align-items:center!important;aspect-ratio:auto!important;min-height:100px!important;color:#aab0c7!important;font-size:12px!important;padding:12px!important;text-align:center!important;grid-column:1/-1!important;}
+@media(max-width:600px){
+  .public-news-board{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;padding:9px 8px 80px 8px!important;}
+  .news-card{min-height:188px!important;aspect-ratio:.82/1!important;border-radius:15px!important;}
+  .news-thumb{height:44%!important;min-height:82px!important;}
+  .news-content{padding:8px 8px 9px!important;}
+  .news-card .news-title{font-size:12.4px!important;line-height:1.34!important;-webkit-line-clamp:3!important;}
+  .news-card .news-desc{font-size:10px!important;line-height:1.35!important;-webkit-line-clamp:2!important;}
+  .news-card .news-tag{font-size:9.2px!important;padding:3px 7px!important;margin-bottom:6px!important;}
+  .news-source{font-size:9px!important;padding-top:5px!important;}
+}
+@media(max-width:360px){.public-news-board{grid-template-columns:1fr!important}.news-card{min-height:168px!important;aspect-ratio:auto!important}.news-thumb{height:100px!important;}}
+
+/* Disable the previous mobile keyboard displacement patch; it caused hidden footer/preview states on some phones. */
+.keyboard-open .chat-wrapper,
+.keyboard-open .chat-input-container#chatBottom,
+.keyboard-open .chat-messages-container,
+.keyboard-open .typing-bar{bottom:revert!important;}
+body.keyboard-open{padding-bottom:0!important;}
 
 /* Plyr audio: no volume/mute controls in UI; device buttons handle volume */
 .plyr-audio-wrap .plyr__controls [data-plyr="mute"],
@@ -1753,6 +1775,32 @@ body.chat-unlocked .chat-footer-clear-button.show{display:flex!important;right:1
 .news-card .news-title{font-size:13px;font-weight:700;line-height:1.42;color:#fff;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .news-card .news-desc{font-size:11px;color:#aab0c7;margin-top:4px;line-height:1.42;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 @media(max-width:600px){.keyboard-open .chat-wrapper{bottom:calc(36px + var(--keyboard-offset,0px))!important}.selection-toolbar{max-width:96vw;bottom:calc(42px + var(--keyboard-offset,0px) + env(safe-area-inset-bottom,0px));}.public-news-board{padding-bottom:80px}.plyr-audio-wrap{max-width:100%;}.chat-footer-clear-button{right:144px!important;}}
+
+
+
+/* FINAL OVERRIDE: modern Baghdad + Techno120 cards and no keyboard displacement */
+.public-news-board{
+  padding:9px 9px 76px 9px!important;display:grid!important;grid-template-columns:repeat(auto-fill,minmax(166px,1fr))!important;gap:10px!important;direction:rtl!important;background:#252836!important;
+}
+.news-card{display:flex!important;flex-direction:column!important;min-height:206px!important;aspect-ratio:.86/1!important;margin:0!important;padding:0!important;overflow:hidden!important;background:linear-gradient(180deg,#151827 0%,#10121c 100%)!important;border:1px solid rgba(255,255,255,.11)!important;border-radius:16px!important;box-shadow:0 10px 30px rgba(0,0,0,.26)!important;color:#e8e9f0!important;text-decoration:none!important;}
+.news-card:hover{transform:translateY(-2px)!important;border-color:rgba(145,204,0,.42)!important;background:#171b2b!important;text-decoration:none!important;}
+.news-thumb{width:100%!important;height:46%!important;min-height:92px!important;border-radius:0!important;object-fit:cover!important;background:#1c2030!important;display:block!important;}
+.news-content{display:flex!important;flex:1!important;flex-direction:column!important;justify-content:flex-start!important;padding:9px 10px 10px!important;overflow:hidden!important;min-width:0!important;}
+.news-card .news-tag{display:inline-flex!important;align-self:flex-start!important;font-size:10px!important;line-height:1!important;color:#b7f44a!important;background:rgba(145,204,0,.10)!important;border:1px solid rgba(145,204,0,.30)!important;border-radius:999px!important;padding:4px 8px!important;margin:0 0 7px 0!important;max-width:100%!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+.news-card .news-title{font-size:13px!important;font-weight:800!important;line-height:1.38!important;color:#fff!important;display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical!important;overflow:hidden!important;}
+.news-card .news-desc{font-size:10.7px!important;color:#aeb5cc!important;margin-top:6px!important;line-height:1.45!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important;overflow:hidden!important;}
+.news-source{margin-top:auto!important;padding-top:7px!important;color:#7f87a5!important;font-size:9.7px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;}
+@media(max-width:600px){
+  .public-news-board{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important;padding:9px 8px 80px 8px!important;}
+  .news-card{min-height:188px!important;aspect-ratio:.82/1!important;border-radius:15px!important;}
+  .news-thumb{height:44%!important;min-height:82px!important;}
+  .news-content{padding:8px 8px 9px!important;}
+  .news-card .news-title{font-size:12.4px!important;line-height:1.34!important;-webkit-line-clamp:3!important;}
+  .news-card .news-desc{font-size:10px!important;line-height:1.35!important;-webkit-line-clamp:2!important;}
+  .keyboard-open .chat-wrapper,.keyboard-open .chat-input-container#chatBottom,.keyboard-open .chat-messages-container,.keyboard-open .typing-bar{bottom:auto!important;}
+  body.keyboard-open .chat-footer-attach-button,body.keyboard-open .chat-footer-gif-button,body.keyboard-open .chat-footer-mic-button,body.keyboard-open .chat-footer-logout-button,body.keyboard-open .chat-footer-clear-button.show{bottom:8px!important;}
+}
+@media(max-width:360px){.public-news-board{grid-template-columns:1fr!important}.news-card{min-height:168px!important;aspect-ratio:auto!important}.news-thumb{height:100px!important;}}
 
 </style>
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
@@ -2022,12 +2070,12 @@ function clearChatMessagesDom(){
 }
 function publicTrendCards(){
   return [
-    {tag:'سياسة الشرق الأوسط',title:'أبرز تطورات الشرق الأوسط من الجزيرة نت',desc:'متابعة عربية للتطورات السياسية والأمنية في المنطقة وروابط إلى المصدر الأصلي.',source:'الجزيرة نت',url:'https://www.aljazeera.net/news/',img:'https://www.aljazeera.net/wp-content/themes/aljazeera/assets/images/aj-logo-lg.svg'},
-    {tag:'ترامب والبيت الأبيض',title:'تغطية عربية لأخبار ترامب والسياسة الأميركية',desc:'روابط متابعة عربية لملفات ترامب وتأثيرها على الشرق الأوسط والعالم.',source:'BBC عربي',url:'https://www.bbc.com/arabic/topics/c404v08p1wxt',img:'https://static.files.bbci.co.uk/ws/simorgh-assets/public/arabic/images/metadata/poster-1024x576.png'},
-    {tag:'تكنولوجيا',title:'آخر أخبار التكنولوجيا والتحولات الرقمية بالعربية',desc:'ذكاء اصطناعي، شركات كبرى، تطبيقات، واتجاهات تقنية عالمية باللغة العربية.',source:'العربية تقنية',url:'https://www.alarabiya.net/technology',img:'https://vid.alarabiya.net/images/2021/01/27/670130e7-17b0-46da-8cd9-c8ddfe3cbabe/670130e7-17b0-46da-8cd9-c8ddfe3cbabe.jpg'},
-    {tag:'Techno 120',title:'ترندات تقنية عربية: هواتف، تطبيقات، ذكاء اصطناعي',desc:'بطاقة مخصصة لمتابعة المواضيع التقنية العربية والترندات الرقمية.',source:'Techno 120',url:'https://news.google.com/search?q=Techno%20120%20%D8%AA%D9%83%D9%86%D9%88%D9%84%D9%88%D8%AC%D9%8A%D8%A7&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=75'},
-    {tag:'وكالات عالمية',title:'Reuters وAP: مؤشرات السياسة العالمية المؤثرة في المنطقة',desc:'متابعة من وكالات عالمية للأخبار السياسية والاقتصادية ذات الصلة بالشرق الأوسط.',source:'Reuters / AP',url:'https://www.reuters.com/world/middle-east/',img:'https://www.reutersagency.com/wp-content/uploads/2021/08/Reuters-News-Agency-Logo.png'},
-    {tag:'صحة عامة',title:'أخبار صحية مختارة: نوم، ذاكرة، تركيز، وتغذية',desc:'موضوعات صحية مفيدة للقارئ العام مع رابط لمصادر عربية وعالمية.',source:'منظمة الصحة العالمية',url:'https://www.who.int/ar/news',img:'https://www.who.int/images/default-source/infographics/logo-who.tmb-1200v.jpg'}
+    {tag:'أخبار بغداد',title:'آخر أخبار بغداد الآن من وكالات ومواقع عراقية',desc:'متابعة سريعة لأبرز ما يجري في بغداد: أمن، خدمات، طقس، طرق، ومجتمع.',source:'Google News - بغداد',url:'https://news.google.com/search?q=%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1590132942047-3c2a83d5d96f?auto=format&fit=crop&w=800&q=75'},
+    {tag:'بغداد اليوم',title:'ملف بغداد: العاجل والمحلي والترند العراقي',desc:'روابط متابعة للأخبار المحلية الأكثر تداولًا في بغداد والعراق.',source:'بغداد اليوم / مصادر محلية',url:'https://baghdadtoday.news/',img:'https://images.unsplash.com/photo-1527018601619-a508a2be00cd?auto=format&fit=crop&w=800&q=75'},
+    {tag:'العراق وبغداد',title:'وكالات عربية: بغداد في السياسة والخدمات والأمن',desc:'ملخص بوابات الأخبار العربية حول بغداد وما يرتبط بها من ملفات يومية.',source:'وكالات عربية',url:'https://news.google.com/search?q=%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF%20%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1565736413455-d5792f8d337f?auto=format&fit=crop&w=800&q=75'},
+    {tag:'Techno 120',title:'Techno 120: الترندات التقنية العالمية الرائجة بالعربي',desc:'هواتف، ذكاء اصطناعي، تطبيقات، أجهزة، ومنصات تتصدر النقاش التقني.',source:'Techno 120',url:'https://news.google.com/search?q=Techno%20120%20%D8%AA%D9%82%D9%86%D9%8A%D8%A9&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=75'},
+    {tag:'ترند التقنية',title:'أكثر أخبار التكنولوجيا العالمية تداولًا اليوم',desc:'ذكاء اصطناعي، شركات كبرى، هواتف، ألعاب، وحوسبة سحابية من مصادر عالمية.',source:'Google News - Tech',url:'https://news.google.com/search?q=technology%20AI%20smartphones&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=75'},
+    {tag:'Techno 120 عالمي',title:'ترندات عالمية تقنية قابلة للمشاركة والنقاش',desc:'اختيار سريع لموضوعات تقنية مثيرة للاهتمام للمستخدم العربي.',source:'ترند تقني عالمي',url:'https://news.google.com/search?q=%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20%D9%87%D9%88%D8%A7%D8%AA%D9%81%20%D8%AA%D9%82%D9%86%D9%8A%D8%A9&hl=ar&gl=IQ&ceid=IQ:ar',img:'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=75'}
   ];
 }
 function getNewsSourceImage(item){
@@ -2045,13 +2093,15 @@ function sourceFallbackImage(source, link){
   if(/aljazeera/.test(host)) return 'https://www.aljazeera.net/wp-content/themes/aljazeera/assets/images/aj-logo-lg.svg';
   if(/bbc/.test(host)) return 'https://static.files.bbci.co.uk/ws/simorgh-assets/public/arabic/images/metadata/poster-1024x576.png';
   if(/alarabiya/.test(host)) return 'https://www.alarabiya.net/assets/images/logo.png';
+  if(/baghdadtoday/.test(host)) return 'https://images.unsplash.com/photo-1590132942047-3c2a83d5d96f?auto=format&fit=crop&w=800&q=75';
   if(/skynewsarabia/.test(host)) return 'https://www.skynewsarabia.com/assets/logo.svg';
   if(/reuters/.test(host)) return 'https://www.reutersagency.com/wp-content/uploads/2021/08/Reuters-News-Agency-Logo.png';
-  return 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=75';
+  if(/news.google/.test(host)) return 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=75';
+  return 'https://images.unsplash.com/photo-1590132942047-3c2a83d5d96f?auto=format&fit=crop&w=800&q=75';
 }
 function isInterestingArabicTrend(item){
   var t=((item.title||'')+' '+(item.description||'')).toLowerCase();
-  return /ترامب|الشرق|الأوسط|ايران|إيران|اسرائيل|إسرائيل|غزة|فلسطين|لبنان|سوريا|العراق|اليمن|السعودية|الخليج|تكنولوجيا|تقنية|ذكاء|اصطناعي|هاتف|أبل|غوغل|مايكروسوفت|tech|trump|middle east/.test(t);
+  return /بغداد|العراق|الرصافة|الكرخ|المنصور|الجادرية|زيونة|الكرادة|الأعظمية|الكاظمية|techno\s*120|techno120|تكنو|تقنية|تكنولوجيا|ذكاء|اصطناعي|هاتف|هواتف|أبل|ابل|غوغل|جوجل|مايكروسوفت|سامسونج|android|iphone|ai|technology|smartphone/.test(t);
 }
 function renderNewsCards(cards){
   var cm=document.getElementById('chatMessages'); if(!cm)return;
@@ -2070,16 +2120,16 @@ function renderPublicNewsCards(){
   if(unsubMessages){try{unsubMessages();}catch(e){} unsubMessages=null;}
   clearTimeout(window.__newsLoadTimer);
   var cm=document.getElementById('chatMessages'); if(!cm)return;
-  cm.innerHTML='<div class="public-news-board"><div class="news-card loading-news">جاري تحميل ترندات عربية مختارة...</div></div>';
+  cm.innerHTML='<div class="public-news-board"><div class="news-card loading-news">جاري تحميل أخبار بغداد وترندات Techno 120...</div></div>';
   window.__newsLoadTimer=setTimeout(function(){ renderNewsCards(publicTrendCards()); }, 1800);
   loadLivePublicTrends();
 }
 function loadLivePublicTrends(){
   var feeds=[
-    {tag:'سياسة الشرق الأوسط',source:'الجزيرة نت',url:'https://www.aljazeera.net/aljazeerarss/ar.xml'},
-    {tag:'سياسة وترامب',source:'BBC عربي',url:'https://feeds.bbci.co.uk/arabic/rss.xml'},
-    {tag:'تكنولوجيا',source:'العربية',url:'https://www.alarabiya.net/.mrss/ar.xml'},
-    {tag:'ترند عربي',source:'Sky News عربية',url:'https://www.skynewsarabia.com/rss'}
+    {tag:'أخبار بغداد',source:'Google News - بغداد',url:'https://news.google.com/rss/search?q=%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF&hl=ar&gl=IQ&ceid=IQ:ar'},
+    {tag:'بغداد والعراق',source:'Google News - العراق',url:'https://news.google.com/rss/search?q=%D8%A8%D8%BA%D8%AF%D8%A7%D8%AF%20%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82&hl=ar&gl=IQ&ceid=IQ:ar'},
+    {tag:'Techno 120',source:'Google News - Techno 120',url:'https://news.google.com/rss/search?q=Techno%20120%20%D8%AA%D9%82%D9%86%D9%8A%D8%A9&hl=ar&gl=IQ&ceid=IQ:ar'},
+    {tag:'ترند التقنية',source:'Google News - Technology',url:'https://news.google.com/rss/search?q=technology%20AI%20smartphones&hl=ar&gl=IQ&ceid=IQ:ar'}
   ];
   var proxy='https://api.rss2json.com/v1/api.json?rss_url=';
   Promise.allSettled(feeds.map(function(f){
@@ -3606,21 +3656,13 @@ function initPlyrIn(root){
 }
 
 function adjustForKeyboard(){
+  /* Disabled by request: keyboard displacement caused hiding footer icons and upload preview on some phones. */
   try{
-    if(!window.visualViewport) return;
-    var vv=window.visualViewport;
-    var offset=Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
-    document.documentElement.style.setProperty('--keyboard-offset', offset+'px');
-    if(offset>80) document.body.classList.add('keyboard-open'); else document.body.classList.remove('keyboard-open');
-    if(offset>80) setTimeout(scrollToBottom,80);
+    document.documentElement.style.setProperty('--keyboard-offset','0px');
+    document.body.classList.remove('keyboard-open');
   }catch(e){}
 }
-if('visualViewport' in window){
-  window.visualViewport.addEventListener('resize', adjustForKeyboard);
-  window.visualViewport.addEventListener('scroll', adjustForKeyboard);
-}
-window.addEventListener('resize', adjustForKeyboard);
-window.addEventListener('orientationchange', function(){setTimeout(adjustForKeyboard,250);});
+/* keyboard displacement listeners intentionally disabled */
 
 /* ═══════════════════════════════════════════════
    HELPERS
@@ -3638,16 +3680,6 @@ function formatTime(d){ return d.toLocaleString('en-US',{month:'short',day:'nume
 function escHtml(str){ return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function linkify(text){ return text.replace(/(https?:\/\/[^\s<>"]+)/g,'<a target="_blank" rel="nofollow" href="$1">$1</a>'); }
 function showToast(msg,type){ var t=document.getElementById('toast'); t.textContent=msg; t.className='toast '+(type||''); t.classList.add('show'); setTimeout(function(){ t.classList.remove('show'); },3500); }
-
-/* keyboard on mobile — scroll chat up when keyboard opens */
-if ('visualViewport' in window) {
-  window.visualViewport.addEventListener('resize', function(){
-    var bottom = document.getElementById('chatBottom');
-    if (!bottom || bottom.style.display==='none') return;
-    scrollToBottom();
-  });
-}
-
 
 /* Keep the mobile sidebar/divider ending exactly at the top of chat bottom or sign-in bar */
 function updateMobileBottomSpace(){
