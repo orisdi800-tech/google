@@ -42,43 +42,11 @@ div{margin:0;padding:0} img{border:none} textarea,input{font-family:inherit} a{c
 .chat-contacts-banner{position:absolute;bottom:68px;height:24px;right:5px;width:125px;background:#252836}
 .chat-online-count{position:absolute;top:6px;left:8px;font-size:12px;font-weight:700;color:#91cc00}
 
-/* ═══ FIX: CHAT INPUT — صندوق كتابة ثابت ═══ */
-.chat-input-container{
-  position:absolute;
-  bottom:0;
-  height:68px;
-  left:0;right:0;
-  background:#0d0d0e;
-  flex-shrink:0;
-  z-index:30;
-}
-.chat-input-wrapper{
-  position:absolute;
-  top:10px;bottom:10px;
-  left:10px;right:10px;
-}
-.chat-input,.chat-textarea{
-  position:absolute;
-  border-radius:8px;
-  top:0;left:0;
-  width:100%;height:100%;
-  border:1px solid #333650;
-  margin:0;
-  padding:8px 12px;
-  overflow:auto;overflow-x:hidden;
-  font-size:15px;
-  background:#252836;
-  color:#fff;
-  resize:none;
-  outline:none;
-  line-height:1.4;
-  box-sizing:border-box;
-  transition:border-color .15s;
-  min-height:48px;
-  max-height:100px;
-  display:block;
-}
-.chat-input:focus,.chat-textarea:focus{border-color:#5a5f7e;}
+/* ═══ CHAT INPUT ═══ */
+.chat-input-container{position:absolute;bottom:0;height:68px;left:0;right:0;background:#0d0d0e;flex-shrink:0;z-index:30}
+.chat-input-wrapper{position:absolute;top:10px;bottom:10px;left:10px;right:10px}
+.chat-input,.chat-textarea{position:absolute;border-radius:8px;top:0;left:0;width:100%;height:100%;border:1px solid #333650;margin:0;padding:8px 12px;overflow:auto;overflow-x:hidden;font-size:15px;background:#252836;color:#fff;resize:none;outline:none;line-height:1.4;box-sizing:border-box;transition:border-color .15s;min-height:48px;max-height:100px;display:block}
+.chat-input:focus,.chat-textarea:focus{border-color:#5a5f7e}
 .chat-input::placeholder,.chat-textarea::placeholder{color:#8d91a8}
 .chat-signin-box{position:absolute;left:5px;right:5px;top:0;bottom:5px;background:#252836}
 .signin-box{position:absolute;top:0;left:0;width:100%;height:100%;text-align:center}
@@ -100,27 +68,10 @@ div{margin:0;padding:0} img{border:none} textarea,input{font-family:inherit} a{c
 .msg-inline-name{font-weight:700;cursor:pointer;color:#fff}
 .msg-inline-type{font-size:.77em;color:#fff;font-weight:400}
 .msg-colon{color:#fff;margin:0}
-
-/* FIX: منع تحويل الأرقام في الرسائل إلى ايموجي */
-.msg-text{
-  font-size:14px;
-  color:#fff;
-  line-height:1.4em;
-  display:inline;
-  white-space:pre-wrap;
-  word-break:break-word;
-  overflow-wrap:anywhere;
-  font-variant-numeric:normal;
-  font-feature-settings:normal;
-  -webkit-font-feature-settings:normal;
-}
-.msg-text .num-char{
-  font-family:'Plus Jakarta Sans',monospace,sans-serif!important;
-  font-variant-emoji:text!important;
-  unicode-bidi:plaintext;
-}
+.msg-text{font-size:14px;color:#fff;line-height:1.4em;display:inline;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;font-variant-numeric:normal;font-feature-settings:normal;-webkit-font-feature-settings:normal}
+.msg-text .num-char{font-family:'Plus Jakarta Sans',monospace,sans-serif!important;font-variant-emoji:text!important;unicode-bidi:plaintext}
 .msg-text a{color:#00bdf4}
-.emoji-char{font-family:'Noto Color Emoji','Apple Color Emoji','Segoe UI Emoji','Twemoji Mozilla',sans-serif !important;font-style:normal;display:inline}
+.emoji-char{font-family:'Noto Color Emoji','Apple Color Emoji','Segoe UI Emoji','Twemoji Mozilla',sans-serif!important;font-style:normal;display:inline}
 .msg-edited{font-size:10px;color:#aaa;margin-left:4px;font-style:italic}
 .msg-actions{position:absolute;right:0;top:2px;display:flex;opacity:0;pointer-events:none;z-index:5}
 .msg:hover .msg-actions{opacity:1;pointer-events:auto}
@@ -150,7 +101,7 @@ div{margin:0;padding:0} img{border:none} textarea,input{font-family:inherit} a{c
 .chat-footer-attach-button,.chat-footer-gif-button,.chat-footer-mic-button,.chat-footer-logout-button,.chat-footer-clear-button,.chat-footer-emoji-button{display:none!important;position:absolute!important;bottom:8px!important;align-items:center;justify-content:center;color:#6c7982!important;cursor:pointer;z-index:60!important;text-decoration:none!important}
 .chat-footer-attach-button,.chat-footer-mic-button,.chat-footer-logout-button,.chat-footer-emoji-button{width:20px!important;height:20px!important}
 .chat-footer-attach-button svg,.chat-footer-logout-button svg,.chat-footer-mic-button svg,.chat-footer-clear-button svg{width:14px!important;height:14px!important;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
-.chat-footer-emoji-button{right:184px!important;font-size:16px!important;width:22px!important;height:20px!important;border:1px solid #3a3d52!important;border-radius:3px!important;background:#171923!important;display:none!important;align-items:center;justify-content:center;}
+.chat-footer-emoji-button{right:184px!important;font-size:16px!important;width:22px!important;height:20px!important;border:1px solid #3a3d52!important;border-radius:3px!important;background:#171923!important;display:none!important;align-items:center;justify-content:center}
 .chat-footer-attach-button{right:154px!important}
 .chat-footer-gif-button{right:118px!important;width:24px!important;height:20px!important;font-size:10px!important;font-weight:700!important;border:1px solid #3a3d52!important;border-radius:3px!important;background:#171923!important;letter-spacing:.2px!important;line-height:20px;text-align:center}
 .chat-footer-mic-button{right:82px!important;border:1px solid #3a3d52!important;border-radius:3px!important;background:#171923!important;width:22px!important}
@@ -160,7 +111,6 @@ div{margin:0;padding:0} img{border:none} textarea,input{font-family:inherit} a{c
 .chat-footer-clear-button:hover{border-color:#7f1d1d!important;background:#2a1518!important}
 .chat-footer-mic-button.recording{color:#ff6b6b!important;border-color:#ff6b6b!important;background:#2a1518!important;animation:voicePulse 1s infinite alternate}
 @keyframes voicePulse{from{opacity:.75}to{opacity:1}}
-
 body.chat-unlocked .chat-footer-emoji-button{display:flex!important}
 body.chat-unlocked .chat-footer-attach-button{display:flex!important}
 body.chat-unlocked .chat-footer-gif-button{display:block!important}
@@ -174,25 +124,11 @@ body.chat-locked .chat-contacts-divider,
 body.chat-locked .chat-contacts-banner{display:none!important}
 body.chat-locked .chat-messages-container{right:5px!important;bottom:68px!important;top:36px!important}
 
-/* ═══ FIX: TYPING BAR — شريط موحد اللون ═══ */
-.typing-bar{
-  display:none;
-  position:absolute;
-  left:0;right:132px;
-  bottom:68px;
-  height:18px;line-height:18px;
-  z-index:38;
-  background:#252836;
-  color:#8a8fac;
-  padding:0 10px;
-  overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-  font-size:11px;
-  pointer-events:none;
-  border-top:1px solid #1a1c2a;
-}
-.chat-wrapper.has-typing .typing-bar{display:block;}
-.chat-wrapper.has-typing .chat-messages-container{bottom:90px!important;}
-body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!important;}
+/* ═══ TYPING BAR ═══ */
+.typing-bar{display:none;position:absolute;left:0;right:132px;bottom:68px;height:18px;line-height:18px;z-index:38;background:#252836;color:#8a8fac;padding:0 10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:11px;pointer-events:none;border-top:1px solid #1a1c2a}
+.chat-wrapper.has-typing .typing-bar{display:block}
+.chat-wrapper.has-typing .chat-messages-container{bottom:90px!important}
+body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!important}
 .typing-bar .typing-name{color:#fff;font-weight:700}
 .typing-bar .typing-status-word{color:#4c7d9f}
 
@@ -213,7 +149,6 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 
 /* ═══ UPLOAD PROGRESS ═══ */
 .upload-progress-wrap{position:fixed;left:15px;bottom:8px;width:130px;height:20px;z-index:520;background:transparent;border:0;color:#8a8fac;display:none;overflow:hidden}
-.upload-progress-wrap[style*="block"]{display:block}
 .upload-progress-top{display:flex;align-items:center;justify-content:space-between;gap:5px;height:11px;line-height:11px}
 .upload-progress-label{font-size:9px;color:#8a8fac;max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .upload-progress-pct{font-size:9px;color:#91cc00;font-weight:700}
@@ -230,6 +165,12 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 /* ═══ IOS UPLOAD NOTE ═══ */
 .ios-upload-note{position:fixed;left:10px;right:142px;bottom:92px;z-index:430;background:#11131d;border:1px solid #2a2d3e;color:#cbd5e1;border-radius:6px;padding:7px 9px;font-size:11px;line-height:1.35;display:none;box-shadow:0 8px 24px rgba(0,0,0,.28)}
 .ios-upload-note.show{display:block}
+
+/* ═══ MESSAGES BUFFER / LOADING ═══ */
+.msgs-buffering{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#252836;z-index:20;pointer-events:none}
+.msgs-buffering-spinner{width:36px;height:36px;border:3px solid rgba(110,142,251,.2);border-top-color:#6e8efb;border-radius:50%;animation:spin .75s linear infinite}
+.msgs-buffering-text{font-size:12px;color:#8a8fac;font-family:'Cairo',sans-serif}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ═══ PLYR VIDEO ═══ */
 .plyr-video-wrap{width:min(520px,100%);max-width:100%;margin-top:6px;background:#05060a;border:1px solid rgba(255,255,255,.08);border-radius:6px;overflow:hidden}
@@ -637,14 +578,13 @@ body.is-instagram-webview .inapp-browser-hint{display:block}
 <div class="toast" id="toast"></div>
 
 <script type="text/javascript">
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    CONFIG
-══════════════════════════════════════════ */
-var APPS_SCRIPT_URL     = 'https://script.google.com/macros/s/AKfycbx9WjzuUmD--58Y6ncxGOhYduXhoJBecIbYA1jzWakRtm7en_-sgNztlnL2XMA3kg/exec';
+══════════════════════════════════════════════════════════════ */
+var APPS_SCRIPT_URL      = 'https://script.google.com/macros/s/AKfycbx9WjzuUmD--58Y6ncxGOhYduXhoJBecIbYA1jzWakRtm7en_-sgNztlnL2XMA3kg/exec';
 var UPLOADCARE_PUBLIC_KEY = '90c1df0fe07861e8af2a';
 var UPLOADCARE_CDN_BASE   = 'https://3uv57uvajd.ucarecd.net/';
-var TENOR_API_KEY = 'AIzaSyC8eZ8TZD2AMCaSjqDLGk1T7ur6qO14kJk';
-var GIPHY_API_KEY = '';
+var TENOR_API_KEY         = 'AIzaSyC8eZ8TZD2AMCaSjqDLGk1T7ur6qO14kJk';
 
 var firebaseConfig = {
   apiKey           : 'AIzaSyD0unPjbthUtdiUAwNzp2Z8NeMNAW3a6hM',
@@ -656,324 +596,858 @@ var firebaseConfig = {
   appId            : '1:569224854609:web:714fa7d027467c7a5dcc70'
 };
 
-/* ══════════════════════════════════════════
-   CONSTANTS & STATE
-══════════════════════════════════════════ */
-var ROOM_ID         = 'google-chat';
-var ADMIN_NAME      = '0000';
-var CHAT_ACCESS_CODE = '0000';
-var MSGS_PER_PAGE   = 50;
-var DEFAULT_AVATAR  = 'https://d167qii8h0pw75.cloudfront.net/images/D/E/F/DEFAULTUSER-resize_38x38.png';
+/* ══════════════════════════════════════════════════════════════
+   CONSTANTS
+══════════════════════════════════════════════════════════════ */
+var ROOM_ID              = 'google-chat';
+var ADMIN_NAME           = '0000';
+var CHAT_ACCESS_CODE     = '0000';
+var CHAT_INACTIVITY_MS   = 5 * 60 * 1000;   /* 5 دقائق */
+var MSGS_BUFFER_DELAY_MS = 800;              /* تأخير Buffering قبل إظهار الرسائل */
+var DEFAULT_AVATAR       = 'https://d167qii8h0pw75.cloudfront.net/images/D/E/F/DEFAULTUSER-resize_38x38.png';
 
+/* ══════════════════════════════════════════════════════════════
+   STATE — آلة الحالة المركزية
+   idle → signingIn → unlocked → locked(news)
+══════════════════════════════════════════════════════════════ */
+var AppState = {
+  IDLE       : 'idle',
+  SIGNING_IN : 'signing_in',
+  UNLOCKED   : 'unlocked',
+  LOCKED     : 'locked'
+};
+
+var state = {
+  current     : AppState.IDLE,
+  user        : null,       /* { name, deviceId } */
+  isReady     : false,      /* Firebase جاهز */
+  transitioning: false      /* منع التحولات المتداخلة */
+};
+
+/* Firebase refs */
 var db, rtdb, auth;
-var currentUser    = null;
-var isSignedIn     = false;
-var isChatUnlocked = false;
-var pendingFiles   = [];
-var editingMsgId   = null;
-var pendingReply   = null;
-var typingTimer    = null;
-var unsubMessages  = null;
-var isSending      = false;
-var isFileUploading = false;
-var isVoiceUploading = false;
-var userConsented  = false;
-var selectedMessages = {};
-
-/* ══════════════════════════════════════════
-   FIREBASE INIT
-══════════════════════════════════════════ */
 firebase.initializeApp(firebaseConfig);
 db   = firebase.firestore();
 rtdb = firebase.database();
 auth = firebase.auth();
 
-/* ══════════════════════════════════════════
-   UPLOADCARE HELPERS
-══════════════════════════════════════════ */
-function safeUploadcareFileName(n){n=String(n||'file').trim()||'file';n=n.replace(/[\/]+/g,'_').replace(/\s+/g,'_');return encodeURIComponent(n);}
-function uploadcareCdnUrl(uuid,name){uuid=String(uuid||'').replace(/^\/+|\/+$/g,'');if(!uuid)return'';return UPLOADCARE_CDN_BASE.replace(/\/+$/,'')+'/'+encodeURIComponent(uuid)+'/'+safeUploadcareFileName(name);}
-function uploadcareBareUrl(uuid){uuid=String(uuid||'').replace(/^\/+|\/+$/g,'');if(!uuid)return'';return UPLOADCARE_CDN_BASE.replace(/\/+$/,'')+'/'+encodeURIComponent(uuid)+'/';}
-function normalizeUploadcareUrl(url,name){url=String(url||'');var m=url.match(/https?:\/\/(?:ucarecdn\.com|[^\/]+\.ucarecd\.net|[^\/]+\.ucarecdn\.net)\/([^\/?#]+)\/?/i);if(m&&m[1])return uploadcareCdnUrl(decodeURIComponent(m[1]),name);return url;}
-function uploadcareVideoTransformUrl(uuid,format){uuid=String(uuid||'').replace(/^\/+|\/+$/g,'');format=String(format||'mp4').replace(/[^a-z0-9]/ig,'').toLowerCase()||'mp4';if(!uuid)return'';return UPLOADCARE_CDN_BASE.replace(/\/+$/,'')+'/'+encodeURIComponent(uuid)+'/video/-/format/'+format+'/';}
+/* متغيرات العمل */
+var unsubMessages   = null;
+var pendingFiles    = [];
+var editingMsgId    = null;
+var pendingReply    = null;
+var typingTimer     = null;
+var isSending       = false;
+var isFileUploading = false;
+var isVoiceUploading= false;
+var userConsented   = false;
+var selectedMessages= {};
+var voiceRecorder=null, voiceStream=null, voiceChunks=[], voiceStartedAt=0, voiceTimerInterval=null;
+var emojiInited     = false;
+var gifSearchTimer  = null;
 
-/* ══════════════════════════════════════════
-   FILE HELPERS
-══════════════════════════════════════════ */
-function getExtFromName(name){var m=String(name||'').match(/\.([a-z0-9]{1,12})$/i);return m?m[1].toLowerCase():'';}
-function inferMimeFromName(name,fallback){var ext=getExtFromName(name);var map={heic:'image/heic',heif:'image/heif',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',gif:'image/gif',webp:'image/webp',bmp:'image/bmp',svg:'image/svg+xml',avif:'image/avif',mp4:'video/mp4',m4v:'video/mp4',mov:'video/quicktime',webm:'video/webm',ogv:'video/ogg',ogg:'video/ogg',avi:'video/x-msvideo',mkv:'video/x-matroska',wmv:'video/x-ms-wmv',mpg:'video/mpeg','3gp':'video/3gpp',mp3:'audio/mpeg',m4a:'audio/mp4',aac:'audio/aac',wav:'audio/wav',caf:'audio/x-caf',aiff:'audio/aiff',flac:'audio/flac',opus:'audio/opus',pdf:'application/pdf',zip:'application/zip',txt:'text/plain',csv:'text/csv',json:'application/json',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',xls:'application/vnd.ms-excel',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',ppt:'application/vnd.ms-powerpoint',pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation'};return map[ext]||fallback||'application/octet-stream';}
-function detectFileType(mime,name){var m=(mime||'').toLowerCase(),n=(name||'').toLowerCase();if(m.startsWith('image/')||/\.(jpg|jpeg|png|gif|webp|svg|bmp|avif|heic|heif|tif|tiff|ico)$/i.test(n))return'image';if(m.startsWith('video/')||/\.(mp4|m4v|webm|ogv|ogg|mov|qt|avi|mkv|flv|wmv|mpg|mpeg|3gp|3g2|ts)$/i.test(n))return'video';if(m.startsWith('audio/')||/\.(mp3|wav|aac|flac|m4a|oga|ogg|opus|weba|wma|aiff|aif|amr)$/i.test(n))return'audio';return'file';}
-function getVideoMimeType(mime,name,url){var m=(mime||'').toLowerCase();var t=String(name||url||'').toLowerCase().split('?')[0];if(m&&m.indexOf('video/')===0)return m;if(/\.(mp4|m4v)$/.test(t))return'video/mp4';if(/\.webm$/.test(t))return'video/webm';if(/\.(ogv|ogg)$/.test(t))return'video/ogg';if(/\.(mov|qt)$/.test(t))return'video/quicktime';if(/\.avi$/.test(t))return'video/x-msvideo';if(/\.mkv$/.test(t))return'video/x-matroska';return'video/mp4';}
-function safeClientFileName(file,idx){var raw=(file&&file.name?String(file.name):'').trim();if(!raw){var t=(file&&file.type)||'';var ext=t.indexOf('image/')===0?'.jpg':(t.indexOf('video/')===0?'.mp4':(t.indexOf('audio/')===0?'.m4a':'.bin'));raw='iphone_upload_'+Date.now()+'_'+(idx||0)+ext;}return raw.replace(/[\u0000-\u001f\u007f]/g,'').replace(/[\\/]+/g,'_').slice(0,180)||('upload_'+Date.now()+'.bin');}
-function prepareUploadFile(file,idx){if(!file)throw new Error('لم يتم اختيار ملف');if(typeof file.size==='number'&&file.size<=0)throw new Error('الملف غير جاهز.');var name=safeClientFileName(file,idx);var inferredType=inferMimeFromName(name,file.type||'');try{if((!file.name||!file.type)&&typeof File!=='undefined')return new File([file],name,{type:inferredType,lastModified:file.lastModified||Date.now()});}catch(e){}return file;}
-function formatFileSize(b){if(!b)return'';if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(1)+' MB';}
-function getFileIcon(name,mime){var ext=((name||'').split('.').pop()||'').toLowerCase(),m=(mime||'').toLowerCase();if(m.startsWith('image/')||/^(jpg|jpeg|png|gif|webp|svg|bmp|avif|heic|heif)$/.test(ext))return'🖼️';if(m.startsWith('video/')||/^(mp4|m4v|webm|ogv|ogg|mov|avi|mkv|wmv|mpg|3gp)$/.test(ext))return'🎬';if(m.startsWith('audio/')||/^(mp3|wav|aac|flac|m4a|ogg|opus|aiff|amr)$/.test(ext))return'🎵';return({pdf:'📄',doc:'📝',docx:'📝',txt:'📃',zip:'🗜️',rar:'🗜️',xls:'📊',xlsx:'📊',csv:'📊',ppt:'📑',pptx:'📑'}[ext])||'📎';}
-function isIOSDevice(){return /iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);}
-function isMovOrProblemVideo(att){var n=String((att&&att.name)||'').toLowerCase(),m=String((att&&att.mime)||'').toLowerCase();return /\.(mov|qt|m4v)$/i.test(n)||m==='video/quicktime';}
-function uniqueUrls(list){var seen={};return list.filter(function(u){if(!u||seen[u])return false;seen[u]=true;return true;});}
-function extractDriveId(url){url=String(url||'');var m=url.match(/\/file\/d\/([^\/\?#]+)/);if(m&&m[1])return m[1];m=url.match(/[?&]id=([^&]+)/);if(m&&m[1])return decodeURIComponent(m[1]);return'';}
-function getAttachmentFileId(att){return att.fileId||att.id||att.driveFileId||extractDriveId(att.driveUrl)||extractDriveId(att.url)||'';}
-function normalizeEmojiPresentation(str){return String(str||'').replace(/❤(?!\ufe0f)/g,'❤️').replace(/♥(?!\ufe0f)/g,'♥️');}
+/* ══════════════════════════════════════════════════════════════
+   STATE MACHINE — انتقال الحالات
+══════════════════════════════════════════════════════════════ */
 
-/* ══════════════════════════════════════════
-   URL / SOCIAL HELPERS
-══════════════════════════════════════════ */
-function getUrlsFromText(text){return(String(text||'').match(/https?:\/\/[^\s<>"']+/g)||[]).map(function(u){return u.replace(/[)\],.؟،]+$/g,'');});}
-function getYouTubeId(url){try{var u=new URL(url),h=u.hostname.replace(/^www\./,'').toLowerCase(),p=u.pathname;if(h==='youtu.be')return p.split('/').filter(Boolean)[0]||'';if(h.indexOf('youtube.com')>=0){if(p.indexOf('/shorts/')===0)return p.split('/')[2]||'';if(p.indexOf('/watch')===0)return u.searchParams.get('v')||'';}}catch(e){}return'';}
-function getTikTokId(url){try{var m=String(url).match(/\/video\/(\d+)/);return m?m[1]:'';}catch(e){return'';}}
-function normalizeInstagramUrl(url){try{var m=String(url||'').match(/instagram\.com\/(?:reel|p|tv)\/([^\/?#]+)/i);if(!m||!m[1])return'';var kind=/\/reel\//i.test(url)?'reel':(/\/tv\//i.test(url)?'tv':'p');return'https://www.instagram.com/'+kind+'/'+m[1]+'/';}catch(e){return'';}}
-function isFacebookUrl(url){return /(?:^|\.)facebook\.com|fb\.watch/i.test(String(url||''));}
-function isFacebookVideoUrl(url){return isFacebookUrl(url)&&/(reel|watch|videos|fb\.watch)/i.test(String(url||''));}
-function getYouTubeEmbedSrc(id){var src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id)+'?playsinline=1&rel=0';try{if(location&&location.origin&&/^https?:/.test(location.origin))src+='&origin='+encodeURIComponent(location.origin);}catch(e){}return src;}
-function getSocialEmbeds(text){var urls=getUrlsFromText(text),embeds=[];urls.forEach(function(url){var yt=getYouTubeId(url),tk=getTikTokId(url),igUrl=normalizeInstagramUrl(url);if(yt){var isShort=/\/shorts\//i.test(url);embeds.push({platform:isShort?'YouTube Shorts':'YouTube',type:'youtube',url:url,src:getYouTubeEmbedSrc(yt),cls:isShort?'social-embed-vertical':'social-embed-youtube'});}else if(tk){embeds.push({platform:'TikTok',type:'tiktok',url:url,src:'https://www.tiktok.com/embed/v2/'+encodeURIComponent(tk),cls:'social-embed-vertical'});}else if(igUrl){embeds.push({platform:/\/reel\//i.test(igUrl)?'Instagram Reels':'Instagram Post',type:'instagram',url:igUrl});}else if(isFacebookUrl(url)){var plugin=isFacebookVideoUrl(url)?'video.php':'post.php';embeds.push({platform:isFacebookVideoUrl(url)?'Facebook Video':'Facebook Post',type:'facebook',url:url,src:'https://www.facebook.com/plugins/'+plugin+'?href='+encodeURIComponent(url)+'&show_text=true&width=500',cls:'social-embed-facebook'});}});return embeds;}
-function buildSocialEmbedsHtml(text){var embeds=getSocialEmbeds(text);if(!embeds.length)return'';var html='<div class="social-embed-wrap">';embeds.forEach(function(e){if(e.type==='instagram'){html+='<div class="social-embed-card social-embed-instagram-card"><div class="social-embed-head"><span class="social-embed-platform">'+escHtml(e.platform)+'</span><span class="social-embed-note">Embed</span></div><blockquote class="instagram-media" data-instgrm-permalink="'+escHtml(e.url)+'" data-instgrm-version="14" style="background:#FFF;border:0;margin:0;max-width:100%;min-width:0;width:100%;"></blockquote><div class="social-embed-fallback"><a target="_blank" rel="nofollow noopener" href="'+escHtml(e.url)+'">فتح على Instagram</a></div></div>';}else{html+='<div class="social-embed-card"><div class="social-embed-head"><span class="social-embed-platform">'+escHtml(e.platform)+'</span><span class="social-embed-note">Preview</span></div><iframe class="social-embed-frame '+escHtml(e.cls||'')+'" src="'+escHtml(e.src)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe><div class="social-embed-fallback"><a target="_blank" rel="nofollow noopener" href="'+escHtml(e.url)+'">فتح الرابط</a></div></div>';}});html+='</div>';return html;}
-function processSocialEmbeds(){try{if(window.instgrm&&window.instgrm.Embeds)window.instgrm.Embeds.process();}catch(e){}}
+/**
+ * الانتقال إلى حالة جديدة مع منع التداخل.
+ * يُعدّ هذا المحور الذي تدور حوله كل الأحداث.
+ */
+function transition(newState, payload) {
+  if (state.transitioning) return;
+  state.transitioning = true;
+  try {
+    _doTransition(newState, payload);
+  } finally {
+    state.transitioning = false;
+  }
+}
 
-/* ══════════════════════════════════════════
-   VIDEO / IMAGE SOURCES
-══════════════════════════════════════════ */
-function getImageUrlCandidates(att){var urls=[];if(att&&att.provider==='uploadcare'&&(att.uuid||att.publicId)){urls.push(uploadcareCdnUrl(att.uuid||att.publicId,att.name||'image'));urls.push(uploadcareBareUrl(att.uuid||att.publicId));}if(att&&att.cdnUrl)urls.push(normalizeUploadcareUrl(att.cdnUrl,att.name));if(att&&att.url)urls.push(normalizeUploadcareUrl(att.url,att.name));if(att&&att.fileId){urls.push('https://drive.google.com/thumbnail?id='+encodeURIComponent(att.fileId)+'&sz=w1200');urls.push('https://drive.google.com/uc?export=view&id='+encodeURIComponent(att.fileId));}if(att&&att.directUrl)urls.push(att.directUrl);return uniqueUrls(urls);}
-function getVideoUrlCandidates(att){var urls=[];if(att&&att.provider==='uploadcare'&&(att.uuid||att.publicId)){urls.push(uploadcareCdnUrl(att.uuid||att.publicId,att.name||'video.mp4'));urls.push(uploadcareBareUrl(att.uuid||att.publicId));}if(att&&att.cdnUrl)urls.push(normalizeUploadcareUrl(att.cdnUrl,att.name));if(att&&att.url)urls.push(normalizeUploadcareUrl(att.url,att.name));if(att&&att.fileId){urls.push('https://drive.google.com/uc?export=download&id='+encodeURIComponent(att.fileId));}return uniqueUrls(urls);}
-function buildVideoSources(att,primaryUrl){var urls=getVideoUrlCandidates(Object.assign({},att||{},{url:primaryUrl||(att&&att.url)||''}));var uuid=att&&(att.uuid||att.publicId);var originalName=(att&&att.name)||primaryUrl||'video';var originalMime=getVideoMimeType(att&&att.mime,originalName,primaryUrl);var originalPlayable=/video\/(mp4|webm|ogg|quicktime)/i.test(originalMime)||/\.(mp4|m4v|webm|ogv|ogg|mov)$/i.test(String(originalName||''));var candidates=[];function add(url,type){if(url)candidates.push({url:url,type:type});}if(originalPlayable){urls.forEach(function(u){add(u,getVideoMimeType(att&&att.mime,originalName,u));});}if(uuid){add(uploadcareVideoTransformUrl(uuid,'mp4'),'video/mp4');add(uploadcareVideoTransformUrl(uuid,'webm'),'video/webm');}if(!originalPlayable){urls.forEach(function(u){add(u,getVideoMimeType(att&&att.mime,originalName,u));});}var seen={};candidates=candidates.filter(function(c){var k=c.url+'|'+c.type;if(!c.url||seen[k])return false;seen[k]=true;return true;});var html=candidates.map(function(c){return'<source src="'+escHtml(c.url)+'" type="'+escHtml(c.type)+'">';}).join('');return{html:html,urls:candidates.map(function(c){return c.url;}),downloadUrl:urls[0]||primaryUrl||''};}
-function handleImageError(img){var urls=[];try{urls=JSON.parse(decodeURIComponent(img.getAttribute('data-fallbacks')||'%5B%5D'));}catch(e){}var next=parseInt(img.getAttribute('data-fallback-idx')||'0',10)+1;if(next<urls.length){img.setAttribute('data-fallback-idx',String(next));img.src=urls[next];return;}img.style.opacity='0.25';img.title='تعذر عرض الصورة';}
-function handlePlyrVideoError(video){try{var wrap=video.closest('.plyr-video-wrap');if(wrap&&!wrap.querySelector('.plyr-video-fallback.active')){var div=document.createElement('div');div.className='plyr-video-fallback active';div.innerHTML='تعذر تشغيل هذا الفيديو داخل المتصفح.';wrap.appendChild(div);}}catch(e){}}
+function _doTransition(newState, payload) {
+  var prev = state.current;
+  state.current = newState;
 
-/* ══════════════════════════════════════════
-   PLYR INIT
-══════════════════════════════════════════ */
-function initPlyrIn(root){if(!root||!window.Plyr){setTimeout(function(){if(window.Plyr)initPlyrIn(root);},300);return;}(root.querySelectorAll?root.querySelectorAll('video.plyr-video:not([data-plyr-ready])'):[] ).forEach(function(v){try{v.setAttribute('data-plyr-ready','1');new Plyr(v,{controls:['play-large','play','progress','current-time','duration','mute','volume','settings','fullscreen'],settings:['speed'],fullscreen:{enabled:true,iosNative:true},clickToPlay:true,hideControls:true});}catch(e){}});(root.querySelectorAll?root.querySelectorAll('audio.plyr-audio:not([data-plyr-ready])'):[] ).forEach(function(a){try{a.setAttribute('data-plyr-ready','1');a.setAttribute('controlsList','nodownload');a.addEventListener('contextmenu',function(e){e.preventDefault();});new Plyr(a,{controls:['play','progress','current-time','duration'],settings:[],keyboard:{focused:true,global:false}});}catch(e){}});}
+  /* ─── دائماً: وقف الاشتراك عند مغادرة UNLOCKED ─── */
+  if (prev === AppState.UNLOCKED && newState !== AppState.UNLOCKED) {
+    _stopMessageSubscription();
+  }
 
-/* ══════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════ */
-function scrollToBottom(){var w=document.getElementById('messagesWrap');setTimeout(function(){w.scrollTop=w.scrollHeight;},60);}
-function autoResize(el){el.style.height='auto';var newH=Math.min(el.scrollHeight,100);el.style.height=newH+'px';}
-function updateSendBtn(){if(isSending)return;var hasText=document.getElementById('chatInput').value.trim().length>0;var hasFiles=pendingFiles.some(function(f){return f!=null;});var btn=document.getElementById('sendBtn');if(btn)btn.disabled=!(hasText||hasFiles);}
-function formatTime(d){return d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true});}
-function escHtml(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function escJs(str){return String(str||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' ');}
+  switch (newState) {
 
-/* FIX: linkify يحافظ على الأرقام كنص عادي بدون تحويلها لإيموجي */
-function linkify(text){
-  return text.replace(/(https?:\/\/[^\s<>"]+)/g,function(url){
-    return '<a target="_blank" rel="nofollow" href="'+url+'">'+url+'</a>';
+    case AppState.IDLE:
+      /* حالة البداية فقط — لا شيء */
+      break;
+
+    case AppState.SIGNING_IN:
+      /* عرض نموذج الدخول — الأخبار تظهر في الخلفية */
+      _showSigninOverlay(true);
+      _showChatBottom(false);
+      _setChatLocked(true);
+      if (prev === AppState.IDLE) {
+        /* أول تشغيل — حمّل الأخبار */
+        renderPublicNewsCards();
+      }
+      break;
+
+    case AppState.UNLOCKED:
+      /* المستخدم دخل بنجاح */
+      state.user = payload || state.user;
+      _showSigninOverlay(false);
+      _showChatBottom(true);
+      _setChatLocked(false);
+      updateAdminControls();
+      markActive();
+      _startMessageSubscriptionWithBuffer();
+      setTimeout(function() {
+        var inp = document.getElementById('chatInput');
+        if (inp) inp.focus();
+      }, 300);
+      break;
+
+    case AppState.LOCKED:
+      /* انتهت الجلسة / خروج */
+      state.user = null;
+      _stopMessageSubscription();
+      _showSigninOverlay(true);
+      _showChatBottom(false);
+      _setChatLocked(true);
+      updateAdminControls();
+      renderPublicNewsCards();
+      /* أعد ضبط حقل الاسم */
+      var ni = document.getElementById('nameInput');
+      if (ni) ni.value = '';
+      setTimeout(function() {
+        var ni2 = document.getElementById('nameInput');
+        if (ni2) ni2.focus();
+      }, 150);
+      break;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UI HELPERS — وظائف العرض الأساسية
+══════════════════════════════════════════════════════════════ */
+function _showSigninOverlay(show) {
+  var el = document.getElementById('signinOverlay');
+  if (el) el.style.display = show ? '' : 'none';
+}
+function _showChatBottom(show) {
+  var el = document.getElementById('chatBottom');
+  if (el) el.style.display = show ? 'block' : 'none';
+}
+function _setChatLocked(locked) {
+  document.body.classList.toggle('chat-locked',   locked);
+  document.body.classList.toggle('chat-unlocked', !locked);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   MESSAGE SUBSCRIPTION — مع Buffering
+══════════════════════════════════════════════════════════════ */
+function _startMessageSubscriptionWithBuffer() {
+  _stopMessageSubscription();
+  _clearChatDom();
+  _showMessagesBuffer(true);
+
+  /* تأخير الـ Buffering قبل جلب الرسائل */
+  setTimeout(function() {
+    if (state.current !== AppState.UNLOCKED) return;
+    _subscribeMessages();
+    /* أخفِ المؤشر بعد ثانية إضافية (يكفي لوصول أول batch) */
+    setTimeout(function() {
+      _showMessagesBuffer(false);
+    }, 600);
+  }, MSGS_BUFFER_DELAY_MS);
+}
+
+function _stopMessageSubscription() {
+  if (unsubMessages) {
+    try { unsubMessages(); } catch(e) {}
+    unsubMessages = null;
+  }
+}
+
+function _clearChatDom() {
+  var cm = document.getElementById('chatMessages');
+  if (!cm) return;
+  cm.innerHTML =
+    '<div class="chat-history-controls" style="display:none;"><a class="chat-history-load" href="javascript:void(0)">Load Earlier Messages</a></div>' +
+    '<div class="chat-welcome-message"></div>';
+}
+
+function _showMessagesBuffer(show) {
+  var wrap = document.getElementById('messagesWrap');
+  if (!wrap) return;
+  var old = wrap.querySelector('.msgs-buffering');
+  if (show) {
+    if (old) return;
+    var div = document.createElement('div');
+    div.className = 'msgs-buffering';
+    div.innerHTML =
+      '<div class="msgs-buffering-spinner"></div>' +
+      '<div class="msgs-buffering-text">جاري تحميل المحادثة...</div>';
+    wrap.appendChild(div);
+  } else {
+    if (old) {
+      old.style.opacity = '0';
+      old.style.transition = 'opacity .25s';
+      setTimeout(function() { if (old.parentNode) old.parentNode.removeChild(old); }, 260);
+    }
+  }
+}
+
+function _subscribeMessages() {
+  unsubMessages = db
+    .collection('rooms').doc(ROOM_ID).collection('messages')
+    .orderBy('timestamp', 'asc')
+    .onSnapshot(function(snap) {
+      if (state.current !== AppState.UNLOCKED) return;
+      snap.docChanges().forEach(function(ch) {
+        if      (ch.type === 'added')    renderMessage(ch.doc.id, ch.doc.data(), true);
+        else if (ch.type === 'modified') updateMsgEl(ch.doc.id, ch.doc.data());
+        else if (ch.type === 'removed')  removeMsgEl(ch.doc.id);
+      });
+    });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SESSION — إدارة الجلسة (5 دقائق خمول)
+══════════════════════════════════════════════════════════════ */
+function markActive() {
+  var t = Date.now();
+  try { localStorage.setItem('__chatLastActiveAt', t); } catch(e) {}
+  try { sessionStorage.setItem('__chatLastActiveAt', t); } catch(e) {}
+}
+
+function markAway() {
+  var t = Date.now();
+  try { localStorage.setItem('__chatAwayAt', t); } catch(e) {}
+  try { sessionStorage.setItem('__chatAwayAt', t); } catch(e) {}
+}
+
+function sessionExpired() {
+  var awayAt  = parseInt(localStorage.getItem('__chatAwayAt') || '0', 10);
+  var lastAt  = parseInt(localStorage.getItem('__chatLastActiveAt') || '0', 10);
+  var base    = Math.max(awayAt, lastAt);
+  if (!base) return false;
+  return (Date.now() - base) >= CHAT_INACTIVITY_MS;
+}
+
+function _clearSessionStorage() {
+  try { localStorage.removeItem('__chatUserName'); } catch(e) {}
+  try { sessionStorage.removeItem('__chatAccessGranted'); } catch(e) {}
+  try { sessionStorage.removeItem('__chatAccessName'); } catch(e) {}
+}
+
+/* أحداث النشاط — تُحدّث الطابع الزمني فقط عند فتح المحادثة */
+['click', 'keydown', 'touchstart', 'pointerdown'].forEach(function(ev) {
+  document.addEventListener(ev, function() {
+    if (state.current === AppState.UNLOCKED) markActive();
+  }, { passive: true });
+});
+
+/* ═══ منطق العودة من الخلفية ═══
+   هذا هو الجزء الذي كان يسبب المشكلة.
+   الحل: نفصل بين "تغيير الحالة" و"إعادة تهيئة الواجهة".
+*/
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    /* غادر التبويب — سجّل وقت الغياب */
+    if (state.current === AppState.UNLOCKED) markAway();
+    return;
+  }
+
+  /* عاد إلى التبويب */
+  if (state.current !== AppState.UNLOCKED) return;
+
+  if (sessionExpired()) {
+    /* انتهت المدة — تسجيل خروج ناعم */
+    _cleanupPresence();
+    _clearSessionStorage();
+    try { auth.signOut(); } catch(e) {}
+    transition(AppState.LOCKED);
+  } else {
+    /* الجلسة لا تزال حية — تحديث فقط */
+    markActive();
+    /* إذا اختفى الاشتراك لأي سبب، أعده */
+    if (!unsubMessages) {
+      _startMessageSubscriptionWithBuffer();
+    }
+  }
+});
+
+window.addEventListener('pagehide', function() {
+  if (state.current === AppState.UNLOCKED) markAway();
+});
+
+/* ══════════════════════════════════════════════════════════════
+   INIT — التهيئة الأولية
+══════════════════════════════════════════════════════════════ */
+(function init() {
+  var savedName = null;
+  try { savedName = localStorage.getItem('__chatUserName'); } catch(e) {}
+
+  var authP = auth.currentUser
+    ? Promise.resolve(auth.currentUser)
+    : auth.signInAnonymously().then(function(r) { return r.user; });
+
+  authP.then(function() {
+    state.isReady = true;
+
+    if (!savedName) {
+      /* مستخدم جديد / لم يسجّل مسبقاً */
+      registerAnonymousPresence();
+      transition(AppState.SIGNING_IN);
+      return;
+    }
+
+    /* يوجد اسم محفوظ — جرّب الدخول التلقائي */
+    userConsented = true;
+    getDeviceId().then(function(devId) {
+      requireChatAccess(savedName).then(function(ok) {
+        if (ok) {
+          _completeSignIn(savedName, devId);
+        } else {
+          _clearSessionStorage();
+          transition(AppState.SIGNING_IN);
+        }
+      });
+    });
+
+  }).catch(function(e) {
+    console.error('Init error:', e);
+    showToast('تعذر الاتصال بالخادم', 'error');
+    transition(AppState.SIGNING_IN);
+  });
+})();
+
+/* ══════════════════════════════════════════════════════════════
+   SIGN IN / OUT
+══════════════════════════════════════════════════════════════ */
+document.getElementById('signinBtn').addEventListener('click', function() {
+  userConsented = true;
+  try { localStorage.setItem('__chatConsent', 'yes'); } catch(e) {}
+  doSignIn();
+});
+document.getElementById('nameInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    userConsented = true;
+    try { localStorage.setItem('__chatConsent', 'yes'); } catch(e) {}
+    doSignIn();
+  }
+});
+
+function doSignIn() {
+  var name = document.getElementById('nameInput').value.trim();
+  if (!name) { document.getElementById('nameInput').focus(); return; }
+  var btn = document.getElementById('signinBtn');
+  btn.disabled = true;
+  btn.textContent = '...';
+
+  getDeviceId().then(function(devId) {
+    var authP = auth.currentUser
+      ? Promise.resolve(auth.currentUser)
+      : auth.signInAnonymously().then(function(r) { return r.user; });
+
+    return authP.then(function() {
+      var ref = db.collection('users').doc(devId);
+      return ref.get().then(function(snap) {
+        var payload = { name: name, deviceId: devId, lastSeen: firebase.firestore.FieldValue.serverTimestamp() };
+        return snap.exists ? ref.update(payload) : ref.set(Object.assign(payload, { created: firebase.firestore.FieldValue.serverTimestamp() }));
+      }).then(function() { return devId; });
+    });
+  }).then(function(devId) {
+    return requireChatAccess(name).then(function(ok) {
+      if (!ok) {
+        btn.disabled = false;
+        btn.textContent = 'Sign in';
+        return;
+      }
+      _completeSignIn(name, devId);
+    });
+  }).catch(function(e) {
+    var msg = 'حدث خطأ، حاول مرة أخرى';
+    if (e && e.code === 'auth/admin-restricted-operation') msg = 'فعّل Anonymous sign-in من Firebase';
+    showToast(msg, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Sign in';
   });
 }
 
-/* FIX: renderEmoji لا يمس الأرقام */
-function renderEmoji(text){
-  if(!text)return text;
-  /* غلّف فقط الإيموجيات الحقيقية */
-  return text.replace(/([\uD83C-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF])/g,function(m){
-    return'<span class="emoji-char">'+m+'</span>';
-  });
+function _completeSignIn(name, devId) {
+  try { localStorage.setItem('__chatUserName', name); } catch(e) {}
+  registerNamedPresence(name, devId);
+  transition(AppState.UNLOCKED, { name: name, deviceId: devId });
+  /* أعد ضبط زر Sign in */
+  var btn = document.getElementById('signinBtn');
+  if (btn) { btn.disabled = false; btn.textContent = 'Sign in'; }
 }
 
-function showToast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast '+(type||'');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},3500);}
-function showIOSUploadNote(msg){var el=document.getElementById('iosUploadNote');if(!el)return;el.textContent=msg;el.classList.add('show');clearTimeout(showIOSUploadNote._t);showIOSUploadNote._t=setTimeout(function(){el.classList.remove('show');},6500);}
+function logoutUser() {
+  _cleanupPresence();
+  _clearSessionStorage();
+  try { auth.signOut(); } catch(e) {}
+  transition(AppState.LOCKED);
+}
 
-/* ══════════════════════════════════════════
-   DEVICE ID
-══════════════════════════════════════════ */
-function getDeviceId(){var saved=localStorage.getItem('__chatDeviceId');if(saved)return Promise.resolve(saved);try{var canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');ctx.textBaseline='top';ctx.font='14px Plus Jakarta Sans';ctx.fillStyle='#f60';ctx.fillRect(125,1,62,20);ctx.fillStyle='#069';ctx.fillText('fp',2,2);var raw=canvas.toDataURL()+navigator.userAgent+screen.width+screen.height;return crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw)).then(function(buf){var id='dev_'+Array.from(new Uint8Array(buf)).map(function(b){return b.toString(36);}).join('').substr(0,18);localStorage.setItem('__chatDeviceId',id);return id;});}catch(e){var id='dev_'+Date.now().toString(36)+Math.random().toString(36).substr(2,6);localStorage.setItem('__chatDeviceId',id);return Promise.resolve(id);}}
+function _cleanupPresence() {
+  if (!state.user) return;
+  var devId = state.user.deviceId;
+  try {
+    rtdb.ref('presence/' + ROOM_ID + '/' + devId).remove();
+    rtdb.ref('typing/' + ROOM_ID + '/' + devId).remove();
+  } catch(e) {}
+}
 
-/* ══════════════════════════════════════════
-   ACCESS CONTROL
-══════════════════════════════════════════ */
-function isPrivilegedChatName(name){var n=String(name||'').trim().toLowerCase();return n==='t'||n==='h';}
-function hasVerifiedAccessForName(name){try{return sessionStorage.getItem('__chatAccessGranted')==='yes'&&sessionStorage.getItem('__chatAccessName')===String(name||'').trim();}catch(e){return false;}}
-function setVerifiedAccessForName(name){try{sessionStorage.setItem('__chatAccessGranted','yes');sessionStorage.setItem('__chatAccessName',String(name||'').trim());}catch(e){}}
-function showAccessCodeDialog(){return new Promise(function(resolve){var overlay=document.getElementById('accessCodeOverlay'),input=document.getElementById('accessCodeInput');var err=document.getElementById('accessCodeError'),ok=document.getElementById('accessCodeOkBtn'),cancel=document.getElementById('accessCodeCancelBtn');if(!overlay||!input||!ok||!cancel){resolve(false);return;}function cleanup(result){overlay.classList.remove('show');ok.removeEventListener('click',onOk);cancel.removeEventListener('click',onCancel);input.removeEventListener('keydown',onKey);resolve(result);}function onOk(){if(String(input.value||'').trim()===CHAT_ACCESS_CODE){cleanup(true);}else{if(err)err.style.display='block';input.select();}}function onCancel(){cleanup(false);}function onKey(e){if(e.key==='Enter')onOk();else if(e.key==='Escape')onCancel();}input.value='';if(err)err.style.display='none';overlay.classList.add('show');ok.addEventListener('click',onOk);cancel.addEventListener('click',onCancel);input.addEventListener('keydown',onKey);setTimeout(function(){input.focus();},40);});}
-function requireChatAccess(name){if(isPrivilegedChatName(name)||hasVerifiedAccessForName(name))return Promise.resolve(true);return showAccessCodeDialog().then(function(ok){if(ok){setVerifiedAccessForName(name);return true;}showToast('رمز التحقق غير صحيح.','error');return false;});}
-
-/* ══════════════════════════════════════════
-   SESSION (5 دقائق)
-══════════════════════════════════════════ */
-var CHAT_INACTIVITY_MS=5*60*1000;
-function markActive(){var t=Date.now();try{sessionStorage.setItem('__chatLastActiveAt',t);localStorage.setItem('__chatLastActiveAt',t);}catch(e){}}
-function markAway(){var t=Date.now();try{sessionStorage.setItem('__chatAwayAt',t);localStorage.setItem('__chatAwayAt',t);}catch(e){}}
-function sessionExpired(){var a=parseInt(localStorage.getItem('__chatAwayAt')||0,10);var last=parseInt(localStorage.getItem('__chatLastActiveAt')||0,10);var base=Math.max(a,last);if(!base)return false;return Date.now()-base>=CHAT_INACTIVITY_MS;}
-['click','keydown','touchstart','pointerdown'].forEach(function(ev){document.addEventListener(ev,function(){if(document.body.classList.contains('chat-unlocked'))markActive();},{passive:true});});
-document.addEventListener('visibilitychange',function(){if(document.hidden){markAway();}else{if(sessionExpired()&&(isSignedIn||document.body.classList.contains('chat-unlocked'))){try{localStorage.removeItem('__chatUserName');sessionStorage.removeItem('__chatAccessGranted');sessionStorage.removeItem('__chatAccessName');}catch(e){}forceReturnToLogin();}else if(document.body.classList.contains('chat-unlocked')){markActive();}}});
-window.addEventListener('pagehide',markAway);
-
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    ADMIN
-══════════════════════════════════════════ */
-function isAdminUser(){return !!(currentUser&&String(currentUser.name||'').trim()===ADMIN_NAME);}
-function updateAdminControls(){var btn=document.getElementById('adminClearFooterBtn'),show=isAdminUser();if(btn){if(show)btn.classList.add('show');else btn.classList.remove('show');}}
-function deleteAllMessages(){if(!isAdminUser()){showToast('هذا الزر للمسؤول فقط','error');return;}if(!confirm('حذف جميع الرسائل؟'))return;var ref=db.collection('rooms').doc(ROOM_ID).collection('messages');function deleteBatch(){return ref.limit(250).get().then(function(snap){if(snap.empty)return;var batch=db.batch();snap.docs.forEach(function(doc){batch.delete(doc.ref);});return batch.commit().then(deleteBatch);});}deleteBatch().then(function(){showToast('تم حذف جميع الرسائل','success');}).catch(function(){showToast('فشل الحذف','error');});}
+══════════════════════════════════════════════════════════════ */
+function isAdminUser() {
+  return !!(state.user && String(state.user.name || '').trim() === ADMIN_NAME);
+}
+function updateAdminControls() {
+  var btn = document.getElementById('adminClearFooterBtn');
+  if (!btn) return;
+  if (isAdminUser()) btn.classList.add('show');
+  else btn.classList.remove('show');
+}
+function deleteAllMessages() {
+  if (!isAdminUser()) { showToast('هذا الزر للمسؤول فقط', 'error'); return; }
+  if (!confirm('حذف جميع الرسائل؟')) return;
+  var ref = db.collection('rooms').doc(ROOM_ID).collection('messages');
+  function deleteBatch() {
+    return ref.limit(250).get().then(function(snap) {
+      if (snap.empty) return;
+      var batch = db.batch();
+      snap.docs.forEach(function(doc) { batch.delete(doc.ref); });
+      return batch.commit().then(deleteBatch);
+    });
+  }
+  deleteBatch()
+    .then(function() { showToast('تم حذف جميع الرسائل', 'success'); })
+    .catch(function() { showToast('فشل الحذف', 'error'); });
+}
 
-/* ══════════════════════════════════════════
-   LOGOUT / FORCE RETURN
-══════════════════════════════════════════ */
-function logoutUser(){var devId=currentUser&&currentUser.deviceId;var cleanup=devId?Promise.all([rtdb.ref('presence/'+ROOM_ID+'/'+devId).remove().catch(function(){}),rtdb.ref('typing/'+ROOM_ID+'/'+devId).remove().catch(function(){})]):Promise.resolve();cleanup.then(function(){try{if(unsubMessages)unsubMessages();}catch(e){}try{localStorage.removeItem('__chatUserName');sessionStorage.removeItem('__chatAccessGranted');sessionStorage.removeItem('__chatAccessName');}catch(e){}try{auth.signOut();}catch(e){}location.reload();});}
-function forceReturnToLogin(){document.body.classList.add('chat-locked');document.body.classList.remove('chat-unlocked');try{if(unsubMessages)unsubMessages();}catch(e){}unsubMessages=null;isSignedIn=false;isChatUnlocked=false;try{localStorage.removeItem('__chatUserName');}catch(e){}try{if(currentUser&&currentUser.deviceId){rtdb.ref('presence/'+ROOM_ID+'/'+currentUser.deviceId).remove().catch(function(){});rtdb.ref('typing/'+ROOM_ID+'/'+currentUser.deviceId).remove().catch(function(){});}}catch(e){}currentUser=null;var sign=document.getElementById('signinOverlay'),bottom=document.getElementById('chatBottom'),nameInput=document.getElementById('nameInput');if(bottom)bottom.style.display='none';if(sign)sign.style.display='flex';if(nameInput)nameInput.value='';updateAdminControls();renderPublicNewsCards();setTimeout(function(){if(nameInput)nameInput.focus();},150);}
+/* ══════════════════════════════════════════════════════════════
+   UPLOADCARE HELPERS
+══════════════════════════════════════════════════════════════ */
+function safeUploadcareFileName(n) { n = String(n||'file').trim()||'file'; return encodeURIComponent(n.replace(/[\/]+/g,'_').replace(/\s+/g,'_')); }
+function uploadcareCdnUrl(uuid, name) { uuid = String(uuid||'').replace(/^\/+|\/+$/g,''); if(!uuid) return''; return UPLOADCARE_CDN_BASE.replace(/\/+$/,'')+'/'+encodeURIComponent(uuid)+'/'+safeUploadcareFileName(name); }
+function uploadcareBareUrl(uuid) { uuid = String(uuid||'').replace(/^\/+|\/+$/g,''); if(!uuid) return''; return UPLOADCARE_CDN_BASE.replace(/\/+$/,'')+'/'+encodeURIComponent(uuid)+'/'; }
+function normalizeUploadcareUrl(url, name) { url = String(url||''); var m = url.match(/https?:\/\/(?:ucarecdn\.com|[^\/]+\.ucarecd\.net|[^\/]+\.ucarecdn\.net)\/([^\/?#]+)\/?/i); if(m&&m[1]) return uploadcareCdnUrl(decodeURIComponent(m[1]),name); return url; }
+function uploadcareVideoTransformUrl(uuid, format) { uuid = String(uuid||'').replace(/^\/+|\/+$/g,''); format = String(format||'mp4').replace(/[^a-z0-9]/ig,'').toLowerCase()||'mp4'; if(!uuid) return''; return UPLOADCARE_CDN_BASE.replace(/\/+$/,'')+'/'+encodeURIComponent(uuid)+'/video/-/format/'+format+'/'; }
 
-/* ══════════════════════════════════════════
-   SIGN IN
-══════════════════════════════════════════ */
-document.getElementById('signinBtn').addEventListener('click',function(){userConsented=true;localStorage.setItem('__chatConsent','yes');doSignIn();});
-document.getElementById('nameInput').addEventListener('keydown',function(e){if(e.key==='Enter'){userConsented=true;localStorage.setItem('__chatConsent','yes');doSignIn();}});
-function doSignIn(){var name=document.getElementById('nameInput').value.trim();if(!name){document.getElementById('nameInput').focus();return;}var btn=document.getElementById('signinBtn');btn.disabled=true;btn.textContent='...';getDeviceId().then(function(devId){var authP=auth.currentUser?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(r){return r.user;});return authP.then(function(){var ref=db.collection('users').doc(devId);return ref.get().then(function(snap){var payload={name:name,deviceId:devId,lastSeen:firebase.firestore.FieldValue.serverTimestamp()};return snap.exists?ref.update(payload):ref.set(Object.assign(payload,{created:firebase.firestore.FieldValue.serverTimestamp()}));}).then(function(){return devId;});});}).then(function(devId){return requireChatAccess(name).then(function(ok){if(!ok){btn.disabled=false;btn.textContent='Sign in';renderPublicNewsCards();return;}localStorage.setItem('__chatUserName',name);autoSignIn(name,devId);});}).catch(function(e){var msg='حدث خطأ، حاول مرة أخرى';if(e&&e.code==='auth/admin-restricted-operation')msg='فعّل Anonymous sign-in من Firebase';showToast(msg,'error');btn.disabled=false;btn.textContent='Sign in';});}
-function autoSignIn(name,devId){currentUser={name:name,deviceId:devId};isSignedIn=true;document.getElementById('signinOverlay').style.display='none';document.getElementById('chatBottom').style.display='block';updateAdminControls();registerNamedPresence(name,devId);unlockChatView();markActive();setTimeout(function(){document.getElementById('chatInput').focus();},300);}
+/* ══════════════════════════════════════════════════════════════
+   FILE HELPERS
+══════════════════════════════════════════════════════════════ */
+function getExtFromName(name) { var m=String(name||'').match(/\.([a-z0-9]{1,12})$/i); return m?m[1].toLowerCase():''; }
+function inferMimeFromName(name, fallback) { var ext=getExtFromName(name); var map={heic:'image/heic',heif:'image/heif',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',gif:'image/gif',webp:'image/webp',bmp:'image/bmp',svg:'image/svg+xml',avif:'image/avif',mp4:'video/mp4',m4v:'video/mp4',mov:'video/quicktime',webm:'video/webm',ogv:'video/ogg',ogg:'video/ogg',avi:'video/x-msvideo',mkv:'video/x-matroska',wmv:'video/x-ms-wmv',mpg:'video/mpeg','3gp':'video/3gpp',mp3:'audio/mpeg',m4a:'audio/mp4',aac:'audio/aac',wav:'audio/wav',caf:'audio/x-caf',aiff:'audio/aiff',flac:'audio/flac',opus:'audio/opus',pdf:'application/pdf',zip:'application/zip',txt:'text/plain',csv:'text/csv',json:'application/json',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',xls:'application/vnd.ms-excel',xlsx:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',ppt:'application/vnd.ms-powerpoint',pptx:'application/vnd.openxmlformats-officedocument.presentationml.presentation'}; return map[ext]||fallback||'application/octet-stream'; }
+function detectFileType(mime, name) { var m=(mime||'').toLowerCase(),n=(name||'').toLowerCase(); if(m.startsWith('image/')||/\.(jpg|jpeg|png|gif|webp|svg|bmp|avif|heic|heif|tif|tiff|ico)$/i.test(n)) return'image'; if(m.startsWith('video/')||/\.(mp4|m4v|webm|ogv|ogg|mov|qt|avi|mkv|flv|wmv|mpg|mpeg|3gp|3g2|ts)$/i.test(n)) return'video'; if(m.startsWith('audio/')||/\.(mp3|wav|aac|flac|m4a|oga|ogg|opus|weba|wma|aiff|aif|amr)$/i.test(n)) return'audio'; return'file'; }
+function getVideoMimeType(mime, name, url) { var m=(mime||'').toLowerCase(); var t=String(name||url||'').toLowerCase().split('?')[0]; if(m&&m.indexOf('video/')===0) return m; if(/\.(mp4|m4v)$/.test(t)) return'video/mp4'; if(/\.webm$/.test(t)) return'video/webm'; if(/\.(ogv|ogg)$/.test(t)) return'video/ogg'; if(/\.(mov|qt)$/.test(t)) return'video/quicktime'; if(/\.avi$/.test(t)) return'video/x-msvideo'; if(/\.mkv$/.test(t)) return'video/x-matroska'; return'video/mp4'; }
+function safeClientFileName(file, idx) { var raw=(file&&file.name?String(file.name):'').trim(); if(!raw){var t=(file&&file.type)||''; var ext=t.indexOf('image/')===0?'.jpg':(t.indexOf('video/')===0?'.mp4':(t.indexOf('audio/')===0?'.m4a':'.bin')); raw='iphone_upload_'+Date.now()+'_'+(idx||0)+ext;} return raw.replace(/[\u0000-\u001f\u007f]/g,'').replace(/[\\/]+/g,'_').slice(0,180)||('upload_'+Date.now()+'.bin'); }
+function prepareUploadFile(file, idx) { if(!file) throw new Error('لم يتم اختيار ملف'); if(typeof file.size==='number'&&file.size<=0) throw new Error('الملف غير جاهز.'); var name=safeClientFileName(file,idx); var inferredType=inferMimeFromName(name,file.type||''); try{if((!file.name||!file.type)&&typeof File!=='undefined') return new File([file],name,{type:inferredType,lastModified:file.lastModified||Date.now()});}catch(e){} return file; }
+function formatFileSize(b) { if(!b) return''; if(b<1024) return b+' B'; if(b<1048576) return(b/1024).toFixed(1)+' KB'; return(b/1048576).toFixed(1)+' MB'; }
+function getFileIcon(name, mime) { var ext=((name||'').split('.').pop()||'').toLowerCase(),m=(mime||'').toLowerCase(); if(m.startsWith('image/')||/^(jpg|jpeg|png|gif|webp|svg|bmp|avif|heic|heif)$/.test(ext)) return'🖼️'; if(m.startsWith('video/')||/^(mp4|m4v|webm|ogv|ogg|mov|avi|mkv|wmv|mpg|3gp)$/.test(ext)) return'🎬'; if(m.startsWith('audio/')||/^(mp3|wav|aac|flac|m4a|ogg|opus|aiff|amr)$/.test(ext)) return'🎵'; return ({pdf:'📄',doc:'📝',docx:'📝',txt:'📃',zip:'🗜️',rar:'🗜️',xls:'📊',xlsx:'📊',csv:'📊',ppt:'📑',pptx:'📑'}[ext])||'📎'; }
+function isIOSDevice() { return /iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1); }
+function isMovOrProblemVideo(att) { var n=String((att&&att.name)||'').toLowerCase(),m=String((att&&att.mime)||'').toLowerCase(); return /\.(mov|qt|m4v)$/i.test(n)||m==='video/quicktime'; }
+function uniqueUrls(list) { var seen={}; return list.filter(function(u){if(!u||seen[u])return false;seen[u]=true;return true;}); }
+function extractDriveId(url) { url=String(url||''); var m=url.match(/\/file\/d\/([^\/\?#]+)/); if(m&&m[1])return m[1]; m=url.match(/[?&]id=([^&]+)/); if(m&&m[1])return decodeURIComponent(m[1]); return''; }
+function getAttachmentFileId(att) { return att.fileId||att.id||att.driveFileId||extractDriveId(att.driveUrl)||extractDriveId(att.url)||''; }
+function normalizeEmojiPresentation(str) { return String(str||'').replace(/❤(?!\ufe0f)/g,'❤️').replace(/♥(?!\ufe0f)/g,'♥️'); }
 
-/* ══════════════════════════════════════════
-   INIT
-══════════════════════════════════════════ */
-(function init(){var savedName=localStorage.getItem('__chatUserName');var authP=auth.currentUser?Promise.resolve(auth.currentUser):auth.signInAnonymously().then(function(r){return r.user;});authP.then(function(){renderPublicNewsCards();if(!savedName){registerAnonymousPresence();setTimeout(function(){var inp=document.getElementById('nameInput');if(inp)inp.focus();},300);return;}userConsented=true;getDeviceId().then(function(devId){requireChatAccess(savedName).then(function(ok){if(ok)autoSignIn(savedName,devId);else{try{localStorage.removeItem('__chatUserName');}catch(e){}renderPublicNewsCards();}});});}).catch(function(e){console.error('Init error:',e);showToast('تعذر تحميل الرسائل','error');registerAnonymousPresence();});})();
+/* ══════════════════════════════════════════════════════════════
+   URL / SOCIAL HELPERS
+══════════════════════════════════════════════════════════════ */
+function getUrlsFromText(text) { return (String(text||'').match(/https?:\/\/[^\s<>"']+/g)||[]).map(function(u){return u.replace(/[)\],.؟،]+$/g,'');}); }
+function getYouTubeId(url) { try{var u=new URL(url),h=u.hostname.replace(/^www\./,'').toLowerCase(),p=u.pathname; if(h==='youtu.be')return p.split('/').filter(Boolean)[0]||''; if(h.indexOf('youtube.com')>=0){if(p.indexOf('/shorts/')===0)return p.split('/')[2]||''; if(p.indexOf('/watch')===0)return u.searchParams.get('v')||'';}}catch(e){} return''; }
+function getTikTokId(url) { try{var m=String(url).match(/\/video\/(\d+)/);return m?m[1]:'';}catch(e){return'';} }
+function normalizeInstagramUrl(url) { try{var m=String(url||'').match(/instagram\.com\/(?:reel|p|tv)\/([^\/?#]+)/i); if(!m||!m[1])return''; var kind=/\/reel\//i.test(url)?'reel':(/\/tv\//i.test(url)?'tv':'p'); return'https://www.instagram.com/'+kind+'/'+m[1]+'/';}catch(e){return'';} }
+function isFacebookUrl(url) { return /(?:^|\.)facebook\.com|fb\.watch/i.test(String(url||'')); }
+function isFacebookVideoUrl(url) { return isFacebookUrl(url)&&/(reel|watch|videos|fb\.watch)/i.test(String(url||'')); }
+function getYouTubeEmbedSrc(id) { var src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id)+'?playsinline=1&rel=0'; try{if(location&&location.origin&&/^https?:/.test(location.origin))src+='&origin='+encodeURIComponent(location.origin);}catch(e){} return src; }
+function getSocialEmbeds(text) { var urls=getUrlsFromText(text),embeds=[]; urls.forEach(function(url){var yt=getYouTubeId(url),tk=getTikTokId(url),igUrl=normalizeInstagramUrl(url); if(yt){var isShort=/\/shorts\//i.test(url); embeds.push({platform:isShort?'YouTube Shorts':'YouTube',type:'youtube',url:url,src:getYouTubeEmbedSrc(yt),cls:isShort?'social-embed-vertical':'social-embed-youtube'});}else if(tk){embeds.push({platform:'TikTok',type:'tiktok',url:url,src:'https://www.tiktok.com/embed/v2/'+encodeURIComponent(tk),cls:'social-embed-vertical'});}else if(igUrl){embeds.push({platform:/\/reel\//i.test(igUrl)?'Instagram Reels':'Instagram Post',type:'instagram',url:igUrl});}else if(isFacebookUrl(url)){var plugin=isFacebookVideoUrl(url)?'video.php':'post.php'; embeds.push({platform:isFacebookVideoUrl(url)?'Facebook Video':'Facebook Post',type:'facebook',url:url,src:'https://www.facebook.com/plugins/'+plugin+'?href='+encodeURIComponent(url)+'&show_text=true&width=500',cls:'social-embed-facebook'});}}); return embeds; }
+function buildSocialEmbedsHtml(text) { var embeds=getSocialEmbeds(text); if(!embeds.length)return''; var html='<div class="social-embed-wrap">'; embeds.forEach(function(e){if(e.type==='instagram'){html+='<div class="social-embed-card social-embed-instagram-card"><div class="social-embed-head"><span class="social-embed-platform">'+escHtml(e.platform)+'</span><span class="social-embed-note">Embed</span></div><blockquote class="instagram-media" data-instgrm-permalink="'+escHtml(e.url)+'" data-instgrm-version="14" style="background:#FFF;border:0;margin:0;max-width:100%;min-width:0;width:100%;"></blockquote><div class="social-embed-fallback"><a target="_blank" rel="nofollow noopener" href="'+escHtml(e.url)+'">فتح على Instagram</a></div></div>';}else{html+='<div class="social-embed-card"><div class="social-embed-head"><span class="social-embed-platform">'+escHtml(e.platform)+'</span><span class="social-embed-note">Preview</span></div><iframe class="social-embed-frame '+escHtml(e.cls||'')+'" src="'+escHtml(e.src)+'" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe><div class="social-embed-fallback"><a target="_blank" rel="nofollow noopener" href="'+escHtml(e.url)+'">فتح الرابط</a></div></div>';}}); html+='</div>'; return html; }
+function processSocialEmbeds() { try{if(window.instgrm&&window.instgrm.Embeds)window.instgrm.Embeds.process();}catch(e){} }
 
-/* ══════════════════════════════════════════
-   CHAT VIEW
-══════════════════════════════════════════ */
-function unlockChatView(){isChatUnlocked=true;document.body.classList.remove('chat-locked');document.body.classList.add('chat-unlocked');clearChatMessagesDom();subscribeMessages();}
-function clearChatMessagesDom(){var cm=document.getElementById('chatMessages');if(!cm)return;cm.innerHTML='<div class="chat-history-controls" style="display:none;"><a class="chat-history-load" href="javascript:void(0)">Load Earlier Messages</a></div><div class="chat-welcome-message"></div>';}
-function subscribeMessages(){if(!isChatUnlocked){renderPublicNewsCards();return;}if(unsubMessages)unsubMessages();unsubMessages=db.collection('rooms').doc(ROOM_ID).collection('messages').orderBy('timestamp','asc').onSnapshot(function(snap){snap.docChanges().forEach(function(ch){if(ch.type==='added')renderMessage(ch.doc.id,ch.doc.data(),true);else if(ch.type==='modified')updateMsgEl(ch.doc.id,ch.doc.data());else if(ch.type==='removed')removeMsgEl(ch.doc.id);});});}
+/* ══════════════════════════════════════════════════════════════
+   VIDEO / IMAGE SOURCES
+══════════════════════════════════════════════════════════════ */
+function getImageUrlCandidates(att) { var urls=[]; if(att&&att.provider==='uploadcare'&&(att.uuid||att.publicId)){urls.push(uploadcareCdnUrl(att.uuid||att.publicId,att.name||'image'));urls.push(uploadcareBareUrl(att.uuid||att.publicId));} if(att&&att.cdnUrl)urls.push(normalizeUploadcareUrl(att.cdnUrl,att.name)); if(att&&att.url)urls.push(normalizeUploadcareUrl(att.url,att.name)); if(att&&att.fileId){urls.push('https://drive.google.com/thumbnail?id='+encodeURIComponent(att.fileId)+'&sz=w1200');urls.push('https://drive.google.com/uc?export=view&id='+encodeURIComponent(att.fileId));} if(att&&att.directUrl)urls.push(att.directUrl); return uniqueUrls(urls); }
+function getVideoUrlCandidates(att) { var urls=[]; if(att&&att.provider==='uploadcare'&&(att.uuid||att.publicId)){urls.push(uploadcareCdnUrl(att.uuid||att.publicId,att.name||'video.mp4'));urls.push(uploadcareBareUrl(att.uuid||att.publicId));} if(att&&att.cdnUrl)urls.push(normalizeUploadcareUrl(att.cdnUrl,att.name)); if(att&&att.url)urls.push(normalizeUploadcareUrl(att.url,att.name)); if(att&&att.fileId){urls.push('https://drive.google.com/uc?export=download&id='+encodeURIComponent(att.fileId));} return uniqueUrls(urls); }
+function buildVideoSources(att, primaryUrl) { var urls=getVideoUrlCandidates(Object.assign({},att||{},{url:primaryUrl||(att&&att.url)||''})); var uuid=att&&(att.uuid||att.publicId); var originalName=(att&&att.name)||primaryUrl||'video'; var originalMime=getVideoMimeType(att&&att.mime,originalName,primaryUrl); var originalPlayable=/video\/(mp4|webm|ogg|quicktime)/i.test(originalMime)||/\.(mp4|m4v|webm|ogv|ogg|mov)$/i.test(String(originalName||'')); var candidates=[]; function add(url,type){if(url)candidates.push({url:url,type:type});} if(originalPlayable){urls.forEach(function(u){add(u,getVideoMimeType(att&&att.mime,originalName,u));});} if(uuid){add(uploadcareVideoTransformUrl(uuid,'mp4'),'video/mp4');add(uploadcareVideoTransformUrl(uuid,'webm'),'video/webm');} if(!originalPlayable){urls.forEach(function(u){add(u,getVideoMimeType(att&&att.mime,originalName,u));});} var seen={};candidates=candidates.filter(function(c){var k=c.url+'|'+c.type;if(!c.url||seen[k])return false;seen[k]=true;return true;}); var html=candidates.map(function(c){return'<source src="'+escHtml(c.url)+'" type="'+escHtml(c.type)+'">';}).join(''); return{html:html,urls:candidates.map(function(c){return c.url;}),downloadUrl:urls[0]||primaryUrl||''}; }
+function handleImageError(img) { var urls=[]; try{urls=JSON.parse(decodeURIComponent(img.getAttribute('data-fallbacks')||'%5B%5D'));}catch(e){} var next=parseInt(img.getAttribute('data-fallback-idx')||'0',10)+1; if(next<urls.length){img.setAttribute('data-fallback-idx',String(next));img.src=urls[next];return;} img.style.opacity='0.25';img.title='تعذر عرض الصورة'; }
+function handlePlyrVideoError(video) { try{var wrap=video.closest('.plyr-video-wrap'); if(wrap&&!wrap.querySelector('.plyr-video-fallback.active')){var div=document.createElement('div');div.className='plyr-video-fallback active';div.innerHTML='تعذر تشغيل هذا الفيديو داخل المتصفح.';wrap.appendChild(div);}}catch(e){} }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
+   PLYR INIT
+══════════════════════════════════════════════════════════════ */
+function initPlyrIn(root) { if(!root||!window.Plyr){setTimeout(function(){if(window.Plyr)initPlyrIn(root);},300);return;} (root.querySelectorAll?root.querySelectorAll('video.plyr-video:not([data-plyr-ready])'):[] ).forEach(function(v){try{v.setAttribute('data-plyr-ready','1');new Plyr(v,{controls:['play-large','play','progress','current-time','duration','mute','volume','settings','fullscreen'],settings:['speed'],fullscreen:{enabled:true,iosNative:true},clickToPlay:true,hideControls:true});}catch(e){}}); (root.querySelectorAll?root.querySelectorAll('audio.plyr-audio:not([data-plyr-ready])'):[] ).forEach(function(a){try{a.setAttribute('data-plyr-ready','1');a.setAttribute('controlsList','nodownload');a.addEventListener('contextmenu',function(e){e.preventDefault();});new Plyr(a,{controls:['play','progress','current-time','duration'],settings:[],keyboard:{focused:true,global:false}});}catch(e){}}); }
+
+/* ══════════════════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════════════════ */
+function scrollToBottom() { var w=document.getElementById('messagesWrap'); setTimeout(function(){w.scrollTop=w.scrollHeight;},60); }
+function autoResize(el) { el.style.height='auto'; var newH=Math.min(el.scrollHeight,100); el.style.height=newH+'px'; }
+function updateSendBtn() { if(isSending)return; var hasText=document.getElementById('chatInput').value.trim().length>0; var hasFiles=pendingFiles.some(function(f){return f!=null;}); var btn=document.getElementById('sendBtn'); if(btn)btn.disabled=!(hasText||hasFiles); }
+function formatTime(d) { return d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true}); }
+function escHtml(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escJs(str) { return String(str||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,' '); }
+function linkify(text) { return text.replace(/(https?:\/\/[^\s<>"]+)/g,function(url){return'<a target="_blank" rel="nofollow" href="'+url+'">'+url+'</a>';}); }
+function renderEmoji(text) { if(!text)return text; return text.replace(/([\uD83C-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27BF])/g,function(m){return'<span class="emoji-char">'+m+'</span>';}); }
+function showToast(msg, type) { var t=document.getElementById('toast'); t.textContent=msg; t.className='toast '+(type||''); t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},3500); }
+function showIOSUploadNote(msg) { var el=document.getElementById('iosUploadNote'); if(!el)return; el.textContent=msg; el.classList.add('show'); clearTimeout(showIOSUploadNote._t); showIOSUploadNote._t=setTimeout(function(){el.classList.remove('show');},6500); }
+
+/* ══════════════════════════════════════════════════════════════
+   DEVICE ID
+══════════════════════════════════════════════════════════════ */
+function getDeviceId() { var saved=localStorage.getItem('__chatDeviceId'); if(saved)return Promise.resolve(saved); try{var canvas=document.createElement('canvas'),ctx=canvas.getContext('2d'); ctx.textBaseline='top';ctx.font='14px Plus Jakarta Sans';ctx.fillStyle='#f60';ctx.fillRect(125,1,62,20);ctx.fillStyle='#069';ctx.fillText('fp',2,2); var raw=canvas.toDataURL()+navigator.userAgent+screen.width+screen.height; return crypto.subtle.digest('SHA-256',new TextEncoder().encode(raw)).then(function(buf){var id='dev_'+Array.from(new Uint8Array(buf)).map(function(b){return b.toString(36);}).join('').substr(0,18);localStorage.setItem('__chatDeviceId',id);return id;});}catch(e){var id='dev_'+Date.now().toString(36)+Math.random().toString(36).substr(2,6);localStorage.setItem('__chatDeviceId',id);return Promise.resolve(id);} }
+
+/* ══════════════════════════════════════════════════════════════
+   ACCESS CONTROL
+══════════════════════════════════════════════════════════════ */
+function isPrivilegedChatName(name) { var n=String(name||'').trim().toLowerCase(); return n==='t'||n==='h'; }
+function hasVerifiedAccessForName(name) { try{return sessionStorage.getItem('__chatAccessGranted')==='yes'&&sessionStorage.getItem('__chatAccessName')===String(name||'').trim();}catch(e){return false;} }
+function setVerifiedAccessForName(name) { try{sessionStorage.setItem('__chatAccessGranted','yes');sessionStorage.setItem('__chatAccessName',String(name||'').trim());}catch(e){} }
+
+function showAccessCodeDialog() {
+  return new Promise(function(resolve) {
+    var overlay=document.getElementById('accessCodeOverlay'),input=document.getElementById('accessCodeInput');
+    var err=document.getElementById('accessCodeError'),ok=document.getElementById('accessCodeOkBtn'),cancel=document.getElementById('accessCodeCancelBtn');
+    if(!overlay||!input||!ok||!cancel){resolve(false);return;}
+    function cleanup(result){overlay.classList.remove('show');ok.removeEventListener('click',onOk);cancel.removeEventListener('click',onCancel);input.removeEventListener('keydown',onKey);resolve(result);}
+    function onOk(){if(String(input.value||'').trim()===CHAT_ACCESS_CODE){cleanup(true);}else{if(err)err.style.display='block';input.select();}}
+    function onCancel(){cleanup(false);}
+    function onKey(e){if(e.key==='Enter')onOk();else if(e.key==='Escape')onCancel();}
+    input.value='';if(err)err.style.display='none';overlay.classList.add('show');
+    ok.addEventListener('click',onOk);cancel.addEventListener('click',onCancel);input.addEventListener('keydown',onKey);
+    setTimeout(function(){input.focus();},40);
+  });
+}
+
+function requireChatAccess(name) {
+  if(isPrivilegedChatName(name)||hasVerifiedAccessForName(name)) return Promise.resolve(true);
+  return showAccessCodeDialog().then(function(ok) {
+    if(ok){setVerifiedAccessForName(name);return true;}
+    showToast('رمز التحقق غير صحيح.','error');return false;
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
    MESSAGE RENDERING
-══════════════════════════════════════════ */
-function renderMessage(id,data,scrollDown){if(!isChatUnlocked)return;if(document.getElementById('msg-'+id))return;var el=buildMsgEl(id,data);var w=document.querySelector('.chat-welcome-message');if(w)document.getElementById('chatMessages').insertBefore(el,w);else document.getElementById('chatMessages').appendChild(el);if(scrollDown)scrollToBottom();setTimeout(function(){initPlyrIn(el);},80);}
+══════════════════════════════════════════════════════════════ */
+function renderMessage(id, data, scrollDown) {
+  if (state.current !== AppState.UNLOCKED) return;
+  if (document.getElementById('msg-' + id)) return;
+  var el = buildMsgEl(id, data);
+  var w = document.querySelector('.chat-welcome-message');
+  if (w) document.getElementById('chatMessages').insertBefore(el, w);
+  else document.getElementById('chatMessages').appendChild(el);
+  if (scrollDown) scrollToBottom();
+  setTimeout(function() { initPlyrIn(el); }, 80);
+}
 
-function buildMsgEl(id,data){
-  var isOwn=currentUser&&data.deviceId===currentUser.deviceId;
-  var ts=data.timestamp?(data.timestamp.toDate?data.timestamp.toDate():new Date(data.timestamp)):new Date();
-  var el=document.createElement('div');el.className='msg message';el.id='msg-'+id;el.dataset.id=id;
-  var displayText=normalizeEmojiPresentation(data.text||'');
-  /* FIX: نمنع تحويل الأرقام إلى emoji بعزل النص العادي من الروابط */
-  var escapedText=escHtml(displayText);
-  var displayHtml=renderEmoji(linkify(escapedText));
+function buildMsgEl(id, data) {
+  var isOwn = state.user && data.deviceId === state.user.deviceId;
+  var ts = data.timestamp ? (data.timestamp.toDate ? data.timestamp.toDate() : new Date(data.timestamp)) : new Date();
+  var el = document.createElement('div');
+  el.className = 'msg message'; el.id = 'msg-' + id; el.dataset.id = id;
 
-  var socialEmbedHtml=buildSocialEmbedsHtml(data.text||'');
-  el.addEventListener('click',function(e){var tag=(e.target&&e.target.tagName||'').toLowerCase();if(tag==='a'||tag==='button'||tag==='textarea'||tag==='input'||tag==='video'||tag==='iframe'||(e.target.closest&&e.target.closest('.msg-edit-wrap,.msg-reply-quote')))return;openMessageMenu(id,isOwn,data,e.clientX||20,e.clientY||20);});
-  el.addEventListener('contextmenu',function(e){e.preventDefault();openMessageMenu(id,isOwn,data,e.clientX||20,e.clientY||20);});
+  var displayText = normalizeEmojiPresentation(data.text || '');
+  var escapedText = escHtml(displayText);
+  var displayHtml = renderEmoji(linkify(escapedText));
+  var socialEmbedHtml = buildSocialEmbedsHtml(data.text || '');
 
-  var mediaHtml='';
-  var atts=data.attachments;
-  if(atts&&Array.isArray(atts)&&atts.length){mediaHtml='<div class="msg-media-wrap">';atts.forEach(function(att){if(!att)return;var t=att.type||detectFileType(att.mime,att.name);var primaryUrl=att.fullUrl||att.cdnUrl||att.url||att.directUrl||'';if(att.provider==='uploadcare')primaryUrl=normalizeUploadcareUrl(primaryUrl,att.name);if(t==='image'){var imgUrls=getImageUrlCandidates(Object.assign({},att,{url:primaryUrl}));var first=imgUrls[0]||primaryUrl;var enc=encodeURIComponent(JSON.stringify(imgUrls));mediaHtml+='<img class="msg-image" src="'+escHtml(first)+'" data-fallback-idx="0" data-fallbacks="'+escHtml(enc)+'" alt="'+escHtml(att.name||'صورة')+'" onerror="handleImageError(this)" onclick="event.stopPropagation();openLightbox(this.src)"/>';}else if(t==='video'){if(isMovOrProblemVideo(att)){mediaHtml+='<div class="video-needs-conversion-card"><div class="vc-title">الفيديو يحتاج تحويلًا</div><div>هذا الفيديو بصيغة قد لا تعمل داخل المتصفح.</div><div class="vc-name">'+escHtml(att.name||'video')+'</div></div>';}else if(primaryUrl){var vs=buildVideoSources(att,primaryUrl);mediaHtml+='<div class="plyr-video-wrap"><video class="plyr-video" controls playsinline webkit-playsinline preload="metadata" crossorigin="anonymous" onerror="handlePlyrVideoError(this)">'+vs.html+'متصفحك لا يدعم تشغيل هذا الفيديو.</video></div>';}else{var fid=getAttachmentFileId(att);if(fid)mediaHtml+='<div class="social-embed-card"><iframe class="social-embed-frame social-embed-youtube" src="https://drive.google.com/file/d/'+encodeURIComponent(fid)+'/preview" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe></div>';}}else if(t==='audio'){var audioUrl=primaryUrl||att.url||'';var audioMime=att.mime||inferMimeFromName(att.name||'','audio/mpeg');var audioSources='<source src="'+escHtml(audioUrl)+'" type="'+escHtml(audioMime)+'">';mediaHtml+='<div class="plyr-audio-wrap"><audio class="plyr-audio" controls preload="metadata" controlsList="nodownload" oncontextmenu="return false">'+audioSources+'</audio></div>';}else{var icon=getFileIcon(att.name,att.mime),size=att.size?formatFileSize(att.size):'';mediaHtml+='<a class="msg-file-link" href="'+escHtml(att.driveUrl||primaryUrl||att.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="msg-file-icon">'+icon+'</span><span class="msg-file-info"><span class="msg-file-name">'+escHtml(att.name||'ملف')+'</span>'+(size?'<span class="msg-file-size">'+size+'</span>':'')+'<span class="msg-file-hint">فتح / تحميل</span></span></a>';}});mediaHtml+='</div>';}
+  el.addEventListener('click', function(e) {
+    var tag = (e.target && e.target.tagName || '').toLowerCase();
+    if (tag==='a'||tag==='button'||tag==='textarea'||tag==='input'||tag==='video'||tag==='iframe'||(e.target.closest&&e.target.closest('.msg-edit-wrap,.msg-reply-quote'))) return;
+    openMessageMenu(id, isOwn, data, e.clientX||20, e.clientY||20);
+  });
+  el.addEventListener('contextmenu', function(e) { e.preventDefault(); openMessageMenu(id, isOwn, data, e.clientX||20, e.clientY||20); });
 
-  var editedBadge=data.edited?'<span class="msg-edited">(edited)</span>':'';
-  var replyQuoteHtml=buildReplyQuoteHtml(data.replyTo);
-  el.innerHTML='<div class="msg-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div><div class="msg-body"><div class="msg-date-line">'+escHtml(formatTime(ts))+'</div>'+replyQuoteHtml+'<div class="msg-content-line"><span class="msg-inline-name">'+escHtml(data.name||'Unknown')+'</span> <span class="msg-inline-type">('+escHtml(data.type||'Guest')+')</span><span class="msg-colon">:</span><span class="msg-text" id="txt-'+id+'" data-raw="'+escHtml(data.text||'')+'">'+displayHtml+'</span>'+editedBadge+'</div>'+socialEmbedHtml+mediaHtml+'</div>';
-  setTimeout(function(){initPlyrIn(el);processSocialEmbeds();},120);
+  var mediaHtml = '';
+  var atts = data.attachments;
+  if (atts && Array.isArray(atts) && atts.length) {
+    mediaHtml = '<div class="msg-media-wrap">';
+    atts.forEach(function(att) {
+      if (!att) return;
+      var t = att.type || detectFileType(att.mime, att.name);
+      var primaryUrl = att.fullUrl || att.cdnUrl || att.url || att.directUrl || '';
+      if (att.provider === 'uploadcare') primaryUrl = normalizeUploadcareUrl(primaryUrl, att.name);
+      if (t === 'image') {
+        var imgUrls = getImageUrlCandidates(Object.assign({}, att, {url: primaryUrl}));
+        var first = imgUrls[0] || primaryUrl;
+        var enc = encodeURIComponent(JSON.stringify(imgUrls));
+        mediaHtml += '<img class="msg-image" src="'+escHtml(first)+'" data-fallback-idx="0" data-fallbacks="'+escHtml(enc)+'" alt="'+escHtml(att.name||'صورة')+'" onerror="handleImageError(this)" onclick="event.stopPropagation();openLightbox(this.src)"/>';
+      } else if (t === 'video') {
+        if (isMovOrProblemVideo(att)) {
+          mediaHtml += '<div class="video-needs-conversion-card"><div class="vc-title">الفيديو يحتاج تحويلًا</div><div>هذا الفيديو بصيغة قد لا تعمل داخل المتصفح.</div><div class="vc-name">'+escHtml(att.name||'video')+'</div></div>';
+        } else if (primaryUrl) {
+          var vs = buildVideoSources(att, primaryUrl);
+          mediaHtml += '<div class="plyr-video-wrap"><video class="plyr-video" controls playsinline webkit-playsinline preload="metadata" crossorigin="anonymous" onerror="handlePlyrVideoError(this)">'+vs.html+'متصفحك لا يدعم تشغيل هذا الفيديو.</video></div>';
+        } else {
+          var fid = getAttachmentFileId(att);
+          if (fid) mediaHtml += '<div class="social-embed-card"><iframe class="social-embed-frame social-embed-youtube" src="https://drive.google.com/file/d/'+encodeURIComponent(fid)+'/preview" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe></div>';
+        }
+      } else if (t === 'audio') {
+        var audioUrl = primaryUrl || att.url || '';
+        var audioMime = att.mime || inferMimeFromName(att.name || '', 'audio/mpeg');
+        var audioSources = '<source src="'+escHtml(audioUrl)+'" type="'+escHtml(audioMime)+'">';
+        mediaHtml += '<div class="plyr-audio-wrap"><audio class="plyr-audio" controls preload="metadata" controlsList="nodownload" oncontextmenu="return false">'+audioSources+'</audio></div>';
+      } else {
+        var icon = getFileIcon(att.name, att.mime), size = att.size ? formatFileSize(att.size) : '';
+        mediaHtml += '<a class="msg-file-link" href="'+escHtml(att.driveUrl||primaryUrl||att.url)+'" target="_blank" rel="noopener" onclick="event.stopPropagation()"><span class="msg-file-icon">'+icon+'</span><span class="msg-file-info"><span class="msg-file-name">'+escHtml(att.name||'ملف')+'</span>'+(size?'<span class="msg-file-size">'+size+'</span>':'')+'<span class="msg-file-hint">فتح / تحميل</span></span></a>';
+      }
+    });
+    mediaHtml += '</div>';
+  }
+
+  var editedBadge = data.edited ? '<span class="msg-edited">(edited)</span>' : '';
+  var replyQuoteHtml = buildReplyQuoteHtml(data.replyTo);
+
+  el.innerHTML =
+    '<div class="msg-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div>' +
+    '<div class="msg-body">' +
+      '<div class="msg-date-line">'+escHtml(formatTime(ts))+'</div>' +
+      replyQuoteHtml +
+      '<div class="msg-content-line">' +
+        '<span class="msg-inline-name">'+escHtml(data.name||'Unknown')+'</span> ' +
+        '<span class="msg-inline-type">('+escHtml(data.type||'Guest')+')</span>' +
+        '<span class="msg-colon">:</span>' +
+        '<span class="msg-text" id="txt-'+id+'" data-raw="'+escHtml(data.text||'')+'">'+displayHtml+'</span>' +
+        editedBadge +
+      '</div>' +
+      socialEmbedHtml + mediaHtml +
+    '</div>';
+
+  setTimeout(function() { initPlyrIn(el); processSocialEmbeds(); }, 120);
   return el;
 }
-function updateMsgEl(id,data){var el=document.getElementById('msg-'+id);if(!el)return;var next=buildMsgEl(id,data);el.parentNode.replaceChild(next,el);setTimeout(function(){initPlyrIn(next);processSocialEmbeds();},120);}
-function removeMsgEl(id){var el=document.getElementById('msg-'+id);if(el)el.remove();}
 
-/* ══════════════════════════════════════════
+function updateMsgEl(id, data) { var el=document.getElementById('msg-'+id); if(!el)return; var next=buildMsgEl(id,data); el.parentNode.replaceChild(next,el); setTimeout(function(){initPlyrIn(next);processSocialEmbeds();},120); }
+function removeMsgEl(id) { var el=document.getElementById('msg-'+id); if(el)el.remove(); }
+
+/* ══════════════════════════════════════════════════════════════
    MESSAGE MENU
-══════════════════════════════════════════ */
-function openMessageMenu(id,isOwn,data,x,y){
-  var menu=document.getElementById('msgContextMenu');if(!menu)return;
-  var hasText=!!(data.text&&data.text.trim());
-  var html='<div class="ctx-section">';
-  html+='<button type="button" class="ctx-btn reply-action" onclick="replyToMsg(\''+id+'\')"><span class="ctx-icon">↩</span><span class="ctx-label">رد على الرسالة</span></button>';
-  if(hasText){html+='<button type="button" class="ctx-btn" onclick="copyMsg(\''+id+'\')"><span class="ctx-icon">📋</span><span class="ctx-label">نسخ الرسالة</span></button>';}
-  html+='<button type="button" class="ctx-btn" onclick="toggleSelectMessage(\''+id+'\')"><span class="ctx-icon">☑️</span><span class="ctx-label">تحديد الرسالة</span></button>';
-  html+='</div>';
-  var canEdit=isOwn&&hasText,canDelete=isOwn||isAdminUser();
-  if(canEdit||canDelete){
-    html+='<div class="ctx-sep"></div><div class="ctx-divider-label">إجراءات</div><div class="ctx-section">';
-    if(canEdit)html+='<button type="button" class="ctx-btn" onclick="startEdit(\''+id+'\')"><span class="ctx-icon">✏️</span><span class="ctx-label">تعديل الرسالة</span></button>';
-    if(canDelete)html+='<button type="button" class="ctx-btn danger" onclick="deleteMsg(\''+id+'\')"><span class="ctx-icon">🗑️</span><span class="ctx-label">حذف الرسالة</span></button>';
-    html+='</div>';
+══════════════════════════════════════════════════════════════ */
+function openMessageMenu(id, isOwn, data, x, y) {
+  var menu = document.getElementById('msgContextMenu'); if(!menu)return;
+  var hasText = !!(data.text && data.text.trim());
+  var html = '<div class="ctx-section">';
+  html += '<button type="button" class="ctx-btn reply-action" onclick="replyToMsg(\''+id+'\')"><span class="ctx-icon">↩</span><span class="ctx-label">رد على الرسالة</span></button>';
+  if(hasText) html += '<button type="button" class="ctx-btn" onclick="copyMsg(\''+id+'\')"><span class="ctx-icon">📋</span><span class="ctx-label">نسخ الرسالة</span></button>';
+  html += '<button type="button" class="ctx-btn" onclick="toggleSelectMessage(\''+id+'\')"><span class="ctx-icon">☑️</span><span class="ctx-label">تحديد الرسالة</span></button>';
+  html += '</div>';
+  var canEdit = isOwn && hasText, canDelete = isOwn || isAdminUser();
+  if(canEdit || canDelete) {
+    html += '<div class="ctx-sep"></div><div class="ctx-divider-label">إجراءات</div><div class="ctx-section">';
+    if(canEdit) html += '<button type="button" class="ctx-btn" onclick="startEdit(\''+id+'\')"><span class="ctx-icon">✏️</span><span class="ctx-label">تعديل الرسالة</span></button>';
+    if(canDelete) html += '<button type="button" class="ctx-btn danger" onclick="deleteMsg(\''+id+'\')"><span class="ctx-icon">🗑️</span><span class="ctx-label">حذف الرسالة</span></button>';
+    html += '</div>';
   }
-  menu.innerHTML=html;menu.classList.add('show');
-  var mw=200,mh=menu.querySelectorAll('.ctx-btn').length*44+20;
+  menu.innerHTML = html; menu.classList.add('show');
+  var mw=200, mh=menu.querySelectorAll('.ctx-btn').length*44+20;
   var left=Math.min(Math.max(x,8),window.innerWidth-mw-8);
   var top=Math.min(Math.max(y,8),window.innerHeight-mh-8);
-  menu.style.left=left+'px';menu.style.top=top+'px';
+  menu.style.left=left+'px'; menu.style.top=top+'px';
   setTimeout(function(){document.addEventListener('click',closeMessageMenuOnce,{once:true});},0);
 }
-function closeMessageMenuOnce(e){var m=document.getElementById('msgContextMenu');if(m&&(!e||!m.contains(e.target)))m.classList.remove('show');}
-function getMsgRawText(id){var txtEl=document.getElementById('txt-'+id);return txtEl?(txtEl.dataset.raw||txtEl.textContent||''):'';}
-function copyMsg(id){var t=getMsgRawText(id);if(!t)return;if(navigator.clipboard)navigator.clipboard.writeText(t).then(function(){showToast('تم النسخ','success');}).catch(function(){showToast('تعذر النسخ','error');});}
+function closeMessageMenuOnce(e) { var m=document.getElementById('msgContextMenu'); if(m&&(!e||!m.contains(e.target)))m.classList.remove('show'); }
+function getMsgRawText(id) { var txtEl=document.getElementById('txt-'+id); return txtEl?(txtEl.dataset.raw||txtEl.textContent||''):''; }
+function copyMsg(id) { var t=getMsgRawText(id); if(!t)return; if(navigator.clipboard)navigator.clipboard.writeText(t).then(function(){showToast('تم النسخ','success');}).catch(function(){showToast('تعذر النسخ','error');}); }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    REPLY
-══════════════════════════════════════════ */
-function replyToMsg(id){closeMessageMenuOnce();var el=document.getElementById('msg-'+id);var name=el&&el.querySelector('.msg-inline-name')?el.querySelector('.msg-inline-name').textContent:'Unknown';var text=getMsgRawText(id);var summary=text?text:(el&&el.querySelector('.msg-media-wrap')?'مرفق':'رسالة');summary=String(summary||'رسالة').replace(/\s+/g,' ').trim();if(summary.length>140)summary=summary.slice(0,137)+'...';pendingReply={id:id,name:name,text:summary,ts:Date.now()};renderReplyPreview();var input=document.getElementById('chatInput');if(input)input.focus();}
-function buildReplyQuoteHtml(reply){if(!reply||!reply.id)return'';var name=reply.name||'Unknown',text=String(reply.text||'رسالة').replace(/\s+/g,' ').trim();if(text.length>130)text=text.slice(0,127)+'...';return'<div class="msg-reply-quote" onclick="event.stopPropagation();scrollToReplyTarget(\''+escJs(reply.id)+'\')"><span class="msg-reply-name">'+escHtml(name)+'</span><span class="msg-reply-text">'+escHtml(text)+'</span></div>';}
-function renderReplyPreview(){var bar=document.getElementById('replyPreview'),wrapper=document.querySelector('.chat-wrapper');if(!bar||!wrapper)return;if(!pendingReply){bar.innerHTML='';wrapper.classList.remove('replying');return;}var text=String(pendingReply.text||'رسالة').replace(/\s+/g,' ').trim();if(text.length>120)text=text.slice(0,117)+'...';bar.innerHTML='<button type="button" class="reply-preview-close" onclick="clearReplyTarget()">×</button><div class="reply-preview-title">رد على '+escHtml(pendingReply.name||'Unknown')+'</div><div class="reply-preview-text">'+escHtml(text)+'</div>';wrapper.classList.add('replying');}
-function clearReplyTarget(){pendingReply=null;renderReplyPreview();}
-function scrollToReplyTarget(id){var el=document.getElementById('msg-'+id);if(!el){showToast('الرسالة الأصلية غير ظاهرة','error');return;}try{el.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){el.scrollIntoView();}el.classList.add('reply-highlight');setTimeout(function(){el.classList.remove('reply-highlight');},1500);}
+══════════════════════════════════════════════════════════════ */
+function replyToMsg(id) { closeMessageMenuOnce(); var el=document.getElementById('msg-'+id); var name=el&&el.querySelector('.msg-inline-name')?el.querySelector('.msg-inline-name').textContent:'Unknown'; var text=getMsgRawText(id); var summary=text?text:(el&&el.querySelector('.msg-media-wrap')?'مرفق':'رسالة'); summary=String(summary||'رسالة').replace(/\s+/g,' ').trim(); if(summary.length>140)summary=summary.slice(0,137)+'...'; pendingReply={id:id,name:name,text:summary,ts:Date.now()}; renderReplyPreview(); var input=document.getElementById('chatInput'); if(input)input.focus(); }
+function buildReplyQuoteHtml(reply) { if(!reply||!reply.id)return''; var name=reply.name||'Unknown',text=String(reply.text||'رسالة').replace(/\s+/g,' ').trim(); if(text.length>130)text=text.slice(0,127)+'...'; return'<div class="msg-reply-quote" onclick="event.stopPropagation();scrollToReplyTarget(\''+escJs(reply.id)+'\')"><span class="msg-reply-name">'+escHtml(name)+'</span><span class="msg-reply-text">'+escHtml(text)+'</span></div>'; }
+function renderReplyPreview() { var bar=document.getElementById('replyPreview'),wrapper=document.querySelector('.chat-wrapper'); if(!bar||!wrapper)return; if(!pendingReply){bar.innerHTML='';wrapper.classList.remove('replying');return;} var text=String(pendingReply.text||'رسالة').replace(/\s+/g,' ').trim(); if(text.length>120)text=text.slice(0,117)+'...'; bar.innerHTML='<button type="button" class="reply-preview-close" onclick="clearReplyTarget()">×</button><div class="reply-preview-title">رد على '+escHtml(pendingReply.name||'Unknown')+'</div><div class="reply-preview-text">'+escHtml(text)+'</div>'; wrapper.classList.add('replying'); }
+function clearReplyTarget() { pendingReply=null; renderReplyPreview(); }
+function scrollToReplyTarget(id) { var el=document.getElementById('msg-'+id); if(!el){showToast('الرسالة الأصلية غير ظاهرة','error');return;} try{el.scrollIntoView({block:'center',behavior:'smooth'});}catch(e){el.scrollIntoView();} el.classList.add('reply-highlight'); setTimeout(function(){el.classList.remove('reply-highlight');},1500); }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    SELECTION
-══════════════════════════════════════════ */
-function toggleSelectMessage(id){closeMessageMenuOnce();var el=document.getElementById('msg-'+id);if(!el)return;if(selectedMessages[id]){delete selectedMessages[id];el.classList.remove('selected-message');}else{selectedMessages[id]=true;el.classList.add('selected-message');}renderSelectionToolbar();}
-function renderSelectionToolbar(){var ids=Object.keys(selectedMessages),bar=document.getElementById('selectionToolbar'),cnt=document.getElementById('selectionCount');if(cnt)cnt.textContent=ids.length;if(bar){if(ids.length)bar.classList.add('show');else bar.classList.remove('show');}}
-function clearSelectedMessages(){Object.keys(selectedMessages).forEach(function(id){var el=document.getElementById('msg-'+id);if(el)el.classList.remove('selected-message');});selectedMessages={};renderSelectionToolbar();}
-function copySelectedMessages(){var ids=Object.keys(selectedMessages);if(!ids.length)return;var text=ids.map(function(id){return getMsgRawText(id)||'[مرفق]';}).join('\n');if(navigator.clipboard)navigator.clipboard.writeText(text).then(function(){showToast('تم نسخ الرسائل المحددة','success');}).catch(function(){showToast('تعذر النسخ','error');});}
-function deleteSelectedMessages(){var ids=Object.keys(selectedMessages);if(!ids.length)return;if(!confirm('حذف الرسائل المحددة؟'))return;var batch=db.batch();ids.forEach(function(id){batch.delete(db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id));});batch.commit().then(function(){showToast('تم الحذف','success');clearSelectedMessages();}).catch(function(){showToast('تعذر الحذف','error');});}
+══════════════════════════════════════════════════════════════ */
+function toggleSelectMessage(id) { closeMessageMenuOnce(); var el=document.getElementById('msg-'+id); if(!el)return; if(selectedMessages[id]){delete selectedMessages[id];el.classList.remove('selected-message');}else{selectedMessages[id]=true;el.classList.add('selected-message');} renderSelectionToolbar(); }
+function renderSelectionToolbar() { var ids=Object.keys(selectedMessages),bar=document.getElementById('selectionToolbar'),cnt=document.getElementById('selectionCount'); if(cnt)cnt.textContent=ids.length; if(bar){if(ids.length)bar.classList.add('show');else bar.classList.remove('show');} }
+function clearSelectedMessages() { Object.keys(selectedMessages).forEach(function(id){var el=document.getElementById('msg-'+id);if(el)el.classList.remove('selected-message');}); selectedMessages={}; renderSelectionToolbar(); }
+function copySelectedMessages() { var ids=Object.keys(selectedMessages); if(!ids.length)return; var text=ids.map(function(id){return getMsgRawText(id)||'[مرفق]';}).join('\n'); if(navigator.clipboard)navigator.clipboard.writeText(text).then(function(){showToast('تم نسخ الرسائل المحددة','success');}).catch(function(){showToast('تعذر النسخ','error');}); }
+function deleteSelectedMessages() { var ids=Object.keys(selectedMessages); if(!ids.length)return; if(!confirm('حذف الرسائل المحددة؟'))return; var batch=db.batch(); ids.forEach(function(id){batch.delete(db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id));}); batch.commit().then(function(){showToast('تم الحذف','success');clearSelectedMessages();}).catch(function(){showToast('تعذر الحذف','error');}); }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    EDIT / DELETE
-══════════════════════════════════════════ */
-function startEdit(id){closeMessageMenuOnce();if(editingMsgId)cancelEdit(editingMsgId);editingMsgId=id;var txtEl=document.getElementById('txt-'+id);if(!txtEl)return;var raw=txtEl.dataset.raw||txtEl.textContent.replace(' (edited)','');txtEl.dataset.raw=raw;var wrap=document.createElement('div');wrap.className='msg-edit-wrap';wrap.id='edit-wrap-'+id;wrap.innerHTML='<textarea class="msg-edit-input" id="edit-inp-'+id+'" rows="3">'+escHtml(raw)+'</textarea><div class="msg-edit-btns"><button class="msg-edit-cancel" onclick="cancelEdit(\''+id+'\')">إلغاء</button><button class="msg-edit-save" onclick="saveEdit(\''+id+'\')">حفظ</button></div>';txtEl.style.display='none';txtEl.parentNode.insertBefore(wrap,txtEl.nextSibling);var inp=document.getElementById('edit-inp-'+id);inp.focus();inp.selectionStart=inp.selectionEnd=inp.value.length;}
-function saveEdit(id){var inp=document.getElementById('edit-inp-'+id);if(!inp)return;var t=normalizeEmojiPresentation(inp.value.trim());if(!t)return;db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).update({text:t,edited:true,editedAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){editingMsgId=null;}).catch(function(){showToast('فشل التعديل','error');});}
-function cancelEdit(id){var wrap=document.getElementById('edit-wrap-'+id),txtEl=document.getElementById('txt-'+id);if(wrap)wrap.remove();if(txtEl)txtEl.style.display='';editingMsgId=null;}
-function deleteMsg(id){closeMessageMenuOnce();if(!confirm('Delete this message?'))return;db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).delete();}
+══════════════════════════════════════════════════════════════ */
+function startEdit(id) { closeMessageMenuOnce(); if(editingMsgId)cancelEdit(editingMsgId); editingMsgId=id; var txtEl=document.getElementById('txt-'+id); if(!txtEl)return; var raw=txtEl.dataset.raw||txtEl.textContent.replace(' (edited)',''); txtEl.dataset.raw=raw; var wrap=document.createElement('div'); wrap.className='msg-edit-wrap'; wrap.id='edit-wrap-'+id; wrap.innerHTML='<textarea class="msg-edit-input" id="edit-inp-'+id+'" rows="3">'+escHtml(raw)+'</textarea><div class="msg-edit-btns"><button class="msg-edit-cancel" onclick="cancelEdit(\''+id+'\')">إلغاء</button><button class="msg-edit-save" onclick="saveEdit(\''+id+'\')">حفظ</button></div>'; txtEl.style.display='none'; txtEl.parentNode.insertBefore(wrap,txtEl.nextSibling); var inp=document.getElementById('edit-inp-'+id); inp.focus(); inp.selectionStart=inp.selectionEnd=inp.value.length; }
+function saveEdit(id) { var inp=document.getElementById('edit-inp-'+id); if(!inp)return; var t=normalizeEmojiPresentation(inp.value.trim()); if(!t)return; db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).update({text:t,edited:true,editedAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){editingMsgId=null;}).catch(function(){showToast('فشل التعديل','error');}); }
+function cancelEdit(id) { var wrap=document.getElementById('edit-wrap-'+id),txtEl=document.getElementById('txt-'+id); if(wrap)wrap.remove(); if(txtEl)txtEl.style.display=''; editingMsgId=null; }
+function deleteMsg(id) { closeMessageMenuOnce(); if(!confirm('Delete this message?'))return; db.collection('rooms').doc(ROOM_ID).collection('messages').doc(id).delete(); }
 
-/* ══════════════════════════════════════════
-   SEND
-══════════════════════════════════════════ */
-document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
-document.getElementById('chatInput').addEventListener('input',function(){autoResize(this);handleTyping();updateSendBtn();});
-var sendBtnEl=document.getElementById('sendBtn');if(sendBtnEl)sendBtnEl.addEventListener('click',sendMessage);
+/* ══════════════════════════════════════════════════════════════
+   SEND MESSAGE
+══════════════════════════════════════════════════════════════ */
+document.getElementById('chatInput').addEventListener('keydown', function(e) { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();} });
+document.getElementById('chatInput').addEventListener('input', function() { autoResize(this); handleTyping(); updateSendBtn(); });
+var sendBtnEl = document.getElementById('sendBtn');
+if (sendBtnEl) sendBtnEl.addEventListener('click', sendMessage);
 
-function sendMessage(){if(!isSignedIn)return;var text=normalizeEmojiPresentation(document.getElementById('chatInput').value.trim());var files=pendingFiles.filter(function(f){return f!=null;});if(!text&&!files.length)return;document.getElementById('chatInput').value='';autoResize(document.getElementById('chatInput'));clearUploadPreview();stopTyping();updateSendBtn();if(!files.length){if(isSending)return;isSending=true;var btn=document.getElementById('sendBtn');if(btn)btn.disabled=true;saveMsg(text,[]).finally(function(){isSending=false;if(btn)btn.disabled=false;updateSendBtn();});return;}isFileUploading=true;showUploadProgress(files.length);uploadFilesSequentially(files).then(function(result){setProgressPct(100,files.length,files.length);return saveMsg(text,result.attachments).then(function(docRef){attachDriveMirrorUpdates(docRef,result);return docRef;});}).then(function(){hideUploadProgress();}).catch(function(e){hideUploadProgress();showToast('فشل الرفع: '+((e&&e.message)||''),'error');}).finally(function(){isFileUploading=false;hideUploadProgress();updateSendBtn();});}
-function saveMsg(text,attachments){var replySnapshot=pendingReply?Object.assign({},pendingReply):null;var payload={text:text,attachments:attachments,name:currentUser.name,type:'Guest',deviceId:currentUser.deviceId,timestamp:firebase.firestore.FieldValue.serverTimestamp(),edited:false};if(replySnapshot)payload.replyTo=replySnapshot;return db.collection('rooms').doc(ROOM_ID).collection('messages').add(payload).then(function(ref){if(replySnapshot)clearReplyTarget();return ref;}).catch(function(e){console.error('Save message failed:',e);showToast('فشل حفظ الرسالة','error');throw e;});}
+function sendMessage() {
+  if (state.current !== AppState.UNLOCKED) return;
+  var text = normalizeEmojiPresentation(document.getElementById('chatInput').value.trim());
+  var files = pendingFiles.filter(function(f) { return f != null; });
+  if (!text && !files.length) return;
 
-/* ══════════════════════════════════════════
+  document.getElementById('chatInput').value = '';
+  autoResize(document.getElementById('chatInput'));
+  clearUploadPreview();
+  stopTyping();
+  updateSendBtn();
+
+  if (!files.length) {
+    if (isSending) return;
+    isSending = true;
+    var btn = document.getElementById('sendBtn');
+    if (btn) btn.disabled = true;
+    saveMsg(text, []).finally(function() { isSending=false; if(btn)btn.disabled=false; updateSendBtn(); });
+    return;
+  }
+
+  isFileUploading = true;
+  showUploadProgress(files.length);
+  uploadFilesSequentially(files).then(function(result) {
+    setProgressPct(100, files.length, files.length);
+    return saveMsg(text, result.attachments).then(function(docRef) { attachDriveMirrorUpdates(docRef, result); return docRef; });
+  }).then(function() { hideUploadProgress(); }).catch(function(e) {
+    hideUploadProgress(); showToast('فشل الرفع: ' + ((e && e.message) || ''), 'error');
+  }).finally(function() { isFileUploading=false; hideUploadProgress(); updateSendBtn(); });
+}
+
+function saveMsg(text, attachments) {
+  var replySnapshot = pendingReply ? Object.assign({}, pendingReply) : null;
+  var payload = {
+    text: text, attachments: attachments,
+    name: state.user.name, type: 'Guest', deviceId: state.user.deviceId,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(), edited: false
+  };
+  if (replySnapshot) payload.replyTo = replySnapshot;
+  return db.collection('rooms').doc(ROOM_ID).collection('messages').add(payload)
+    .then(function(ref) { if(replySnapshot)clearReplyTarget(); return ref; })
+    .catch(function(e) { console.error('Save message failed:', e); showToast('فشل حفظ الرسالة', 'error'); throw e; });
+}
+
+/* ══════════════════════════════════════════════════════════════
    UPLOAD
-══════════════════════════════════════════ */
-function showUploadProgress(total){document.body.classList.add('chat-uploading');var wrap=document.getElementById('uploadProgressWrap');if(!wrap)return;wrap.style.display='block';document.getElementById('uploadProgressLabel').textContent=total>1?('رفع '+total+' ملفات'):'رفع ملف';document.getElementById('uploadProgressPct').textContent='0%';document.getElementById('uploadProgressFill').style.width='0%';}
-function setProgressPct(pct,n,total){var s=Math.min(Math.max(Math.round(pct),0),100);var fill=document.getElementById('uploadProgressFill'),pctEl=document.getElementById('uploadProgressPct'),lab=document.getElementById('uploadProgressLabel');if(fill)fill.style.width=s+'%';if(pctEl)pctEl.textContent=s+'%';if(lab)lab.textContent=total>1?('ملف '+n+'/'+total):'رفع ملف';}
-function hideUploadProgress(){setTimeout(function(){document.body.classList.remove('chat-uploading');var wrap=document.getElementById('uploadProgressWrap');if(wrap)wrap.style.display='none';var fill=document.getElementById('uploadProgressFill');if(fill)fill.style.width='0%';},180);}
-function uploadcareErrorMessage(status){if(status===0)return'تعذر الاتصال بـ Uploadcare.';if(status===400)return'رفض Uploadcare الملف.';if(status===401||status===403)return'مفتاح Uploadcare غير مسموح.';if(status===413)return'حجم الملف أكبر من المسموح.';if(status>=500)return'خادم Uploadcare لم يستجب.';return'Uploadcare HTTP '+status;}
-function uploadToUploadcareOnce(file,idx,total,attempt){return new Promise(function(resolve,reject){try{var uploadFile=prepareUploadFile(file,idx),uploadName=safeClientFileName(uploadFile,idx);var xhr=new XMLHttpRequest(),form=new FormData();form.append('UPLOADCARE_PUB_KEY',UPLOADCARE_PUBLIC_KEY);form.append('UPLOADCARE_STORE','1');form.append('file',uploadFile,uploadName);xhr.open('POST','https://upload.uploadcare.com/base/',true);xhr.timeout=15*60*1000;xhr.upload.onprogress=function(ev){if(ev&&ev.lengthComputable){var p=Math.round(((idx+ev.loaded/ev.total)/Math.max(total,1))*100);setProgressPct(p,idx+1,total);}};xhr.onerror=function(){reject(new Error(uploadcareErrorMessage(0)));};xhr.ontimeout=function(){reject(new Error('انتهت مهلة الرفع.'));};xhr.onload=function(){if(xhr.status<200||xhr.status>=300){reject(new Error(uploadcareErrorMessage(xhr.status)));return;}var json;try{json=JSON.parse(xhr.responseText||'{}');}catch(e){reject(new Error('Uploadcare returned invalid JSON'));return;}var uuid=json.file||json.uuid||'';if(!uuid){reject(new Error('لم يرجع Uploadcare معرف الملف'));return;}var cdnUrl=uploadcareCdnUrl(uuid,uploadName),mime=uploadFile.type||inferMimeFromName(uploadName,file.type||''),fileType=detectFileType(mime,uploadName);setProgressPct(Math.round(((idx+1)/Math.max(total,1))*100),idx+1,total);resolve({provider:'uploadcare',uuid:uuid,publicId:uuid,url:cdnUrl,cdnUrl:cdnUrl,directUrl:cdnUrl,fullUrl:cdnUrl,type:fileType,name:uploadName||'file',size:uploadFile.size||file.size||0,mime:mime,displaySource:'uploadcare',uploadedToUploadcare:true});};xhr.send(form);}catch(e){reject(e);}});}
-function uploadToUploadcare(file,idx,total){var maxAttempts=isIOSDevice()?3:2;function attempt(n){return uploadToUploadcareOnce(file,idx,total,n).catch(function(err){var msg=(err&&err.message)||'';var retryable=/الاتصال|مهلة|network|timeout|HTTP 5|تعذر/i.test(msg);if(n<maxAttempts&&retryable){setProgressPct(Math.max(1,Math.round((idx/Math.max(total,1))*100)),idx+1,total);return new Promise(function(res){setTimeout(res,900*n);}).then(function(){return attempt(n+1);});}throw err;});}return attempt(1);}
-function uploadToDriveMirror(file,idx,total){return new Promise(function(resolve,reject){try{if(!APPS_SCRIPT_URL||APPS_SCRIPT_URL.indexOf('ضع')>=0){reject(new Error('drive/not-configured'));return;}var prepared=prepareUploadFile(file,idx),uploadName=safeClientFileName(prepared,idx);var mime=prepared.type||inferMimeFromName(uploadName,file.type||'application/octet-stream');var reader=new FileReader();reader.onload=function(e){try{var dataUrl=String(e.target.result||''),base64=dataUrl.indexOf(',')>=0?dataUrl.split(',')[1]:dataUrl;fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({name:uploadName,mime:mime,data:base64,size:prepared.size||file.size||0,mirror:true}),redirect:'follow'}).then(function(res){if(!res.ok)throw new Error('Drive HTTP '+res.status);return res.text();}).then(function(txt){var json;try{json=JSON.parse(txt||'{}');}catch(e){throw new Error('Drive returned invalid JSON');}if(!json.success)throw new Error(json.error||'Drive upload failed');var fileId=json.fileId||json.id||json.driveFileId||'';resolve({uploadedToDrive:true,driveFileId:fileId,driveUrl:fileId?'https://drive.google.com/file/d/'+fileId+'/view':(json.driveUrl||''),driveUploadedAt:Date.now()});}).catch(reject);}catch(e){reject(e);}};reader.onerror=function(){reject(new Error('تعذر قراءة الملف'));};reader.readAsDataURL(prepared);}catch(e){reject(e);}});}
-function mergeDriveAttachmentIntoMessage(docRef,index,driveData){if(!docRef||!driveData||!driveData.uploadedToDrive)return;docRef.get().then(function(snap){if(!snap.exists)return;var data=snap.data()||{},atts=Array.isArray(data.attachments)?data.attachments.slice():[];if(!atts[index])return;atts[index]=Object.assign({},atts[index],driveData);return docRef.update({attachments:atts,hasDriveMirror:true});}).catch(function(e){console.warn('Drive mirror update failed:',e);});}
-function attachDriveMirrorUpdates(docRef,uploadResult){if(!uploadResult||!Array.isArray(uploadResult.driveJobs))return;uploadResult.driveJobs.forEach(function(job){if(!job||!job.promise)return;job.promise.then(function(driveData){mergeDriveAttachmentIntoMessage(docRef,job.index,driveData);}).catch(function(e){console.warn('Drive mirror failed:',e);});});}
-function uploadFilesSequentially(files){var results=[],failures=[],driveJobs=[];function next(i){if(i>=files.length){if(failures.length&&!results.length){var first=failures[0]&&failures[0].error?failures[0].error.message:'فشل الرفع';return Promise.reject(new Error(first));}if(failures.length)showToast('رُفع '+results.length+' وفشل '+failures.length+' ملف.','error');return Promise.resolve({attachments:results,driveJobs:driveJobs});}var targetIndex=results.length;var drivePromise=uploadToDriveMirror(files[i],i,files.length);driveJobs.push({index:targetIndex,promise:drivePromise});return uploadToUploadcare(files[i],i,files.length).then(function(att){att.uploadedToDrive=false;att.driveMirror=true;results.push(att);}).catch(function(err){console.error('Uploadcare failed:',err);failures.push({file:files[i],error:err});}).then(function(){return next(i+1);});}return next(0);}
+══════════════════════════════════════════════════════════════ */
+function showUploadProgress(total) { document.body.classList.add('chat-uploading'); var wrap=document.getElementById('uploadProgressWrap'); if(!wrap)return; wrap.style.display='block'; document.getElementById('uploadProgressLabel').textContent=total>1?('رفع '+total+' ملفات'):'رفع ملف'; document.getElementById('uploadProgressPct').textContent='0%'; document.getElementById('uploadProgressFill').style.width='0%'; }
+function setProgressPct(pct,n,total) { var s=Math.min(Math.max(Math.round(pct),0),100); var fill=document.getElementById('uploadProgressFill'),pctEl=document.getElementById('uploadProgressPct'),lab=document.getElementById('uploadProgressLabel'); if(fill)fill.style.width=s+'%'; if(pctEl)pctEl.textContent=s+'%'; if(lab)lab.textContent=total>1?('ملف '+n+'/'+total):'رفع ملف'; }
+function hideUploadProgress() { setTimeout(function(){document.body.classList.remove('chat-uploading');var wrap=document.getElementById('uploadProgressWrap');if(wrap)wrap.style.display='none';var fill=document.getElementById('uploadProgressFill');if(fill)fill.style.width='0%';},180); }
+function uploadcareErrorMessage(status) { if(status===0)return'تعذر الاتصال بـ Uploadcare.'; if(status===400)return'رفض Uploadcare الملف.'; if(status===401||status===403)return'مفتاح Uploadcare غير مسموح.'; if(status===413)return'حجم الملف أكبر من المسموح.'; if(status>=500)return'خادم Uploadcare لم يستجب.'; return'Uploadcare HTTP '+status; }
 
-/* ══════════════════════════════════════════
+function uploadToUploadcareOnce(file, idx, total, attempt) {
+  return new Promise(function(resolve, reject) {
+    try {
+      var uploadFile=prepareUploadFile(file,idx), uploadName=safeClientFileName(uploadFile,idx);
+      var xhr=new XMLHttpRequest(), form=new FormData();
+      form.append('UPLOADCARE_PUB_KEY',UPLOADCARE_PUBLIC_KEY);
+      form.append('UPLOADCARE_STORE','1');
+      form.append('file',uploadFile,uploadName);
+      xhr.open('POST','https://upload.uploadcare.com/base/',true);
+      xhr.timeout=15*60*1000;
+      xhr.upload.onprogress=function(ev){if(ev&&ev.lengthComputable){var p=Math.round(((idx+ev.loaded/ev.total)/Math.max(total,1))*100);setProgressPct(p,idx+1,total);}};
+      xhr.onerror=function(){reject(new Error(uploadcareErrorMessage(0)));};
+      xhr.ontimeout=function(){reject(new Error('انتهت مهلة الرفع.'));};
+      xhr.onload=function(){
+        if(xhr.status<200||xhr.status>=300){reject(new Error(uploadcareErrorMessage(xhr.status)));return;}
+        var json;try{json=JSON.parse(xhr.responseText||'{}');}catch(e){reject(new Error('Uploadcare returned invalid JSON'));return;}
+        var uuid=json.file||json.uuid||'';
+        if(!uuid){reject(new Error('لم يرجع Uploadcare معرف الملف'));return;}
+        var cdnUrl=uploadcareCdnUrl(uuid,uploadName),mime=uploadFile.type||inferMimeFromName(uploadName,file.type||''),fileType=detectFileType(mime,uploadName);
+        setProgressPct(Math.round(((idx+1)/Math.max(total,1))*100),idx+1,total);
+        resolve({provider:'uploadcare',uuid:uuid,publicId:uuid,url:cdnUrl,cdnUrl:cdnUrl,directUrl:cdnUrl,fullUrl:cdnUrl,type:fileType,name:uploadName||'file',size:uploadFile.size||file.size||0,mime:mime,displaySource:'uploadcare',uploadedToUploadcare:true});
+      };
+      xhr.send(form);
+    } catch(e) { reject(e); }
+  });
+}
+
+function uploadToUploadcare(file, idx, total) {
+  var maxAttempts = isIOSDevice() ? 3 : 2;
+  function attempt(n) {
+    return uploadToUploadcareOnce(file,idx,total,n).catch(function(err) {
+      var msg=(err&&err.message)||'';
+      var retryable=/الاتصال|مهلة|network|timeout|HTTP 5|تعذر/i.test(msg);
+      if(n<maxAttempts&&retryable){ setProgressPct(Math.max(1,Math.round((idx/Math.max(total,1))*100)),idx+1,total); return new Promise(function(res){setTimeout(res,900*n);}).then(function(){return attempt(n+1);}); }
+      throw err;
+    });
+  }
+  return attempt(1);
+}
+
+function uploadToDriveMirror(file, idx, total) {
+  return new Promise(function(resolve, reject) {
+    try {
+      if(!APPS_SCRIPT_URL||APPS_SCRIPT_URL.indexOf('ضع')>=0){reject(new Error('drive/not-configured'));return;}
+      var prepared=prepareUploadFile(file,idx), uploadName=safeClientFileName(prepared,idx);
+      var mime=prepared.type||inferMimeFromName(uploadName,file.type||'application/octet-stream');
+      var reader=new FileReader();
+      reader.onload=function(e){try{var dataUrl=String(e.target.result||''),base64=dataUrl.indexOf(',')>=0?dataUrl.split(',')[1]:dataUrl; fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({name:uploadName,mime:mime,data:base64,size:prepared.size||file.size||0,mirror:true}),redirect:'follow'}).then(function(res){if(!res.ok)throw new Error('Drive HTTP '+res.status);return res.text();}).then(function(txt){var json;try{json=JSON.parse(txt||'{}');}catch(e){throw new Error('Drive returned invalid JSON');} if(!json.success)throw new Error(json.error||'Drive upload failed'); var fileId=json.fileId||json.id||json.driveFileId||''; resolve({uploadedToDrive:true,driveFileId:fileId,driveUrl:fileId?'https://drive.google.com/file/d/'+fileId+'/view':(json.driveUrl||''),driveUploadedAt:Date.now()});}).catch(reject);}catch(e){reject(e);}};
+      reader.onerror=function(){reject(new Error('تعذر قراءة الملف'));};
+      reader.readAsDataURL(prepared);
+    } catch(e) { reject(e); }
+  });
+}
+
+function mergeDriveAttachmentIntoMessage(docRef, index, driveData) {
+  if(!docRef||!driveData||!driveData.uploadedToDrive)return;
+  docRef.get().then(function(snap){if(!snap.exists)return; var data=snap.data()||{},atts=Array.isArray(data.attachments)?data.attachments.slice():[]; if(!atts[index])return; atts[index]=Object.assign({},atts[index],driveData); return docRef.update({attachments:atts,hasDriveMirror:true});}).catch(function(e){console.warn('Drive mirror update failed:',e);});
+}
+function attachDriveMirrorUpdates(docRef, uploadResult) {
+  if(!uploadResult||!Array.isArray(uploadResult.driveJobs))return;
+  uploadResult.driveJobs.forEach(function(job){if(!job||!job.promise)return; job.promise.then(function(driveData){mergeDriveAttachmentIntoMessage(docRef,job.index,driveData);}).catch(function(e){console.warn('Drive mirror failed:',e);});});
+}
+function uploadFilesSequentially(files) {
+  var results=[], failures=[], driveJobs=[];
+  function next(i) {
+    if(i>=files.length){ if(failures.length&&!results.length){var first=failures[0]&&failures[0].error?failures[0].error.message:'فشل الرفع'; return Promise.reject(new Error(first));} if(failures.length)showToast('رُفع '+results.length+' وفشل '+failures.length+' ملف.','error'); return Promise.resolve({attachments:results,driveJobs:driveJobs}); }
+    var targetIndex=results.length;
+    var drivePromise=uploadToDriveMirror(files[i],i,files.length);
+    driveJobs.push({index:targetIndex,promise:drivePromise});
+    return uploadToUploadcare(files[i],i,files.length).then(function(att){ att.uploadedToDrive=false; att.driveMirror=true; results.push(att); }).catch(function(err){ console.error('Uploadcare failed:',err); failures.push({file:files[i],error:err}); }).then(function(){return next(i+1);});
+  }
+  return next(0);
+}
+
+/* ══════════════════════════════════════════════════════════════
    FILE PREVIEW / ATTACH
-══════════════════════════════════════════ */
-function onAttachClick(ev){if(!userConsented){showToast('لم توافق على مشاركة الملفات.','error');return;}var m=document.getElementById('attachChoiceMenu');if(!m){chooseFromFiles();return;}var x=ev&&ev.clientX?ev.clientX:window.innerWidth-180,y=ev&&ev.clientY?ev.clientY:window.innerHeight-60;m.style.left=Math.min(Math.max(8,x-160),window.innerWidth-180)+'px';m.style.top=Math.min(Math.max(8,y-96),window.innerHeight-96)+'px';m.classList.add('show');setTimeout(function(){document.addEventListener('click',function once(e){if(!m.contains(e.target))m.classList.remove('show');document.removeEventListener('click',once);});},0);}
-function hideAttachChoiceMenu(){var m=document.getElementById('attachChoiceMenu');if(m)m.classList.remove('show');}
-function chooseFromGallery(){hideAttachChoiceMenu();if(isIOSDevice())showIOSUploadNote('إذا كان الملف في iCloud، افتحه أولًا من الصور ثم أعد الاختيار.');var el=document.getElementById('mediaInput');if(el)el.click();}
-function chooseFromFiles(){hideAttachChoiceMenu();if(isIOSDevice())showIOSUploadNote('اختر Browse للوصول إلى كل الملفات.');var el=document.getElementById('fileInput');if(el)el.click();}
-function onGifClick(){if(!userConsented){showToast('سجّل الدخول أولاً','error');return;}openGifPicker();}
-function handleSelectedFiles(input){var files=Array.from((input&&input.files)||[]);if(!files.length)return;files.forEach(function(file){try{if(file&&typeof file.size==='number'&&file.size<=0){showToast('ملف غير جاهز: '+(file.name||'ملف'),'error');}else addFilePreview(file);}catch(e){showToast('تعذر قراءة الملف','error');}});input.value='';}
-document.getElementById('fileInput').addEventListener('change',function(){handleSelectedFiles(this);});
-document.getElementById('mediaInput').addEventListener('change',function(){handleSelectedFiles(this);});
-document.getElementById('gifInput').addEventListener('change',function(){handleSelectedFiles(this);});
-function addFilePreview(file){pendingFiles.push(file);var idx=pendingFiles.length-1;var bar=document.getElementById('uploadPreviewBar');bar.style.display='flex';var item=document.createElement('div');item.className='preview-item';var name=safeClientFileName(file,idx),mime=file.type||inferMimeFromName(name,''),ext=getExtFromName(name);var canPreviewImage=mime.indexOf('image/')===0&&!/^(heic|heif|tif|tiff|svg|avif)$/i.test(ext)&&(file.size||0)<12*1024*1024;if(canPreviewImage){var reader=new FileReader();reader.onload=function(e){item.innerHTML='<img class="preview-thumb" src="'+e.target.result+'"/><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';};reader.onerror=function(){item.innerHTML='<div class="preview-file-chip">'+getFileIcon(name,mime)+' '+escHtml(name)+'</div><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';};reader.readAsDataURL(file);}else{item.innerHTML='<div class="preview-file-chip">'+getFileIcon(name,mime)+' '+escHtml(name)+'</div><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';}bar.appendChild(item);updateSendBtn();}
-function removePreview(idx,el){pendingFiles[idx]=null;el.remove();if(!document.getElementById('uploadPreviewBar').children.length)document.getElementById('uploadPreviewBar').style.display='none';updateSendBtn();}
-function clearUploadPreview(){pendingFiles=[];var bar=document.getElementById('uploadPreviewBar');bar.innerHTML='';bar.style.display='none';}
+══════════════════════════════════════════════════════════════ */
+function onAttachClick(ev) { if(!userConsented){showToast('لم توافق على مشاركة الملفات.','error');return;} var m=document.getElementById('attachChoiceMenu'); if(!m){chooseFromFiles();return;} var x=ev&&ev.clientX?ev.clientX:window.innerWidth-180,y=ev&&ev.clientY?ev.clientY:window.innerHeight-60; m.style.left=Math.min(Math.max(8,x-160),window.innerWidth-180)+'px'; m.style.top=Math.min(Math.max(8,y-96),window.innerHeight-96)+'px'; m.classList.add('show'); setTimeout(function(){document.addEventListener('click',function once(e){if(!m.contains(e.target))m.classList.remove('show');document.removeEventListener('click',once);});},0); }
+function hideAttachChoiceMenu() { var m=document.getElementById('attachChoiceMenu'); if(m)m.classList.remove('show'); }
+function chooseFromGallery() { hideAttachChoiceMenu(); if(isIOSDevice())showIOSUploadNote('إذا كان الملف في iCloud، افتحه أولًا من الصور ثم أعد الاختيار.'); var el=document.getElementById('mediaInput'); if(el)el.click(); }
+function chooseFromFiles() { hideAttachChoiceMenu(); if(isIOSDevice())showIOSUploadNote('اختر Browse للوصول إلى كل الملفات.'); var el=document.getElementById('fileInput'); if(el)el.click(); }
+function onGifClick() { if(!userConsented){showToast('سجّل الدخول أولاً','error');return;} openGifPicker(); }
+function handleSelectedFiles(input) { var files=Array.from((input&&input.files)||[]); if(!files.length)return; files.forEach(function(file){try{if(file&&typeof file.size==='number'&&file.size<=0){showToast('ملف غير جاهز: '+(file.name||'ملف'),'error');}else addFilePreview(file);}catch(e){showToast('تعذر قراءة الملف','error');}}); input.value=''; }
+document.getElementById('fileInput').addEventListener('change', function() { handleSelectedFiles(this); });
+document.getElementById('mediaInput').addEventListener('change', function() { handleSelectedFiles(this); });
+document.getElementById('gifInput').addEventListener('change', function() { handleSelectedFiles(this); });
+function addFilePreview(file) { pendingFiles.push(file); var idx=pendingFiles.length-1; var bar=document.getElementById('uploadPreviewBar'); bar.style.display='flex'; var item=document.createElement('div'); item.className='preview-item'; var name=safeClientFileName(file,idx),mime=file.type||inferMimeFromName(name,''),ext=getExtFromName(name); var canPreviewImage=mime.indexOf('image/')===0&&!/^(heic|heif|tif|tiff|svg|avif)$/i.test(ext)&&(file.size||0)<12*1024*1024; if(canPreviewImage){var reader=new FileReader(); reader.onload=function(e){item.innerHTML='<img class="preview-thumb" src="'+e.target.result+'"/><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';}; reader.onerror=function(){item.innerHTML='<div class="preview-file-chip">'+getFileIcon(name,mime)+' '+escHtml(name)+'</div><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';}; reader.readAsDataURL(file);}else{item.innerHTML='<div class="preview-file-chip">'+getFileIcon(name,mime)+' '+escHtml(name)+'</div><button class="preview-remove" onclick="removePreview('+idx+',this.parentNode)">✕</button>';} bar.appendChild(item); updateSendBtn(); }
+function removePreview(idx, el) { pendingFiles[idx]=null; el.remove(); if(!document.getElementById('uploadPreviewBar').children.length)document.getElementById('uploadPreviewBar').style.display='none'; updateSendBtn(); }
+function clearUploadPreview() { pendingFiles=[]; var bar=document.getElementById('uploadPreviewBar'); bar.innerHTML=''; bar.style.display='none'; }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    VOICE MESSAGES
-══════════════════════════════════════════ */
-var voiceRecorder=null,voiceStream=null,voiceChunks=[],voiceStartedAt=0,voiceTimerInterval=null;
-function getSupportedVoiceMime(){if(!window.MediaRecorder)return'';var choices=['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/ogg'];for(var i=0;i<choices.length;i++){try{if(MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(choices[i]))return choices[i];}catch(e){}}return'';}
-function voiceExtFromMime(mime){mime=String(mime||'').toLowerCase();if(mime.indexOf('mp4')>=0||mime.indexOf('m4a')>=0||mime.indexOf('aac')>=0)return'm4a';if(mime.indexOf('ogg')>=0)return'ogg';if(mime.indexOf('webm')>=0)return'webm';return'm4a';}
-function formatVoiceTimer(ms){var s=Math.max(0,Math.floor(ms/1000)),m=Math.floor(s/60);s=s%60;return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
-function showVoiceOverlay(show){var o=document.getElementById('voiceRecorderOverlay'),btn=document.getElementById('voiceRecordBtn');if(o)o.classList.toggle('show',!!show);if(btn)btn.classList.toggle('recording',!!show);}
-function updateVoiceTimer(){var el=document.getElementById('voiceRecTimer');if(el)el.textContent=formatVoiceTimer(Date.now()-voiceStartedAt);}
-function onVoiceClick(ev){if(ev)ev.preventDefault();if(!isSignedIn){showToast('سجّل الدخول أولاً','error');return;}if(isSending||isVoiceUploading){showToast('انتظر حتى تنتهي العملية الحالية','error');return;}if(voiceRecorder&&voiceRecorder.state==='recording'){stopVoiceRecording(true);return;}startVoiceRecording();}
-function startVoiceRecording(){if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){showToast('المتصفح لا يدعم تسجيل الصوت.','error');return;}var mime=getSupportedVoiceMime();navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}).then(function(stream){voiceStream=stream;voiceChunks=[];voiceRecorder=new MediaRecorder(stream,mime?{mimeType:mime}:undefined);voiceRecorder.ondataavailable=function(e){if(e&&e.data&&e.data.size>0)voiceChunks.push(e.data);};voiceRecorder.onerror=function(){showToast('خطأ أثناء التسجيل','error');cleanupVoiceRecorder();};voiceRecorder.start(250);voiceStartedAt=Date.now();updateVoiceTimer();clearInterval(voiceTimerInterval);voiceTimerInterval=setInterval(updateVoiceTimer,500);showVoiceOverlay(true);}).catch(function(err){var msg='تعذر تشغيل الميكروفون.';if(err&&err.name==='NotAllowedError')msg='تم رفض إذن الميكروفون.';if(err&&err.name==='NotFoundError')msg='لم يتم العثور على ميكروفون.';showToast(msg,'error');});}
-function cleanupVoiceRecorder(){clearInterval(voiceTimerInterval);voiceTimerInterval=null;showVoiceOverlay(false);try{if(voiceStream)voiceStream.getTracks().forEach(function(t){t.stop();});}catch(e){}voiceStream=null;voiceRecorder=null;voiceChunks=[];}
-function stopVoiceRecording(shouldSend){if(!voiceRecorder||voiceRecorder.state==='inactive'){cleanupVoiceRecorder();return;}var recorder=voiceRecorder;recorder.onstop=function(){var chunks=voiceChunks.slice(),durationMs=Date.now()-voiceStartedAt;var mime=(recorder.mimeType||getSupportedVoiceMime()||'audio/webm').split(';')[0];try{if(voiceStream)voiceStream.getTracks().forEach(function(t){t.stop();});}catch(e){}clearInterval(voiceTimerInterval);voiceTimerInterval=null;showVoiceOverlay(false);voiceStream=null;voiceRecorder=null;voiceChunks=[];if(!shouldSend)return;if(durationMs<700||!chunks.length){showToast('التسجيل قصير جدًا','error');return;}sendVoiceBlob(chunks,mime,durationMs);};try{recorder.stop();}catch(e){cleanupVoiceRecorder();}}
-function sendVoiceBlob(chunks,mime,durationMs){if(isVoiceUploading||isSending)return;isVoiceUploading=true;isSending=true;var btn=document.getElementById('sendBtn');if(btn)btn.disabled=true;var ext=voiceExtFromMime(mime),name='voice_'+Date.now()+'.'+ext;var blob=new Blob(chunks,{type:mime}),file;try{file=new File([blob],name,{type:mime,lastModified:Date.now()});}catch(e){file=blob;file.name=name;}showUploadProgress(1);setProgressPct(1,1,1);uploadToUploadcare(file,0,1).then(function(att){att.type='audio';att.mime=mime;att.name=name;att.isVoiceMessage=true;att.durationMs=durationMs;att.displaySource='uploadcare';return saveMsg('',[att]);}).then(function(){hideUploadProgress();}).catch(function(err){hideUploadProgress();showToast('فشل إرسال الصوت: '+((err&&err.message)||''),'error');}).finally(function(){isVoiceUploading=false;isSending=false;if(btn)btn.disabled=false;updateSendBtn();});}
+══════════════════════════════════════════════════════════════ */
+function getSupportedVoiceMime() { if(!window.MediaRecorder)return''; var choices=['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/ogg']; for(var i=0;i<choices.length;i++){try{if(MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(choices[i]))return choices[i];}catch(e){}} return''; }
+function voiceExtFromMime(mime) { mime=String(mime||'').toLowerCase(); if(mime.indexOf('mp4')>=0||mime.indexOf('m4a')>=0||mime.indexOf('aac')>=0)return'm4a'; if(mime.indexOf('ogg')>=0)return'ogg'; if(mime.indexOf('webm')>=0)return'webm'; return'm4a'; }
+function formatVoiceTimer(ms) { var s=Math.max(0,Math.floor(ms/1000)),m=Math.floor(s/60); s=s%60; return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); }
+function showVoiceOverlay(show) { var o=document.getElementById('voiceRecorderOverlay'),btn=document.getElementById('voiceRecordBtn'); if(o)o.classList.toggle('show',!!show); if(btn)btn.classList.toggle('recording',!!show); }
+function updateVoiceTimer() { var el=document.getElementById('voiceRecTimer'); if(el)el.textContent=formatVoiceTimer(Date.now()-voiceStartedAt); }
+function onVoiceClick(ev) { if(ev)ev.preventDefault(); if(state.current!==AppState.UNLOCKED){showToast('سجّل الدخول أولاً','error');return;} if(isSending||isVoiceUploading){showToast('انتظر حتى تنتهي العملية الحالية','error');return;} if(voiceRecorder&&voiceRecorder.state==='recording'){stopVoiceRecording(true);return;} startVoiceRecording(); }
+function startVoiceRecording() { if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.MediaRecorder){showToast('المتصفح لا يدعم تسجيل الصوت.','error');return;} var mime=getSupportedVoiceMime(); navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}}).then(function(stream){voiceStream=stream;voiceChunks=[];voiceRecorder=new MediaRecorder(stream,mime?{mimeType:mime}:undefined);voiceRecorder.ondataavailable=function(e){if(e&&e.data&&e.data.size>0)voiceChunks.push(e.data);};voiceRecorder.onerror=function(){showToast('خطأ أثناء التسجيل','error');cleanupVoiceRecorder();};voiceRecorder.start(250);voiceStartedAt=Date.now();updateVoiceTimer();clearInterval(voiceTimerInterval);voiceTimerInterval=setInterval(updateVoiceTimer,500);showVoiceOverlay(true);}).catch(function(err){var msg='تعذر تشغيل الميكروفون.'; if(err&&err.name==='NotAllowedError')msg='تم رفض إذن الميكروفون.'; if(err&&err.name==='NotFoundError')msg='لم يتم العثور على ميكروفون.'; showToast(msg,'error');}); }
+function cleanupVoiceRecorder() { clearInterval(voiceTimerInterval);voiceTimerInterval=null;showVoiceOverlay(false);try{if(voiceStream)voiceStream.getTracks().forEach(function(t){t.stop();});}catch(e){}voiceStream=null;voiceRecorder=null;voiceChunks=[]; }
+function stopVoiceRecording(shouldSend) { if(!voiceRecorder||voiceRecorder.state==='inactive'){cleanupVoiceRecorder();return;} var recorder=voiceRecorder; recorder.onstop=function(){var chunks=voiceChunks.slice(),durationMs=Date.now()-voiceStartedAt; var mime=(recorder.mimeType||getSupportedVoiceMime()||'audio/webm').split(';')[0]; try{if(voiceStream)voiceStream.getTracks().forEach(function(t){t.stop();});}catch(e){} clearInterval(voiceTimerInterval);voiceTimerInterval=null;showVoiceOverlay(false);voiceStream=null;voiceRecorder=null;voiceChunks=[]; if(!shouldSend)return; if(durationMs<700||!chunks.length){showToast('التسجيل قصير جدًا','error');return;} sendVoiceBlob(chunks,mime,durationMs);}; try{recorder.stop();}catch(e){cleanupVoiceRecorder();} }
+function sendVoiceBlob(chunks, mime, durationMs) { if(isVoiceUploading||isSending)return; isVoiceUploading=true;isSending=true; var btn=document.getElementById('sendBtn'); if(btn)btn.disabled=true; var ext=voiceExtFromMime(mime),name='voice_'+Date.now()+'.'+ext; var blob=new Blob(chunks,{type:mime}),file; try{file=new File([blob],name,{type:mime,lastModified:Date.now()});}catch(e){file=blob;file.name=name;} showUploadProgress(1);setProgressPct(1,1,1); uploadToUploadcare(file,0,1).then(function(att){att.type='audio';att.mime=mime;att.name=name;att.isVoiceMessage=true;att.durationMs=durationMs;att.displaySource='uploadcare'; return saveMsg('',[att]);}).then(function(){hideUploadProgress();}).catch(function(err){hideUploadProgress();showToast('فشل إرسال الصوت: '+((err&&err.message)||''),'error');}).finally(function(){isVoiceUploading=false;isSending=false;if(btn)btn.disabled=false;updateSendBtn();}); }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    GIF PICKER — Tenor v2
-══════════════════════════════════════════ */
+══════════════════════════════════════════════════════════════ */
 var BUILTIN_GIFS=[
   {title:'ضحك',keywords:'laugh funny',url:'https://media.giphy.com/media/10JhviFuU2gWD6/giphy.gif'},
   {title:'تصفيق',keywords:'clap applause',url:'https://media.giphy.com/media/111ebonMs90YLu/giphy.gif'},
@@ -996,273 +1470,256 @@ var BUILTIN_GIFS=[
 ];
 var GIF_SYNONYMS={'ضحك':'laugh','اضحك':'laugh','هههه':'laugh','تمام':'ok','اوكي':'ok','نعم':'yes','لا':'no','حزين':'sad','حب':'love','صدمة':'shocked','شكرا':'thanks','مرحبا':'hello','انتظار':'waiting','احتفال':'party','غضب':'angry','نوم':'sleep','تفكير':'thinking','رقص':'dance'};
 
-function normalizeGifQuery(q){q=String(q||'').toLowerCase().trim().replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[ًٌٍَُِّْـ]/g,'').replace(/[^\w\u0600-\u06ff\s]+/g,' ').replace(/\s+/g,' ').trim();var parts=q.split(' ').filter(Boolean),extra=[];parts.forEach(function(w){if(GIF_SYNONYMS[w])extra.push(GIF_SYNONYMS[w]);});return(q+' '+extra.join(' ')).trim();}
-function openGifPicker(){var ov=document.getElementById('gifPickerOverlay');if(!ov)return;ov.classList.add('show');var inp=document.getElementById('gifSearchInput');if(inp){inp.value='';setTimeout(function(){inp.focus();},80);}loadTenorTrending();}
-function closeGifPicker(){var ov=document.getElementById('gifPickerOverlay');if(ov)ov.classList.remove('show');}
-function loadTenorTrending(){var grid=document.getElementById('gifGrid'),note=document.getElementById('gifPickerNote');if(grid)grid.innerHTML='<div class="gif-empty">⏳ جاري التحميل...</div>';fetch('https://tenor.googleapis.com/v2/featured?key='+TENOR_API_KEY+'&client_key=chatroll_haider&limit=24&media_filter=gif&contentfilter=medium&locale=ar').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(json){var items=parseTenorResults(json.results||[]);if(items.length){if(note)note.textContent='الأكثر رواجاً الآن';renderGifGrid(items,'');}else{renderGifGrid(BUILTIN_GIFS,'مكتبة محلية');}}).catch(function(){renderGifGrid(BUILTIN_GIFS,'مكتبة محلية');});}
-function searchGifOnline(q){if(!q||!q.trim()){loadTenorTrending();return;}var grid=document.getElementById('gifGrid');if(grid)grid.innerHTML='<div class="gif-empty">🔍 جاري البحث...</div>';fetch('https://tenor.googleapis.com/v2/search?key='+TENOR_API_KEY+'&client_key=chatroll_haider&q='+encodeURIComponent(q)+'&limit=24&media_filter=gif&contentfilter=medium').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(json){var items=parseTenorResults(json.results||[]);if(items.length){renderGifGrid(items,'نتائج: '+q);}else{renderGifGrid(searchBuiltinGifs(q),'لا نتائج. مكتبة محلية:');}}).catch(function(){renderGifGrid(searchBuiltinGifs(q),'تعذر الاتصال.');});}
-function parseTenorResults(results){return(results||[]).map(function(x){var mf=x.media_formats||{};var url=(mf.tinygif&&mf.tinygif.url)||(mf.gif&&mf.gif.url)||(mf.mediumgif&&mf.mediumgif.url)||'';return{title:x.content_description||x.title||'GIF',url:url};}).filter(function(x){return x.url;});}
-function searchBuiltinGifs(q){var nq=normalizeGifQuery(q);if(!nq)return BUILTIN_GIFS;var tokens=nq.split(' ').filter(Boolean);var scored=BUILTIN_GIFS.map(function(g){var hay=normalizeGifQuery((g.title||'')+' '+(g.keywords||''));var score=0;tokens.forEach(function(t){if(hay.indexOf(t)!==-1)score+=2;});if(hay.indexOf(nq)!==-1)score+=5;return{g:g,score:score};}).filter(function(x){return x.score>0;}).sort(function(a,b){return b.score-a.score;}).map(function(x){return x.g;});return scored.length?scored:BUILTIN_GIFS.slice(0,12);}
-function renderGifGrid(items,notice){var grid=document.getElementById('gifGrid');if(!grid)return;var note=document.getElementById('gifPickerNote');if(note&&notice)note.textContent=notice;if(!items||!items.length){if(note)note.textContent='لم أجد مطابقة.';items=BUILTIN_GIFS.slice(0,12);}grid.innerHTML=items.map(function(g){return'<button type="button" class="gif-card" onclick="sendGifFromLibrary(\''+escJs(g.url)+'\',\''+escJs(g.title||'GIF')+'\')"><img src="'+escHtml(g.url)+'" alt="'+escHtml(g.title||'GIF')+'" loading="lazy"></button>';}).join('');}
-var gifSearchTimer=null;
-setTimeout(function(){var inp=document.getElementById('gifSearchInput');if(inp){inp.addEventListener('input',function(){clearTimeout(gifSearchTimer);var q=this.value.trim();gifSearchTimer=setTimeout(function(){searchGifOnline(q);},280);});inp.addEventListener('keydown',function(e){if(e.key==='Enter'){clearTimeout(gifSearchTimer);searchGifOnline(this.value.trim());}});}},0);
-function sendGifFromLibrary(url,title){closeGifPicker();var attachment={provider:'gif-library',type:'image',mime:'image/gif',url:url,cdnUrl:url,directUrl:url,fullUrl:url,name:title||'GIF',size:0,displaySource:'gif'};saveMsg('',[attachment]).then(function(){scrollToBottom();}).catch(function(){showToast('فشل إرسال GIF','error');});}
+function normalizeGifQuery(q) { q=String(q||'').toLowerCase().trim().replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[ًٌٍَُِّْـ]/g,'').replace(/[^\w\u0600-\u06ff\s]+/g,' ').replace(/\s+/g,' ').trim(); var parts=q.split(' ').filter(Boolean),extra=[]; parts.forEach(function(w){if(GIF_SYNONYMS[w])extra.push(GIF_SYNONYMS[w]);}); return(q+' '+extra.join(' ')).trim(); }
+function openGifPicker() { var ov=document.getElementById('gifPickerOverlay'); if(!ov)return; ov.classList.add('show'); var inp=document.getElementById('gifSearchInput'); if(inp){inp.value='';setTimeout(function(){inp.focus();},80);} loadTenorTrending(); }
+function closeGifPicker() { var ov=document.getElementById('gifPickerOverlay'); if(ov)ov.classList.remove('show'); }
+function loadTenorTrending() { var grid=document.getElementById('gifGrid'),note=document.getElementById('gifPickerNote'); if(grid)grid.innerHTML='<div class="gif-empty">⏳ جاري التحميل...</div>'; fetch('https://tenor.googleapis.com/v2/featured?key='+TENOR_API_KEY+'&client_key=chatroll_haider&limit=24&media_filter=gif&contentfilter=medium&locale=ar').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(json){var items=parseTenorResults(json.results||[]); if(items.length){if(note)note.textContent='الأكثر رواجاً الآن';renderGifGrid(items,'');}else{renderGifGrid(BUILTIN_GIFS,'مكتبة محلية');}}).catch(function(){renderGifGrid(BUILTIN_GIFS,'مكتبة محلية');}); }
+function searchGifOnline(q) { if(!q||!q.trim()){loadTenorTrending();return;} var grid=document.getElementById('gifGrid'); if(grid)grid.innerHTML='<div class="gif-empty">🔍 جاري البحث...</div>'; fetch('https://tenor.googleapis.com/v2/search?key='+TENOR_API_KEY+'&client_key=chatroll_haider&q='+encodeURIComponent(q)+'&limit=24&media_filter=gif&contentfilter=medium').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(function(json){var items=parseTenorResults(json.results||[]); if(items.length){renderGifGrid(items,'نتائج: '+q);}else{renderGifGrid(searchBuiltinGifs(q),'لا نتائج. مكتبة محلية:');}}).catch(function(){renderGifGrid(searchBuiltinGifs(q),'تعذر الاتصال.');}); }
+function parseTenorResults(results) { return(results||[]).map(function(x){var mf=x.media_formats||{};var url=(mf.tinygif&&mf.tinygif.url)||(mf.gif&&mf.gif.url)||(mf.mediumgif&&mf.mediumgif.url)||'';return{title:x.content_description||x.title||'GIF',url:url};}).filter(function(x){return x.url;}); }
+function searchBuiltinGifs(q) { var nq=normalizeGifQuery(q); if(!nq)return BUILTIN_GIFS; var tokens=nq.split(' ').filter(Boolean); var scored=BUILTIN_GIFS.map(function(g){var hay=normalizeGifQuery((g.title||'')+' '+(g.keywords||''));var score=0;tokens.forEach(function(t){if(hay.indexOf(t)!==-1)score+=2;});if(hay.indexOf(nq)!==-1)score+=5;return{g:g,score:score};}).filter(function(x){return x.score>0;}).sort(function(a,b){return b.score-a.score;}).map(function(x){return x.g;}); return scored.length?scored:BUILTIN_GIFS.slice(0,12); }
+function renderGifGrid(items, notice) { var grid=document.getElementById('gifGrid'); if(!grid)return; var note=document.getElementById('gifPickerNote'); if(note&&notice)note.textContent=notice; if(!items||!items.length){if(note)note.textContent='لم أجد مطابقة.';items=BUILTIN_GIFS.slice(0,12);} grid.innerHTML=items.map(function(g){return'<button type="button" class="gif-card" onclick="sendGifFromLibrary(\''+escJs(g.url)+'\',\''+escJs(g.title||'GIF')+'\')"><img src="'+escHtml(g.url)+'" alt="'+escHtml(g.title||'GIF')+'" loading="lazy"></button>';}).join(''); }
 
-/* ══════════════════════════════════════════
+setTimeout(function() {
+  var inp = document.getElementById('gifSearchInput');
+  if (inp) {
+    inp.addEventListener('input', function() { clearTimeout(gifSearchTimer); var q=this.value.trim(); gifSearchTimer=setTimeout(function(){searchGifOnline(q);},280); });
+    inp.addEventListener('keydown', function(e) { if(e.key==='Enter'){clearTimeout(gifSearchTimer);searchGifOnline(this.value.trim());} });
+  }
+}, 0);
+
+function sendGifFromLibrary(url, title) { closeGifPicker(); var attachment={provider:'gif-library',type:'image',mime:'image/gif',url:url,cdnUrl:url,directUrl:url,fullUrl:url,name:title||'GIF',size:0,displaySource:'gif'}; saveMsg('',[attachment]).then(function(){scrollToBottom();}).catch(function(){showToast('فشل إرسال GIF','error');}); }
+
+/* ══════════════════════════════════════════════════════════════
    EMOJI PICKER
-══════════════════════════════════════════ */
+══════════════════════════════════════════════════════════════ */
 var EMOJI_DATA = {
   '😊 وجوه': ['😀','😃','😄','😁','😆','😅','🤣','😂','🙂','😊','😇','🥰','😍','🤩','😘','😗','😙','😚','😋','😛','😜','🤪','😝','🤑','🤗','🤭','🤫','🤔','🤐','🤨','😐','😑','😶','😏','😒','🙄','😬','🤥','😌','😔','😪','🤤','😴','😷','🤒','🤕','🤢','🤮','🤧','🥵','🥶','🥴','😵','🤯','🤠','🥳','😎','🤓','🧐','😕','😟','🙁','☹️','😮','😯','😲','😳','🥺','😦','😧','😨','😰','😥','😢','😭','😱','😖','😣','😞','😓','😩','😫','🥱','😤','😡','😠','🤬','😈','👿','💀','☠️','💩','🤡','👹','👺','👻','👽','👾','🤖'],
-  '❤️ حب': ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','☮️','✝️','☯️','🕉️','✡️','🔯','🛐','⛎','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'],
+  '❤️ حب': ['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟'],
   '👋 أيدي': ['👋','🤚','🖐','✋','🖖','👌','🤌','🤏','✌️','🤞','🤟','🤘','🤙','👈','👉','👆','🖕','👇','☝️','👍','👎','✊','👊','🤛','🤜','👏','🙌','👐','🤲','🤝','🙏'],
-  '🌸 طبيعة': ['🌸','🌺','🌹','🌷','🌼','💐','🌻','🌞','🌝','🌛','🌜','🌚','🌕','🌖','🌗','🌘','🌑','🌒','🌓','🌔','🌙','🌟','⭐','🌠','⛅','🌤','🌥','🌦','🌧','⛈','🌩','🌨','❄️','⛄','🌊','🌈','🔥','💧','🌍','🌎','🌏','🌱','🌿','☘️','🍀','🎋','🍃','🍂','🍁','🌾','🌵','🌴','🌳','🌲'],
-  '🎉 احتفال': ['🎉','🎊','🎈','🎁','🎀','🎗','🎟','🎫','🏆','🥇','🥈','🥉','🎖','🏅','🎪','🤹','🎭','🎨','🎬','🎤','🎵','🎶','🎼','🎹','🥁','🎷','🎺','🎸','🎻','🎮','🕹'],
-  '😋 طعام': ['🍕','🍔','🌮','🌯','🥙','🧆','🥚','🍳','🥘','🍲','🥗','🍝','🍜','🍛','🍣','🍱','🍤','🍙','🍚','🍘','🍥','🥮','🥟','🦪','🍦','🍧','🍨','🍩','🍪','🎂','🍰','🧁','🥧','🍫','🍬','🍭','🍮','🍯','🍼','🥛','☕','🍵','🍶','🍾','🍷','🍸','🍹','🍺','🍻','🥂','🥃'],
-  '🚗 سيارات': ['🚗','🚕','🚙','🚌','🚎','🏎','🚓','🚑','🚒','🚐','🛻','🚚','🚛','🚜','🏍','🛵','🚲','🛴','🛺','🚁','🛸','✈️','🚀','🛶','⛵','🚤','🛥','🛳','⛴','🚢','🚂','🚃','🚄','🚅','🚆','🚇','🚈','🚉','🚊','🚝','🚞','🚋','🚍','🚘','🚖'],
-  '⚽ رياضة': ['⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🏓','🏸','🏒','🥅','⛳','🎣','🤿','🎽','🎿','🛷','🥌','🎯','🎲','🧩','🎭','🎨','🖼','🎪','🤹'],
-  '💻 تقنية': ['💻','🖥','🖨','⌨️','🖱','🖲','💾','💿','📀','📱','📲','☎️','📞','📟','📠','📺','📷','📸','📹','🎥','📽','🎞','📡','🔋','🔌','💡','🔦','🕯','🗑','💰','💴','💵','💶','💷','💸','💳','🪙']
+  '🌸 طبيعة': ['🌸','🌺','🌹','🌷','🌼','💐','🌻','🌞','🌝','🌛','🌜','🌚','🌕','🌙','🌟','⭐','🌈','🔥','💧','🌍','🌱','🌿','☘️','🍀','🍃','🍂','🍁','🌾','🌵','🌴','🌳','🌲'],
+  '🎉 احتفال': ['🎉','🎊','🎈','🎁','🎀','🏆','🥇','🥈','🥉','🎖','🏅','🎪','🎭','🎨','🎬','🎤','🎵','🎶','🎼','🎹','🥁','🎷','🎺','🎸','🎻','🎮','🕹'],
+  '😋 طعام': ['🍕','🍔','🌮','🌯','🥙','🥚','🍳','🥘','🍲','🥗','🍝','🍜','🍛','🍣','🍱','🍤','🍦','🍧','🍨','🍩','🍪','🎂','🍰','🧁','🍫','🍬','🍭','🍼','🥛','☕','🍵','🍷','🍸','🍹','🍺','🍻','🥂'],
+  '🚗 سيارات': ['🚗','🚕','🚙','🚌','🏎','🚓','🚑','🚒','🚐','🛻','🚚','🚛','🚜','🏍','🛵','🚲','🛴','🚁','🛸','✈️','🚀','⛵','🚤','🚢','🚂','🚄','🚅','🚇'],
+  '⚽ رياضة': ['⚽','🏀','🏈','⚾','🥎','🎾','🏐','🏉','🥏','🎱','🏓','🏸','⛳','🎣','🤿','🎽','🎿','🛷','🎯','🎲','🧩'],
+  '💻 تقنية': ['💻','🖥','🖨','⌨️','🖱','💾','💿','📀','📱','📲','☎️','📞','📟','📠','📺','📷','📸','📹','🎥','📡','🔋','🔌','💡','🔦','💰','💵','💳','🪙']
 };
-
 var currentEmojiCat = Object.keys(EMOJI_DATA)[0];
-var emojiInited = false;
 
-function onEmojiClick(){
-  if(!isSignedIn){showToast('سجّل الدخول أولاً','error');return;}
-  var ov = document.getElementById('emojiPickerOverlay');
-  if(!ov) return;
-  if(!emojiInited){initEmojiPicker();emojiInited=true;}
-  ov.classList.add('show');
-  setTimeout(function(){document.getElementById('emojiSearchInput').focus();},80);
-}
-function closeEmojiPicker(){
-  var ov = document.getElementById('emojiPickerOverlay');
-  if(ov) ov.classList.remove('show');
-}
-function initEmojiPicker(){
-  var cats = document.getElementById('emojiCats');
-  var catIcons = Object.keys(EMOJI_DATA).map(function(k){return k.split(' ')[0];});
-  Object.keys(EMOJI_DATA).forEach(function(cat,i){
-    var btn = document.createElement('button');
-    btn.type='button';btn.className='emoji-cat-btn'+(i===0?' active':'');
-    btn.textContent=catIcons[i];btn.title=cat;
-    btn.onclick=function(){
-      document.querySelectorAll('.emoji-cat-btn').forEach(function(b){b.classList.remove('active');});
-      btn.classList.add('active');currentEmojiCat=cat;renderEmojiGrid(EMOJI_DATA[cat]);
-    };
+function onEmojiClick() { if(state.current!==AppState.UNLOCKED){showToast('سجّل الدخول أولاً','error');return;} var ov=document.getElementById('emojiPickerOverlay'); if(!ov)return; if(!emojiInited){initEmojiPicker();emojiInited=true;} ov.classList.add('show'); setTimeout(function(){document.getElementById('emojiSearchInput').focus();},80); }
+function closeEmojiPicker() { var ov=document.getElementById('emojiPickerOverlay'); if(ov)ov.classList.remove('show'); }
+function initEmojiPicker() {
+  var cats=document.getElementById('emojiCats');
+  var catIcons=Object.keys(EMOJI_DATA).map(function(k){return k.split(' ')[0];});
+  Object.keys(EMOJI_DATA).forEach(function(cat,i) {
+    var btn=document.createElement('button'); btn.type='button'; btn.className='emoji-cat-btn'+(i===0?' active':''); btn.textContent=catIcons[i]; btn.title=cat;
+    btn.onclick=function(){document.querySelectorAll('.emoji-cat-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');currentEmojiCat=cat;renderEmojiGrid(EMOJI_DATA[cat]);};
     cats.appendChild(btn);
   });
   renderEmojiGrid(EMOJI_DATA[currentEmojiCat]);
-  var search = document.getElementById('emojiSearchInput');
-  if(search){
-    search.addEventListener('input',function(){
-      var q=this.value.trim();
-      if(!q){renderEmojiGrid(EMOJI_DATA[currentEmojiCat]);return;}
-      var all=[];Object.values(EMOJI_DATA).forEach(function(arr){all=all.concat(arr);});
-      /* بحث بسيط — نعرض كل الإيموجيات عند البحث لأنه لا توجد metadata */
-      renderEmojiGrid(all);
-    });
-  }
+  var search=document.getElementById('emojiSearchInput');
+  if(search){search.addEventListener('input',function(){var q=this.value.trim(); if(!q){renderEmojiGrid(EMOJI_DATA[currentEmojiCat]);return;} var all=[];Object.values(EMOJI_DATA).forEach(function(arr){all=all.concat(arr);}); renderEmojiGrid(all);});}
 }
-function renderEmojiGrid(emojis){
-  var grid = document.getElementById('emojiGrid');
-  if(!grid) return;
-  grid.innerHTML = emojis.map(function(em){
-    return '<button type="button" class="emoji-btn" onclick="insertEmoji(\''+escJs(em)+'\')" title="'+escHtml(em)+'">'+em+'</button>';
-  }).join('');
-}
-function insertEmoji(emoji){
-  var input = document.getElementById('chatInput');
-  if(!input) return;
-  var start=input.selectionStart||0,end=input.selectionEnd||0;
-  var val=input.value;
-  input.value=val.slice(0,start)+emoji+val.slice(end);
-  input.selectionStart=input.selectionEnd=start+emoji.length;
-  input.focus();autoResize(input);updateSendBtn();
-}
+function renderEmojiGrid(emojis) { var grid=document.getElementById('emojiGrid'); if(!grid)return; grid.innerHTML=emojis.map(function(em){return'<button type="button" class="emoji-btn" onclick="insertEmoji(\''+escJs(em)+'\')" title="'+escHtml(em)+'">'+em+'</button>';}).join(''); }
+function insertEmoji(emoji) { var input=document.getElementById('chatInput'); if(!input)return; var start=input.selectionStart||0,end=input.selectionEnd||0,val=input.value; input.value=val.slice(0,start)+emoji+val.slice(end); input.selectionStart=input.selectionEnd=start+emoji.length; input.focus();autoResize(input);updateSendBtn(); }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    PRESENCE & TYPING
-══════════════════════════════════════════ */
-function registerAnonymousPresence(){getDeviceId().then(function(devId){var ref=rtdb.ref('presence/'+ROOM_ID+'/'+devId);ref.set({name:null,isViewer:true,online:true,ts:Date.now()});ref.onDisconnect().remove();listenPresence();});}
-function registerNamedPresence(name,devId){var ref=rtdb.ref('presence/'+ROOM_ID+'/'+devId);ref.set({name:name,isViewer:false,online:true,ts:Date.now()});ref.onDisconnect().remove();listenPresence();}
-function listenPresence(){rtdb.ref('presence/'+ROOM_ID).on('value',function(snap){renderPresence(snap.val()||{});});}
-function renderPresence(all){var entries=Object.values(all||{}),count=entries.length;var viewerCount=entries.filter(function(p){return!p.name&&p.isViewer;}).length;var namedEntries=entries.filter(function(p){return p.name;});var onlineEl=document.getElementById('onlineCountEl');if(onlineEl)onlineEl.textContent=count+' online';var list=document.getElementById('presenceList');if(!list)return;list.innerHTML='';function addContact(label,extraClass){var el=document.createElement('div');el.className='contact-list-item '+(extraClass||'');el.innerHTML='<div class="contact-list-profile-image presence-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div><div class="contact-list-profile-name presence-name '+(extraClass||'')+'">'+escHtml(label)+'</div><div class="contact-list-status-icon presence-dot"></div>';list.appendChild(el);}namedEntries.forEach(function(p){addContact(p.name,'');});if(viewerCount>0)addContact(viewerCount+' Viewer','viewer-count');}
-function handleTyping(){if(!isSignedIn||!currentUser)return;var ref=rtdb.ref('typing/'+ROOM_ID+'/'+currentUser.deviceId);ref.set({name:currentUser.name,ts:Date.now()});ref.onDisconnect().remove();clearTimeout(typingTimer);typingTimer=setTimeout(function(){ref.remove();},3000);}
-function stopTyping(){if(!isSignedIn||!currentUser)return;rtdb.ref('typing/'+ROOM_ID+'/'+currentUser.deviceId).remove();clearTimeout(typingTimer);}
+══════════════════════════════════════════════════════════════ */
+function registerAnonymousPresence() {
+  getDeviceId().then(function(devId) {
+    var ref = rtdb.ref('presence/' + ROOM_ID + '/' + devId);
+    ref.set({ name: null, isViewer: true, online: true, ts: Date.now() });
+    ref.onDisconnect().remove();
+    listenPresence();
+  });
+}
+function registerNamedPresence(name, devId) {
+  var ref = rtdb.ref('presence/' + ROOM_ID + '/' + devId);
+  ref.set({ name: name, isViewer: false, online: true, ts: Date.now() });
+  ref.onDisconnect().remove();
+  listenPresence();
+}
+function listenPresence() { rtdb.ref('presence/' + ROOM_ID).on('value', function(snap) { renderPresence(snap.val() || {}); }); }
+function renderPresence(all) {
+  var entries=Object.values(all||{}), count=entries.length;
+  var viewerCount=entries.filter(function(p){return !p.name&&p.isViewer;}).length;
+  var namedEntries=entries.filter(function(p){return p.name;});
+  var onlineEl=document.getElementById('onlineCountEl'); if(onlineEl)onlineEl.textContent=count+' online';
+  var list=document.getElementById('presenceList'); if(!list)return;
+  list.innerHTML='';
+  function addContact(label, extraClass) { var el=document.createElement('div'); el.className='contact-list-item '+(extraClass||''); el.innerHTML='<div class="contact-list-profile-image presence-avatar" style="background-image:url(\''+DEFAULT_AVATAR+'\')"></div><div class="contact-list-profile-name presence-name '+(extraClass||'')+'">'+escHtml(label)+'</div><div class="contact-list-status-icon presence-dot"></div>'; list.appendChild(el); }
+  namedEntries.forEach(function(p) { addContact(p.name, ''); });
+  if(viewerCount > 0) addContact(viewerCount + ' Viewer', 'viewer-count');
+}
+function handleTyping() {
+  if (state.current !== AppState.UNLOCKED || !state.user) return;
+  var ref = rtdb.ref('typing/' + ROOM_ID + '/' + state.user.deviceId);
+  ref.set({ name: state.user.name, ts: Date.now() });
+  ref.onDisconnect().remove();
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(function() { ref.remove(); }, 3000);
+}
+function stopTyping() {
+  if (state.current !== AppState.UNLOCKED || !state.user) return;
+  rtdb.ref('typing/' + ROOM_ID + '/' + state.user.deviceId).remove();
+  clearTimeout(typingTimer);
+}
 
-rtdb.ref('typing/'+ROOM_ID).on('value',function(snap){
-  var all=snap.val()||{};
-  var devId=currentUser?currentUser.deviceId:null;
-  var others=Object.entries(all).filter(function(pair){return pair[0]!==devId;}).map(function(pair){return pair[1].name||'';}).filter(Boolean);
-  var bar=document.getElementById('typingBar');
-  var wrap=document.querySelector('.chat-wrapper');
-  if(!bar||!wrap)return;
-  if(!others.length){bar.innerHTML='';wrap.classList.remove('has-typing');}
-  else{
-    bar.innerHTML=others.map(function(n){return'<span class="typing-name">'+escHtml(n)+'</span>';}).join('<span style="color:#4a5080"> ، </span>')+' <span class="typing-status-word">يكتب...</span>';
-    wrap.classList.add('has-typing');
-  }
+rtdb.ref('typing/' + ROOM_ID).on('value', function(snap) {
+  var all = snap.val() || {};
+  var devId = state.user ? state.user.deviceId : null;
+  var others = Object.entries(all).filter(function(pair) { return pair[0] !== devId; }).map(function(pair) { return pair[1].name || ''; }).filter(Boolean);
+  var bar = document.getElementById('typingBar'), wrap = document.querySelector('.chat-wrapper');
+  if (!bar || !wrap) return;
+  if (!others.length) { bar.innerHTML = ''; wrap.classList.remove('has-typing'); }
+  else { bar.innerHTML = others.map(function(n){return'<span class="typing-name">'+escHtml(n)+'</span>';}).join('<span style="color:#4a5080"> ، </span>')+' <span class="typing-status-word">يكتب...</span>'; wrap.classList.add('has-typing'); }
 });
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    LIGHTBOX
-══════════════════════════════════════════ */
-var lb={scale:1,x:0,y:0,dragging:false,lastX:0,lastY:0,pinchStartDist:0,pinchStartScale:1};
-function clamp(n,min,max){return Math.min(Math.max(n,min),max);}
-function updateLightboxTransform(){var img=document.getElementById('lightboxImg'),level=document.getElementById('lightboxZoomLevel');if(!img)return;lb.scale=clamp(lb.scale,1,5);if(lb.scale<=1.001){lb.scale=1;lb.x=0;lb.y=0;}img.style.transform='translate3d('+lb.x+'px,'+lb.y+'px,0) scale('+lb.scale+')';if(level)level.textContent=Math.round(lb.scale*100)+'%';}
-function resetLightboxZoom(){lb.scale=1;lb.x=0;lb.y=0;updateLightboxTransform();}
-function zoomLightbox(delta,cx,cy){var old=lb.scale,next=clamp(old+delta,1,5);if(next===old)return;if(cx!=null&&cy!=null){var vw=window.innerWidth/2,vh=window.innerHeight/2;lb.x-=(cx-vw)*(next-old)/Math.max(next,1);lb.y-=(cy-vh)*(next-old)/Math.max(next,1);}lb.scale=next;updateLightboxTransform();}
-function closeLightbox(){var el=document.getElementById('lightbox'),img=document.getElementById('lightboxImg');if(el)el.classList.remove('open');if(img)img.src='';resetLightboxZoom();}
-function openLightbox(url){resetLightboxZoom();document.getElementById('lightboxImg').src=url;document.getElementById('lightbox').classList.add('open');}
-document.getElementById('lightboxClose').addEventListener('click',closeLightbox);
-document.getElementById('lightboxZoomIn').addEventListener('click',function(){zoomLightbox(.35);});
-document.getElementById('lightboxZoomOut').addEventListener('click',function(){zoomLightbox(-.35);});
-document.getElementById('lightboxZoomReset').addEventListener('click',resetLightboxZoom);
-document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox();});
-document.getElementById('lightboxViewport').addEventListener('wheel',function(e){e.preventDefault();zoomLightbox(e.deltaY<0?.25:-.25,e.clientX,e.clientY);},{passive:false});
-document.getElementById('lightboxViewport').addEventListener('mousedown',function(e){if(lb.scale<=1)return;lb.dragging=true;lb.lastX=e.clientX;lb.lastY=e.clientY;this.classList.add('dragging');});
-window.addEventListener('mousemove',function(e){if(!lb.dragging)return;lb.x+=e.clientX-lb.lastX;lb.y+=e.clientY-lb.lastY;lb.lastX=e.clientX;lb.lastY=e.clientY;updateLightboxTransform();});
-window.addEventListener('mouseup',function(){lb.dragging=false;var vp=document.getElementById('lightboxViewport');if(vp)vp.classList.remove('dragging');});
-document.getElementById('lightboxViewport').addEventListener('touchstart',function(e){if(e.touches.length===1){lb.dragging=lb.scale>1;lb.lastX=e.touches[0].clientX;lb.lastY=e.touches[0].clientY;}else if(e.touches.length===2){lb.dragging=false;lb.pinchStartDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);lb.pinchStartScale=lb.scale;}},{passive:false});
-document.getElementById('lightboxViewport').addEventListener('touchmove',function(e){if(e.touches.length===2){e.preventDefault();var dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(lb.pinchStartDist>0){lb.scale=clamp(lb.pinchStartScale*(dist/lb.pinchStartDist),1,5);updateLightboxTransform();}}else if(e.touches.length===1&&lb.dragging){e.preventDefault();var t=e.touches[0];lb.x+=t.clientX-lb.lastX;lb.y+=t.clientY-lb.lastY;lb.lastX=t.clientX;lb.lastY=t.clientY;updateLightboxTransform();}},{passive:false});
-document.getElementById('lightboxViewport').addEventListener('touchend',function(){lb.dragging=false;lb.pinchStartDist=0;});
-window.addEventListener('keydown',function(e){var el=document.getElementById('lightbox');if(!el||!el.classList.contains('open'))return;if(e.key==='Escape')closeLightbox();else if(e.key==='+'||e.key==='=')zoomLightbox(.35);else if(e.key==='-'||e.key==='_')zoomLightbox(-.35);else if(e.key==='0')resetLightboxZoom();});
+══════════════════════════════════════════════════════════════ */
+var lb = { scale:1, x:0, y:0, dragging:false, lastX:0, lastY:0, pinchStartDist:0, pinchStartScale:1 };
+function clamp(n,min,max) { return Math.min(Math.max(n,min),max); }
+function updateLightboxTransform() { var img=document.getElementById('lightboxImg'),level=document.getElementById('lightboxZoomLevel'); if(!img)return; lb.scale=clamp(lb.scale,1,5); if(lb.scale<=1.001){lb.scale=1;lb.x=0;lb.y=0;} img.style.transform='translate3d('+lb.x+'px,'+lb.y+'px,0) scale('+lb.scale+')'; if(level)level.textContent=Math.round(lb.scale*100)+'%'; }
+function resetLightboxZoom() { lb.scale=1;lb.x=0;lb.y=0;updateLightboxTransform(); }
+function zoomLightbox(delta,cx,cy) { var old=lb.scale,next=clamp(old+delta,1,5); if(next===old)return; if(cx!=null&&cy!=null){var vw=window.innerWidth/2,vh=window.innerHeight/2;lb.x-=(cx-vw)*(next-old)/Math.max(next,1);lb.y-=(cy-vh)*(next-old)/Math.max(next,1);} lb.scale=next;updateLightboxTransform(); }
+function closeLightbox() { var el=document.getElementById('lightbox'),img=document.getElementById('lightboxImg'); if(el)el.classList.remove('open'); if(img)img.src=''; resetLightboxZoom(); }
+function openLightbox(url) { resetLightboxZoom(); document.getElementById('lightboxImg').src=url; document.getElementById('lightbox').classList.add('open'); }
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('lightboxZoomIn').addEventListener('click', function() { zoomLightbox(.35); });
+document.getElementById('lightboxZoomOut').addEventListener('click', function() { zoomLightbox(-.35); });
+document.getElementById('lightboxZoomReset').addEventListener('click', resetLightboxZoom);
+document.getElementById('lightbox').addEventListener('click', function(e) { if(e.target===this)closeLightbox(); });
+document.getElementById('lightboxViewport').addEventListener('wheel', function(e) { e.preventDefault(); zoomLightbox(e.deltaY<0?.25:-.25,e.clientX,e.clientY); }, { passive:false });
+document.getElementById('lightboxViewport').addEventListener('mousedown', function(e) { if(lb.scale<=1)return; lb.dragging=true;lb.lastX=e.clientX;lb.lastY=e.clientY;this.classList.add('dragging'); });
+window.addEventListener('mousemove', function(e) { if(!lb.dragging)return; lb.x+=e.clientX-lb.lastX;lb.y+=e.clientY-lb.lastY;lb.lastX=e.clientX;lb.lastY=e.clientY;updateLightboxTransform(); });
+window.addEventListener('mouseup', function() { lb.dragging=false; var vp=document.getElementById('lightboxViewport'); if(vp)vp.classList.remove('dragging'); });
+document.getElementById('lightboxViewport').addEventListener('touchstart', function(e) { if(e.touches.length===1){lb.dragging=lb.scale>1;lb.lastX=e.touches[0].clientX;lb.lastY=e.touches[0].clientY;}else if(e.touches.length===2){lb.dragging=false;lb.pinchStartDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);lb.pinchStartScale=lb.scale;} }, { passive:false });
+document.getElementById('lightboxViewport').addEventListener('touchmove', function(e) { if(e.touches.length===2){e.preventDefault();var dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);if(lb.pinchStartDist>0){lb.scale=clamp(lb.pinchStartScale*(dist/lb.pinchStartDist),1,5);updateLightboxTransform();}}else if(e.touches.length===1&&lb.dragging){e.preventDefault();var t=e.touches[0];lb.x+=t.clientX-lb.lastX;lb.y+=t.clientY-lb.lastY;lb.lastX=t.clientX;lb.lastY=t.clientY;updateLightboxTransform();} }, { passive:false });
+document.getElementById('lightboxViewport').addEventListener('touchend', function() { lb.dragging=false;lb.pinchStartDist=0; });
+window.addEventListener('keydown', function(e) { var el=document.getElementById('lightbox'); if(!el||!el.classList.contains('open'))return; if(e.key==='Escape')closeLightbox();else if(e.key==='+'||e.key==='=')zoomLightbox(.35);else if(e.key==='-'||e.key==='_')zoomLightbox(-.35);else if(e.key==='0')resetLightboxZoom(); });
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    NEWS SYSTEM
-   مصادر محسّنة + أخبار عربية + كروشيه
-══════════════════════════════════════════ */
-
-/* أفضل مصادر تقنية تدعم RSS عربي وإنجليزي */
+══════════════════════════════════════════════════════════════ */
 var NEWS_SOURCES = [
-  {name:'عرب هاردوير', rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Farabhardware.net%2Ffeed', lang:'ar'},
-  {name:'The Verge',    rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.theverge.com%2Frss%2Findex.xml', lang:'en'},
-  {name:'TechCrunch',  rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ftechcrunch.com%2Ffeed%2F', lang:'en'},
-  {name:'Ars Technica',rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Farstechnica.com%2Ffeed%2F', lang:'en'}
+  { name:'عرب هاردوير', rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Farabhardware.net%2Ffeed', lang:'ar' },
+  { name:'The Verge',    rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.theverge.com%2Frss%2Findex.xml', lang:'en' },
+  { name:'TechCrunch',  rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ftechcrunch.com%2Ffeed%2F', lang:'en' },
+  { name:'Ars Technica', rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Farstechnica.com%2Ffeed%2F', lang:'en' }
 ];
 
-/* كروت كروشيه ثابتة */
 var CROCHET_CARDS = [
-  {tag:'كروشيه',title:'أجمل قطع الكروشيه الترند على Pinterest و Instagram هذا الأسبوع',desc:'قطع يدوية رائعة من صنع هواة ومحترفين أبهرت الجمهور وصارت مصدر إلهام واسع.',source:'Pinterest Crochet',url:'https://www.pinterest.com/search/pins/?q=crochet+trending',img:'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=80',emoji:'🧶',tagCls:'t-crochet'},
-  {tag:'Handmade',title:'Hand Made Crochet — أعمال يدوية تتحول إلى مشاريع صغيرة مربحة',desc:'كيف تحوّل قطعة كروشيه مصنوعة بالبيت إلى مصدر دخل إضافي عبر الإنترنت.',source:'Etsy Handmade',url:'https://www.etsy.com/search?q=handmade+crochet',img:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=900&q=80',emoji:'🪡',tagCls:'t-crochet'},
-  {tag:'كروشيه',title:'باترونات كروشيه مجانية ترند في مجتمع الكروشيه العربي',desc:'أكثر الباترونات تحميلاً هذا الشهر: بطانيات، حقائب، قبعات، وديكورات منزلية.',source:'Ravelry Arabic',url:'https://www.ravelry.com/patterns/search#craft=crochet&sort=popularity',img:'https://images.unsplash.com/photo-1607081692251-c0bab3a1cd4a?auto=format&fit=crop&w=900&q=80',emoji:'🎀',tagCls:'t-crochet'}
+  { tag:'كروشيه', title:'أجمل قطع الكروشيه الترند على Pinterest و Instagram هذا الأسبوع', desc:'قطع يدوية رائعة من صنع هواة ومحترفين أبهرت الجمهور وصارت مصدر إلهام واسع.', source:'Pinterest Crochet', url:'https://www.pinterest.com/search/pins/?q=crochet+trending', img:'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=80', emoji:'🧶', tagCls:'t-crochet' },
+  { tag:'Handmade', title:'Hand Made Crochet — أعمال يدوية تتحول إلى مشاريع صغيرة مربحة', desc:'كيف تحوّل قطعة كروشيه مصنوعة بالبيت إلى مصدر دخل إضافي عبر الإنترنت.', source:'Etsy Handmade', url:'https://www.etsy.com/search?q=handmade+crochet', img:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=900&q=80', emoji:'🪡', tagCls:'t-crochet' },
+  { tag:'كروشيه', title:'باترونات كروشيه مجانية ترند في مجتمع الكروشيه العربي', desc:'أكثر الباترونات تحميلاً هذا الشهر: بطانيات، حقائب، قبعات، وديكورات منزلية.', source:'Ravelry Arabic', url:'https://www.ravelry.com/patterns/search#craft=crochet&sort=popularity', img:'https://images.unsplash.com/photo-1607081692251-c0bab3a1cd4a?auto=format&fit=crop&w=900&q=80', emoji:'🎀', tagCls:'t-crochet' }
 ];
 
-var TAG_CLASS_MAP={'ذكاء اصطناعي':'t-ai','AI':'t-ai','عرب هاردوير':'t-hw','The Verge':'t-net','TechCrunch':'t-net','Ars Technica':'t-net','هواتف':'t-mobile','برامج':'t-soft','أمن':'t-sec','كروشيه':'t-crochet','Handmade':'t-crochet'};
-function tagClass(tag){return TAG_CLASS_MAP[tag]||'t-ai';}
+var TAG_CLASS_MAP = { 'ذكاء اصطناعي':'t-ai','AI':'t-ai','عرب هاردوير':'t-hw','The Verge':'t-net','TechCrunch':'t-net','Ars Technica':'t-net','هواتف':'t-mobile','برامج':'t-soft','أمن':'t-sec','كروشيه':'t-crochet','Handmade':'t-crochet' };
+function tagClass(tag) { return TAG_CLASS_MAP[tag] || 't-ai'; }
 
-var trendingNews = [];
+var TECH_KEYWORDS = ['AI','OpenAI','Google','Microsoft','Apple','NVIDIA','ChatGPT','GPU','Windows','Android','iPhone','RTX','LLM','GPT','Gemini','Claude','Meta','Samsung','ذكاء اصطناعي','هاتف','تطبيق','معالج','ثغرة','أمن','تحديث','إطلاق','برنامج','حاسوب','شاشة','بطارية','كاميرا','تقنية'];
 
-/* ترجمة العنوان والوصف إلى العربية عبر MyMemory */
-function translateToArabic(text){
-  if(!text||!text.trim())return Promise.resolve('');
-  /* تحقق من اللغة: إذا كانت تحتوي على عربية بالفعل */
-  if(/[\u0600-\u06FF]/.test(text))return Promise.resolve(text);
-  var short=text.slice(0,400);
+function translateToArabic(text) {
+  if(!text||!text.trim()) return Promise.resolve('');
+  if(/[\u0600-\u06FF]/.test(text)) return Promise.resolve(text);
+  var short = text.slice(0, 400);
   return fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(short)+'&langpair=en|ar')
     .then(function(r){return r.json();})
     .then(function(j){return(j.responseData&&j.responseData.translatedText)||text;})
     .catch(function(){return text;});
 }
 
-async function initializeDynamicNewsBoard(){
+async function initializeDynamicNewsBoard() {
   renderLoadingNewsCards();
-  try{
-    var allNews=[];
-    for(var i=0;i<NEWS_SOURCES.length;i++){
-      try{
-        var source=NEWS_SOURCES[i];
-        var response=await fetch(source.rss);
-        var data=await response.json();
-        if(data.items){
-          for(var j=0;j<Math.min(data.items.length,8);j++){
-            var item=data.items[j];
-            var title=item.title||'';
-            var desc=stripHtmlFromNews(item.description||'').slice(0,300);
-            /* ترجمة العناوين الإنجليزية */
-            if(source.lang==='en'){
-              title=await translateToArabic(title);
-              desc=await translateToArabic(desc);
+  try {
+    var allNews = [];
+    for (var i = 0; i < NEWS_SOURCES.length; i++) {
+      try {
+        var source = NEWS_SOURCES[i];
+        var response = await fetch(source.rss);
+        var data = await response.json();
+        if (data.items) {
+          for (var j = 0; j < Math.min(data.items.length, 8); j++) {
+            var item = data.items[j];
+            var title = item.title || '';
+            var desc = stripHtmlFromNews(item.description || '').slice(0, 300);
+            if (source.lang === 'en') {
+              title = await translateToArabic(title);
+              desc = await translateToArabic(desc);
             }
-            allNews.push({source:source.name,title:title,link:item.link,image:item.thumbnail||extractImageFromDescription(item.description)||'',date:item.pubDate,description:desc});
+            allNews.push({ source:source.name, title:title, link:item.link, image:item.thumbnail||extractImageFromDescription(item.description)||'', date:item.pubDate, description:desc });
           }
         }
-      }catch(sourceError){console.error('Failed source:',NEWS_SOURCES[i].name,sourceError);}
+      } catch(sourceError) { console.error('Failed source:', NEWS_SOURCES[i].name, sourceError); }
     }
-    trendingNews=filterTrendingTechNews(allNews);
-    trendingNews.sort(function(a,b){return new Date(b.date)-new Date(a.date);});
-    trendingNews=removeDuplicateNews(trendingNews);
-    renderNewsCardsToDOM(trendingNews);
-  }catch(error){
+    var trending = filterTrendingTechNews(allNews);
+    trending.sort(function(a,b){return new Date(b.date)-new Date(a.date);});
+    trending = removeDuplicateNews(trending);
+    renderNewsCardsToDOM(trending);
+  } catch(error) {
     console.error(error);
     renderNewsCards(buildFallbackCards());
   }
 }
 
-function renderLoadingNewsCards(){
-  var cm=document.getElementById('chatMessages');if(!cm)return;
-  cm.innerHTML='<div class="public-news-board"><div class="news-board-header"><span class="news-board-title"><span class="news-board-title-icon">📡</span> الترندات التقنية والكروشيه</span><span class="news-board-subtitle"><span class="news-live-dot"></span>تحديث مباشر</span></div><div class="news-cards-grid"><div class="news-card loading-news">⏳ جاري تحميل أحدث الأخبار...</div></div></div>';
+function renderLoadingNewsCards() {
+  var cm = document.getElementById('chatMessages'); if(!cm)return;
+  cm.innerHTML = '<div class="public-news-board"><div class="news-board-header"><span class="news-board-title"><span class="news-board-title-icon">📡</span> الترندات التقنية والكروشيه</span><span class="news-board-subtitle"><span class="news-live-dot"></span>تحديث مباشر</span></div><div class="news-cards-grid"><div class="news-card loading-news">⏳ جاري تحميل أحدث الأخبار...</div></div></div>';
 }
 
-var TECH_KEYWORDS=['AI','OpenAI','Google','Microsoft','Apple','NVIDIA','ChatGPT','GPU','Windows','Android','iPhone','RTX','LLM','GPT','Gemini','Claude','Meta','Samsung','ذكاء اصطناعي','هاتف','تطبيق','معالج','ثغرة','أمن','تحديث','إطلاق','برنامج','حاسوب','شاشة','بطارية','كاميرا','تقنية'];
-function filterTrendingTechNews(news){return news.filter(function(item){var text=((item.title||'')+' '+(item.description||'')).toLowerCase();return TECH_KEYWORDS.some(function(kw){return text.indexOf(kw.toLowerCase())!==-1;});});}
-function removeDuplicateNews(news){var seen=[];return news.filter(function(item){var normalized=item.title.toLowerCase().trim();if(seen.indexOf(normalized)!==-1)return false;seen.push(normalized);return true;});}
+function filterTrendingTechNews(news) { return news.filter(function(item){var text=((item.title||'')+' '+(item.description||'')).toLowerCase();return TECH_KEYWORDS.some(function(kw){return text.indexOf(kw.toLowerCase())!==-1;});}); }
+function removeDuplicateNews(news) { var seen=[];return news.filter(function(item){var normalized=item.title.toLowerCase().trim();if(seen.indexOf(normalized)!==-1)return false;seen.push(normalized);return true;}); }
 
-function renderNewsCardsToDOM(news){
-  var nowStr=new Date().toLocaleDateString('ar-IQ',{month:'long',day:'numeric'});
-  var container=document.getElementById('chatMessages');if(!container)return;
-
-  /* دمج أخبار تقنية + كروت كروشيه */
-  var allCards=[];
-  var techSlice=news.slice(0,7);
-  /* أضف كرت كروشيه بعد كل 3 أخبار */
-  var crochetIdx=0;
-  techSlice.forEach(function(article,i){
-    allCards.push({type:'tech',data:article});
-    if((i+1)%3===0&&crochetIdx<CROCHET_CARDS.length){allCards.push({type:'crochet',data:CROCHET_CARDS[crochetIdx++]});}
+function renderNewsCardsToDOM(news) {
+  var nowStr = new Date().toLocaleDateString('ar-IQ',{month:'long',day:'numeric'});
+  var container = document.getElementById('chatMessages'); if(!container)return;
+  var allCards = [];
+  var techSlice = news.slice(0, 7);
+  var crochetIdx = 0;
+  techSlice.forEach(function(article, i) {
+    allCards.push({ type:'tech', data:article });
+    if ((i+1) % 3 === 0 && crochetIdx < CROCHET_CARDS.length) { allCards.push({ type:'crochet', data:CROCHET_CARDS[crochetIdx++] }); }
   });
-  /* أضف باقي كروت الكروشيه */
-  while(crochetIdx<CROCHET_CARDS.length){allCards.push({type:'crochet',data:CROCHET_CARDS[crochetIdx++]});}
+  while (crochetIdx < CROCHET_CARDS.length) { allCards.push({ type:'crochet', data:CROCHET_CARDS[crochetIdx++] }); }
 
-  var html='<div class="public-news-board"><div class="news-board-header"><span class="news-board-title"><span class="news-board-title-icon">📡</span> أحدث الترندات</span><span class="news-board-subtitle"><span class="news-live-dot"></span>مباشر · '+escHtml(nowStr)+'</span></div><div class="news-cards-grid">';
-
-  allCards.forEach(function(card){
-    if(card.type==='crochet'){
-      var n=card.data;
-      var ndata=encodeURIComponent(JSON.stringify({title:n.title,desc:n.desc,url:n.url,img:n.img,tag:n.tag,source:n.source,emoji:n.emoji}));
-      html+='<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0">';
-      html+='<div class="news-thumb-wrap"><img class="news-thumb" src="'+escHtml(n.img)+'" alt="" loading="lazy"/><div class="news-thumb-gradient"></div><span class="news-source-badge-img">'+escHtml(n.source)+'</span></div>';
-      html+='<div class="news-card-body"><div class="news-card-top"><span class="news-tag '+n.tagCls+'">'+escHtml(n.tag)+'</span></div><div class="news-title">'+escHtml(n.title)+'</div><div class="news-desc">'+escHtml(n.desc)+'</div><div class="news-card-footer"><span class="news-source-dot" style="background:#ffb6c1"></span><span class="news-source-name">'+escHtml(n.source)+'</span><span class="news-read-chip">قراءة ›</span></div></div></div>';
+  var html = '<div class="public-news-board"><div class="news-board-header"><span class="news-board-title"><span class="news-board-title-icon">📡</span> أحدث الترندات</span><span class="news-board-subtitle"><span class="news-live-dot"></span>مباشر · '+escHtml(nowStr)+'</span></div><div class="news-cards-grid">';
+  allCards.forEach(function(card) {
+    if (card.type === 'crochet') {
+      var n = card.data;
+      var ndata = encodeURIComponent(JSON.stringify({title:n.title,desc:n.desc,url:n.url,img:n.img,tag:n.tag,source:n.source,emoji:n.emoji}));
+      html += '<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0">';
+      html += '<div class="news-thumb-wrap"><img class="news-thumb" src="'+escHtml(n.img)+'" alt="" loading="lazy"/><div class="news-thumb-gradient"></div><span class="news-source-badge-img">'+escHtml(n.source)+'</span></div>';
+      html += '<div class="news-card-body"><div class="news-card-top"><span class="news-tag '+n.tagCls+'">'+escHtml(n.tag)+'</span></div><div class="news-title">'+escHtml(n.title)+'</div><div class="news-desc">'+escHtml(n.desc)+'</div><div class="news-card-footer"><span class="news-source-dot" style="background:#ffb6c1"></span><span class="news-source-name">'+escHtml(n.source)+'</span><span class="news-read-chip">قراءة ›</span></div></div></div>';
     } else {
-      var article=card.data;
-      var img=article.image||fallbackTechImage(article);
-      var ndata=encodeURIComponent(JSON.stringify({title:cleanTitle(article.title||''),desc:article.description||'',url:article.link||'#',img:img,tag:article.source||'تقنية',source:article.source||'',emoji:'📰',fullText:''}));
-      var tc=tagClass(article.source||'');
-      html+='<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0">';
-      html+='<div class="news-thumb-wrap">';
-      if(img)html+='<img class="news-thumb" src="'+escHtml(img)+'" alt="" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'"/>';
-      html+='<div class="news-thumb-gradient"></div><span class="news-source-badge-img">'+escHtml(article.source||'مصدر')+'</span></div>';
-      html+='<div class="news-card-body"><div class="news-card-top"><span class="news-tag '+tc+'">'+escHtml(article.source||'تقنية')+'</span><span class="news-date-badge">'+formatRelativeTime(article.date)+'</span></div>';
-      html+='<div class="news-title">'+escHtml(cleanTitle(article.title||'خبر تقني'))+'</div>';
-      if(article.description)html+='<div class="news-desc">'+escHtml(article.description)+'</div>';
-      html+='<div class="news-card-footer"><span class="news-source-dot"></span><span class="news-source-name">'+escHtml(article.source||'مصدر')+'</span><span class="news-read-chip">اقرأ الخبر ›</span></div></div></div>';
+      var article = card.data;
+      var img = article.image || fallbackTechImage(article);
+      var ndata = encodeURIComponent(JSON.stringify({title:cleanTitle(article.title||''),desc:article.description||'',url:article.link||'#',img:img,tag:article.source||'تقنية',source:article.source||'',emoji:'📰',fullText:''}));
+      var tc = tagClass(article.source || '');
+      html += '<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0">';
+      html += '<div class="news-thumb-wrap">';
+      if(img) html += '<img class="news-thumb" src="'+escHtml(img)+'" alt="" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'"/>';
+      html += '<div class="news-thumb-gradient"></div><span class="news-source-badge-img">'+escHtml(article.source||'مصدر')+'</span></div>';
+      html += '<div class="news-card-body"><div class="news-card-top"><span class="news-tag '+tc+'">'+escHtml(article.source||'تقنية')+'</span><span class="news-date-badge">'+formatRelativeTime(article.date)+'</span></div>';
+      html += '<div class="news-title">'+escHtml(cleanTitle(article.title||'خبر تقني'))+'</div>';
+      if(article.description) html += '<div class="news-desc">'+escHtml(article.description)+'</div>';
+      html += '<div class="news-card-footer"><span class="news-source-dot"></span><span class="news-source-name">'+escHtml(article.source||'مصدر')+'</span><span class="news-read-chip">اقرأ الخبر ›</span></div></div></div>';
     }
   });
-  html+='</div></div>';
-  container.innerHTML=html;
+  html += '</div></div>';
+  container.innerHTML = html;
 }
 
-function stripHtmlFromNews(html){var div=document.createElement('div');div.innerHTML=html;return div.textContent||'';}
-function extractImageFromDescription(html){var match=String(html||'').match(/<img.*?src=["'](.*?)["']/i);return match?match[1]:'';}
-function formatRelativeTime(date){if(!date)return'';var d=new Date(date);if(isNaN(d))return'';var diff=Math.floor((Date.now()-d)/1000);if(diff<60)return'الآن';if(diff<3600)return Math.floor(diff/60)+' د';if(diff<86400)return Math.floor(diff/3600)+' س';return d.toLocaleDateString('ar');}
-function cleanTitle(s){return String(s||'').replace(/\s+-\s+[^-]{2,80}$/,'').replace(/<!\[CDATA\[|\]\]>/g,'').trim();}
-function fallbackTechImage(n){var text=((n&&n.title)||'')+' '+((n&&n.source)||'');if(/ذكاء|AI|اصطناعي|chatgpt|claude|llm/i.test(text))return'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80';if(/هاتف|آيفون|أندرويد|سامسونج|iphone|android/i.test(text))return'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80';if(/ويندوز|حاسوب|كمبيوتر|معالج|windows|processor/i.test(text))return'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80';if(/أمن|اختراق|ثغرة|حماية|security|hack/i.test(text))return'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80';if(/تطبيق|app|واتساب|يوتيوب/i.test(text))return'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=80';return'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80';}
+function stripHtmlFromNews(html) { var div=document.createElement('div');div.innerHTML=html;return div.textContent||''; }
+function extractImageFromDescription(html) { var match=String(html||'').match(/<img.*?src=["'](.*?)["']/i);return match?match[1]:''; }
+function formatRelativeTime(date) { if(!date)return''; var d=new Date(date);if(isNaN(d))return''; var diff=Math.floor((Date.now()-d)/1000); if(diff<60)return'الآن'; if(diff<3600)return Math.floor(diff/60)+' د'; if(diff<86400)return Math.floor(diff/3600)+' س'; return d.toLocaleDateString('ar'); }
+function cleanTitle(s) { return String(s||'').replace(/\s+-\s+[^-]{2,80}$/,'').replace(/<!\[CDATA\[|\]\]>/g,'').trim(); }
+function fallbackTechImage(n) { var text=((n&&n.title)||'')+' '+((n&&n.source)||''); if(/ذكاء|AI|اصطناعي|chatgpt|claude|llm/i.test(text))return'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80'; if(/هاتف|آيفون|أندرويد|سامسونج|iphone|android/i.test(text))return'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80'; if(/ويندوز|حاسوب|كمبيوتر|معالج|windows|processor/i.test(text))return'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80'; if(/أمن|اختراق|ثغرة|حماية|security|hack/i.test(text))return'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80'; if(/تطبيق|app|واتساب|يوتيوب/i.test(text))return'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=80'; return'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80'; }
 
-/* فتح نافذة الخبر */
-async function openNewsPreview(ndataEncoded){
-  var data;try{data=JSON.parse(decodeURIComponent(ndataEncoded));}catch(e){return;}
-  var existing=document.getElementById('newsPreviewOverlay');
-  if(!existing){
+async function openNewsPreview(ndataEncoded) {
+  var data; try{data=JSON.parse(decodeURIComponent(ndataEncoded));}catch(e){return;}
+  var existing = document.getElementById('newsPreviewOverlay');
+  if (!existing) {
     var ov=document.createElement('div');ov.id='newsPreviewOverlay';ov.className='news-preview-overlay';
     ov.innerHTML='<div class="news-preview-sheet" id="newsPreviewSheet"></div>';
     ov.addEventListener('click',function(e){if(e.target===ov)closeNewsPreview();});
@@ -1295,56 +1752,32 @@ async function openNewsPreview(ndataEncoded){
   fetchFullNewsContent(data);
 }
 
-function closeNewsPreview(){var ov=document.getElementById('newsPreviewOverlay');if(ov)ov.classList.remove('show');}
+function closeNewsPreview() { var ov=document.getElementById('newsPreviewOverlay'); if(ov)ov.classList.remove('show'); }
 
-/* جلب النص الكامل للخبر عبر Claude AI */
-function fetchFullNewsContent(data){
-  var summaryEl=document.getElementById('newsPreviewSummary');if(!summaryEl)return;
+function fetchFullNewsContent(data) {
+  var summaryEl=document.getElementById('newsPreviewSummary'); if(!summaryEl)return;
   var descContent=String(data.desc||'').trim();
   var hasDesc=descContent.length>120;
-
-  /* إذا كان لدينا محتوى كافٍ، نعرضه ونطلب من AI قراءة الرابط للحصول على النص الكامل */
   var prompt=hasDesc
     ?'أنت مساعد إخباري عربي. المطلوب: اقرأ رابط الخبر التالي واجلب نصه الكامل وترجمه للعربية واعرضه كاملاً بدون اختصار.\n\nعنوان الخبر: '+String(data.title||'')+'\nرابط الخبر: '+String(data.url||'')+'\n\nإذا لم تستطع قراءة الرابط، اعتمد على الوصف التالي وأكمل الخبر وترجمه:\n'+descContent+'\n\nأجب باللغة العربية فقط. لا تستخدم Markdown.'
     :'أنت مساعد إخباري عربي. اقرأ رابط الخبر التالي واجلب نصه الكامل وترجمه للعربية.\n\nعنوان: '+String(data.title||'')+'\nرابط: '+String(data.url||'')+'\n\nأجب باللغة العربية فقط. لا تستخدم Markdown.';
-
-  var body={
-    model:'claude-sonnet-4-20250514',
-    max_tokens:1500,
-    tools:[{type:'web_search_20250305',name:'web_search'}],
-    messages:[{role:'user',content:prompt}]
-  };
-
   fetch('https://api.anthropic.com/v1/messages',{
     method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'x-api-key':'YOUR_ANTHROPIC_API_KEY',
-      'anthropic-version':'2023-06-01',
-      'anthropic-beta':'interleaved-thinking-2025-05-14'
-    },
-    body:JSON.stringify(body)
+    headers:{'Content-Type':'application/json','x-api-key':'YOUR_ANTHROPIC_API_KEY','anthropic-version':'2023-06-01'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})
   }).then(function(r){return r.json();})
   .then(function(j){
     var text=(j.content||[]).filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('').trim();
     var el=document.getElementById('newsPreviewSummary');
-    if(el){
-      el.className='news-preview-content-text';
-      el.textContent=text||descContent||'افتح المصدر لقراءة التفاصيل الكاملة.';
-    }
+    if(el){el.className='news-preview-content-text';el.textContent=text||descContent||'افتح المصدر لقراءة التفاصيل الكاملة.';}
   }).catch(function(){
-    /* Fallback: عرض الوصف المتوفر */
     var el=document.getElementById('newsPreviewSummary');
-    if(el){
-      el.className='news-preview-content-text';
-      el.textContent=descContent||'افتح المصدر الأصلي لقراءة الخبر كاملاً.';
-    }
+    if(el){el.className='news-preview-content-text';el.textContent=descContent||'افتح المصدر الأصلي لقراءة الخبر كاملاً.';}
   });
 }
 
-/* كروت احتياطية */
-function buildFallbackCards(){
-  return[
+function buildFallbackCards() {
+  return [
     {tag:'ذكاء اصطناعي',title:'أحدث نماذج الذكاء الاصطناعي التي تغيّر طريقة العمل اليومي',desc:'تحديثات GPT-4o وClaude وGemini وما تقدمه من مزايا للمستخدم العادي.',source:'متابعة تقنية',url:'https://news.google.com/search?q=artificial+intelligence+2025&hl=ar',img:'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80',emoji:'🤖'},
     {tag:'هواتف',title:'أبرز تحديثات iOS وAndroid وما الجديد لمستخدمي الهواتف',desc:'ميزات جديدة، تحسينات بطارية، وإصلاحات أمنية مهمة في آخر التحديثات.',source:'أخبار تقنية',url:'https://news.google.com/search?q=iOS+Android+update+2025&hl=ar',img:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80',emoji:'📱'},
     {tag:'كروشيه',title:'أجمل قطع الكروشيه الترند هذا الأسبوع',desc:'قطع يدوية رائعة من صنع هواة ومحترفين أبهرت الجمهور.',source:'Pinterest Crochet',url:'https://www.pinterest.com/search/pins/?q=crochet+trending',img:'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=80',emoji:'🧶'},
@@ -1354,43 +1787,57 @@ function buildFallbackCards(){
   ];
 }
 
-function renderNewsCards(cards){
-  var cm=document.getElementById('chatMessages');if(!cm)return;
-  var nowStr=new Date().toLocaleDateString('ar-IQ',{month:'long',day:'numeric'});
-  var html='<div class="public-news-board"><div class="news-board-header"><span class="news-board-title"><span class="news-board-title-icon">📡</span> الترندات التقنية والكروشيه</span><span class="news-board-subtitle"><span class="news-live-dot"></span>مباشر · '+escHtml(nowStr)+'</span></div><div class="news-cards-grid">';
-  (cards||[]).slice(0,12).forEach(function(n){
-    var img=n.img||fallbackTechImage(n);
-    var ndata=encodeURIComponent(JSON.stringify({title:cleanTitle(n.title||''),desc:n.desc||'',url:n.url||'#',img:img,tag:n.tag||'تقنية',source:n.source||'',emoji:n.emoji||'📰'}));
-    var tc=n.tagCls||tagClass(n.tag||'');
-    html+='<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0">';
-    html+='<div class="news-thumb-wrap"><img class="news-thumb" src="'+escHtml(img)+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\''+escHtml(fallbackTechImage(n))+'\'"/><div class="news-thumb-gradient"></div><span class="news-source-badge-img">'+escHtml(n.source||'مصدر')+'</span></div>';
-    html+='<div class="news-card-body"><div class="news-card-top"><span class="news-tag '+tc+'">'+escHtml(n.tag||'تقنية')+'</span></div><div class="news-title">'+escHtml(cleanTitle(n.title||'خبر'))+'</div>';
-    if(n.desc)html+='<div class="news-desc">'+escHtml(n.desc)+'</div>';
-    html+='<div class="news-card-footer"><span class="news-source-dot"></span><span class="news-source-name">'+escHtml(n.source||'مصدر')+'</span><span class="news-read-chip">اقرأ ›</span></div></div></div>';
+function renderNewsCards(cards) {
+  var cm = document.getElementById('chatMessages'); if(!cm)return;
+  var nowStr = new Date().toLocaleDateString('ar-IQ',{month:'long',day:'numeric'});
+  var html = '<div class="public-news-board"><div class="news-board-header"><span class="news-board-title"><span class="news-board-title-icon">📡</span> الترندات التقنية والكروشيه</span><span class="news-board-subtitle"><span class="news-live-dot"></span>مباشر · '+escHtml(nowStr)+'</span></div><div class="news-cards-grid">';
+  (cards||[]).slice(0,12).forEach(function(n) {
+    var img = n.img || fallbackTechImage(n);
+    var ndata = encodeURIComponent(JSON.stringify({title:cleanTitle(n.title||''),desc:n.desc||'',url:n.url||'#',img:img,tag:n.tag||'تقنية',source:n.source||'',emoji:n.emoji||'📰'}));
+    var tc = n.tagCls || tagClass(n.tag || '');
+    html += '<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0">';
+    html += '<div class="news-thumb-wrap"><img class="news-thumb" src="'+escHtml(img)+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\''+escHtml(fallbackTechImage(n))+'\'"/><div class="news-thumb-gradient"></div><span class="news-source-badge-img">'+escHtml(n.source||'مصدر')+'</span></div>';
+    html += '<div class="news-card-body"><div class="news-card-top"><span class="news-tag '+tc+'">'+escHtml(n.tag||'تقنية')+'</span></div><div class="news-title">'+escHtml(cleanTitle(n.title||'خبر'))+'</div>';
+    if(n.desc) html += '<div class="news-desc">'+escHtml(n.desc)+'</div>';
+    html += '<div class="news-card-footer"><span class="news-source-dot"></span><span class="news-source-name">'+escHtml(n.source||'مصدر')+'</span><span class="news-read-chip">اقرأ ›</span></div></div></div>';
   });
-  html+='</div></div>';
-  cm.innerHTML=html;
+  html += '</div></div>';
+  cm.innerHTML = html;
 }
 
-function renderPublicNewsCards(){
-  isChatUnlocked=false;document.body.classList.add('chat-locked');document.body.classList.remove('chat-unlocked');
-  if(unsubMessages){try{unsubMessages();}catch(e){}unsubMessages=null;}
+/**
+ * عرض الأخبار في حاوية الرسائل — فقط عندما يكون المستخدم غير مُسجّل الدخول.
+ * لا تلمس الحاوية إذا كانت المحادثة مفتوحة.
+ */
+function renderPublicNewsCards() {
+  if (state.current === AppState.UNLOCKED) return; /* لا تبدّل إذا المحادثة مفتوحة */
   initializeDynamicNewsBoard();
-  setTimeout(function(){var cm=document.getElementById('chatMessages');if(cm&&cm.querySelector('.loading-news')){renderNewsCards(buildFallbackCards());}},8000);
+  /* Fallback إذا لم تكتمل الأخبار خلال 8 ثوانٍ */
+  setTimeout(function() {
+    if (state.current === AppState.UNLOCKED) return;
+    var cm = document.getElementById('chatMessages');
+    if (cm && cm.querySelector('.loading-news')) renderNewsCards(buildFallbackCards());
+  }, 8000);
 }
 
-/* تحديث كل 15 دقيقة */
-setInterval(function(){if(!isChatUnlocked){initializeDynamicNewsBoard();}},900000);
+/* تحديث كل 15 دقيقة — فقط إذا كانت المحادثة مقفلة */
+setInterval(function() {
+  if (state.current !== AppState.UNLOCKED) renderPublicNewsCards();
+}, 900000);
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    INSTAGRAM WEBVIEW
-══════════════════════════════════════════ */
-(function(){if(/Instagram/i.test(navigator.userAgent||''))document.body.classList.add('is-instagram-webview');})();
+══════════════════════════════════════════════════════════════ */
+(function() {
+  if (/Instagram/i.test(navigator.userAgent || '')) document.body.classList.add('is-instagram-webview');
+})();
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════
    ON LOAD
-══════════════════════════════════════════ */
-window.addEventListener('load',function(){setTimeout(function(){initPlyrIn(document);processSocialEmbeds();},350);});
+══════════════════════════════════════════════════════════════ */
+window.addEventListener('load', function() {
+  setTimeout(function() { initPlyrIn(document); processSocialEmbeds(); }, 350);
+});
 </script>
 </body>
 </html>
