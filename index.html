@@ -67,6 +67,25 @@ a:hover{text-decoration:underline}
 .chat-messages{padding-bottom:2px}
 
 /* ═══════════════════════════════════════════
+   NEWS CONTAINER — مستقلة تماماً عن حاوية الرسائل
+═══════════════════════════════════════════ */
+.news-container{
+  position:absolute;
+  top:36px;left:5px;right:5px;bottom:68px;
+  overflow-y:auto;overflow-x:hidden;
+  background:#0f1120;
+  display:none; /* مخفية افتراضياً */
+  scrollbar-width:thin;
+  scrollbar-color:rgba(110,142,251,.3) rgba(110,142,251,.05)
+}
+.news-container::-webkit-scrollbar{width:8px;background:rgba(110,142,251,.05)}
+.news-container::-webkit-scrollbar-thumb{border-radius:8px;background-color:rgba(110,142,251,.3)}
+
+/* تظهر حاوية الأخبار فقط في وضع القفل */
+body.chat-locked .news-container{display:block !important}
+body.chat-unlocked .news-container{display:none !important}
+
+/* ═══════════════════════════════════════════
    CONTACTS / PRESENCE SIDEBAR
 ═══════════════════════════════════════════ */
 .chat-contacts-container{position:absolute;right:5px;width:125px;top:36px;bottom:92px;overflow-x:hidden;overflow-y:auto;background:#252836}
@@ -76,22 +95,38 @@ a:hover{text-decoration:underline}
 .chat-online-count{position:absolute;top:6px;left:8px;font-size:12px;font-weight:700;color:#91cc00}
 
 /* ═══════════════════════════════════════════
-   INPUT AREA
+   INPUT AREA — Fixed height, لا يمتد للأسفل
 ═══════════════════════════════════════════ */
 .chat-input-container{
   position:absolute;bottom:0;height:68px;left:0;right:0;
-  background:#0d0d0e;z-index:30
+  background:#0d0d0e;z-index:30;
+  /* منع أي امتداد */
+  overflow:hidden;
+  flex-shrink:0;
 }
-.chat-input-wrapper{position:absolute;top:10px;bottom:10px;left:10px;right:10px}
+.chat-input-wrapper{
+  position:absolute;
+  top:10px;bottom:10px;left:10px;right:10px;
+  /* حجم ثابت */
+  height:48px;
+  overflow:hidden;
+}
+/* الـ textarea بارتفاع ثابت — لا يكبر عند الكتابة */
 .chat-input,.chat-textarea{
-  position:absolute;border-radius:8px;top:0;left:0;
+  position:absolute;
+  top:0;left:0;
   width:100%;height:100%;
-  border:1px solid #333650;margin:0;padding:8px 12px;
-  overflow:auto;overflow-x:hidden;
-  font-size:15px;background:#252836;color:#fff;
+  border-radius:8px;
+  border:1px solid #333650;
+  margin:0;
+  padding:8px 12px;
+  overflow-y:auto;overflow-x:hidden;
+  font-size:15px;
+  background:#252836;color:#fff;
   resize:none;outline:none;line-height:1.4;
-  box-sizing:border-box;transition:border-color .15s;
-  min-height:48px;max-height:100px;display:block
+  box-sizing:border-box;
+  transition:border-color .15s;
+  /* لا max-height، لا min-height تغيّر الحجم */
 }
 .chat-input:focus,.chat-textarea:focus{border-color:#5a5f7e}
 .chat-input::placeholder,.chat-textarea::placeholder{color:#8d91a8}
@@ -270,7 +305,8 @@ body.chat-unlocked .chat-footer-clear-button.show{display:flex!important}
 body.chat-locked .chat-contacts-container,
 body.chat-locked .chat-contacts-divider,
 body.chat-locked .chat-contacts-banner{display:none!important}
-body.chat-locked .chat-messages-container{right:5px!important}
+/* في وضع القفل، حاوية الرسائل مخفية والأخبار ظاهرة */
+body.chat-locked .chat-messages-container{display:none!important}
 
 /* ═══════════════════════════════════════════
    TYPING BAR
@@ -330,17 +366,64 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 .msg-reply-text{display:block;color:#dfe3f4;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* ═══════════════════════════════════════════
-   UPLOAD PROGRESS
+   UPLOAD PROGRESS — Progress Bar Style
 ═══════════════════════════════════════════ */
 .upload-progress-wrap{
-  position:fixed;left:15px;bottom:8px;width:130px;height:20px;
-  z-index:520;background:transparent;border:0;color:#8a8fac;display:none;overflow:hidden
+  position:fixed;left:0;right:0;bottom:0;height:3px;
+  z-index:520;background:transparent;border:0;display:none;overflow:hidden
 }
-.upload-progress-top{display:flex;align-items:center;justify-content:space-between;gap:5px;height:11px;line-height:11px}
-.upload-progress-label{font-size:9px;color:#8a8fac;max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.upload-progress-pct{font-size:9px;color:#91cc00;font-weight:700}
-.upload-progress-bar{height:3px;margin-top:3px;background:#252836;border-radius:3px;overflow:hidden}
-.upload-progress-fill{height:100%;width:0%;background:#91cc00;border-radius:3px;transition:width .18s linear}
+/* شريط تقدم الرسائل — في أعلى chat-input-container */
+.msgs-load-progress-wrap{
+  position:absolute;top:0;left:0;right:0;height:3px;
+  z-index:40;background:transparent;display:none;overflow:hidden
+}
+.msgs-load-progress-bar{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#6e8efb,#91cc00,#6e8efb);
+  background-size:200% 100%;
+  border-radius:0;
+  transition:width .25s ease;
+  animation:progressShimmer 1.5s linear infinite
+}
+@keyframes progressShimmer{
+  0%{background-position:100% 0}
+  100%{background-position:-100% 0}
+}
+.upload-progress-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#6e8efb,#91cc00);
+  border-radius:0;
+  transition:width .18s linear
+}
+/* نص نسبة التحميل — يظهر فوق الـ progress bar */
+.upload-progress-pct-overlay{
+  position:fixed;bottom:5px;right:10px;
+  font-size:10px;font-weight:700;color:#91cc00;
+  z-index:521;display:none;
+  background:rgba(13,13,14,.8);padding:2px 6px;border-radius:4px
+}
+
+/* ═══════════════════════════════════════════
+   MESSAGES LOADING PROGRESS
+═══════════════════════════════════════════ */
+.msgs-loading-bar-wrap{
+  position:absolute;
+  top:36px;left:0;right:0;
+  height:3px;z-index:16;
+  background:rgba(110,142,251,.08);
+  display:none;overflow:hidden
+}
+.msgs-loading-bar-fill{
+  height:100%;width:5%;
+  background:linear-gradient(90deg,#6e8efb 0%,#a78bfa 50%,#91cc00 100%);
+  background-size:200% 100%;
+  animation:msgLoadBar 1.2s ease-in-out infinite alternate,progressShimmer 1.5s linear infinite;
+  border-radius:0 2px 2px 0
+}
+@keyframes msgLoadBar{
+  0%{width:5%}
+  100%{width:85%}
+}
 
 /* ═══════════════════════════════════════════
    UPLOAD FILE PREVIEW
@@ -375,26 +458,43 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 .ios-upload-note.show{display:block}
 
 /* ═══════════════════════════════════════════
-   BUFFERING / LOADING OVERLAY
-   FIX: z-index يجب أن يكون فوق الرسائل لكن تحت القوائم
+   BUFFERING / LOADING OVERLAY — replaced by progress bar
 ═══════════════════════════════════════════ */
 .msgs-buffering{
   position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
   background:#252836;z-index:15;pointer-events:none;
   transition:opacity .3s ease
 }
 .msgs-buffering.hiding{opacity:0}
-.msgs-buffering-spinner{
-  width:38px;height:38px;
-  border:3px solid rgba(110,142,251,.15);
-  border-top-color:#6e8efb;border-radius:50%;
-  animation:bufferSpin .8s linear infinite
+/* Progress bar بدل spinner */
+.msgs-buffering-progress-wrap{
+  width:180px;height:4px;
+  background:rgba(110,142,251,.15);
+  border-radius:4px;overflow:hidden
 }
-@keyframes bufferSpin{to{transform:rotate(360deg)}}
-.msgs-buffering-text{
-  font-size:12px;color:#6e8efb;
-  font-family:'Cairo',sans-serif;letter-spacing:.3px
+.msgs-buffering-progress-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#6e8efb,#91cc00);
+  border-radius:4px;
+  animation:bufferProgress 2.5s ease-in-out forwards
+}
+@keyframes bufferProgress{
+  0%{width:0%}
+  30%{width:40%}
+  60%{width:65%}
+  80%{width:80%}
+  95%{width:92%}
+  100%{width:92%}
+}
+.msgs-buffering-pct{
+  font-size:11px;color:#6e8efb;
+  font-family:'Cairo',sans-serif;letter-spacing:.3px;
+  min-width:40px;text-align:center
+}
+.msgs-buffering-label{
+  font-size:11px;color:#4a5080;
+  font-family:'Cairo',sans-serif
 }
 
 /* ═══════════════════════════════════════════
@@ -747,29 +847,29 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 .selection-toolbar .sel-count{color:#91cc00;font-weight:700;margin:0 4px}
 
 /* ═══════════════════════════════════════════
-   NEWS BOARD
+   NEWS BOARD — داخل حاوية مستقلة .news-container
 ═══════════════════════════════════════════ */
 .public-news-board{
-  padding:0 0 90px;direction:rtl;display:flex;flex-direction:column;
+  padding:0 0 20px;direction:rtl;display:flex;flex-direction:column;
   color:#e8e9f0;background:#0f1120;
   font-family:'Cairo','Plus Jakarta Sans',sans-serif;
-  height:100%;overflow-y:auto
+  min-height:100%
 }
 .news-board-header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 14px 11px;background:#0a0c18;
+  padding:12px 14px 10px;background:#0a0c18;
   border-bottom:1px solid rgba(110,142,251,.15);
   position:sticky;top:0;z-index:10;flex-shrink:0
 }
 .news-board-title{
-  font-size:15px;font-weight:900;color:#fff;
+  font-size:14px;font-weight:900;color:#fff;
   font-family:'Cairo',sans-serif;letter-spacing:-.3px;
   display:flex;align-items:center;gap:7px
 }
-.news-board-title-icon{font-size:18px}
+.news-board-title-icon{font-size:16px}
 .news-board-subtitle{font-size:10px;color:#6e8efb;font-weight:700;display:flex;align-items:center;gap:5px}
 .news-live-dot{
-  width:7px;height:7px;border-radius:50%;background:#91cc00;flex-shrink:0;
+  width:6px;height:6px;border-radius:50%;background:#91cc00;flex-shrink:0;
   animation:newsLivePulse 2s infinite
 }
 @keyframes newsLivePulse{
@@ -779,29 +879,29 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 .news-cards-grid{display:flex;flex-direction:column;gap:0;flex:1}
 .news-card{
   position:relative;display:flex;flex-direction:column;
-  margin:10px 10px 0;border-radius:16px;overflow:hidden;
+  margin:8px 8px 0;border-radius:12px;overflow:hidden;
   border:1px solid rgba(110,142,251,.18);background:#13162a;cursor:pointer;
   transition:transform .2s,border-color .2s,box-shadow .2s;
   box-shadow:0 4px 20px rgba(0,0,0,.3);isolation:isolate
 }
-.news-card:last-child{margin-bottom:10px}
-.news-card:hover{transform:translateY(-3px);border-color:rgba(110,142,251,.45);box-shadow:0 10px 32px rgba(0,0,0,.45)}
+.news-card:last-child{margin-bottom:8px}
+.news-card:hover{transform:translateY(-2px);border-color:rgba(110,142,251,.45);box-shadow:0 8px 28px rgba(0,0,0,.45)}
 .news-card:active{transform:translateY(-1px)}
 .news-thumb-wrap{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:#181b2e;flex-shrink:0}
 .news-thumb{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
-.news-card:hover .news-thumb{transform:scale(1.05)}
+.news-card:hover .news-thumb{transform:scale(1.04)}
 .news-source-badge-img{
-  position:absolute;bottom:8px;right:10px;background:rgba(0,0,0,.7);
-  backdrop-filter:blur(6px);border-radius:8px;padding:3px 9px;
-  font-size:10px;color:#e0e4ff;font-weight:700;
+  position:absolute;bottom:6px;right:8px;background:rgba(0,0,0,.7);
+  backdrop-filter:blur(6px);border-radius:6px;padding:2px 7px;
+  font-size:9px;color:#e0e4ff;font-weight:700;
   font-family:'Cairo',sans-serif;border:1px solid rgba(255,255,255,.12)
 }
 .news-thumb-gradient{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(13,14,30,.7));pointer-events:none}
-.news-card-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:7px}
+.news-card-body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px}
 .news-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .news-tag{
-  display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;
-  font-size:10px;font-weight:800;font-family:'Cairo',sans-serif;letter-spacing:.3px;border:1px solid transparent
+  display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;
+  font-size:9px;font-weight:800;font-family:'Cairo',sans-serif;letter-spacing:.3px;border:1px solid transparent
 }
 .news-tag.t-ai{background:rgba(110,142,251,.15);border-color:rgba(110,142,251,.35);color:#a5b4fc}
 .news-tag.t-mobile{background:rgba(94,201,94,.12);border-color:rgba(94,201,94,.35);color:#6ee7b7}
@@ -809,30 +909,44 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 .news-tag.t-hw{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.35);color:#fcd34d}
 .news-tag.t-net{background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.35);color:#7dd3fc}
 .news-tag.t-sec{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.35);color:#fca5a5}
-.news-tag.t-crochet{background:rgba(255,182,193,.15);border-color:rgba(255,182,193,.4);color:#ffb6c1}
 .news-date-badge{font-size:9px;color:#4a5080;white-space:nowrap}
 .news-card .news-title{
-  font-size:15px;line-height:1.45;font-weight:800;color:#f0f4ff;
+  font-size:13px;line-height:1.45;font-weight:800;color:#f0f4ff;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
-  font-family:'Cairo',sans-serif;letter-spacing:-.2px
+  font-family:'Cairo',sans-serif;letter-spacing:-.1px
 }
 .news-card .news-desc{
-  font-size:12px;line-height:1.6;color:#7e8aaa;
+  font-size:11px;line-height:1.5;color:#7e8aaa;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
 }
 .news-card-footer{display:flex;align-items:center;gap:6px;padding-top:4px;border-top:1px solid rgba(255,255,255,.06)}
-.news-source-dot{width:6px;height:6px;border-radius:50%;background:#91cc00;flex-shrink:0}
-.news-source-name{font-size:10px;color:#4a5080;flex:1}
+.news-source-dot{width:5px;height:5px;border-radius:50%;background:#91cc00;flex-shrink:0}
+.news-source-name{font-size:9px;color:#4a5080;flex:1}
 .news-read-chip{
   display:inline-flex;align-items:center;gap:3px;
   background:rgba(110,142,251,.12);border:1px solid rgba(110,142,251,.25);color:#818cf8;
-  border-radius:999px;padding:3px 10px;font-size:10px;font-weight:700;
+  border-radius:999px;padding:2px 8px;font-size:9px;font-weight:700;
   font-family:'Cairo',sans-serif;white-space:nowrap
 }
 .news-card.loading-news{
-  justify-content:center;align-items:center;min-height:120px;
+  justify-content:center;align-items:center;min-height:100px;
   color:#4a5080;font-size:12px;padding:20px;text-align:center;
-  background:#0f1120;border:1px dashed #1e2240;border-radius:16px;margin:10px
+  background:#0f1120;border:1px dashed #1e2240;border-radius:12px;margin:8px
+}
+
+/* ═══════════════════════════════════════════
+   NEWS LOAD PROGRESS — داخل حاوية الأخبار
+═══════════════════════════════════════════ */
+.news-load-progress{
+  position:sticky;top:0;left:0;right:0;height:2px;z-index:11;
+  background:rgba(110,142,251,.1);overflow:hidden;display:none
+}
+.news-load-progress.show{display:block}
+.news-load-progress-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#6e8efb,#91cc00);
+  border-radius:0;transition:width .3s ease;
+  animation:progressShimmer 1.5s linear infinite
 }
 
 /* ═══════════════════════════════════════════
@@ -854,21 +968,21 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 .news-preview-img-wrap{width:100%;aspect-ratio:16/9;flex-shrink:0;overflow:hidden;background:#181b2e;margin-top:10px}
 .news-preview-img{width:100%;height:100%;object-fit:cover;display:block}
 .news-preview-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:56px;background:#181b2e}
-.news-preview-body{flex:1;overflow-y:auto;padding:16px;scrollbar-width:thin;scrollbar-color:rgba(128,128,128,.3) transparent}
+.news-preview-body{flex:1;overflow-y:auto;padding:14px;scrollbar-width:thin;scrollbar-color:rgba(128,128,128,.3) transparent}
 .news-preview-tag{
-  display:inline-flex;padding:3px 10px;border-radius:999px;
+  display:inline-flex;padding:2px 8px;border-radius:999px;
   background:rgba(110,142,251,.15);border:1px solid rgba(110,142,251,.3);
-  color:#a5b4fc;font-size:10px;font-weight:800;margin-bottom:9px;font-family:'Cairo',sans-serif
+  color:#a5b4fc;font-size:9px;font-weight:800;margin-bottom:8px;font-family:'Cairo',sans-serif
 }
-.news-preview-title{font-size:18px;font-weight:900;color:#fff;line-height:1.45;margin-bottom:7px;font-family:'Cairo',sans-serif}
-.news-preview-meta{font-size:10px;color:#4a5080;margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.news-preview-title{font-size:16px;font-weight:900;color:#fff;line-height:1.45;margin-bottom:6px;font-family:'Cairo',sans-serif}
+.news-preview-meta{font-size:10px;color:#4a5080;margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .news-preview-meta-dot{width:3px;height:3px;border-radius:50%;background:#4a5080}
-.news-preview-content-box{background:#0a0c1c;border:1px solid rgba(110,142,251,.2);border-radius:12px;padding:14px;margin-bottom:14px}
+.news-preview-content-box{background:#0a0c1c;border:1px solid rgba(110,142,251,.2);border-radius:12px;padding:12px;margin-bottom:12px}
 .news-preview-content-header{display:flex;align-items:center;gap:7px;margin-bottom:10px}
 .ai-sparkle{
-  width:24px;height:24px;border-radius:8px;
+  width:22px;height:22px;border-radius:7px;
   background:linear-gradient(135deg,#6e8efb,#a78bfa);
-  display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0
+  display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0
 }
 .news-preview-content-label{font-size:11px;font-weight:800;color:#818cf8;font-family:'Cairo',sans-serif;letter-spacing:.3px}
 .news-preview-loading{display:flex;align-items:center;gap:8px;color:#4a5080;font-size:12px}
@@ -878,10 +992,19 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 .news-preview-loading-dot:nth-child(3){animation-delay:.4s}
 @keyframes previewDot{0%,100%{opacity:.25;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}
 .news-preview-content-text{font-size:13px;line-height:1.9;color:#c7ceea;font-family:'Cairo',sans-serif;border-right:3px solid #6e8efb;padding-right:12px}
-.news-preview-actions{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0}
-.news-preview-open{flex:1;background:#6e8efb;color:#fff;border:none;border-radius:12px;height:46px;font:700 14px 'Cairo',sans-serif;cursor:pointer;transition:background .15s}
+/* نسبة تقدم تحميل نص الخبر */
+.news-fetch-progress{height:2px;background:rgba(110,142,251,.1);border-radius:2px;overflow:hidden;margin-bottom:8px;display:none}
+.news-fetch-progress.show{display:block}
+.news-fetch-progress-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#6e8efb,#91cc00);
+  transition:width .4s ease;
+  animation:progressShimmer 1.5s linear infinite
+}
+.news-preview-actions{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0}
+.news-preview-open{flex:1;background:#6e8efb;color:#fff;border:none;border-radius:12px;height:44px;font:700 13px 'Cairo',sans-serif;cursor:pointer;transition:background .15s}
 .news-preview-open:hover{background:#818cf8}
-.news-preview-close-btn{background:#1a1d2e;color:#cfd3ea;border:1px solid #2a2d48;border-radius:12px;height:46px;padding:0 18px;font:600 13px 'Cairo',sans-serif;cursor:pointer}
+.news-preview-close-btn{background:#1a1d2e;color:#cfd3ea;border:1px solid #2a2d48;border-radius:12px;height:44px;padding:0 16px;font:600 12px 'Cairo',sans-serif;cursor:pointer}
 
 /* ═══════════════════════════════════════════
    INSTAGRAM IN-APP HINT
@@ -906,7 +1029,7 @@ body.is-instagram-webview .inapp-browser-hint{display:block}
   .social-embed-youtube{min-height:190px}
   .social-embed-vertical{min-height:330px;max-height:480px}
   .social-embed-facebook{height:460px}
-  .news-card .news-title{font-size:14px}
+  .news-card .news-title{font-size:13px}
   .news-card .news-desc{font-size:11px}
   .plyr-audio-wrap{max-width:100%}
   .gif-grid{grid-template-columns:repeat(2,1fr)}
@@ -932,7 +1055,7 @@ body.is-instagram-webview .inapp-browser-hint{display:block}
   .chat-footer-logout-button{right:12px!important}
   .chat-footer-clear-button{right:40px!important}
   .ios-upload-note{right:112px;font-size:10.5px}
-  .news-card .news-title{font-size:13px}
+  .news-card .news-title{font-size:12px}
 }
 </style>
 </head>
@@ -942,6 +1065,7 @@ body.is-instagram-webview .inapp-browser-hint{display:block}
   <div class="chat-wrapper">
     <div class="chat-top"><div class="chat-name" id="chatTitle">Google</div></div>
 
+    <!-- حاوية الرسائل — تظهر فقط بعد الدخول -->
     <div class="chat-messages-container" id="messagesWrap">
       <div class="chat-messages" id="chatMessages">
         <div class="chat-history-controls" style="display:none">
@@ -949,6 +1073,19 @@ body.is-instagram-webview .inapp-browser-hint{display:block}
         </div>
         <div class="chat-welcome-message"></div>
       </div>
+    </div>
+
+    <!-- حاوية الأخبار — مستقلة تماماً، تظهر فقط قبل الدخول -->
+    <div class="news-container" id="newsContainer">
+      <div class="news-load-progress" id="newsLoadProgress">
+        <div class="news-load-progress-fill" id="newsLoadProgressFill"></div>
+      </div>
+      <!-- محتوى الأخبار يُحقن هنا -->
+    </div>
+
+    <!-- شريط تقدم تحميل الرسائل -->
+    <div class="msgs-loading-bar-wrap" id="msgsLoadingBar">
+      <div class="msgs-loading-bar-fill"></div>
     </div>
 
     <div class="chat-reply-preview" id="replyPreview" dir="rtl"></div>
@@ -966,13 +1103,6 @@ body.is-instagram-webview .inapp-browser-hint{display:block}
         <button class="send-btn" id="sendBtn" disabled>Send</button>
       </div>
       <div class="upload-preview-bar" id="uploadPreviewBar"></div>
-      <div class="upload-progress-wrap" id="uploadProgressWrap">
-        <div class="upload-progress-top">
-          <div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div>
-          <div class="upload-progress-pct" id="uploadProgressPct">0%</div>
-        </div>
-        <div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div>
-      </div>
     </div>
 
     <div class="chat-input-container signin-input-container" id="signinOverlay">
@@ -1007,6 +1137,12 @@ body.is-instagram-webview .inapp-browser-hint{display:block}
     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
   </a>
 </div><!-- /.group-chat-embedded -->
+
+<!-- شريط تقدم الرفع — ثلاثة بكسل في أعلى الصفحة -->
+<div class="upload-progress-wrap" id="uploadProgressWrap">
+  <div class="upload-progress-fill" id="uploadProgressFill"></div>
+</div>
+<div class="upload-progress-pct-overlay" id="uploadProgressPct"></div>
 
 <!-- Menus & Overlays -->
 <div class="attach-choice-menu" id="attachChoiceMenu" dir="rtl">
@@ -1122,10 +1258,9 @@ var firebaseConfig = {
 var ROOM_ID             = 'google-chat';
 var ADMIN_NAME          = '0000';
 var CHAT_ACCESS_CODE    = '0000';
-/* FIX: مدة الخمول — 5 دقائق من آخر نشاط فعلي، وليس من وقت الغياب */
 var CHAT_INACTIVITY_MS  = 5 * 60 * 1000;
-var BUFFER_SHOW_MS      = 700;   /* وقت عرض مؤشر التحميل قبل الرسائل */
-var BUFFER_MIN_MS       = 500;   /* حد أدنى لظهور المؤشر حتى لا يومض */
+var BUFFER_SHOW_MS      = 300;
+var BUFFER_MIN_MS       = 200;
 var DEFAULT_AVATAR      = 'https://d167qii8h0pw75.cloudfront.net/images/D/E/F/DEFAULTUSER-resize_38x38.png';
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -1138,27 +1273,18 @@ var auth = firebase.auth();
 
 /* ═══════════════════════════════════════════════════════════════════
    ██████  STATE MACHINE
-   
-   الحالات: IDLE → SIGNING_IN → UNLOCKED ↔ LOCKED
-   
-   الإصلاحات في هذا القسم:
-   1. إزالة lock transitioning الذي كان يحجب الانتقالات الصحيحة
-   2. كل انتقال يُعيّن state.current أولاً قبل أي عمل آخر
-   3. منع race conditions بين visibilitychange و init
 ═══════════════════════════════════════════════════════════════════ */
 var AppState = { IDLE:'idle', SIGNING_IN:'signing_in', UNLOCKED:'unlocked', LOCKED:'locked' };
 
 var state = {
   current : AppState.IDLE,
-  user    : null   /* { name, deviceId } */
+  user    : null
 };
 
 function transition(newState, payload) {
-  /* FIX: لا نمنع الانتقال إلى نفس الحالة بشكل مطلق — قد نحتاج إعادة تهيئة */
   var prev = state.current;
   state.current = newState;
 
-  /* دائماً: أوقف اشتراك الرسائل عند مغادرة UNLOCKED */
   if (prev === AppState.UNLOCKED && newState !== AppState.UNLOCKED) {
     _stopMessageSub();
     _cleanupPresence();
@@ -1171,7 +1297,6 @@ function transition(newState, payload) {
       _uiShowChatBottom(false);
       _uiSetLocked(true);
       updateAdminControls();
-      /* FIX: عرض الأخبار فقط إذا كنا قادمين من IDLE أو LOCKED */
       if (prev === AppState.IDLE || prev === AppState.LOCKED) {
         renderPublicNewsCards();
       }
@@ -1197,10 +1322,8 @@ function transition(newState, payload) {
       _uiShowChatBottom(false);
       _uiSetLocked(true);
       updateAdminControls();
-      /* FIX: نظّف حقل الاسم وأعد التركيز */
       var ni = document.getElementById('nameInput');
       if (ni) ni.value = '';
-      /* FIX: اعرض الأخبار فقط بعد تأخير بسيط لضمان DOM جاهز */
       setTimeout(function() { renderPublicNewsCards(); }, 50);
       setTimeout(function() {
         var ni2 = document.getElementById('nameInput');
@@ -1227,18 +1350,14 @@ function _uiSetLocked(locked) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   ██████  MESSAGE SUBSCRIPTION + BUFFERING
-   
-   FIX: فصل واضح بين:
-   - مسح DOM الرسائل
-   - إظهار مؤشر التحميل
-   - بدء الاشتراك من Firebase
-   - إخفاء المؤشر عند وصول البيانات
+   ██████  MESSAGE SUBSCRIPTION + BUFFERING — Progress Bar Style
 ═══════════════════════════════════════════════════════════════════ */
 var _unsubMessages = null;
 var _bufferTimeout = null;
 var _bufferHideTimeout = null;
 var _firstBatchReceived = false;
+var _bufferPctInterval = null;
+var _bufferPct = 0;
 
 function _stopMessageSub() {
   if (_unsubMessages) {
@@ -1247,6 +1366,7 @@ function _stopMessageSub() {
   }
   clearTimeout(_bufferTimeout);
   clearTimeout(_bufferHideTimeout);
+  clearInterval(_bufferPctInterval);
 }
 
 function _clearChatDom() {
@@ -1257,19 +1377,53 @@ function _clearChatDom() {
     '<div class="chat-welcome-message"></div>';
 }
 
+/* Progress bar بدل spinner */
 function _showBuffer(show) {
   var wrap = document.getElementById('messagesWrap');
+  var loadBar = document.getElementById('msgsLoadingBar');
   if (!wrap) return;
-  var existing = wrap.querySelector('.msgs-buffering');
+
   if (show) {
+    /* أظهر الـ progress bar في أعلى منطقة الرسائل */
+    if (loadBar) loadBar.style.display = 'block';
+
+    var existing = wrap.querySelector('.msgs-buffering');
     if (existing) return;
+
     var div = document.createElement('div');
     div.className = 'msgs-buffering';
     div.innerHTML =
-      '<div class="msgs-buffering-spinner"></div>' +
-      '<div class="msgs-buffering-text">جاري تحميل المحادثة...</div>';
+      '<div class="msgs-buffering-progress-wrap">' +
+        '<div class="msgs-buffering-progress-fill" id="bufferProgressFill"></div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:8px;margin-top:6px">' +
+        '<div class="msgs-buffering-pct" id="bufferProgressPct">0%</div>' +
+        '<div class="msgs-buffering-label">جاري تحميل المحادثة</div>' +
+      '</div>';
     wrap.appendChild(div);
+
+    /* تحديث النسبة المئوية بشكل تدريجي */
+    _bufferPct = 0;
+    clearInterval(_bufferPctInterval);
+    _bufferPctInterval = setInterval(function() {
+      if (_bufferPct < 90) {
+        _bufferPct = Math.min(90, _bufferPct + (Math.random() * 8 + 2));
+        var pctEl = document.getElementById('bufferProgressPct');
+        if (pctEl) pctEl.textContent = Math.round(_bufferPct) + '%';
+      }
+    }, 200);
+
   } else {
+    clearInterval(_bufferPctInterval);
+    /* أكمل إلى 100% ثم أخفِ */
+    var pctEl = document.getElementById('bufferProgressPct');
+    if (pctEl) pctEl.textContent = '100%';
+
+    if (loadBar) {
+      setTimeout(function() { loadBar.style.display = 'none'; }, 300);
+    }
+
+    var existing = wrap.querySelector('.msgs-buffering');
     if (!existing) return;
     existing.classList.add('hiding');
     setTimeout(function() {
@@ -1284,7 +1438,6 @@ function _startMsgSubWithBuffer() {
   _firstBatchReceived = false;
   _showBuffer(true);
 
-  /* FIX: بدّأ الاشتراك مباشرة، لكن أخفِ المؤشر بعد تلقي أول batch فقط */
   _bufferTimeout = setTimeout(function() {
     if (state.current !== AppState.UNLOCKED) return;
     _doSubscribe();
@@ -1304,13 +1457,11 @@ function _doSubscribe() {
         else if (ch.type === 'removed')  removeMsgEl(ch.doc.id);
       });
 
-      /* FIX: أخفِ المؤشر بعد استلام أول batch (حتى لو فارغ) */
       if (!_firstBatchReceived) {
         _firstBatchReceived = true;
         _bufferHideTimeout = setTimeout(function() { _showBuffer(false); }, BUFFER_MIN_MS);
       }
     }, function(err) {
-      /* FIX: عند خطأ في الاشتراك — أخفِ المؤشر واعرض رسالة */
       console.error('Firestore subscription error:', err);
       _showBuffer(false);
       showToast('تعذر تحميل الرسائل', 'error');
@@ -1319,14 +1470,6 @@ function _doSubscribe() {
 
 /* ═══════════════════════════════════════════════════════════════════
    ██████  SESSION MANAGEMENT
-   
-   FIX الرئيسي: المنطق السابق كان خاطئاً.
-   - كان يقارن max(awayAt, lastAt) بـ INACTIVITY_MS
-   - هذا يعني: إذا كان lastAt حديثاً، لن تنتهي الجلسة أبداً
-   
-   المنطق الصحيح:
-   - نحسب المدة من آخر نشاط حتى وقت الغياب
-   - إذا غاب أكثر من 5 دقائق: انتهت الجلسة
 ═══════════════════════════════════════════════════════════════════ */
 function markActive() {
   var t = Date.now();
@@ -1338,13 +1481,10 @@ function markAway() {
   try { localStorage.setItem('__chatAwayAt', String(t)); } catch(e) {}
 }
 
-/* FIX: المنطق الصحيح لحساب انتهاء الجلسة */
 function sessionExpired() {
   var awayAt = parseInt(localStorage.getItem('__chatAwayAt')  || '0', 10);
   var lastAt  = parseInt(localStorage.getItem('__chatLastActiveAt') || '0', 10);
-  /* إذا لم يُسجَّل وقت غياب، الجلسة لم تنتهِ */
   if (!awayAt || !lastAt) return false;
-  /* إذا غاب بعد نشاطه الأخير بأكثر من المدة المسموحة */
   var idleDuration = awayAt - lastAt;
   return idleDuration >= CHAT_INACTIVITY_MS;
 }
@@ -1359,43 +1499,25 @@ function _clearSessionKeys() {
   } catch(e) {}
 }
 
-/* تحديث وقت النشاط عند أي تفاعل */
 ['click','keydown','touchstart','pointerdown'].forEach(function(ev) {
   document.addEventListener(ev, function() {
     if (state.current === AppState.UNLOCKED) markActive();
   }, { passive: true });
 });
 
-/* ═══════════════════════════════════════════════════════════════════
-   FIX: visibilitychange — الجزء الأهم في الحل
-   
-   المشكلة الأصلية: كان الكود يستدعي forceReturnToLogin() أو
-   يُعيد تشغيل الاشتراك في نفس الوقت الذي تحاول init() فيه الدخول.
-   
-   الحل: فحص دقيق للحالة + تأخير بسيط لضمان استقرار الحالة
-═══════════════════════════════════════════════════════════════════ */
 document.addEventListener('visibilitychange', function() {
   if (document.hidden) {
-    /* المستخدم غادر — سجّل وقت الغياب فقط إذا كان مسجلاً */
     if (state.current === AppState.UNLOCKED) markAway();
     return;
   }
-
-  /* المستخدم عاد — تحقق من الحالة */
   if (state.current !== AppState.UNLOCKED) return;
-
   if (sessionExpired()) {
-    /* انتهت مدة الخمول → تسجيل خروج ناعم */
     _clearSessionKeys();
     try { auth.signOut(); } catch(e) {}
     transition(AppState.LOCKED);
   } else {
-    /* الجلسة لا تزال سارية → حدّث وقت النشاط وتأكد من الاشتراك */
     markActive();
-    /* FIX: إذا اختفى الاشتراك لأي سبب، أعده بدون مسح الرسائل */
-    if (!_unsubMessages) {
-      _doSubscribe();
-    }
+    if (!_unsubMessages) { _doSubscribe(); }
   }
 });
 
@@ -1409,8 +1531,6 @@ window.addEventListener('pagehide', function() {
 (function init() {
   var savedName = null;
   try { savedName = localStorage.getItem('__chatUserName'); } catch(e) {}
-
-  /* FIX: أعدّل وقت الغياب المحفوظ عند بدء التشغيل — منع phantom expiry */
   try { localStorage.removeItem('__chatAwayAt'); } catch(e) {}
 
   var authP = auth.currentUser
@@ -1423,16 +1543,11 @@ window.addEventListener('pagehide', function() {
       transition(AppState.SIGNING_IN);
       return;
     }
-
     userConsented = true;
     getDeviceId().then(function(devId) {
       requireChatAccess(savedName).then(function(ok) {
-        if (ok) {
-          _completeSignIn(savedName, devId);
-        } else {
-          _clearSessionKeys();
-          transition(AppState.SIGNING_IN);
-        }
+        if (ok) { _completeSignIn(savedName, devId); }
+        else { _clearSessionKeys(); transition(AppState.SIGNING_IN); }
       });
     });
   }).catch(function(e) {
@@ -1482,7 +1597,6 @@ function doSignIn() {
     });
   }).then(function(devId) {
     return requireChatAccess(name).then(function(ok) {
-      /* FIX: أعد تفعيل الزر دائماً بعد requireChatAccess */
       btn.disabled = false;
       btn.textContent = 'Sign in';
       if (!ok) return;
@@ -1841,10 +1955,6 @@ function scrollToBottom() {
   var w = document.getElementById('messagesWrap');
   setTimeout(function(){ if(w) w.scrollTop = w.scrollHeight; }, 60);
 }
-function autoResize(el) {
-  el.style.height='auto';
-  el.style.height = Math.min(el.scrollHeight,100) + 'px';
-}
 function updateSendBtn() {
   if (isSending) return;
   var hasText  = document.getElementById('chatInput').value.trim().length > 0;
@@ -1978,7 +2088,6 @@ function renderMessage(id, data, scrollDown) {
 }
 
 function buildMsgEl(id, data) {
-  /* FIX: isOwn يجب أن يُقرأ من state.user في وقت البناء */
   var isOwn = !!(state.user && data.deviceId && data.deviceId === state.user.deviceId);
   var ts    = data.timestamp ? (data.timestamp.toDate ? data.timestamp.toDate() : new Date(data.timestamp)) : new Date();
   var el    = document.createElement('div');
@@ -1988,7 +2097,6 @@ function buildMsgEl(id, data) {
   var displayHtml = renderEmoji(linkify(escHtml(displayText)));
   var socialHtml  = buildSocialHtml(data.text||'');
 
-  /* events */
   el.addEventListener('click', function(e) {
     var tag = (e.target&&e.target.tagName||'').toLowerCase();
     if (tag==='a'||tag==='button'||tag==='textarea'||tag==='input'||tag==='video'||tag==='iframe') return;
@@ -1999,7 +2107,6 @@ function buildMsgEl(id, data) {
     e.preventDefault(); openMsgMenu(id, isOwn, data, e.clientX||20, e.clientY||20);
   });
 
-  /* attachments */
   var mediaHtml = '';
   var atts = data.attachments;
   if (atts&&Array.isArray(atts)&&atts.length) {
@@ -2231,11 +2338,13 @@ function deleteMsg(id) {
 var isSending = false;
 var pendingFiles = [];
 
+/* الـ textarea: لا يكبر — يُمرّر النص بدلاً من ذلك */
 document.getElementById('chatInput').addEventListener('keydown', function(e) {
   if (e.key==='Enter'&&!e.shiftKey) { e.preventDefault(); sendMessage(); }
 });
 document.getElementById('chatInput').addEventListener('input', function() {
-  autoResize(this); handleTyping(); updateSendBtn();
+  handleTyping(); updateSendBtn();
+  /* لا autoResize — الارتفاع ثابت */
 });
 var _sendBtn = document.getElementById('sendBtn');
 if (_sendBtn) _sendBtn.addEventListener('click', sendMessage);
@@ -2247,7 +2356,6 @@ function sendMessage() {
   if (!text&&!files.length) return;
 
   document.getElementById('chatInput').value='';
-  autoResize(document.getElementById('chatInput'));
   clearUploadPreview();
   stopTyping();
   updateSendBtn();
@@ -2260,14 +2368,13 @@ function sendMessage() {
     return;
   }
 
-  var isFileUploading=true;
   showUploadProgress(files.length);
   uploadFilesSequentially(files).then(function(result) {
     setProgressPct(100,files.length,files.length);
     return saveMsg(text,result.attachments).then(function(docRef){ attachDriveMirror(docRef,result); return docRef; });
   }).then(function(){ hideUploadProgress(); })
   .catch(function(e){ hideUploadProgress(); showToast('فشل الرفع: '+((e&&e.message)||''),'error'); })
-  .finally(function(){ isFileUploading=false; hideUploadProgress(); updateSendBtn(); });
+  .finally(function(){ hideUploadProgress(); updateSendBtn(); });
 }
 
 function saveMsg(text, attachments) {
@@ -2284,30 +2391,29 @@ function saveMsg(text, attachments) {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   ██████  UPLOAD
+   ██████  UPLOAD — Progress Bar at top of screen (3px line)
 ═══════════════════════════════════════════════════════════════════ */
 function showUploadProgress(total) {
-  document.body.classList.add('chat-uploading');
-  var wrap=document.getElementById('uploadProgressWrap'); if(!wrap)return;
-  wrap.style.display='block';
-  document.getElementById('uploadProgressLabel').textContent=total>1?'رفع '+total+' ملفات':'رفع ملف';
-  document.getElementById('uploadProgressPct').textContent='0%';
-  document.getElementById('uploadProgressFill').style.width='0%';
+  var wrap=document.getElementById('uploadProgressWrap');
+  var pctEl=document.getElementById('uploadProgressPct');
+  if(wrap) wrap.style.display='block';
+  if(pctEl){ pctEl.style.display='block'; pctEl.textContent='0%'; }
+  var fill=document.getElementById('uploadProgressFill');
+  if(fill) fill.style.width='0%';
 }
 function setProgressPct(pct,n,total) {
   var s=Math.min(Math.max(Math.round(pct),0),100);
-  var fill=document.getElementById('uploadProgressFill'),
-      pctEl=document.getElementById('uploadProgressPct'),
-      lab=document.getElementById('uploadProgressLabel');
-  if(fill)fill.style.width=s+'%'; if(pctEl)pctEl.textContent=s+'%';
-  if(lab)lab.textContent=total>1?'ملف '+n+'/'+total:'رفع ملف';
+  var fill=document.getElementById('uploadProgressFill');
+  var pctEl=document.getElementById('uploadProgressPct');
+  if(fill) fill.style.width=s+'%';
+  if(pctEl) pctEl.textContent=s+'%'+(total>1?' ('+n+'/'+total+')':'');
 }
 function hideUploadProgress() {
   setTimeout(function(){
-    document.body.classList.remove('chat-uploading');
     var wrap=document.getElementById('uploadProgressWrap'); if(wrap)wrap.style.display='none';
     var fill=document.getElementById('uploadProgressFill'); if(fill)fill.style.width='0%';
-  },180);
+    var pctEl=document.getElementById('uploadProgressPct'); if(pctEl)pctEl.style.display='none';
+  },400);
 }
 function ucErrMsg(status) {
   if(status===0)return'تعذر الاتصال بـ Uploadcare.';
@@ -2702,7 +2808,7 @@ function insertEmoji(emoji) {
   var s=input.selectionStart||0, e=input.selectionEnd||0, v=input.value;
   input.value=v.slice(0,s)+emoji+v.slice(e);
   input.selectionStart=input.selectionEnd=s+emoji.length;
-  input.focus(); autoResize(input); updateSendBtn();
+  input.focus(); updateSendBtn();
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -2800,170 +2906,394 @@ document.getElementById('lightboxViewport').addEventListener('touchend',function
 window.addEventListener('keydown',function(e){ var el=document.getElementById('lightbox'); if(!el||!el.classList.contains('open'))return; if(e.key==='Escape')closeLightbox();else if(e.key==='+'||e.key==='=')zoomLb(.35);else if(e.key==='-'||e.key==='_')zoomLb(-.35);else if(e.key==='0')resetLb(); });
 
 /* ═══════════════════════════════════════════════════════════════════
-   ██████  NEWS SYSTEM
+   ██████  NEWS SYSTEM — حاوية مستقلة، أخبار حقيقية من RSS
+   
+   المصادر: rss2json.com لتجاوز CORS
+   كل بطاقة = خبر واحد حقيقي
+   المعاينة: Claude يزور الصفحة ويعيد صياغة النص كاملاً
 ═══════════════════════════════════════════════════════════════════ */
-var NEWS_SOURCES=[
-  {name:'عرب هاردوير',rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Farabhardware.net%2Ffeed',lang:'ar'},
-  {name:'The Verge',   rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.theverge.com%2Frss%2Findex.xml',lang:'en'},
-  {name:'TechCrunch', rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ftechcrunch.com%2Ffeed%2F',lang:'en'},
-  {name:'Ars Technica',rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Farstechnica.com%2Ffeed%2F',lang:'en'}
-];
-var CROCHET_CARDS=[
-  {tag:'كروشيه',title:'أجمل قطع الكروشيه الترند على Pinterest و Instagram هذا الأسبوع',desc:'قطع يدوية رائعة من صنع هواة ومحترفين أبهرت الجمهور وصارت مصدر إلهام واسع.',source:'Pinterest Crochet',url:'https://www.pinterest.com/search/pins/?q=crochet+trending',img:'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=80',emoji:'🧶',tagCls:'t-crochet'},
-  {tag:'Handmade',title:'Hand Made Crochet — أعمال يدوية تتحول إلى مشاريع صغيرة مربحة',desc:'كيف تحوّل قطعة كروشيه مصنوعة بالبيت إلى مصدر دخل إضافي عبر الإنترنت.',source:'Etsy Handmade',url:'https://www.etsy.com/search?q=handmade+crochet',img:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=900&q=80',emoji:'🪡',tagCls:'t-crochet'},
-  {tag:'كروشيه',title:'باترونات كروشيه مجانية ترند في مجتمع الكروشيه العربي',desc:'أكثر الباترونات تحميلاً هذا الشهر: بطانيات، حقائب، قبعات، وديكورات منزلية.',source:'Ravelry Arabic',url:'https://www.ravelry.com/patterns/search#craft=crochet&sort=popularity',img:'https://images.unsplash.com/photo-1607081692251-c0bab3a1cd4a?auto=format&fit=crop&w=900&q=80',emoji:'🎀',tagCls:'t-crochet'}
-];
-var TAG_MAP={'ذكاء اصطناعي':'t-ai','AI':'t-ai','عرب هاردوير':'t-hw','The Verge':'t-net','TechCrunch':'t-net','Ars Technica':'t-net','هواتف':'t-mobile','برامج':'t-soft','أمن':'t-sec','كروشيه':'t-crochet','Handmade':'t-crochet'};
-function tagClass(tag){ return TAG_MAP[tag]||'t-ai'; }
-var TECH_KW=['AI','OpenAI','Google','Microsoft','Apple','NVIDIA','ChatGPT','GPU','Windows','Android','iPhone','RTX','LLM','GPT','Gemini','Claude','Meta','Samsung','ذكاء اصطناعي','هاتف','تطبيق','معالج','ثغرة','أمن','تحديث','إطلاق','برنامج','حاسوب','شاشة','بطارية','كاميرا','تقنية'];
 
-/* FIX: translateToArabic مع timeout لمنع تجميد صفحة الأخبار */
-function translateToArabic(text) {
+var NEWS_SOURCES = [
+  { name:'عرب هاردوير', rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Farabhardware.net%2Ffeed', lang:'ar', tag:'t-hw' },
+  { name:'The Verge',   rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.theverge.com%2Frss%2Findex.xml', lang:'en', tag:'t-net' },
+  { name:'TechCrunch', rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Ftechcrunch.com%2Ffeed%2F', lang:'en', tag:'t-ai' },
+  { name:'Ars Technica',rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Farstechnica.com%2Ffeed%2F', lang:'en', tag:'t-net' },
+  { name:'9to5Mac',     rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2F9to5mac.com%2Ffeed%2F', lang:'en', tag:'t-mobile' },
+  { name:'Android Authority', rss:'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.androidauthority.com%2Ffeed%2F', lang:'en', tag:'t-mobile' }
+];
+
+var _newsLoaded = false;
+var _newsCards  = [];
+
+function stripHtml(html){ var d=document.createElement('div');d.innerHTML=html;return(d.textContent||d.innerText||'').replace(/\s+/g,' ').trim(); }
+function extractImg(html){ var m=String(html||'').match(/<img.*?src=["']([^"']+)["']/i);return m?m[1]:''; }
+function fmtRelTime(date){
+  if(!date)return'';
+  var d=new Date(date);if(isNaN(d))return'';
+  var diff=Math.floor((Date.now()-d)/1000);
+  if(diff<60)return'الآن';
+  if(diff<3600)return Math.floor(diff/60)+' د';
+  if(diff<86400)return Math.floor(diff/3600)+' س';
+  if(diff<604800)return Math.floor(diff/86400)+' يوم';
+  return d.toLocaleDateString('ar-IQ',{month:'short',day:'numeric'});
+}
+function cleanTitle(s){ return String(s||'').replace(/\s+-\s+[^-]{2,80}$/,'').replace(/<!\[CDATA\[|\]\]>/g,'').trim(); }
+function fallbackImg(text){
+  var t=(text||'').toLowerCase();
+  if(/apple|iphone|ipad|mac/i.test(t))return'https://images.unsplash.com/photo-1621580560968-a0d3d4c5d1ea?auto=format&fit=crop&w=800&q=70';
+  if(/android|google|pixel/i.test(t))return'https://images.unsplash.com/photo-1526779259212-939e64788e3c?auto=format&fit=crop&w=800&q=70';
+  if(/ai|openai|llm|gpt|claude|gemini|artificial|intelligence/i.test(t))return'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=70';
+  if(/security|hack|cyber|breach/i.test(t))return'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=70';
+  if(/chip|nvidia|amd|intel|cpu|gpu/i.test(t))return'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=70';
+  if(/game|gaming|xbox|playstation|nintendo/i.test(t))return'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=70';
+  if(/space|nasa|rocket|satellite/i.test(t))return'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=800&q=70';
+  if(/ذكاء|اصطناعي|تقنية|هاتف|حاسوب/i.test(t))return'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=70';
+  return'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=70';
+}
+
+/* ترجمة بسيطة عبر MyMemory */
+function translateToAr(text, maxMs) {
   if(!text||!text.trim()) return Promise.resolve('');
   if(/[\u0600-\u06FF]/.test(text)) return Promise.resolve(text);
-  var short=text.slice(0,400);
-  var controller;
-  try{ controller=new AbortController(); }catch(e){}
-  var fetchP=fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(short)+'&langpair=en|ar', controller?{signal:controller.signal}:{})
-    .then(function(r){ return r.json(); })
-    .then(function(j){ return(j.responseData&&j.responseData.translatedText)||text; })
-    .catch(function(){ return text; });
-  /* FIX: timeout 5 ثوانٍ للترجمة */
-  var timeoutP=new Promise(function(res){ setTimeout(function(){ if(controller)try{controller.abort();}catch(e){} res(text); },5000); });
-  return Promise.race([fetchP,timeoutP]);
+  var short = text.slice(0,400);
+  var ctrl; try{ ctrl=new AbortController(); }catch(e){}
+  var p = fetch(
+    'https://api.mymemory.translated.net/get?q='+encodeURIComponent(short)+'&langpair=en|ar',
+    ctrl ? {signal:ctrl.signal} : {}
+  ).then(function(r){ return r.json(); })
+   .then(function(j){ return (j.responseData&&j.responseData.translatedText) || text; })
+   .catch(function(){ return text; });
+  var timeout = new Promise(function(res){
+    setTimeout(function(){
+      if(ctrl){ try{ctrl.abort();}catch(e){} }
+      res(text);
+    }, maxMs||4000);
+  });
+  return Promise.race([p, timeout]);
+}
+
+/* تقدم حاوية الأخبار */
+function _setNewsProgress(pct) {
+  var bar = document.getElementById('newsLoadProgress');
+  var fill = document.getElementById('newsLoadProgressFill');
+  if(bar) bar.classList.toggle('show', pct < 100);
+  if(fill) fill.style.width = Math.min(pct,100) + '%';
 }
 
 async function initializeDynamicNewsBoard() {
-  /* FIX: لا تعمل إذا كانت المحادثة مفتوحة */
-  if(state.current===AppState.UNLOCKED) return;
-  renderLoadingNewsCards();
-  try {
-    var allNews=[];
-    for(var i=0;i<NEWS_SOURCES.length;i++){
-      /* FIX: لا تكمل إذا دخل المستخدم أثناء تحميل الأخبار */
-      if(state.current===AppState.UNLOCKED) return;
-      try{
-        var source=NEWS_SOURCES[i];
-        var response=await fetch(source.rss);
-        var data=await response.json();
-        if(data.items){
-          for(var j=0;j<Math.min(data.items.length,8);j++){
-            if(state.current===AppState.UNLOCKED) return;
-            var item=data.items[j];
-            var title=item.title||'';
-            var desc=stripHtml(item.description||'').slice(0,300);
-            if(source.lang==='en'){ title=await translateToArabic(title); desc=await translateToArabic(desc); }
-            allNews.push({source:source.name,title:title,link:item.link,image:item.thumbnail||extractImg(item.description)||'',date:item.pubDate,description:desc});
-          }
+  if(state.current === AppState.UNLOCKED) return;
+  var nc = document.getElementById('newsContainer'); if(!nc) return;
+
+  /* إظهار حالة التحميل */
+  _setNewsProgress(5);
+  nc.innerHTML = '<div class="public-news-board">' +
+    '<div class="news-board-header">' +
+      '<span class="news-board-title"><span class="news-board-title-icon">📡</span> أحدث الأخبار التقنية</span>' +
+      '<span class="news-board-subtitle"><span class="news-live-dot"></span>جاري التحميل...</span>' +
+    '</div>' +
+    '<div class="news-cards-grid">' +
+      '<div class="news-card loading-news">⏳ جاري جلب أحدث الأخبار الحقيقية...</div>' +
+    '</div>' +
+  '</div>';
+
+  var allArticles = [];
+  var srcCount = NEWS_SOURCES.length;
+  var loaded = 0;
+
+  for(var i = 0; i < srcCount; i++) {
+    if(state.current === AppState.UNLOCKED) return;
+    var src = NEWS_SOURCES[i];
+    _setNewsProgress(5 + Math.round((i/srcCount)*60));
+    try {
+      var resp = await fetch(src.rss + '&count=6');
+      var data = await resp.json();
+      var items = data.items || [];
+      for(var j = 0; j < Math.min(items.length, 5); j++) {
+        if(state.current === AppState.UNLOCKED) return;
+        var item = items[j];
+        var rawTitle = cleanTitle(item.title||'');
+        var rawDesc  = stripHtml(item.description||item.content||'').slice(0,300);
+        var img      = item.thumbnail || extractImg(item.description||item.content||'') || '';
+
+        /* ترجمة إذا لزم */
+        var title = rawTitle, desc = rawDesc;
+        if(src.lang === 'en') {
+          title = await translateToAr(rawTitle, 3500);
+          if(state.current === AppState.UNLOCKED) return;
+          desc  = await translateToAr(rawDesc.slice(0,200), 3000);
         }
-      }catch(e){ console.error('Failed source:',NEWS_SOURCES[i].name,e); }
+        if(state.current === AppState.UNLOCKED) return;
+
+        allArticles.push({
+          title   : title || rawTitle,
+          desc    : desc  || rawDesc,
+          link    : item.link || item.guid || '',
+          img     : img,
+          date    : item.pubDate,
+          source  : src.name,
+          tag     : src.tag,
+          rawTitle: rawTitle,
+          rawDesc : rawDesc
+        });
+      }
+      loaded++;
+    } catch(e) {
+      console.warn('News source failed:', src.name, e);
     }
-    if(state.current===AppState.UNLOCKED) return;
-    var trending=allNews.filter(function(item){ var text=((item.title||'')+' '+(item.description||'')).toLowerCase(); return TECH_KW.some(function(kw){ return text.indexOf(kw.toLowerCase())!==-1; }); });
-    trending.sort(function(a,b){ return new Date(b.date)-new Date(a.date); });
-    var seen=[]; trending=trending.filter(function(item){ var n=item.title.toLowerCase().trim(); if(seen.indexOf(n)!==-1)return false; seen.push(n); return true; });
-    renderNewsCardsToDOM(trending);
-  }catch(error){
-    if(state.current===AppState.UNLOCKED) return;
-    renderNewsCards(buildFallbackCards());
   }
+
+  if(state.current === AppState.UNLOCKED) return;
+  _setNewsProgress(90);
+
+  /* إزالة المكررات بناءً على العنوان */
+  var seen = {};
+  allArticles = allArticles.filter(function(a){
+    var k = a.rawTitle.toLowerCase().trim().slice(0,60);
+    if(seen[k]) return false; seen[k]=true; return true;
+  });
+
+  /* ترتيب حسب التاريخ */
+  allArticles.sort(function(a,b){ return new Date(b.date)-new Date(a.date); });
+
+  _setNewsProgress(100);
+
+  if(!allArticles.length) {
+    nc.innerHTML = '<div class="public-news-board"><div style="padding:20px;color:#4a5080;text-align:center;font-family:Cairo,sans-serif;font-size:12px">تعذر تحميل الأخبار. تحقق من الاتصال.</div></div>';
+    return;
+  }
+
+  _renderNewsCards(allArticles.slice(0, 20));
 }
 
-function renderLoadingNewsCards() {
-  var cm=document.getElementById('chatMessages'); if(!cm)return;
-  cm.innerHTML='<div class="public-news-board"><div class="news-board-header"><span class="news-board-title"><span class="news-board-title-icon">📡</span> الترندات التقنية والكروشيه</span><span class="news-board-subtitle"><span class="news-live-dot"></span>تحديث مباشر</span></div><div class="news-cards-grid"><div class="news-card loading-news">⏳ جاري تحميل أحدث الأخبار...</div></div></div>';
-}
-function stripHtml(html){ var d=document.createElement('div');d.innerHTML=html;return d.textContent||''; }
-function extractImg(html){ var m=String(html||'').match(/<img.*?src=["'](.*?)["']/i);return m?m[1]:''; }
-function fmtRelTime(date){ if(!date)return''; var d=new Date(date);if(isNaN(d))return''; var diff=Math.floor((Date.now()-d)/1000); if(diff<60)return'الآن'; if(diff<3600)return Math.floor(diff/60)+' د'; if(diff<86400)return Math.floor(diff/3600)+' س'; return d.toLocaleDateString('ar'); }
-function cleanTitle(s){ return String(s||'').replace(/\s+-\s+[^-]{2,80}$/,'').replace(/<!\[CDATA\[|\]\]>/g,'').trim(); }
-function fallbackImg(n){ var text=((n&&n.title)||'')+' '+((n&&n.source)||''); if(/ذكاء|AI|اصطناعي|chatgpt|claude|llm/i.test(text))return'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80'; if(/هاتف|آيفون|أندرويد|سامسونج|iphone|android/i.test(text))return'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80'; if(/ويندوز|حاسوب|كمبيوتر|معالج|windows|processor/i.test(text))return'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80'; if(/أمن|اختراق|ثغرة|security|hack/i.test(text))return'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80'; if(/تطبيق|app|واتساب|يوتيوب/i.test(text))return'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=900&q=80'; return'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80'; }
+function _renderNewsCards(articles) {
+  if(state.current === AppState.UNLOCKED) return;
+  var nc = document.getElementById('newsContainer'); if(!nc) return;
+  var nowStr = new Date().toLocaleDateString('ar-IQ',{weekday:'short',month:'long',day:'numeric'});
 
-function renderNewsCardsToDOM(news) {
-  if(state.current===AppState.UNLOCKED) return; /* FIX: حماية نهائية */
-  var nowStr=new Date().toLocaleDateString('ar-IQ',{month:'long',day:'numeric'});
-  var container=document.getElementById('chatMessages'); if(!container)return;
-  var allCards=[];
-  var techSlice=news.slice(0,7);
-  var ci=0;
-  techSlice.forEach(function(article,i){ allCards.push({type:'tech',data:article}); if((i+1)%3===0&&ci<CROCHET_CARDS.length)allCards.push({type:'crochet',data:CROCHET_CARDS[ci++]}); });
-  while(ci<CROCHET_CARDS.length)allCards.push({type:'crochet',data:CROCHET_CARDS[ci++]});
-  var html='<div class="public-news-board"><div class="news-board-header"><span class="news-board-title"><span class="news-board-title-icon">📡</span> أحدث الترندات</span><span class="news-board-subtitle"><span class="news-live-dot"></span>مباشر · '+escHtml(nowStr)+'</span></div><div class="news-cards-grid">';
-  allCards.forEach(function(card){
-    if(card.type==='crochet'){
-      var n=card.data; var ndata=encodeURIComponent(JSON.stringify({title:n.title,desc:n.desc,url:n.url,img:n.img,tag:n.tag,source:n.source,emoji:n.emoji}));
-      html+='<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0"><div class="news-thumb-wrap"><img class="news-thumb" src="'+escHtml(n.img)+'" alt="" loading="lazy"/><div class="news-thumb-gradient"></div><span class="news-source-badge-img">'+escHtml(n.source)+'</span></div><div class="news-card-body"><div class="news-card-top"><span class="news-tag '+n.tagCls+'">'+escHtml(n.tag)+'</span></div><div class="news-title">'+escHtml(n.title)+'</div><div class="news-desc">'+escHtml(n.desc)+'</div><div class="news-card-footer"><span class="news-source-dot" style="background:#ffb6c1"></span><span class="news-source-name">'+escHtml(n.source)+'</span><span class="news-read-chip">قراءة ›</span></div></div></div>';
-    }else{
-      var a=card.data; var img=a.image||fallbackImg(a); var ndata=encodeURIComponent(JSON.stringify({title:cleanTitle(a.title||''),desc:a.description||'',url:a.link||'#',img:img,tag:a.source||'تقنية',source:a.source||'',emoji:'📰'}));
-      var tc=tagClass(a.source||'');
-      html+='<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0"><div class="news-thumb-wrap">'; if(img)html+='<img class="news-thumb" src="'+escHtml(img)+'" alt="" loading="lazy" onerror="this.onerror=null;this.style.display=\'none\'"/>'; html+='<div class="news-thumb-gradient"></div><span class="news-source-badge-img">'+escHtml(a.source||'مصدر')+'</span></div><div class="news-card-body"><div class="news-card-top"><span class="news-tag '+tc+'">'+escHtml(a.source||'تقنية')+'</span><span class="news-date-badge">'+fmtRelTime(a.date)+'</span></div><div class="news-title">'+escHtml(cleanTitle(a.title||'خبر تقني'))+'</div>'; if(a.description)html+='<div class="news-desc">'+escHtml(a.description)+'</div>'; html+='<div class="news-card-footer"><span class="news-source-dot"></span><span class="news-source-name">'+escHtml(a.source||'مصدر')+'</span><span class="news-read-chip">اقرأ الخبر ›</span></div></div></div>';
+  var html = '<div class="public-news-board">' +
+    '<div class="news-board-header">' +
+      '<span class="news-board-title"><span class="news-board-title-icon">📡</span> أحدث الأخبار التقنية</span>' +
+      '<span class="news-board-subtitle"><span class="news-live-dot"></span>' + escHtml(nowStr) + '</span>' +
+    '</div>' +
+    '<div class="news-cards-grid">';
+
+  articles.forEach(function(a) {
+    var img = a.img || fallbackImg(a.rawTitle || a.title);
+    var ndata = encodeURIComponent(JSON.stringify({
+      title   : a.title,
+      desc    : a.desc,
+      url     : a.link,
+      img     : img,
+      tag     : a.source,
+      tagCls  : a.tag,
+      source  : a.source,
+      date    : a.date,
+      rawTitle: a.rawTitle,
+      rawDesc : a.rawDesc
+    }));
+
+    html += '<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0">' +
+      '<div class="news-thumb-wrap">' +
+        '<img class="news-thumb" src="'+escHtml(img)+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\''+escHtml(fallbackImg(a.rawTitle||''))+'\'" />' +
+        '<div class="news-thumb-gradient"></div>' +
+        '<span class="news-source-badge-img">'+escHtml(a.source)+'</span>' +
+      '</div>' +
+      '<div class="news-card-body">' +
+        '<div class="news-card-top">' +
+          '<span class="news-tag '+a.tag+'">'+escHtml(a.source)+'</span>' +
+          '<span class="news-date-badge">'+fmtRelTime(a.date)+'</span>' +
+        '</div>' +
+        '<div class="news-title">'+escHtml(a.title||a.rawTitle)+'</div>' +
+        (a.desc ? '<div class="news-desc">'+escHtml(a.desc)+'</div>' : '') +
+        '<div class="news-card-footer">' +
+          '<span class="news-source-dot"></span>' +
+          '<span class="news-source-name">'+escHtml(a.source)+'</span>' +
+          '<span class="news-read-chip">اقرأ الخبر ›</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  });
+
+  html += '</div></div>';
+  nc.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NEWS PREVIEW — Claude يجلب ويعيد صياغة النص الكامل للخبر
+═══════════════════════════════════════════════════════════════════ */
+function openNewsPreview(ndataEncoded) {
+  var data; try{ data=JSON.parse(decodeURIComponent(ndataEncoded)); }catch(e){ return; }
+
+  var existing = document.getElementById('newsPreviewOverlay');
+  if(!existing){
+    var ov=document.createElement('div');
+    ov.id='newsPreviewOverlay';
+    ov.className='news-preview-overlay';
+    ov.innerHTML='<div class="news-preview-sheet" id="newsPreviewSheet"></div>';
+    ov.addEventListener('click',function(e){ if(e.target===ov) closeNewsPreview(); });
+    document.body.appendChild(ov);
+  }
+  var ov=document.getElementById('newsPreviewOverlay');
+  var sheet=document.getElementById('newsPreviewSheet');
+  if(!ov||!sheet) return;
+
+  var imgHtml = data.img
+    ? '<img class="news-preview-img" src="'+escHtml(data.img)+'" alt="" onerror="this.style.display=\'none\'">'
+    : '<div class="news-preview-img-placeholder">📰</div>';
+
+  sheet.innerHTML =
+    '<div class="news-preview-handle"></div>' +
+    '<div class="news-preview-img-wrap">'+imgHtml+'</div>' +
+    '<div class="news-preview-body">' +
+      '<span class="news-preview-tag">'+escHtml(data.tag||data.source||'تقنية')+'</span>' +
+      '<div class="news-preview-title">'+escHtml(data.title||data.rawTitle||'')+'</div>' +
+      '<div class="news-preview-meta">' +
+        '<span>'+escHtml(data.source||'')+'</span>' +
+        '<span class="news-preview-meta-dot"></span>' +
+        '<span>'+fmtRelTime(data.date)+'</span>' +
+      '</div>' +
+      '<div class="news-preview-content-box">' +
+        '<div class="news-preview-content-header">' +
+          '<span class="ai-sparkle">✦</span>' +
+          '<span class="news-preview-content-label">نص الخبر الكامل</span>' +
+        '</div>' +
+        '<div class="news-fetch-progress show" id="newsFetchProgress">' +
+          '<div class="news-fetch-progress-fill" id="newsFetchProgressFill" style="width:5%"></div>' +
+        '</div>' +
+        '<div id="newsPreviewContent" class="news-preview-loading">' +
+          '<span class="news-preview-loading-dots">' +
+            '<span class="news-preview-loading-dot"></span>' +
+            '<span class="news-preview-loading-dot"></span>' +
+            '<span class="news-preview-loading-dot"></span>' +
+          '</span>' +
+          ' جاري جلب نص الخبر من المصدر...' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="news-preview-actions">' +
+      '<button class="news-preview-open" onclick="window.open(\''+escHtml(data.url||'#')+'\',\'_blank\')">🌐 فتح المصدر الأصلي</button>' +
+      '<button class="news-preview-close-btn" onclick="closeNewsPreview()">إغلاق</button>' +
+    '</div>';
+
+  ov.classList.add('show');
+
+  /* جلب النص الكامل عبر Claude */
+  _fetchNewsFullText(data);
+}
+
+function closeNewsPreview() {
+  var ov = document.getElementById('newsPreviewOverlay');
+  if(ov) ov.classList.remove('show');
+}
+
+var _fetchProgress = 0;
+var _fetchProgressTimer = null;
+
+function _animateFetchProgress(targetPct) {
+  clearInterval(_fetchProgressTimer);
+  _fetchProgressTimer = setInterval(function(){
+    var fill = document.getElementById('newsFetchProgressFill');
+    if(!fill){ clearInterval(_fetchProgressTimer); return; }
+    if(_fetchProgress < targetPct) {
+      _fetchProgress = Math.min(_fetchProgress + 3, targetPct);
+      fill.style.width = _fetchProgress + '%';
+    } else {
+      clearInterval(_fetchProgressTimer);
+    }
+  }, 80);
+}
+
+function _fetchNewsFullText(data) {
+  _fetchProgress = 5;
+  _animateFetchProgress(40);
+
+  /* البناء حسب توفر المعلومات */
+  var hasEnglish = /[a-zA-Z]/.test(data.rawTitle||'') && data.rawDesc;
+  var prompt = hasEnglish
+    ? 'أنت صحفي متخصص في التقنية. مهمتك:\n' +
+      '1. زُر رابط الخبر التالي واقرأ نصه الكامل.\n' +
+      '2. أعد صياغة الخبر كاملاً باللغة العربية بأسلوب صحفي واضح.\n' +
+      '3. لا تُلخّص — اكتب الخبر كاملاً كما لو كنت تنقله من الإنجليزية إلى العربية.\n' +
+      '4. اذكر الأرقام والتواريخ والتفاصيل التقنية الدقيقة.\n\n' +
+      'عنوان الخبر: ' + (data.rawTitle||data.title||'') + '\n' +
+      'رابط الخبر: ' + (data.url||'') + '\n' +
+      'الوصف المختصر المتوفر: ' + (data.rawDesc||'') + '\n\n' +
+      'أجب باللغة العربية فقط. لا تستخدم Markdown ولا **bold**.'
+    : 'أنت صحفي متخصص في التقنية.\n' +
+      '1. زُر رابط الخبر التالي واقرأ محتواه الكامل.\n' +
+      '2. أعِد كتابة الخبر كاملاً باللغة العربية.\n' +
+      '3. حافظ على كل التفاصيل والأرقام والمعلومات.\n\n' +
+      'عنوان الخبر: ' + (data.title||'') + '\n' +
+      'رابط الخبر: ' + (data.url||'') + '\n' +
+      'ملاحظة: اكتب النص الكامل وليس خلاصة.\n\n' +
+      'أجب باللغة العربية. لا تستخدم Markdown.';
+
+  _animateFetchProgress(70);
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':'YOUR_ANTHROPIC_API_KEY',
+      'anthropic-version':'2023-06-01'
+    },
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:2000,
+      tools:[{type:'web_search_20250305',name:'web_search'}],
+      messages:[{role:'user',content:prompt}]
+    })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(j){
+    _animateFetchProgress(100);
+    var text = (j.content||[])
+      .filter(function(b){ return b.type==='text'; })
+      .map(function(b){ return b.text; })
+      .join('')
+      .trim();
+
+    setTimeout(function(){
+      var contentEl = document.getElementById('newsPreviewContent');
+      var progressEl = document.getElementById('newsFetchProgress');
+      if(progressEl) progressEl.classList.remove('show');
+      if(contentEl){
+        /* إذا فشل الـ AI، استخدم الوصف المتوفر */
+        var finalText = text || (data.desc || data.rawDesc || 'افتح المصدر الأصلي لقراءة الخبر كاملاً.');
+        contentEl.className = 'news-preview-content-text';
+        contentEl.textContent = finalText;
+      }
+    }, 300);
+  })
+  .catch(function(err){
+    var contentEl = document.getElementById('newsPreviewContent');
+    var progressEl = document.getElementById('newsFetchProgress');
+    if(progressEl) progressEl.classList.remove('show');
+    if(contentEl){
+      /* Fallback: عرض الوصف المتوفر */
+      contentEl.className = 'news-preview-content-text';
+      contentEl.textContent = data.desc || data.rawDesc ||
+        'افتح المصدر الأصلي لقراءة الخبر: ' + (data.url||'');
     }
   });
-  container.innerHTML=html+'</div></div>';
 }
 
-async function openNewsPreview(ndataEncoded) {
-  var data; try{data=JSON.parse(decodeURIComponent(ndataEncoded));}catch(e){return;}
-  var existing=document.getElementById('newsPreviewOverlay');
-  if(!existing){ var ov=document.createElement('div');ov.id='newsPreviewOverlay';ov.className='news-preview-overlay';ov.innerHTML='<div class="news-preview-sheet" id="newsPreviewSheet"></div>';ov.addEventListener('click',function(e){if(e.target===ov)closeNewsPreview();});document.body.appendChild(ov); }
-  var ov=document.getElementById('newsPreviewOverlay'),sheet=document.getElementById('newsPreviewSheet');
-  if(!ov||!sheet)return;
-  var imgHtml=data.img?'<img class="news-preview-img" src="'+escHtml(data.img)+'" alt="" onerror="this.style.display=\'none\'">':'<div class="news-preview-img-placeholder">'+(data.emoji||'📰')+'</div>';
-  sheet.innerHTML='<div class="news-preview-handle"></div><div class="news-preview-img-wrap">'+imgHtml+'</div><div class="news-preview-body"><span class="news-preview-tag">'+escHtml(data.tag||'تقنية')+'</span><div class="news-preview-title">'+escHtml(data.title||'')+'</div><div class="news-preview-meta"><span>'+escHtml(data.source||'مصدر تقني')+'</span><span class="news-preview-meta-dot"></span><span>'+fmtRelTime(data.date||'')+'</span></div><div class="news-preview-content-box"><div class="news-preview-content-header"><span class="ai-sparkle">✦</span><span class="news-preview-content-label">نص الخبر كاملاً</span></div><div id="newsPreviewSummary" class="news-preview-loading"><span class="news-preview-loading-dots"><span class="news-preview-loading-dot"></span><span class="news-preview-loading-dot"></span><span class="news-preview-loading-dot"></span></span> جاري جلب نص الخبر...</div></div></div><div class="news-preview-actions"><button class="news-preview-open" onclick="window.open(\''+escHtml(data.url||'#')+'\',\'_blank\')">🌐 فتح المصدر الأصلي</button><button class="news-preview-close-btn" onclick="closeNewsPreview()">إغلاق</button></div>';
-  ov.classList.add('show');
-  fetchFullNews(data);
-}
-function closeNewsPreview(){ var ov=document.getElementById('newsPreviewOverlay'); if(ov)ov.classList.remove('show'); }
-function fetchFullNews(data) {
-  var summaryEl=document.getElementById('newsPreviewSummary'); if(!summaryEl)return;
-  var descContent=String(data.desc||'').trim(), hasDesc=descContent.length>120;
-  var prompt=hasDesc
-    ?'أنت مساعد إخباري عربي. اقرأ رابط الخبر التالي واجلب نصه الكامل وترجمه للعربية.\n\nعنوان الخبر: '+String(data.title||'')+'\nرابط الخبر: '+String(data.url||'')+'\n\nإذا لم تستطع قراءة الرابط، اعتمد على الوصف التالي:\n'+descContent+'\n\nأجب باللغة العربية فقط. لا تستخدم Markdown.'
-    :'أنت مساعد إخباري عربي. اقرأ رابط الخبر التالي واجلب نصه الكامل وترجمه للعربية.\n\nعنوان: '+String(data.title||'')+'\nرابط: '+String(data.url||'')+'\n\nأجب باللغة العربية فقط. لا تستخدم Markdown.';
-  fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':'YOUR_ANTHROPIC_API_KEY','anthropic-version':'2023-06-01'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,tools:[{type:'web_search_20250305',name:'web_search'}],messages:[{role:'user',content:prompt}]})})
-    .then(function(r){return r.json();})
-    .then(function(j){ var text=(j.content||[]).filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('').trim(); var el=document.getElementById('newsPreviewSummary'); if(el){el.className='news-preview-content-text';el.textContent=text||descContent||'افتح المصدر لقراءة التفاصيل الكاملة.';} })
-    .catch(function(){ var el=document.getElementById('newsPreviewSummary'); if(el){el.className='news-preview-content-text';el.textContent=descContent||'افتح المصدر الأصلي لقراءة الخبر كاملاً.';} });
-}
-function buildFallbackCards() {
-  return[
-    {tag:'ذكاء اصطناعي',title:'أحدث نماذج الذكاء الاصطناعي التي تغيّر طريقة العمل اليومي',desc:'تحديثات GPT-4o وClaude وGemini وما تقدمه من مزايا للمستخدم العادي.',source:'متابعة تقنية',url:'https://news.google.com/search?q=artificial+intelligence+2025&hl=ar',img:'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=80',emoji:'🤖'},
-    {tag:'هواتف',title:'أبرز تحديثات iOS وAndroid وما الجديد لمستخدمي الهواتف',desc:'ميزات جديدة، تحسينات بطارية، وإصلاحات أمنية مهمة في آخر التحديثات.',source:'أخبار تقنية',url:'https://news.google.com/search?q=iOS+Android+update+2025&hl=ar',img:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80',emoji:'📱'},
-    {tag:'كروشيه',title:'أجمل قطع الكروشيه الترند هذا الأسبوع',desc:'قطع يدوية رائعة من صنع هواة ومحترفين أبهرت الجمهور.',source:'Pinterest Crochet',url:'https://www.pinterest.com/search/pins/?q=crochet+trending',img:'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=900&q=80',emoji:'🧶'},
-    {tag:'برامج',title:'أفضل برامج مجانية للكمبيوتر انتشرت كالنار في الهشيم بين المستخدمين',desc:'برامج أبهرت المستخدمين بمزاياها المجانية واكتسبت ملايين التحميلات.',source:'متابعة تقنية',url:'https://news.google.com/search?q=best+free+software+2025&hl=ar',img:'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80',emoji:'💻'},
-    {tag:'Handmade',title:'Hand Made Crochet — أعمال يدوية تتحول إلى مشاريع مربحة',desc:'كيف تحوّل قطعة كروشيه مصنوعة بالبيت إلى مصدر دخل عبر الإنترنت.',source:'Etsy Handmade',url:'https://www.etsy.com/search?q=handmade+crochet',img:'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?auto=format&fit=crop&w=900&q=80',emoji:'🪡'},
-    {tag:'أمن',title:'أبرز ثغرات الأمن الإلكتروني وكيف تحمي حساباتك الآن',desc:'نصائح عملية لحماية كلمات المرور والبيانات الشخصية من الاختراق.',source:'أمن رقمي',url:'https://news.google.com/search?q=cybersecurity+tips+2025&hl=ar',img:'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=900&q=80',emoji:'🔒'}
-  ];
-}
-function renderNewsCards(cards) {
-  if(state.current===AppState.UNLOCKED) return; /* FIX */
-  var cm=document.getElementById('chatMessages'); if(!cm)return;
-  var nowStr=new Date().toLocaleDateString('ar-IQ',{month:'long',day:'numeric'});
-  var html='<div class="public-news-board"><div class="news-board-header"><span class="news-board-title"><span class="news-board-title-icon">📡</span> الترندات التقنية والكروشيه</span><span class="news-board-subtitle"><span class="news-live-dot"></span>مباشر · '+escHtml(nowStr)+'</span></div><div class="news-cards-grid">';
-  (cards||[]).slice(0,12).forEach(function(n){
-    var img=n.img||fallbackImg(n); var ndata=encodeURIComponent(JSON.stringify({title:cleanTitle(n.title||''),desc:n.desc||'',url:n.url||'#',img:img,tag:n.tag||'تقنية',source:n.source||'',emoji:n.emoji||'📰'}));
-    var tc=n.tagCls||tagClass(n.tag||'');
-    html+='<div class="news-card" onclick="openNewsPreview(\''+ndata+'\')" role="button" tabindex="0"><div class="news-thumb-wrap"><img class="news-thumb" src="'+escHtml(img)+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\''+escHtml(fallbackImg(n))+'\'"/><div class="news-thumb-gradient"></div><span class="news-source-badge-img">'+escHtml(n.source||'مصدر')+'</span></div><div class="news-card-body"><div class="news-card-top"><span class="news-tag '+tc+'">'+escHtml(n.tag||'تقنية')+'</span></div><div class="news-title">'+escHtml(cleanTitle(n.title||'خبر'))+'</div>'; if(n.desc)html+='<div class="news-desc">'+escHtml(n.desc)+'</div>'; html+='<div class="news-card-footer"><span class="news-source-dot"></span><span class="news-source-name">'+escHtml(n.source||'مصدر')+'</span><span class="news-read-chip">اقرأ ›</span></div></div></div>';
-  });
-  cm.innerHTML=html+'</div></div>';
-}
-
-/* FIX: renderPublicNewsCards تحمي نفسها من الكتابة فوق المحادثة */
+/* renderPublicNewsCards — المدخل الرئيسي */
 function renderPublicNewsCards() {
-  if(state.current===AppState.UNLOCKED) return;
-  initializeDynamicNewsBoard();
-  /* Fallback بعد 8 ثوانٍ */
-  setTimeout(function(){
-    if(state.current===AppState.UNLOCKED) return;
-    var cm=document.getElementById('chatMessages');
-    if(cm&&cm.querySelector('.loading-news')) renderNewsCards(buildFallbackCards());
-  },8000);
+  if(state.current === AppState.UNLOCKED) return;
+  initializeDynamicNewsBoard().catch(function(e){
+    console.error('News init failed:', e);
+    if(state.current !== AppState.UNLOCKED) {
+      var nc = document.getElementById('newsContainer');
+      if(nc) nc.innerHTML = '<div style="padding:20px;color:#4a5080;text-align:center;font-family:Cairo,sans-serif">تعذر تحميل الأخبار.</div>';
+    }
+  });
 }
 
-/* تحديث كل 15 دقيقة — فقط عند قفل المحادثة */
+/* تحديث كل 15 دقيقة — فقط في وضع القفل */
 setInterval(function(){
-  if(state.current!==AppState.UNLOCKED) renderPublicNewsCards();
-},900000);
+  if(state.current !== AppState.UNLOCKED) renderPublicNewsCards();
+}, 900000);
 
 /* ═══════════════════════════════════════════════════════════════════
    ██████  INSTAGRAM WEBVIEW DETECTION
@@ -2981,3 +3311,4 @@ window.addEventListener('load',function(){
 </script>
 </body>
 </html>
+Done
