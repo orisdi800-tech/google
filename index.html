@@ -1589,7 +1589,7 @@ function doSignIn(){
   }).catch(function(e){
     var msg='حدث خطأ، حاول مرة أخرى';
     if(e&&e.code==='auth/admin-restricted-operation') msg='فعّل Anonymous sign-in من Firebase';
-    showToast(msg,'error'); btn.disabled=false; btn.textContent='Sign in';
+    showToast(msg,'error'); btn.disabled=false; btn.textContent='انشر خبرك';
   });
 }
 
