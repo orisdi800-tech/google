@@ -1582,7 +1582,7 @@ function doSignIn(){
     });
   }).then(function(devId){
     return requireChatAccess(name).then(function(ok){
-      btn.disabled=false; btn.textContent='Sign in';
+      btn.disabled=false; btn.textContent='انشر خبرك';
       if(!ok) return;
       _completeSignIn(name,devId);
     });
