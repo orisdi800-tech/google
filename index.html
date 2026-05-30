@@ -18,6 +18,7 @@
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script async src="https://www.instagram.com/embed.js"></script>
 <style>
+/* ========== كل CSS الأصلي يبقى كما هو ========== */
 :root {
   --do-bg-base:      #040d21;
   --do-bg-surface:   #071428;
@@ -650,7 +651,7 @@ body.chat-locked .chat-wrapper.has-typing .chat-messages-container{bottom:68px!i
 'use strict';
 
 /* ════════════ CONFIG ════════════ */
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec'; /* ضع رابط Apps Script الخاص بك */
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
 var TENOR_API_KEY   = 'AIzaSyC8eZ8TZD2AMCaSjqDLGk1T7ur6qO14kJk';
 var firebaseConfig  = {
   apiKey:'AIzaSyD0unPjbthUtdiUAwNzp2Z8NeMNAW3a6hM',
@@ -838,21 +839,28 @@ function doSignIn(){
     showToast(msg,'error');btn.disabled=false;btn.textContent='دخول';
   });
 }
+
+/* ████████ الإصلاح رقم 1: تحسين دالة _completeSignIn ████████ */
 function _completeSignIn(name, devId){ 
   try { localStorage.setItem('__chatUserName', name); } catch(e) {}
   try { localStorage.removeItem('__chatAwayAt'); } catch(e) {}
   registerNamedPresence(name, devId);
-  _listenForIncomingCalls();  /* بدء الاستماع للمكالمات الواردة */
+  /* تأكد من بدء الاستماع للمكالمات الواردة */
+  console.log('✅ User signed in, starting call listener for:', devId);
+  _listenForIncomingCalls();
   transition(AppState.UNLOCKED, { name: name, deviceId: devId });
 }
+
 function logoutUser(){ _clearSessionKeys();try{auth.signOut();}catch(e){}transition(AppState.LOCKED); }
+
+/* ████████ الإصلاح رقم 2: تحسين دالة _cleanupPresence ████████ */
 function _cleanupPresence(){ 
   if (!state.user) return;
   var devId = state.user.deviceId;
   try {
     rtdb.ref('presence/' + ROOM_ID + '/' + devId).remove();
     rtdb.ref('typing/' + ROOM_ID + '/' + devId).remove();
-    /* إيقاف الاستماع للمكالمات الواردة */
+    /* إيقاف الاستماع للمكالمات الواردة بشكل صحيح */
     if (_rtc.incomingCallRef) {
       try { _rtc.incomingCallRef.off(); } catch(e) {}
       _rtc.incomingCallRef = null;
@@ -890,7 +898,7 @@ function setVerifiedAccess(name){try{sessionStorage.setItem('__chatAccessGranted
 function showAccessCodeDialog(){return new Promise(function(resolve){var overlay=document.getElementById('accessCodeOverlay'),input=document.getElementById('accessCodeInput'),err=document.getElementById('accessCodeError'),ok=document.getElementById('accessCodeOkBtn'),cancel=document.getElementById('accessCodeCancelBtn');if(!overlay||!input||!ok||!cancel){resolve(false);return;}function cleanup(result){overlay.classList.remove('show');ok.removeEventListener('click',onOk);cancel.removeEventListener('click',onCancel);input.removeEventListener('keydown',onKey);resolve(result);}function onOk(){if(String(input.value||'').trim()===CHAT_ACCESS_CODE){cleanup(true);}else{if(err)err.style.display='block';input.select();}}function onCancel(){cleanup(false);}function onKey(e){if(e.key==='Enter')onOk();else if(e.key==='Escape')onCancel();}input.value='';if(err)err.style.display='none';overlay.classList.add('show');ok.addEventListener('click',onOk);cancel.addEventListener('click',onCancel);input.addEventListener('keydown',onKey);setTimeout(function(){input.focus();},40);});}
 function requireChatAccess(name){if(isPrivileged(name)||hasVerifiedAccess(name))return Promise.resolve(true);return showAccessCodeDialog().then(function(ok){if(ok){setVerifiedAccess(name);return true;}showToast('رمز التحقق غير صحيح.','error');return false;});}
 
-/* ════════════ MESSAGE RENDERING (simplified) ════════════ */
+/* ════════════ MESSAGE RENDERING ════════════ */
 function renderMessage(id,data,scrollDown){
   if(state.current!==AppState.UNLOCKED)return;
   if(document.getElementById('msg-'+id))return;
@@ -1101,23 +1109,48 @@ async function startCall(targetDeviceId, targetName) {
   }
 }
 
-/* ════ الاستماع للمكالمات الواردة ════ */
+/* ████████ الإصلاح رقم 3: تحسين دالة الاستماع للمكالمات الواردة ████████ */
 function _listenForIncomingCalls() {
-  if (!state.user || !state.user.deviceId) return;
-  var incomingRef = rtdb.ref('calls/' + ROOM_ID + '/' + state.user.deviceId);
-  _rtc.incomingCallRef = incomingRef;
-  incomingRef.on('child_added', async function(snap) {
+  if (!state.user || !state.user.deviceId) {
+    console.log('⚠️ Cannot listen: no user or deviceId');
+    return;
+  }
+  
+  console.log('🎧 Setting up incoming call listener for:', state.user.deviceId);
+  
+  /* إزالة المستمع القديم إن وجد */
+  if (_rtc.incomingCallRef) {
+    try { _rtc.incomingCallRef.off(); } catch(e) {}
+    _rtc.incomingCallRef = null;
+  }
+  
+  var incomingPath = 'calls/' + ROOM_ID + '/' + state.user.deviceId;
+  console.log('📡 Listening on path:', incomingPath);
+  
+  _rtc.incomingCallRef = rtdb.ref(incomingPath);
+  
+  _rtc.incomingCallRef.on('child_added', async function(snap) {
     var data = snap.val();
-    if (!data || data.status !== 'ringing') return;
+    console.log('📞 INCOMING CALL DETECTED!', data);
+    
+    if (!data || data.status !== 'ringing') {
+      console.log('⏭️ Ignoring non-ringing call');
+      return;
+    }
+    
     if (_rtc.pc) {
+      console.log('📵 Already in a call, declining');
       snap.ref.update({ status: 'declined' });
       return;
     }
+    
     _rtc.callId = data.callId;
     _rtc.isCaller = false;
     _rtc.peerId = data.callerId;
     _rtc.peerName = data.callerName || 'شخص ما';
     _rtc.signalRef = snap.ref;
+    
+    console.log('🔔 Showing incoming call from:', _rtc.peerName);
     _showIncomingCall(data.callerName || 'شخص ما');
     _playRingtone();
   });
@@ -1356,9 +1389,16 @@ function _stopRingtone() {
 
 /* ════ التهيئة النهائية ════ */
 window.addEventListener('load',function(){ 
-  console.log('تم تحميل غرفة الأخبار مع نظام WebRTC');
-  if(state.current===AppState.UNLOCKED)_listenForIncomingCalls();
+  console.log('✅ تم تحميل غرفة الأخبار مع نظام WebRTC');
+  /* إذا كان المستخدم مسجلاً بالفعل، ابدأ الاستماع */
+  if(state.current === AppState.UNLOCKED && state.user && state.user.deviceId) {
+    console.log('🔊 User already logged in, starting call listener');
+    _listenForIncomingCalls();
+  }
 });
+
+/* ████████ الإصلاح رقم 4: التأكد من أن _listenForIncomingCalls متاحة في النطاق العام ████████ */
+window._listenForIncomingCalls = _listenForIncomingCalls;
 </script>
 </body>
 </html>
